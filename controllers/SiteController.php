@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\components\Excel;
+use app\models\AuthUser;
 use app\models\Contact;
 use Yii;
 use yii\filters\AccessControl;
@@ -117,12 +118,40 @@ class SiteController extends Controller
         return $this->render('about');
     }
 
-    public function actionProfile(){
+    public function actionProfile()
+    {
 
         if (Yii::$app->user->isGuest)
             $this->redirect('login');
 
-        return $this->render('profile',[]);
+        $user = Yii::$app->user->identity;
+        $pass = $user->password;
 
+        $passwordPost = Yii::$app->request->post('Password');
+
+        if ($passwordPost) {
+            if (!empty($passwordPost['new']) &&!empty($passwordPost['current'])) {
+                if ($user->validatePassword($passwordPost['current'])) {
+                    if (($passwordPost['new'] === $passwordPost['confirm'])) {
+                        $user->password = $passwordPost['new'];
+                        $user->modificar($pass);
+                        Yii::$app->session->setFlash('success', "Contraseña cambiada con éxito");
+                    } else
+                        Yii::$app->session->setFlash('error', "La nueva clave no coincide con el campo de confirmación");
+                } else
+                    Yii::$app->session->setFlash('error', "Contraseña actual inválida");
+            } else
+                Yii::$app->session->setFlash('error', "Debe ingresar la contraseña actual y la nueva");
+
+        }
+
+        if($user->load(Yii::$app->request->post())){
+            $user->password = 'nestic';
+            if($user->modificar($pass))
+                Yii::$app->session->setFlash('success', "Perfil actualizado con éxito");
+            else
+                Yii::$app->session->setFlash('error', "No se logró actualizar su perfil");
+        }
+        return $this->render('profile', ['user' => $user]);
     }
 }

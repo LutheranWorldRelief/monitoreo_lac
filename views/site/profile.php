@@ -3,12 +3,10 @@
 use app\models\AuthUser;
 use kartik\form\ActiveForm;
 use kartik\helpers\Html;
-
 /* @var AuthUser $user */
-
-$user = Yii::$app->user->identity;
 ?>
-<h3>Perfil : <?= $user->first_name . ' ' . $user->last_name ?></h3>
+
+<h3>Perfil : <?= $user->first_name . ' ' . $user->last_name ?><small> <?= $user->username?> </small> </h3>
 <div class="row">
     <div class="col-lg-8">
         <div class="box box-primary">
