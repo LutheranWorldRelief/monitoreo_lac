@@ -1,0 +1,36 @@
+{
+    "name": "yii2mod/yii2-array-query",
+    "description": "Yii2 component that allows for searching/filtering the elements of an array.",
+    "type": "yii2-extension",
+    "keywords": [
+        "yii2",
+        "yii2 array query",
+        "yii2 array search"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Igor Chepurnoi",
+            "email": "chepurnoi.igor@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.0.0",
+        "yiisoft/yii2": "*"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "~2.0",
+        "phpunit/phpunit": "~6.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "yii2mod\\query\\": ""
+        }
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        }
+    ]
+}

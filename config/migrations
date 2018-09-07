@@ -1,0 +1,12 @@
+php yii migrate --migrationPath=@bedezign/yii2/audit/migrations
+To use the menu manager (optional), execute the migration here:
+	yii migrate --migrationPath=@mdm/admin/migrations
+yii migrate --migrationPath=@yii/rbac/migrations
+
+http://localhost/path/to/index.php?r=admin
+http://localhost/path/to/index.php?r=admin/route
+http://localhost/path/to/index.php?r=admin/permission
+http://localhost/path/to/index.php?r=admin/menu
+http://localhost/path/to/index.php?r=admin/role
+http://localhost/path/to/index.php?r=admin/assignment
+http://localhost/path/to/index.php?r=admin/user
