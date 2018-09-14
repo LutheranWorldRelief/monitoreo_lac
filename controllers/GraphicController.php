@@ -448,8 +448,24 @@ class GraphicController extends ControladorController
         $request = \Yii::$app->request;
         $mes = (int)$request->post('mes_fiscal', 10);
         $subquery = (new \yii\db\Query());
+        /*
+          Gráfico de año fiscal de modo que
+            Si el mes de inicio es del primer semestre se conserva el año,
+                    siempre y cuando el mes de inicio sea menor que el mes a validar
+            Si el mes de inicio es del segundo semestre se moverá al año siguiente,
+                    siempre y cuando el mes de inicio sea mayor que el mes que se está validando
+        */
         $subquery->select([
-            "IF(month(e.start)>=$mes, year(e.start),year(e.start)-1 ) as type",
+            "IF($mes<=6," .
+            "	IF($mes<=month(e.start)," .
+            "		year(e.start)," .
+            "		year(e.start)-1" .
+            "	)," .
+            "	IF($mes > month(e.start)," .
+            "		year(e.start)," .
+            "		year(e.start)+1" .
+            "	)" .
+            "  ) as type",
             "c.sex",
         ])->from('attendance a')
             ->leftJoin('contact c', 'a.contact_id = c.id')
