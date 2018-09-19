@@ -30,6 +30,7 @@ class Contact extends \app\models\base\Contact
             $labels, [
                 'organization_id' => 'Organization',
                 'organizationName' => 'Organization',
+                'educationName'=>'Education',
                 'monitor_id' => 'Monitor',
                 'monitorName' => 'Monitor',
                 'country' => 'Country',
