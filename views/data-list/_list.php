@@ -33,16 +33,22 @@ use kartik\grid\GridView;
                 'notes',
                 [
                     'class' => 'kartik\grid\ActionColumn',
+                    'width' => '150px',
                     'contentOptions'=>[
-                        'class'=>'action-column'
+                        'class'=>'action-column',
                     ],
-                    'template' => '{update} {delete}',
+                    'template' => '{contacts} {update} {delete}',
                     'buttons'=> [
+                        'contacts' => function ($url, $model, $key) {
+                            return Html::a('<i class="fa fa-user"></i>', ['data-list/view-contacts', 'id' => $model->id], [
+                                'target'=>'_blank',
+                            ]);
+                        },
                         'update' => function ($url, $model, $key) {
                             return Html::a('<i class="fa fa-pencil"></i>', "#", [
                                 'onclick'=>'loadDetail(event, $(this))',
                                 'data-url'=> Url::to(['data-list/find', 'id' => $model->id]),
-                                'data-toggle'=> "modal", 
+                                'data-toggle'=> "modal",
                                 'data-target'=> "#detail-modal-edit"
                             ]);
                         },
