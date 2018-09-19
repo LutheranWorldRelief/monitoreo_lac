@@ -3,10 +3,12 @@
 namespace app\controllers;
 
 use app\components\ULog;
+use app\models\Contact;
 use Yii;
 use app\models\DataList;
 use app\models\search\DataList as DataListSearch;
 use app\components\Controller;
+use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\Response;
@@ -66,6 +68,28 @@ class DataListController extends Controller
     }
 
     /**
+     * Displays a single DataList model.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionViewContacts($id)
+    {
+        $model = $this->findModel($id);
+
+        $contacts = Contact::find()
+            ->orWhere(['education_id'=>$id])
+            ->orWhere(['type_id'=>$id])
+            ->orWhere(['country'=>$model->value])
+            ->orderBy('name')
+            ->all();
+
+        return $this->render('view_contacts', [
+            'model' => $model,
+            'contacts'=>$contacts,
+        ]);
+    }
+
+    /**
      * Creates a new DataList model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
@@ -112,6 +136,14 @@ class DataListController extends Controller
     {
         $model = $this->findModel($id);
         $padre = (int)$model->list_id;
+        $contactsCount = Contact::find()
+            ->orWhere(['education_id'=>$id])
+            ->orWhere(['type_id'=>$id])
+            ->orWhere(['country'=>$model->value])
+            ->count();
+        if($contactsCount > 0)
+            throw new HttpException(403, 'Aún hay registros relacionados con este item. No puede ser eliminado.');
+
         $model->delete();
         return $padre > 0 ? $this->redirect(['data-list/view', 'id' => $padre]) : $this->redirect(['data-list/index']);
     }
