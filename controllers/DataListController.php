@@ -77,9 +77,21 @@ class DataListController extends Controller
         $model = $this->findModel($id);
 
         $contacts = Contact::find()
-            ->orWhere(['education_id'=>$id])
-            ->orWhere(['type_id'=>$id])
-            ->orWhere(['country'=>$model->value])
+            ->orWhere([
+                'and',
+                ['!=', 'education_id', ''],
+                ['education_id' => $id],
+            ])
+            ->orWhere([
+                'and',
+                ['!=', 'type_id', ''],
+                ['type_id' => $id],
+            ])
+            ->orWhere([
+                'and',
+                ['!=', 'country', ''],
+                ['country' => $model->value],
+            ])
             ->orderBy('name')
             ->all();
 
@@ -137,9 +149,21 @@ class DataListController extends Controller
         $model = $this->findModel($id);
         $padre = (int)$model->list_id;
         $contactsCount = Contact::find()
-            ->orWhere(['education_id'=>$id])
-            ->orWhere(['type_id'=>$id])
-            ->orWhere(['country'=>$model->value])
+            ->orWhere([
+                'and',
+                ['!=', 'education_id', ''],
+                ['education_id' => $id],
+            ])
+            ->orWhere([
+                'and',
+                ['!=', 'type_id', ''],
+                ['type_id' => $id],
+            ])
+            ->orWhere([
+                'and',
+                ['!=', 'country', ''],
+                ['country' => $model->value],
+            ])
             ->count();
         if($contactsCount > 0)
             throw new HttpException(403, 'Aún hay registros relacionados con este item. No puede ser eliminado.');
