@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 
+use Yii;
 use app\components\Controller;
 use app\components\excel\import\ImportBehavior;
 use app\components\UCatalogo;
@@ -52,11 +53,13 @@ class ImportController extends Controller
     /*La funcion onImportRowBeneficiarios se ejecuta por cada fila que es leida del excel */
     public function onImportRowBeneficiarios($row, $index, $max_row)
     {
+        Yii::warning([$row, $index, $max_row]);
+
         /*$key almacena las posición de los campos en el row*/
         $key = UExcelBeneficiario::getCamposPosicion();
 
         /*si es el último registro se cancela*/
-        if ((int)$index == (int)$max_row)
+        if ((int)$index > (int)$max_row)
             return false;
 
         /*Los encabezados de los registros deben venir en la segunda fila*/
