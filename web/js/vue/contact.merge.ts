@@ -1,3 +1,45 @@
+Vue.component('combo-select2', {
+    template: '#vue-combo-select2',
+    props:['options', 'value', 'prompt'],
+    data: function () {
+        return {
+        }
+    },
+    methods:{
+
+    },
+    mounted: function () {
+        var self = this;
+
+        var options = $.map(self.options, function (value, index) {
+            return {
+                id: index,
+                text: value
+            };
+        });
+
+        options.unshift({
+            id: '',
+            text: self.prompt || '-- Seleccionar --'
+        });
+
+        $(self.$el).select2({
+            data:options
+        })
+        .on('change', (e) => {
+            self.$emit('input', e.target.value);
+        });
+
+        if(self.value) $(self.$el).val(self.value).trigger('change');
+    },
+    watch: {
+        value: function (val, oldVal) {
+            var self = this;
+            $(self.$el).val(val).trigger('change');
+        }
+    },
+});
+
 let app = new Vue({
     el: "#app",
     mixins:[
@@ -67,10 +109,6 @@ let app = new Vue({
             self.loading.all = true;
 
             self.loadBaseUrl(self.$el);
-
-            /* var modelFilter is global */
-            if(typeof modelFilter !== 'undefined')
-                self.modelFilter = modelFilter;
 
             // ------------------------------------------------------------------------------ Getting label information
             $.get(self.getUrlModelLabels(), (data, textStatus, jqXHR) => {
@@ -144,18 +182,23 @@ let app = new Vue({
             });
 
             // ------------------------------------------------------------------------------ Getting Models
+            self.loadModels();
+        },
+        loadModels:function(){
+            let self = this;
+            self.loading.all = true;
+
             $.get(self.getUrlAll(), self.modelFilter, (data, textStatus, jqXHR) => {
                 if(textStatus != 'success' ) console.log([textStatus, jqXHR]);
                 self.modelsNames = data;
             })
-            .fail(() => {
-                alertify.error("Problema al ");
-                console.log("Error al cargar la información de los contactos");
-            })
-            .always(() => {
-                self.loading.all = false;
-            });
-
+                .fail(() => {
+                    alertify.error("Problema al ");
+                    console.log("Error al cargar la información de los contactos");
+                })
+                .always(() => {
+                    self.loading.all = false;
+                });
         },
         //----------------------------------------------------------------------------------------- MODAL URL FUNCTIONS
         fusionCancelar: function (modalName){
@@ -278,9 +321,39 @@ let app = new Vue({
             }
 
             return false;
+        },
+        btnFiltrarClick: function () {
+            var self = this;
+            if (localStorage){
+                localStorage.removeItem('modelFilter');
+                localStorage.setItem("modelFilter", JSON.stringify(self.modelFilter));
+            }
+            self.loadModels();
+        },
+        btnLimpiarFiltroClick: function () {
+            var self = this;
+            if (localStorage){
+                self.modelFilter.projectId = null;
+                self.modelFilter.organizationId = null;
+                self.modelFilter.countryCode = null;
+                localStorage.removeItem('modelFilter');
+            }
+            self.loadModels();
         }
     },
     mounted: function () {
-        this.load();
+        var self = this;
+
+        if (localStorage && localStorage.getItem("modelFilter")){
+            try {
+                var temp = JSON.parse(localStorage.getItem("modelFilter"));
+                self.modelFilter = temp;
+            }
+            catch{
+                localStorage.removeItem('modelFilter');
+            }
+        }
+
+        self.load();
     }
 });

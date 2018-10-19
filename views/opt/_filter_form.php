@@ -11,44 +11,37 @@ use yii\helpers\Json;
 /* @var string|null $countryCode */
 
 ?>
-<?php $form = ActiveForm::begin([
-    'id' => 'report-form',
-    'type' => ActiveForm::TYPE_VERTICAL
-]);
-?>
 <div class="row">
-    <script type="application/javascript">
-        var modelFilter = <?= Json::encode([
-          'projectId'     => $projectId ?: "",
-          'organizationId'=> $organizationId ?: "" ,
-          'countryCode'   => $countryCode ?: "",
-        ]) ?>;
-    </script>
     <div class="col-lg-4">
-        <?= Html::dropDownList('projectId', $projectId, $projects, [
-                'prompt' => '- Proyectos -',
-                'class'=>'form-control',
-                'v-model' => 'modelFilter.projectId'
-        ]) ?>
+        <combo-select2
+            :options="list_projects"
+            :value="modelFilter.projectId"
+            prompt="-- Proyectos --"
+            @input="modelFilter.projectId = $event">
+        </combo-select2>
     </div>
     <div class="col-lg-2">
-        <?= Html::dropDownList('organizationId', $organizationId, $organizations, [
-            'prompt' => '- Organizaciones -',
-            'class'=>'form-control',
-            'v-model' => 'modelFilter.organizationId'
-        ]) ?>
+        <combo-select2
+            :options="list_organizations"
+            :value="modelFilter.organizationId"
+            prompt="-- Organizaciones --"
+            @input="modelFilter.organizationId = $event">
+        </combo-select2>
     </div>
     <div class="col-lg-2">
-        <?= Html::dropDownList('countryCode', $countryCode, $countries, [
-            'prompt' => '- Paises -',
-            'class'=>'form-control',
-            'v-model' => 'modelFilter.countryCode'
-        ]) ?>
+        <combo-select2
+            :options="list_countries"
+            :value="modelFilter.countryCode"
+            prompt="-- Países --"
+            @input="modelFilter.countryCode = $event">
+        </combo-select2>
     </div>
     <div class="col-lg-2">
-        <button class="btn btn-primary" type="submit">
+        <button class="btn btn-primary" @click="btnFiltrarClick">
             <i class="fa fa-file"></i> Filtrar
+        </button>
+        <button class="btn btn-primary" @click="btnLimpiarFiltroClick">
+            <i class="fa fa-file"></i> Limpiar
         </button>
     </div>
 </div>
-<?php ActiveForm::end() ?>

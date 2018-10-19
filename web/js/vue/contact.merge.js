@@ -1,3 +1,38 @@
+Vue.component('combo-select2', {
+    template: '#vue-combo-select2',
+    props: ['options', 'value', 'prompt'],
+    data: function () {
+        return {};
+    },
+    methods: {},
+    mounted: function () {
+        var self = this;
+        var options = $.map(self.options, function (value, index) {
+            return {
+                id: index,
+                text: value
+            };
+        });
+        options.unshift({
+            id: '',
+            text: self.prompt || '-- Seleccionar --'
+        });
+        $(self.$el).select2({
+            data: options
+        })
+            .on('change', function (e) {
+            self.$emit('input', e.target.value);
+        });
+        if (self.value)
+            $(self.$el).val(self.value).trigger('change');
+    },
+    watch: {
+        value: function (val, oldVal) {
+            var self = this;
+            $(self.$el).val(val).trigger('change');
+        }
+    },
+});
 var app = new Vue({
     el: "#app",
     mixins: [
@@ -65,9 +100,6 @@ var app = new Vue({
             var self = this;
             self.loading.all = true;
             self.loadBaseUrl(self.$el);
-            /* var modelFilter is global */
-            if (typeof modelFilter !== 'undefined')
-                self.modelFilter = modelFilter;
             // ------------------------------------------------------------------------------ Getting label information
             $.get(self.getUrlModelLabels(), function (data, textStatus, jqXHR) {
                 if (textStatus != 'success')
@@ -139,6 +171,11 @@ var app = new Vue({
                 console.log("Problema al cargar el catalogo de tipo de educacion");
             });
             // ------------------------------------------------------------------------------ Getting Models
+            self.loadModels();
+        },
+        loadModels: function () {
+            var self = this;
+            self.loading.all = true;
             $.get(self.getUrlAll(), self.modelFilter, function (data, textStatus, jqXHR) {
                 if (textStatus != 'success')
                     console.log([textStatus, jqXHR]);
@@ -271,9 +308,37 @@ var app = new Vue({
                 });
             }
             return false;
+        },
+        btnFiltrarClick: function () {
+            var self = this;
+            if (localStorage) {
+                localStorage.removeItem('modelFilter');
+                localStorage.setItem("modelFilter", JSON.stringify(self.modelFilter));
+            }
+            self.loadModels();
+        },
+        btnLimpiarFiltroClick: function () {
+            var self = this;
+            if (localStorage) {
+                self.modelFilter.projectId = null;
+                self.modelFilter.organizationId = null;
+                self.modelFilter.countryCode = null;
+                localStorage.removeItem('modelFilter');
+            }
+            self.loadModels();
         }
     },
     mounted: function () {
-        this.load();
+        var self = this;
+        if (localStorage && localStorage.getItem("modelFilter")) {
+            try {
+                var temp = JSON.parse(localStorage.getItem("modelFilter"));
+                self.modelFilter = temp;
+            }
+            catch (_a) {
+                localStorage.removeItem('modelFilter');
+            }
+        }
+        self.load();
     }
 });
