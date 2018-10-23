@@ -311,6 +311,8 @@ class OptController extends Controller
         ];
         $transaction = Yii::$app->db->beginTransaction();
         try{
+            if (!$model->type_id || $model->type_id == '0')
+                $model->type_id = null;
 
             $saved = $model->save();
 
@@ -452,10 +454,6 @@ class OptController extends Controller
                 $result[$key] = $values[0];
             else
                 $resolve[$key] = $values;
-        }
-
-        if (!isset($resolve['type_id'])){
-            $resolve['type_id'] = array_keys(DataList::itemsBySlug('participantes'));
         }
 
         Yii::warning([
