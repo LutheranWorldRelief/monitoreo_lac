@@ -18,6 +18,7 @@ use app\models\ProjectContact;
 use app\models\Socialnetwork;
 use app\models\SqlContact;
 use app\models\Website;
+use function array_keys;
 use function array_merge;
 use function str_replace;
 use Yii;
@@ -43,7 +44,6 @@ class OptController extends Controller
     ];
 
     private $extraFields = [
-
     ];
 
     private function baseQuery()
@@ -330,17 +330,20 @@ class OptController extends Controller
                     $result['Red Social'][$mid]         = Socialnetwork::updateAll(['contact_id' => $id], ['contact_id' => $mid]);
                     $result['Website'][$mid]            = Website::updateAll(['contact_id'=>$id], ['contact_id'=>$mid]);
                     $result['Eliminado'][$mid]          = $m->delete();
+
                 }
             }
-
-//            $transaction->rollback();
             $transaction->commit();
         }
         catch (\Exception $e){
             $transaction->rollBack();
-            ULog::l([$model->errors]);
             throw new HttpException(500, $e->getMessage());
         }
+
+        Yii::warning([
+            'result'=> $result,
+            'errors'=> $model->errors,
+        ], 'developer');
 
         return $this->renderJson([
             'result'=>$result,
@@ -450,6 +453,15 @@ class OptController extends Controller
             else
                 $resolve[$key] = $values;
         }
+
+        if (!isset($resolve['type_id'])){
+            $resolve['type_id'] = array_keys(DataList::itemsBySlug('participantes'));
+        }
+
+        Yii::warning([
+            'result'  => $result,
+            'resolve' => $resolve,
+        ], 'developer');
 
         return $this->renderJson([
             'ids'=>$ids,
