@@ -122,7 +122,7 @@ class Contact extends \app\models\base\Contact
         if (!$this->name)
             $this->name = $this->fullname;
 
-        return parent::save();
+        return parent::save($runValidation, $attributeNames);
     }
 
     public function getAttendeeType()
