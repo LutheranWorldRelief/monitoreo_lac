@@ -17,6 +17,8 @@ use app\models\Organization;
 use app\models\ProjectContact;
 use app\models\Socialnetwork;
 use app\models\SqlContact;
+use app\models\SqlContactEvent;
+use app\models\SqlFullReportProjectContact;
 use app\models\Website;
 use function array_keys;
 use function array_merge;
@@ -411,6 +413,36 @@ class OptController extends Controller
             'organizationId' => $organizationId,
         ]);
     }
+
+    public function actionRemoveContactNoProject(){
+
+        $idsWithProjects = ArrayHelper::map(SqlFullReportProjectContact::find()
+            ->select('contact_id')
+            ->where('NOT ISNULL(project_id) AND NOT ISNULL(contact_id)')
+            ->groupBy('contact_id')
+            ->asArray()
+            ->all(), 'contact_id', 'contact_id');
+
+
+        $idsWithNoProjects = ArrayHelper::map(Contact::find()
+            ->select('id')
+            ->where(['not in', 'id', $idsWithProjects])
+            ->asArray()
+            ->all(), 'id', 'id');
+
+
+        Yii::$app->response->format = 'json';
+        return [
+            'projects'    => count($idsWithProjects),
+            'projects_no' => count($idsWithNoProjects),
+            //$idsWithProjects,
+            //$idsWithNoProjects,
+            Attendance::deleteAll(['contact_id'=> $idsWithNoProjects]),
+            Contact::deleteAll(['id'=> $idsWithNoProjects])
+        ];
+
+    }
+
 
     private function renderModelsById($ids)
     {
