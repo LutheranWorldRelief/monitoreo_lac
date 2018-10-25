@@ -324,36 +324,15 @@ let app = new Vue({
         },
         btnFiltrarClick: function () {
             var self = this;
-            if (localStorage){
-                localStorage.removeItem('modelFilter');
-                localStorage.setItem("modelFilter", JSON.stringify(self.modelFilter));
-            }
             self.loadModels();
         },
         btnLimpiarFiltroClick: function () {
             var self = this;
-            if (localStorage){
-                self.modelFilter.projectId = null;
-                self.modelFilter.organizationId = null;
-                self.modelFilter.countryCode = null;
-                localStorage.removeItem('modelFilter');
-            }
             self.loadModels();
         }
     },
     mounted: function () {
         var self = this;
-
-        if (localStorage && localStorage.getItem("modelFilter")){
-            try {
-                var temp = JSON.parse(localStorage.getItem("modelFilter"));
-                self.modelFilter = temp;
-            }
-            catch{
-                localStorage.removeItem('modelFilter');
-            }
-        }
-
         self.load();
     }
 });
