@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\components\ULog;
+use app\components\UString;
 use app\models\Address;
 use app\models\Attendance;
 use app\models\AuthUser;
@@ -89,6 +90,8 @@ class OptController extends Controller
         if (!$model)
             return [];
 
+        Yii::warning($model->attributes, 'developer');
+
         $modelsName = $this->namesQuery($model->name)
             ->select('sql_contact.id')
             ->all();
@@ -103,6 +106,8 @@ class OptController extends Controller
     //-------------------------------------------------------------------------- BY NAME
     public function actionApiName($name)
     {
+        Yii::warning($name, 'developer');
+
         $query = $this->namesQuery($name);
 
         return $this->renderModels($query->select('sql_contact.id')->all());
@@ -118,7 +123,7 @@ class OptController extends Controller
         $query = $this->baseQuery();
 
         $query
-            ->andFilterWhere(['TRIM(sql_contact.name)' => TRIM($name)])
+            ->andFilterWhere(['TRIM(sql_contact.name)' => preg_replace('/\s+/', ' ',TRIM($name))])
             ->andWhere("NOT TRIM(sql_contact.name) = ''");
 
         if($name==='')
@@ -168,7 +173,7 @@ class OptController extends Controller
     {
         $query = $this->baseQuery();
 
-        $doc2 = trim(str_replace(" ", "", str_replace("-", "", $doc)));
+        $doc2 = preg_replace('/\s+/', ' ',trim(str_replace(" ", "", str_replace("-", "", $doc))));
 
         $query
             ->andFilterWhere(["TRIM( REPLACE( REPLACE(sql_contact.document, '-', '' ), ' ', '' ) )" => $doc2])
@@ -440,9 +445,7 @@ class OptController extends Controller
             Attendance::deleteAll(['contact_id'=> $idsWithNoProjects]),
             Contact::deleteAll(['id'=> $idsWithNoProjects])
         ];
-
     }
-
 
     private function renderModelsById($ids)
     {
