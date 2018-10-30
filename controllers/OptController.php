@@ -2,8 +2,6 @@
 
 namespace app\controllers;
 
-use app\components\ULog;
-use app\components\UString;
 use app\models\Address;
 use app\models\Attendance;
 use app\models\AuthUser;
@@ -18,17 +16,12 @@ use app\models\Organization;
 use app\models\ProjectContact;
 use app\models\Socialnetwork;
 use app\models\SqlContact;
-use app\models\SqlContactEvent;
 use app\models\SqlFullReportProjectContact;
 use app\models\Website;
-use function array_keys;
 use function array_merge;
 use function str_replace;
 use Yii;
 use app\components\Controller;
-use app\models\SqlDebugContactName;
-use app\models\SqlDebugContactDoc;
-use yii\debug\models\search\Log;
 use yii\helpers\ArrayHelper;
 use yii\web\HttpException;
 use yii\web\Response;
@@ -71,8 +64,7 @@ class OptController extends Controller
             ->andFilterWhere(['sql_contact.country' => $countryCode])
             ->andFilterWhere(['event.implementing_organization_id' => $organizationId]);
 
-        if (!$auth->is_superuser)
-        {
+        if (!$auth->is_superuser) {
             $query->andWhere([
                 'or',
                 ['sql_contact.country' => $auth->countriesArray()],
@@ -96,7 +88,7 @@ class OptController extends Controller
             ->select('sql_contact.id')
             ->all();
 
-        $modelsDoc  = $this->docsQuery($model->document)
+        $modelsDoc = $this->docsQuery($model->document)
             ->select('sql_contact.id')
             ->all();
 
@@ -118,30 +110,30 @@ class OptController extends Controller
         return $this->renderModelsById(Yii::$app->request->post('ids'));
     }
 
-    private function namesQuery($name=null)
+    private function namesQuery($name = null)
     {
         $query = $this->baseQuery();
 
         $query
-            ->andFilterWhere(['TRIM(sql_contact.name)' => preg_replace('/\s+/', ' ',TRIM($name))])
+            ->andFilterWhere(['REGEXP_REPLACE(TRIM(sql_contact.name), "\\\\s\\\\s+", " ")' => preg_replace('/\s+/', ' ', TRIM($name))])
             ->andWhere("NOT TRIM(sql_contact.name) = ''");
 
-        if($name==='')
+        if ($name === '')
             $query->andWhere("1 = 0");
 
         return $query;
 
     }
 
-    private function namesModels($name=null)
+    private function namesModels($name = null)
     {
         $query = $this->namesQuery($name);
 
         $query->select([
-                'sql_contact.id as id',
-                'TRIM(sql_contact.name) as name',
-                'count(DISTINCT sql_contact.id) as cuenta',
-            ])
+            'sql_contact.id as id',
+            'TRIM(sql_contact.name) as name',
+            'count(DISTINCT sql_contact.id) as cuenta',
+        ])
             ->andWhere('TRIM(sql_contact.name) <> ""')
             ->groupBy('sql_contact.name')
             ->having('cuenta > 1');
@@ -169,23 +161,23 @@ class OptController extends Controller
         return $this->renderModelsById(Yii::$app->request->post('ids'));
     }
 
-    private function docsQuery($doc=null)
+    private function docsQuery($doc = null)
     {
         $query = $this->baseQuery();
 
-        $doc2 = preg_replace('/\s+/', ' ',trim(str_replace(" ", "", str_replace("-", "", $doc))));
+        $doc2 = preg_replace('/\s+/', ' ', trim(str_replace(" ", "", str_replace("-", "", $doc))));
 
         $query
             ->andFilterWhere(["TRIM( REPLACE( REPLACE(sql_contact.document, '-', '' ), ' ', '' ) )" => $doc2])
             ->andWhere("NOT TRIM( REPLACE( REPLACE(sql_contact.document, '-', '' ), ' ', '' ) ) = ''");
 
-        if($doc==='')
+        if ($doc === '')
             $query->andWhere("1 = 0");
 
         return $query;
     }
 
-    private function docsModels($doc=null)
+    private function docsModels($doc = null)
     {
         $query = $this->docsQuery($doc);
 
@@ -250,7 +242,7 @@ class OptController extends Controller
         $data = $model->attributes;
 
         foreach ($this->removeFields as $field)
-            if(isset($data[$field])) unset($data[$field]);
+            if (isset($data[$field])) unset($data[$field]);
 
         foreach ($this->extraFields as $field)
             $data[$field] = $model->{$field};
@@ -267,7 +259,7 @@ class OptController extends Controller
         $data = $model->attributeLabels();
 
         foreach ($this->removeFields as $field)
-            if(isset($data[$field])) unset($data[$field]);
+            if (isset($data[$field])) unset($data[$field]);
 
         return $data;
     }
@@ -283,41 +275,47 @@ class OptController extends Controller
         $model = null;
         $models = Contact::findAll($ids);
 
-        if(count($models) < 2)
+        if (count($models) < 2)
             throw new HttpException(500, "No se cargaron los modelos necesarios para la fusión");
 
-        foreach ($models as $key => $m){
-            if ($m->id == $id){
+        foreach ($models as $key => $m) {
+            if ($m->id == $id) {
                 $model = $m;
                 unset($models[$key]);
                 break;
             }
         }
 
-        if(!$model)
+        if (!$model)
             throw new HttpException(500, "No se logró identificar al modelo principal de la fusión");
 
-        foreach ($values as $key => $value){
+        foreach ($values as $key => $value) {
             if ($key == 'id')
                 continue;
             $model[$key] = $value;
         }
 
+        $model->name = preg_replace('/\s+/', ' ', TRIM($model->name));
+        $model->first_name = preg_replace('/\s+/', ' ', TRIM($model->first_name));
+        $model->last_name = preg_replace('/\s+/', ' ', TRIM($model->last_name));
+
         $result = [
-            'Direcciones'         => [],
-            'Participaciones'     => [],
-            'Grupos'              => [],
-            'Trabaja Con'         => [],
-            'Trabaja Para'        => [],
-            'Email'               => [],
-            'Teléfono'            => [],
+            'Direcciones' => [],
+            'Participaciones' => [],
+            'Grupos' => [],
+            'Trabaja Con' => [],
+            'Trabaja Para' => [],
+            'Email' => [],
+            'Teléfono' => [],
             'Proyectos-Contactos' => [],
-            'Red Social'          => [],
-            'Website'             => [],
-            'Eliminado'           => [],
+            'Red Social' => [],
+            'Website' => [],
+            'Eliminado' => [],
         ];
+
+        $saved = false;
         $transaction = Yii::$app->db->beginTransaction();
-        try{
+        try {
             if (!$model->type_id || $model->type_id == '0')
                 $model->type_id = null;
 
@@ -325,40 +323,40 @@ class OptController extends Controller
 
             if (!$saved)
                 throw new HttpException(500, "No se logró guardar el modelo principal con los cambios");
-            else{
+            else {
                 foreach ($models as $key => $m) {
                     $mid = $m->id;
-                    $result['Direcciones'][$mid]        = Address::updateAll(['contact_id' => $id], ['contact_id' => $mid]);
-                    $result['Participaciones'][$mid]    = Attendance::updateAll(['contact_id' => $id], ['contact_id' => $mid]);
-                    $result['Grupos'][$mid]             = ContactGroups::updateAll(['contact_id' => $id], ['contact_id' => $mid]);
-                    $result['Trabaja Con'][$mid]        = ContactWorkedWith::updateAll(['from_contact_id' => $id], ['from_contact_id' => $mid]);
-                    $result['Trabaja Para'][$mid]       = ContactWorkedWith::updateAll(['to_contact_id' => $id], ['to_contact_id' => $mid]);
-                    $result['Email'][$mid]              = Email::updateAll(['contact_id' => $id], ['contact_id' => $mid]);
-                    $result['Teléfono'][$mid]           = Phonenumber::updateAll(['contact_id' => $id], ['contact_id' => $mid]);
-                    $result['Proyectos-Contactos'][$mid]            = ProjectContact::updateAll(['contact_id'=>$id], ['contact_id'=>$mid]);
-                    $result['Red Social'][$mid]         = Socialnetwork::updateAll(['contact_id' => $id], ['contact_id' => $mid]);
-                    $result['Website'][$mid]            = Website::updateAll(['contact_id'=>$id], ['contact_id'=>$mid]);
-                    $result['Eliminado'][$mid]          = $m->delete();
+                    $result['Direcciones'][$mid] = Address::updateAll(['contact_id' => $id], ['contact_id' => $mid]);
+                    $result['Participaciones'][$mid] = Attendance::updateAll(['contact_id' => $id], ['contact_id' => $mid]);
+                    $result['Grupos'][$mid] = ContactGroups::updateAll(['contact_id' => $id], ['contact_id' => $mid]);
+                    $result['Trabaja Con'][$mid] = ContactWorkedWith::updateAll(['from_contact_id' => $id], ['from_contact_id' => $mid]);
+                    $result['Trabaja Para'][$mid] = ContactWorkedWith::updateAll(['to_contact_id' => $id], ['to_contact_id' => $mid]);
+                    $result['Email'][$mid] = Email::updateAll(['contact_id' => $id], ['contact_id' => $mid]);
+                    $result['Teléfono'][$mid] = Phonenumber::updateAll(['contact_id' => $id], ['contact_id' => $mid]);
+                    $result['Proyectos-Contactos'][$mid] = ProjectContact::updateAll(['contact_id' => $id], ['contact_id' => $mid]);
+                    $result['Red Social'][$mid] = Socialnetwork::updateAll(['contact_id' => $id], ['contact_id' => $mid]);
+                    $result['Website'][$mid] = Website::updateAll(['contact_id' => $id], ['contact_id' => $mid]);
+                    $result['Eliminado'][$mid] = $m->delete();
 
                 }
             }
             $transaction->commit();
-        }
-        catch (\Exception $e){
+        } catch (\Exception $e) {
             $transaction->rollBack();
             throw new HttpException(500, $e->getMessage());
         }
 
         Yii::warning([
-            'result'=> $result,
-            'errors'=> $model->errors,
+            'result' => $result,
+            'errors' => $model->errors,
         ], 'developer');
 
         return $this->renderJson([
-            'result'=>$result,
-            'id'=>$id,
-            'model'=>$model,
-            'models'=>$models,
+            'save'=> $saved,
+            'result' => $result,
+            'id' => $id,
+            'model' => $model,
+            'models' => $models,
         ]);
     }
 
@@ -419,7 +417,8 @@ class OptController extends Controller
         ]);
     }
 
-    public function actionRemoveContactNoProject(){
+    public function actionRemoveContactNoProject()
+    {
 
         $idsWithProjects = ArrayHelper::map(SqlFullReportProjectContact::find()
             ->select('contact_id')
@@ -438,12 +437,12 @@ class OptController extends Controller
 
         Yii::$app->response->format = 'json';
         return [
-            'projects'    => count($idsWithProjects),
+            'projects' => count($idsWithProjects),
             'projects_no' => count($idsWithNoProjects),
             //$idsWithProjects,
             //$idsWithNoProjects,
-            Attendance::deleteAll(['contact_id'=> $idsWithNoProjects]),
-            Contact::deleteAll(['id'=> $idsWithNoProjects])
+            Attendance::deleteAll(['contact_id' => $idsWithNoProjects]),
+            Contact::deleteAll(['id' => $idsWithNoProjects])
         ];
     }
 
@@ -462,18 +461,15 @@ class OptController extends Controller
 
         $result = [];
 
-        foreach ($attributes as $attr => $value)
-        {
+        foreach ($attributes as $attr => $value) {
             if ($attr == 'id') continue;
             if (!isset($resul[$attr]))
                 $result[$attr] = [];
-            if(!is_array($result[$attr]))
+            if (!is_array($result[$attr]))
                 $result[$attr] = [];
 
-            foreach ($models as $model)
-            {
-                if ($model[$attr] !== null && trim($model[$attr]) != "" && !in_array($model[$attr], $result[$attr]))
-                {
+            foreach ($models as $model) {
+                if ($model[$attr] !== null && trim($model[$attr]) != "" && !in_array($model[$attr], $result[$attr])) {
                     $result[$attr][] = $model[$attr];
                 }
             }
@@ -481,36 +477,36 @@ class OptController extends Controller
 
         $resolve = [];
 
-        foreach($result as $key => $values){
+        foreach ($result as $key => $values) {
             $count = count($values);
-            if($count == 0)
+            if ($count == 0)
                 $result[$key] = null;
-            elseif(count($values) == 1)
+            elseif (count($values) == 1)
                 $result[$key] = $values[0];
             else
                 $resolve[$key] = $values;
         }
 
         Yii::warning([
-            'result'  => $result,
+            'result' => $result,
             'resolve' => $resolve,
         ], 'developer');
 
         return $this->renderJson([
-            'ids'=>$ids,
-            'values'=>$result,
-            'resolve'=>$resolve,
+            'ids' => $ids,
+            'values' => $result,
+            'resolve' => $resolve,
         ]);
     }
 
     private function renderModels($ms)
     {
-        $ids = ArrayHelper::map($ms,'id', 'id');
+        $ids = ArrayHelper::map($ms, 'id', 'id');
 
         $models = Contact::findAll($ids);
 
         return $this->renderJson([
-            'models'=>$models,
+            'models' => $models,
         ]);
     }
 }

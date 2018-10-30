@@ -150,6 +150,25 @@ let app = new Vue({
 
 
         },
+        removingFromDuplicateListImported:function(ids){
+            let self = this;
+            let indexes = [];
+
+            let models = self.modelsNames.filter(function (model, index) {
+                if (ids.indexOf(model.contact_id * 1) !== -1){
+                    indexes.push(index);
+                    return true;
+                }
+                return false;
+            });
+
+            console.log([models, ids, indexes, self.modelsNames]);
+
+            $.each(models, function (index, model) {
+                let i = self.modelsNames.indexOf(model);
+                console.log(self.modelsNames.splice(i, 1));
+            });
+        },
         //----------------------------------------------------------------------------------------- MODAL URL FUNCTIONS
         fusionCancelar: function (modalName){
             let self = this;
@@ -186,9 +205,9 @@ let app = new Vue({
                 self.modelsResolve = resolve;
                 self.loading.modal = false;
             })
-                .fail(() => {
-                    alertify.error("Problema al cargar los registros");
-                });
+            .fail(() => {
+                alertify.error("Problema al cargar los registros");
+            });
         },
         fusionResolve: function () {
             let self = this;
@@ -206,26 +225,30 @@ let app = new Vue({
 
             // ------------------------------------------------------------------------------ Getting Types List
             $.post(self.getUrlFusion(), data, (data, textStatus, jqXHR) => {
-                if(textStatus != 'success' ) console.log([textStatus, jqXHR]);
+                if(textStatus != 'success' )
+                    console.log([textStatus, jqXHR]);
+                else{
+                    self.removingFromDuplicateListImported(self.ids);
+                }
                 self.fusionResult = data.result;
                 self.fusionFlags.result = false;
                 self.loading.modal = false;
                 self.loading.fusion = false;
                 self.modalState = 'finish';
             })
-                .fail(() => {
-                    alertify.error("Problema al fusionar los registros de contacto.");
+            .fail(() => {
+                alertify.error("Problema al fusionar los registros de contacto.");
 
-                    self.loading.modal = false;
-                    self.loading.fusion = false;
-                });
+                self.loading.modal = false;
+                self.loading.fusion = false;
+            });
         },
         fusionFinish: function (){
             let self = this;
             if (self.modelCurrent)
             {
-                var index = self.modelsNames.indexOf(self.modelCurrent);
-                self.modelsNames.splice(index, 1);
+                // var index = self.modelsNames.indexOf(self.modelCurrent);
+                // self.modelsNames.splice(index, 1);
                 self.modelCurrent = null;
             }
         },
