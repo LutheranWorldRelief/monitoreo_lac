@@ -12,25 +12,18 @@
 
 use kartik\select2\Select2Asset;
 use yii\bootstrap\BootstrapPluginAsset;
-use yii\bootstrap\Modal;
-use yii\helpers\Html;
 use yii\helpers\Url;
-use kartik\grid\GridView;
-use app\components\UCatalogo;
-use yii\data\ArrayDataProvider;
 
 use app\assets\Vue2Asset;
 
 BootstrapPluginAsset::register($this);
 Select2Asset::register($this);
 Vue2Asset::register($this);
+$this->registerJsFile("@web/js/vue/comp.select2.js", ['depends' => [Vue2Asset::className()]]);
 $this->registerJsFile("@web/js/vue/contact.merge.modules.js", ['depends' => [Vue2Asset::className()]]);
 $this->registerJsFile("@web/js/vue/contact.merge.js", ['depends' => [Vue2Asset::className()]]);
-
 ?>
-<template id="vue-combo-select2">
-    <select class="form-control select2-enable"></select>
-</template>
+<?= $this->render('_vue_comp_select2') ?>
 <div id="app" v-cloak data-baseurl="<?= Yii::$app->homeUrl ?>">
     <div v-if="loading.all">
         <img style="margin:0 auto; display: block" src="<?= Url::to('@web/img/loading.gif') ?>" alt="">
