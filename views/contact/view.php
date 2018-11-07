@@ -66,7 +66,7 @@ $this->title = 'Contacto / ' . $model->id . ' / ' . $model->fullname;
                     ])
                 ]); ?>
             </div>
-            <div class="chart tab-pane" id="activities" style="position: relative; height: 300px;">
+            <div class="chart tab-pane" id="activities" style="position: relative; min-height: 300px;">
 
                 <?= $this->render('_list_activities', [
                     'provider' => new ArrayDataProvider([
@@ -76,7 +76,7 @@ $this->title = 'Contacto / ' . $model->id . ' / ' . $model->fullname;
                     ])
                 ]); ?>
             </div>
-            <div class="chart tab-pane" id="events" style="position: relative; height: 300px;">
+            <div class="chart tab-pane" id="events" style="position: relative; min-height: 300px;">
 
                 <?= $this->render('_list', [
                     'provider' => new ArrayDataProvider([
