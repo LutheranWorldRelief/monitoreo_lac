@@ -18,7 +18,6 @@ $this->registerJsFile("@web/js/vue/comp.select2.js", ['depends' => [Vue2Asset::c
 $this->registerJsFile("@web/js/vue/contact.merge.modules.js", ['depends' => [Alertify1Asset::className(), Vue2Asset::className()]]);
 $this->registerJsFile("@web/js/vue/contact.merge.document.js", ['depends' => [Alertify1Asset::className(), Vue2Asset::className()]]);
 ?>
-<?= $this->render('_vue_comp_select2') ?>
 <div id="app" v-cloak data-baseurl="<?= Yii::$app->homeUrl ?>">
     <div v-if="loading.all">
         <img style="margin:0 auto; display: block" src="<?= Url::to('@web/img/loading.gif') ?>" alt="">
