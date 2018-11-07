@@ -1,48 +1,10 @@
-Vue.component('combo-select2', {
-    template: '#vue-combo-select2',
-    props:['options', 'value', 'prompt'],
-    data: function () {
-        return {
-        }
-    },
-    methods:{
+/* @var {} alertify */
 
-    },
-    mounted: function () {
-        var self = this;
-
-        var options = $.map(self.options, function (value, index) {
-            return {
-                id: index,
-                text: value
-            };
-        });
-
-        options.unshift({
-            id: '',
-            text: self.prompt || '-- Seleccionar --'
-        });
-
-        $(self.$el).select2({
-            data:options
-        })
-        .on('change', (e) => {
-            self.$emit('input', e.target.value);
-        });
-
-        if(self.value) $(self.$el).val(self.value).trigger('change');
-    },
-    watch: {
-        value: function (val, oldVal) {
-            var self = this;
-            $(self.$el).val(val).trigger('change');
-        }
-    },
-});
-
+// @ts-ignore
 let app = new Vue({
     el: "#app",
     mixins:[
+        // @ts-ignore
         MergeUrls,
     ],
     data: {
@@ -111,72 +73,86 @@ let app = new Vue({
             self.loadBaseUrl(self.$el);
 
             // ------------------------------------------------------------------------------ Getting label information
+            // @ts-ignore
             $.get(self.getUrlModelLabels(), (data, textStatus, jqXHR) => {
                 if(textStatus != 'success' ) console.log([textStatus, jqXHR]);
                 self.modelLabels = data;
             })
             .fail(() => {
+                // @ts-ignore
                 alertify.error("Problema al cargar las etiquetas");
                 console.log("Error al cargar la información de los etiquetas");
             });
 
             // ------------------------------------------------------------------------------ Getting Empty Model
+            // @ts-ignore
             $.get(self.getUrlModelEmpty(), (data, textStatus, jqXHR) => {
                 if(textStatus != 'success' ) console.log([textStatus, jqXHR]);
                 self.modelEmpty = data;
             })
             .fail(() => {
+                // @ts-ignore
                 alertify.error("Problema al cargar los datos de guardado");
                 console.log("Error al cargar la información del modelo vacío");
             });
 
             // ------------------------------------------------------------------------------ Getting Organization List
+            // @ts-ignore
             $.get(self.getUrlOrganizations(), (data, textStatus, jqXHR) => {
                 if(textStatus != 'success' ) console.log([textStatus, jqXHR]);
 
                 self.list_organizations = data;
             })
             .fail(() => {
+                // @ts-ignore
                 alertify.error("Problema al cargar los datos de organizaciones");
                 console.log("Error al cargar la información de las organizaciones");
             });
 
             // ------------------------------------------------------------------------------ Getting Countries List
+            // @ts-ignore
             $.get(self.getUrlCountries(), (data, textStatus, jqXHR) => {
                 if(textStatus != 'success' ) console.log([textStatus, jqXHR]);
                 self.list_countries = data;
             })
             .fail(() => {
+                // @ts-ignore
                 alertify.error("Problema al cargar los datos de los países");
                 console.log("Problema al cargar la información de los países");
             });
 
             // ------------------------------------------------------------------------------ Getting Projects List
+            // @ts-ignore
             $.get(self.getUrlProjects(), (data, textStatus, jqXHR) => {
                 if(textStatus != 'success' ) console.log([textStatus, jqXHR]);
                 self.list_projects = data;
             })
             .fail(() => {
+                // @ts-ignore
                 alertify.error("Problema al cargar los datos de los proyectos");
                 console.log("Problema al cargar los datos de los proyectos");
             });
 
             // ------------------------------------------------------------------------------ Getting Types List
+            // @ts-ignore
             $.get(self.getUrlTypes(), (data, textStatus, jqXHR) => {
                 if(textStatus != 'success' ) console.log([textStatus, jqXHR]);
                 self.list_types = data;
             })
             .fail(() => {
+                // @ts-ignore
                 alertify.error("Problema al cargar los datos de los tipos de beneficiarios");
                 console.log("Problema al cargar los datos de los tipos de beneficiarios");
             });
 
             // ------------------------------------------------------------------------------ Getting Types List
+            // @ts-ignore
             $.get(self.getUrlEducation(), (data, textStatus, jqXHR) => {
                 if(textStatus != 'success' ) console.log([textStatus, jqXHR]);
                 self.list_education= data;
             })
             .fail(() => {
+                // @ts-ignore
                 alertify.error("Problema al cargar el catalogo de tipo de educacion");
                 console.log("Problema al cargar el catalogo de tipo de educacion");
             });
@@ -188,11 +164,13 @@ let app = new Vue({
             let self = this;
             self.loading.all = true;
 
+            // @ts-ignore
             $.get(self.getUrlAll(), self.modelFilter, (data, textStatus, jqXHR) => {
                 if(textStatus != 'success' ) console.log([textStatus, jqXHR]);
                 self.modelsNames = data;
             })
                 .fail(() => {
+                    // @ts-ignore
                     alertify.error("Problema al ");
                     console.log("Error al cargar la información de los contactos");
                 })
@@ -210,6 +188,7 @@ let app = new Vue({
                 case 'fusion': self.modalState = 'resolve'; break;
                 case 'finish':
                 default:
+                    // @ts-ignore
                     $(modalName).modal('hide');
             }
         },
@@ -226,6 +205,7 @@ let app = new Vue({
                 self.ids.push(self.models[i].id);
             }
             // ------------------------------------------------------------------------------ Getting Types List
+            // @ts-ignore
             $.post(self.getUrlNameValues(), { ids: self.ids}, (data, textStatus, jqXHR) => {
                 if(textStatus != 'success' ) console.log([textStatus, jqXHR]);
                 self.modelMerge = data.values;
@@ -237,6 +217,7 @@ let app = new Vue({
                 self.loading.modal = false;
             })
             .fail(() => {
+                // @ts-ignore
                 alertify.error("Problema al cargar los registros");
             });
         },
@@ -255,6 +236,7 @@ let app = new Vue({
             };
 
             // ------------------------------------------------------------------------------ Getting Types List
+            // @ts-ignore
             $.post(self.getUrlFusion(), data, (data, textStatus, jqXHR) => {
                 if(textStatus != 'success' ) console.log([textStatus, jqXHR]);
                 self.fusionResult = data.result;
@@ -264,6 +246,7 @@ let app = new Vue({
                 self.modalState = 'finish';
             })
             .fail(() => {
+                // @ts-ignore
                 alertify.error("Problema al fusionar los registros de contacto.");
 
                 self.loading.modal = false;
@@ -306,6 +289,7 @@ let app = new Vue({
                 console.log("No se logró generar la URL para obtener la información del contacto");
             }
             else{
+                // @ts-ignore
                 $.get(url, (data, textStatus, jqXHR)=>{
                     if(textStatus !== 'success' ) console.log([textStatus, jqXHR]);
 
