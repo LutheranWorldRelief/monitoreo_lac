@@ -13,6 +13,7 @@ extract($data);
 <div class="row">
     <div class="col-lg-10 col-lg-offset-1">
         <h3 class="text-info pull-left">Proceso Finalizado con éxito</h3>
+        <a href="<?= Url::to(['import/beneficiarios-paso1']) ?>" class="btn btn-primary"><i class="fa fa-reply"></i> Regresar</a>
     </div>
 
 </div>
