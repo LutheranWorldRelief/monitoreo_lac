@@ -10,9 +10,9 @@ class ControladorController extends Controller
 
     public $enableCsrfValidation = false;
 
-    public function validacionPost()
-    {
-        if (!\Yii::$app->request->isPost)
-            throw new \Exception('Acceso No Autorizado a API');
-    }
+        public function validacionPost()
+        {
+            if (!\Yii::$app->request->isPost)
+                throw new \Exception('Acceso No Autorizado a API');
+        }
 }

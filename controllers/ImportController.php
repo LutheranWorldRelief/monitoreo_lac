@@ -90,30 +90,22 @@ class ImportController extends Controller
             /*Conversión de fechas excel a fecha php*/
             try {
                 $date = $row[$key['nacimiento']];
-                if (!empty($date) && ($date !== ' '))
-                    $nacimiento = $this->getFechaExcel($date);
-                else
-                    $nacimiento = null;
+                if (!empty($date) && ($date !== ' ')) $nacimiento = $this->getFechaExcel($date);
+                else $nacimiento = null;
 
             } catch (\Exception $e) {
                 $date = str_replace('/', '-', $row[$key['nacimiento']]);
-                if (!empty($date) && ($date !== ' '))
-                    $nacimiento = date('Y-m-d', strtotime($date));
-                else
-                    $nacimiento = null;
+                if (!empty($date) && ($date !== ' ')) $nacimiento = date('Y-m-d', strtotime($date));
+                else $nacimiento = null;
             }
             try {
                 $date = $row[$key['ingreso_proyecto']];
-                if (!empty($date) && ($date !== ' '))
-                    $ingresoProyecto = $this->getFechaExcel($date);
-                else
-                    $ingresoProyecto = null;
+                if (!empty($date) && ($date !== ' ')) $ingresoProyecto = $this->getFechaExcel($date);
+                else $ingresoProyecto = null;
             } catch (\Exception $e) {
                 $date = str_replace('/', '-', $row[$key['ingreso_proyecto']]);
-                if (!empty($date) && ($date !== ' '))
-                    $ingresoProyecto = date('Y-m-d', strtotime($date));
-                else
-                    $ingresoProyecto = null;
+                if (!empty($date) && ($date !== ' ')) $ingresoProyecto = date('Y-m-d', strtotime($date));
+                else $ingresoProyecto = null;
             }
 
             $organizationId = Organization::getIdFromName($row[$key['organizacion']]);
@@ -162,22 +154,27 @@ class ImportController extends Controller
             $beneficiario->attributes = $fila;
 
             $proyectoValido = true;
-            if (is_null($proyectoId) || empty($proyectoId)) {
-                $proyecto = new Project();
-                $proyecto->name = $proyectoNombre;
-                $proyecto->code = $proyectoCodigo;
-                $proyectoValido = $proyecto->validate();
-            }
+            if (is_null($proyectoId) || empty($proyectoId)) $proyectoValido = false;
 
-            if ($beneficiario->validate() & $proyectoValido & !empty($row[$key['organizacion_implementadora']])) {
+            $fechaIngresoValida = true;
+            if ($ingresoProyecto === null || strtotime($ingresoProyecto) < strtotime('1980-01-01')) $fechaIngresoValida = false;
+
+            $implementingOrganizationValida = $implementingOrganizationId ? true : false;
+
+            if ($beneficiario->validate() & $proyectoValido & !empty($row[$key['organizacion_implementadora']]) & $fechaIngresoValida & $implementingOrganizationValida) {
                 $this->addSuccessLog($log);
                 $this->addDataGuardar($fila);
             } else {
                 $errorText = "<h3>Fila $index de $totalRow </h3>";
+
+                if (!$fechaIngresoValida)
+                    $errorText .= '<br><b style="color:#dd4b39">Debe establecer una fecha de ingreso válida</b>';
                 if (!$proyectoValido)
-                    $errorText .= '<br><b style="color:#dd4b39">Error en proyecto</b>';
+                    $errorText .= '<br><b style="color:#dd4b39">Error en proyecto, verifiqué que el proyecto exista</b>';
                 if (empty($row[$key['organizacion_implementadora']]))
                     $errorText .= '<br><b style="color:#dd4b39">Error en Organización Implementadora</b>';
+                if (!$implementingOrganizationValida)
+                    $errorText .= '<br><b style="color:#dd4b39">Debe establecer una organización implementadora que exista en la base de datos</b>';
                 if ($errorSexo)
                     $errorText .= '<br><b style="color:#dd4b39">Error en Sexo, se espera Hombre o Mujer </b>';
                 if (!$beneficiario->validate())
