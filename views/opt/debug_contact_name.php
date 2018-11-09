@@ -10,18 +10,18 @@
 /* @var integer|null $organizationId */
 /* @var string|null $countryCode */
 
-use yii\bootstrap\Modal;
-use yii\helpers\Html;
+use kartik\select2\Select2Asset;
+use yii\bootstrap\BootstrapPluginAsset;
 use yii\helpers\Url;
-use kartik\grid\GridView;
-use app\components\UCatalogo;
-use yii\data\ArrayDataProvider;
 
 use app\assets\Vue2Asset;
+
+BootstrapPluginAsset::register($this);
+Select2Asset::register($this);
 Vue2Asset::register($this);
+$this->registerJsFile("@web/js/vue/comp.select2.js", ['depends' => [Vue2Asset::className()]]);
 $this->registerJsFile("@web/js/vue/contact.merge.modules.js", ['depends' => [Vue2Asset::className()]]);
 $this->registerJsFile("@web/js/vue/contact.merge.js", ['depends' => [Vue2Asset::className()]]);
-
 ?>
 <div id="app" v-cloak data-baseurl="<?= Yii::$app->homeUrl ?>">
     <div v-if="loading.all">

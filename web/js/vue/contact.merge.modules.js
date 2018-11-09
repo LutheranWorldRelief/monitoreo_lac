@@ -5,6 +5,7 @@ var MergeUrls = {
     methods: {
         loadBaseUrl: function (elem) {
             var self = this;
+            // @ts-ignore
             self.baseurl = $(elem).data('baseurl');
         },
         //---------------------------------------------------------------------------------------------- URL FUNCTIONS

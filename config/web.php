@@ -29,7 +29,7 @@ $config = [
             // the layout that should be applied for views within this module
             'layout' => '@app/views/layouts/audit',
             // Name of the component to use for database access
-            'ignoreActions' => ['audit/*', 'debug/*', 'gii/*','estaciones/davis/leer-datos'],
+            'ignoreActions' => ['audit/*', 'debug/*', 'gii/*', 'import/*'],
             // Role or list of roles with access to the viewer, null for everyone (if the user matches)
             'accessRoles' => ['Administrador', 'Administrador(a)'],
             // Maximum age (in days) of the audit entries before they are truncated

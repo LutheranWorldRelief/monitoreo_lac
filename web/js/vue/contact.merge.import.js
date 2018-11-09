@@ -143,6 +143,22 @@ var app = new Vue({
                 console.log("Problema al cargar el catalogo de tipo de educacion");
             });
         },
+        removingFromDuplicateListImported: function (ids) {
+            var self = this;
+            var indexes = [];
+            var models = self.modelsNames.filter(function (model, index) {
+                if (ids.indexOf(model.contact_id * 1) !== -1) {
+                    indexes.push(index);
+                    return true;
+                }
+                return false;
+            });
+            console.log([models, ids, indexes, self.modelsNames]);
+            $.each(models, function (index, model) {
+                var i = self.modelsNames.indexOf(model);
+                console.log(self.modelsNames.splice(i, 1));
+            });
+        },
         //----------------------------------------------------------------------------------------- MODAL URL FUNCTIONS
         fusionCancelar: function (modalName) {
             var self = this;
@@ -205,6 +221,9 @@ var app = new Vue({
             $.post(self.getUrlFusion(), data, function (data, textStatus, jqXHR) {
                 if (textStatus != 'success')
                     console.log([textStatus, jqXHR]);
+                else {
+                    self.removingFromDuplicateListImported(self.ids);
+                }
                 self.fusionResult = data.result;
                 self.fusionFlags.result = false;
                 self.loading.modal = false;
@@ -220,8 +239,8 @@ var app = new Vue({
         fusionFinish: function () {
             var self = this;
             if (self.modelCurrent) {
-                var index = self.modelsNames.indexOf(self.modelCurrent);
-                self.modelsNames.splice(index, 1);
+                // var index = self.modelsNames.indexOf(self.modelCurrent);
+                // self.modelsNames.splice(index, 1);
                 self.modelCurrent = null;
             }
         },
