@@ -31,6 +31,8 @@ $this->registerJsFile("@web/js/vue/contact.merge.document.js", ['depends' => [Al
                     <div class="row">
                         <div class="col-lg-12"><?= $this->render('_filter_form'); ?></div>
                     </div>
+
+                    <div class="col-md-6">
                     <table class="table table-bordered table-striped table-condensed">
                         <thead>
                         <tr>
@@ -41,24 +43,59 @@ $this->registerJsFile("@web/js/vue/contact.merge.document.js", ['depends' => [Al
                         </tr>
                         </thead>
                         <tbody>
-                        <tr v-for="(model, index) in modelsAll">
-                            <td> {{index+1}}</td>
-                            <td>{{model.document}} <span class="badge">{{model.cuenta}}</span></td>
-                            <td>
-                                <div v-html="model.name"></div>
-                            </td>
-                            <td>
-                                <button
-                                        class="btn btn-xs btn-primary pull-right"
-                                        @click="preparingFusionForm(model)"
-                                        data-toggle="modal"
-                                        data-target="#modal-merge">
-                                    Fusionar
-                                </button>
-                            </td>
-                        </tr>
+                        <template v-for="(model, index) in modelsAll">
+                            <tr v-if="(index <= parseInt( modelsAll.length/2))">
+                                <td> {{index+1}}</td>
+                                <td>{{model.document}} <span class="badge">{{model.cuenta}}</span></td>
+                                <td>
+                                    <div v-html="model.name"></div>
+                                </td>
+                                <td>
+                                    <button
+                                            class="btn btn-xs btn-primary pull-right"
+                                            @click="preparingFusionForm(model)"
+                                            data-toggle="modal"
+                                            data-target="#modal-merge">
+                                        Fusionar
+                                    </button>
+                                </td>
+                            </tr>
+                        </template>
                         </tbody>
                     </table>
+                    </div>
+                    <div class="col-md-6">
+                        <table class="table table-bordered table-striped table-condensed">
+                            <thead>
+                            <tr>
+                                <th>Caso N°</th>
+                                <th>Documento</th>
+                                <th>Nombres</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <template v-for="(model, index) in modelsAll">
+                                <tr v-if="(index > parseInt( modelsAll.length/2))">
+                                    <td> {{index+1}}</td>
+                                    <td>{{model.document}} <span class="badge">{{model.cuenta}}</span></td>
+                                    <td>
+                                        <div v-html="model.name"></div>
+                                    </td>
+                                    <td>
+                                        <button
+                                                class="btn btn-xs btn-primary pull-right"
+                                                @click="preparingFusionForm(model)"
+                                                data-toggle="modal"
+                                                data-target="#modal-merge">
+                                            Fusionar
+                                        </button>
+                                    </td>
+                                </tr>
+                            </template>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

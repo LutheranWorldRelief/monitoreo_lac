@@ -8,6 +8,7 @@
 /* @var array $countries */
 /* @var integer|null $projectId */
 /* @var integer|null $organizationId */
+
 /* @var string|null $countryCode */
 
 use kartik\select2\Select2Asset;
@@ -36,30 +37,62 @@ $this->registerJsFile("@web/js/vue/contact.merge.js", ['depends' => [Vue2Asset::
                     <div class="row">
                         <div class="col-lg-12"><?= $this->render('_filter_form'); ?></div>
                     </div>
-                    <table class="table table-bordered table-striped table-condensed">
-                        <thead>
-                        <tr>
-                            <th>Caso N°</th>
-                            <th>Nombre</th>
-                            <th></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr v-for="(model, index) in modelsNames">
-                            <td> {{index+1}}</td>
-                            <td>{{model.name}} <span class="badge">{{model.cuenta}}</span></td>
-                            <td>
-                                <button
-                                        class="btn btn-xs btn-primary pull-right"
-                                        @click="preparingFusionForm(model)"
-                                        data-toggle="modal"
-                                        data-target="#modal-merge">
-                                    Fusionar
-                                </button>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    <div class="col-md-6">
+                        <table class="table table-bordered table-striped table-condensed">
+                            <thead>
+                            <tr>
+                                <th>Caso N°</th>
+                                <th>Nombre</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <template v-for="(model, index) in modelsNames">
+                                <tr v-if="(index <= parseInt( modelsNames.length/2))">
+                                    <td> {{index+1}}</td>
+                                    <td>{{model.name}} <span class="badge">{{model.cuenta}}</span></td>
+                                    <td>
+                                        <button
+                                                class="btn btn-xs btn-primary pull-right"
+                                                @click="preparingFusionForm(model)"
+                                                data-toggle="modal"
+                                                data-target="#modal-merge">
+                                            Fusionar
+                                        </button>
+                                    </td>
+                                </tr>
+                            </template>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-6">
+                        <table class="table table-bordered table-striped table-condensed">
+                            <thead>
+                            <tr>
+                                <th>Caso N°</th>
+                                <th>Nombre</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <template v-for="(model, index) in modelsNames">
+                                <tr v-if="(index > parseInt( modelsNames.length/2))">
+                                    <td> {{index+1}}</td>
+                                    <td>{{model.name}} <span class="badge">{{model.cuenta}}</span></td>
+                                    <td>
+                                        <button
+                                                class="btn btn-xs btn-primary pull-right"
+                                                @click="preparingFusionForm(model)"
+                                                data-toggle="modal"
+                                                data-target="#modal-merge">
+                                            Fusionar
+                                        </button>
+                                    </td>
+                                </tr>
+                            </template>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
