@@ -46,10 +46,10 @@ use yii\helpers\Json;
     </div>
     <div class="col-lg-2">
         <button class="btn btn-primary" @click="btnFiltrarClick">
-            <i class="fa fa-file"></i> Filtrar
+            <i class="fa fa-filter"></i> Filtrar
         </button>
         <button class="btn btn-primary" @click="btnLimpiarFiltroClick">
-            <i class="fa fa-file"></i> Limpiar
+            <i class="fa fa-ban"></i> Limpiar
         </button>
     </div>
 </div>

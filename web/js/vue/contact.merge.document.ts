@@ -18,6 +18,7 @@ let app = new Vue({
             projectId:'',
             countryCode:'',
             organizationId:'',
+            nameSearch:''
         },
         modalState:'select', // stores the state of the modal view [select, resolve, fusion]
         modelsAll:[], // stores all the data from all the duplicate models by name
@@ -329,6 +330,7 @@ let app = new Vue({
         },
         btnLimpiarFiltroClick: function () {
             var self = this;
+            self.modelFilter.nameSearch = '';
             self.loadModels();
         }
     },

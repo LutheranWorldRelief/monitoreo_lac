@@ -192,6 +192,7 @@ class OptController extends Controller
         $query
             ->select([
                 'sql_contact.id as id',
+                'GROUP_CONCAT(DISTINCT  sql_contact.name SEPARATOR "<br>") as name',
                 "TRIM( REPLACE( REPLACE(sql_contact.document, '-', '' ), ' ', '' ) ) as document",
                 'count(DISTINCT sql_contact.id) as cuenta',
             ])

@@ -18,6 +18,7 @@ var app = new Vue({
             projectId: '',
             countryCode: '',
             organizationId: '',
+            nameSearch:''
         },
         modalState: 'select',
         modelsAll: [],
@@ -322,6 +323,7 @@ var app = new Vue({
         },
         btnLimpiarFiltroClick: function () {
             var self = this;
+            self.modelFilter.nameSearch = '';
             self.loadModels();
         }
     },

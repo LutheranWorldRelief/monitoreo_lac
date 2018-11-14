@@ -313,6 +313,7 @@ let app = new Vue({
         },
         btnLimpiarFiltroClick: function () {
             var self = this;
+            self.modelFilter.nameSearch = '';
             self.loadModels();
         }
     },

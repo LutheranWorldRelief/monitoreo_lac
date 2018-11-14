@@ -1,6 +1,7 @@
 <?php
 
 /* @var $this yii\web\View */
+
 /* @var $models \app\components\ActiveRecord[]|\app\models\Contact[]|\app\models\SqlDebugContactDoc[]|\app\models\SqlDebugContactName[]|array|\yii\db\ActiveRecord[] */
 
 use app\assets\Alertify1Asset;
@@ -23,29 +24,41 @@ $this->registerJsFile("@web/js/vue/contact.merge.document.js", ['depends' => [Al
         <img style="margin:0 auto; display: block" src="<?= Url::to('@web/img/loading.gif') ?>" alt="">
     </div>
     <div v-if="!loading.all" class="row" v-cloak>
-        <div class="col-lg-12">
-            <?= $this->render('_filter_form', [
-                'projects' => $projects,
-                'organizations' => $organizations,
-                'countries' => $countries,
-                'countryCode' => $countryCode,
-                'projectId' => $projectId,
-                'organizationId' => $organizationId,
-            ]);
-            ?>
-            <h2>Casos : {{ modelsAll.length }}</h2>
-        </div>
-        <div class="col-lg-4" v-for="(model, index) in modelsAll">
+        <div class="col-md-12 ">
             <div class="panel panel-default">
-                <div class="panel-body" style="font-size: 12px">
-                    {{index+1}}. {{model.document}} <span class="badge">{{model.cuenta}}</span>
-                    <button
-                            class="btn btn-xs btn-primary pull-right"
-                            @click="preparingFusionForm(model)"
-                            data-toggle="modal"
-                            data-target="#modal-merge">
-                        Fusionar
-                    </button>
+                <div class="panel-body table-responsive" style="font-size: 12px">
+                    <h2 class="text-maroon">{{ modelsAll.length }} Casos Duplicados por Documento</h2>
+                    <div class="row">
+                        <div class="col-lg-12"><?= $this->render('_filter_form'); ?></div>
+                    </div>
+                    <table class="table table-bordered table-striped table-condensed">
+                        <thead>
+                        <tr>
+                            <th>Caso N°</th>
+                            <th>Documento</th>
+                            <th>Nombres</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr v-for="(model, index) in modelsAll">
+                            <td> {{index+1}}</td>
+                            <td>{{model.document}} <span class="badge">{{model.cuenta}}</span></td>
+                            <td>
+                                <div v-html="model.name"></div>
+                            </td>
+                            <td>
+                                <button
+                                        class="btn btn-xs btn-primary pull-right"
+                                        @click="preparingFusionForm(model)"
+                                        data-toggle="modal"
+                                        data-target="#modal-merge">
+                                    Fusionar
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
