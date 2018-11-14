@@ -122,7 +122,7 @@ class OptController extends Controller
         $query = $this->baseQuery();
 
         $query
-            ->andFilterWhere(['REGEXP_REPLACE(TRIM(sql_contact.name), "\\\\s\\\\s+", " ")' => preg_replace('/\s+/', ' ', TRIM($name))])
+            ->andWhere('REGEXP_REPLACE(TRIM(sql_contact.name), "\\\\s\\\\s+", " ") = :user_name COLLATE utf8_general_ci', [':user_name'=>preg_replace('/\s+/', " ", TRIM($name))])
             ->andWhere("NOT TRIM(sql_contact.name) = ''");
 
         if ($name === '')
