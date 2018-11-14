@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\components\ULog;
 use app\models\Address;
 use app\models\Attendance;
 use app\models\AuthUser;
@@ -49,6 +50,7 @@ class OptController extends Controller
         $projectId = $request->get('projectId');
         $countryCode = $request->get('countryCode');
         $organizationId = $request->get('organizationId');
+        $nameSearch = $request->get('nameSearch');
 
         /* @var AuthUser $auth */
         $auth = $user->identity;
@@ -63,6 +65,11 @@ class OptController extends Controller
             ->andFilterWhere(['project.id' => $projectId])
             ->andFilterWhere(['sql_contact.country' => $countryCode])
             ->andFilterWhere(['event.implementing_organization_id' => $organizationId]);
+
+
+        if (!empty($nameSearch))
+            $query
+                ->andFilterWhere(['like', 'sql_contact.name', $nameSearch]);
 
         if (!$auth->is_superuser) {
             $query->andWhere([
@@ -128,6 +135,7 @@ class OptController extends Controller
     private function namesModels($name = null)
     {
         $query = $this->namesQuery($name);
+//ULog::l($query->createCommand()->query());
 
         $query->select([
             'sql_contact.id as id',
@@ -352,7 +360,7 @@ class OptController extends Controller
         ], 'developer');
 
         return $this->renderJson([
-            'save'=> $saved,
+            'save' => $saved,
             'result' => $result,
             'id' => $id,
             'model' => $model,

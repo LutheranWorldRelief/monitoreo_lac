@@ -1,4 +1,5 @@
 <?php
+
 use kartik\form\ActiveForm;
 use yii\bootstrap\Html;
 use yii\helpers\Json;
@@ -12,28 +13,35 @@ use yii\helpers\Json;
 
 ?>
 <div class="row">
-    <div class="col-lg-4">
+    <div class="col-lg-3">
+        <input
+                class="form-control"
+                v-model="modelFilter.nameSearch"
+                placeholder="--nombre--"
+        />
+    </div>
+    <div class="col-lg-3">
         <combo-select2
-            :options="list_projects"
-            :value="modelFilter.projectId"
-            prompt="-- Proyectos --"
-            @input="modelFilter.projectId = $event">
+                :options="list_projects"
+                :value="modelFilter.projectId"
+                prompt="-- Proyectos --"
+                @input="modelFilter.projectId = $event">
         </combo-select2>
     </div>
     <div class="col-lg-2">
         <combo-select2
-            :options="list_organizations"
-            :value="modelFilter.organizationId"
-            prompt="-- Organizaciones --"
-            @input="modelFilter.organizationId = $event">
+                :options="list_organizations"
+                :value="modelFilter.organizationId"
+                prompt="-- Organizaciones --"
+                @input="modelFilter.organizationId = $event">
         </combo-select2>
     </div>
     <div class="col-lg-2">
         <combo-select2
-            :options="list_countries"
-            :value="modelFilter.countryCode"
-            prompt="-- Países --"
-            @input="modelFilter.countryCode = $event">
+                :options="list_countries"
+                :value="modelFilter.countryCode"
+                prompt="-- Países --"
+                @input="modelFilter.countryCode = $event">
         </combo-select2>
     </div>
     <div class="col-lg-2">

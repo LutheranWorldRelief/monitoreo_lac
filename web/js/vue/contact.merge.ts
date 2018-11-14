@@ -20,6 +20,7 @@ let app = new Vue({
             projectId:'',
             countryCode:'',
             organizationId:'',
+            nameSearch:''
         },
         modalState:'select', // stores the state of the modal view [select, resolve, fusion]
         modelsNames:[], // stores all the data from all the duplicate models by name

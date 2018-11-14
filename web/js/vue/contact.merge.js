@@ -19,6 +19,7 @@ var app = new Vue({
             projectId: '',
             countryCode: '',
             organizationId: '',
+            nameSearch:''
         },
         modalState: 'select',
         modelsNames: [],
