@@ -81,7 +81,7 @@ Feature file is written in Gherkin format. Codeception can generate a feature fi
 We will assume that we will use scenarios in feature files for acceptance tests, so feature files to be placed in `acceptance` suite directory:
 
 ```bash
-php codecept g:feature acceptance checkout
+php vendor/bin/codecept g:feature acceptance checkout
 ```
 
 Generated template will look like this:
@@ -524,6 +524,17 @@ gherkin:
             fastlogin:
                 - "Step\FastLogin"
 ```
+
+Contexts can be autoloaded as well:
+```yaml
+gherkin:
+    contexts:
+        path: tests/_support/Steps
+        namespace_prefix: Steps
+        default:
+            - AcceptanceTester
+```
+This will load all context from the given path and prefix it with the given namespace.
 
 ## Migrating From Behat
 

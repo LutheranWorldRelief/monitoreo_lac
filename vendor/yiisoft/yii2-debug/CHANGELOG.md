@@ -1,6 +1,32 @@
 Yii Framework 2 debug extension Change Log
 ==========================================
 
+2.1.0 March 17, 2019
+--------------------
+
+- Bug #342: Toolbar animates on every page load in Chrome 70 (ricpelo)
+- Bug #343: Fixed errors on "Roles and permissions" tab (simialbi)
+- Bug #352: Fixed failure to serialize emails causing summary and thus all panels not to render (sammousa)
+- Enh #88: Allow custom module access check (simialbi)
+- Enh #247: Added dump panel that collects and displays debug messages with `Logger::LEVEL_TRACE` (pistej, simialbi)
+- Enh #296, #326, #340: Removed bootstrap as dependency, bundled Bootstrap 4 (simialbi)
+- Enh #349: Router link is now separated (rustamwin)
+- Enh #350: Use smaller padding for tables cells (machour)
+
+
+2.0.14 September 24, 2018
+-------------------------
+
+- Bug #300: Fixed email files are not deleted by GC (pistej)
+- Bug #302: Fixed panel usage with suffixes in UrlManager (kyrylo-permiakov)
+- Bug #327: Fix animation on page load when the toolbar is expanded (brandonkelly)
+- Bug #332: Fix error when trace is missing from message (cornernote)
+- Enh #77: Added "Events" panel (klimov-paul)
+- Enh #301: Added configuration option to toggle IP address restriction warning on / off (jkrasniewski)
+- Enh #311: Adjusted module's code to use `->get()` for dependencies (samdark)
+- Enh #316: Prevent multiple lines in toolbar (ZAYEC77)
+
+
 2.0.13 December 5, 2017
 -----------------------
 

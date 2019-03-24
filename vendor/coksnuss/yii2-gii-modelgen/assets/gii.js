@@ -8,6 +8,8 @@
             $('form .field-generator-updatedcolumnname').toggle($(this).is(':checked'));
         }).change();
 
+        // Has to be called here because the change() call above would
+        // otherwise make generated code file section vanish.
         _init.apply(this, arguments);
     }
 })(jQuery);

@@ -1,7 +1,9 @@
 <?php
 
+use app\components\UNumero;
+use app\components\WGridView;
+use app\components\WMenuExport;
 use yii\helpers\Html;
-use yii\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\search\Project */
@@ -17,42 +19,30 @@ $gridColumns = [
     [
         'attribute' => 'name',
         'format' => 'raw',
-        'value' => function ($model) {
-            return Html::a($model->name, ['view', 'id' => $model->id], ['data-pjax' => 0]);
-        },
+        'value' => function ($model) { return Html::a($model->name, ['view', 'id' => $model->id], ['data-pjax' => 0]); },
     ],
     [
         'attribute' => 'countries',
     ],
     [
         'attribute' => 'goal_men',
-        'value' => function ($model) {
-            return \app\components\UNumero::FormatoNumero((int)$model->goal_men,0);
-        },
+        'value' => function ($model) { return UNumero::FormatoNumero((int)$model->goal_men, 0); },
     ],
     [
         'attribute' => 'goal_women',
-        'value' => function ($model) {
-            return \app\components\UNumero::FormatoNumero((int)$model->goal_women,0);
-        },
+        'value' => function ($model) { return UNumero::FormatoNumero((int)$model->goal_women, 0); },
     ],
     [
         'attribute' => 'h',
-        'value' => function ($model) {
-            return \app\components\UNumero::FormatoNumero((int)$model->h,0);
-        },
+        'value' => function ($model) { return UNumero::FormatoNumero((int)$model->h, 0); },
     ],
     [
         'attribute' => 'm',
-        'value' => function ($model) {
-            return \app\components\UNumero::FormatoNumero((int)$model->m,0);
-        },
+        'value' => function ($model) { return UNumero::FormatoNumero((int)$model->m, 0); },
     ],
     [
         'attribute' => 't',
-        'value' => function ($model) {
-            return \app\components\UNumero::FormatoNumero((int)$model->t,0);
-        },
+        'value' => function ($model) { return UNumero::FormatoNumero((int)$model->t, 0); },
     ],
     [
         'class' => 'yii\grid\ActionColumn',
@@ -65,12 +55,16 @@ $gridColumns = [
 <?= $this->render('_navbar') ?>
 <div class="box">
     <div class="box-body">
-        <?= kartik\export\ExportMenu::widget(['dataProvider' => $dataProvider, 'columns' => $gridColumns]); ?>
         <?=
-        GridView::widget([
+        WGridView::widget([
             'dataProvider' => $dataProvider,
             'filterModel' => $searchModel,
             'columns' => $gridColumns,
+            'heading' => '<i class="wi wi-rain-mix wi-flip-horizontal"></i> Proyectos',
+            'toolbar' => [
+                WMenuExport::widget(['dataProvider' => $dataProvider, 'filename' => 'Proyectos', 'columns' => $gridColumns]),
+                '{toggleData}',
+            ],
         ]);
         ?>
     </div>

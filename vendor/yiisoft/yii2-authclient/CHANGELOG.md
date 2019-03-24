@@ -1,6 +1,30 @@
 Yii Framework 2 authclient extension Change Log
 ===============================================
 
+2.1.8 January 28, 2019
+----------------------
+
+- Bug #237: Fix redirect from LinkedIn if user refused to authorize permissions request (jakim)
+- Enh #218: Allow configuring user component in `AuthAction` (samdark, lab362)
+- Enh #258: Use Google Sign-in API instead of Google Plus in `yii\authclient\clients\Google` as Google Plus is deprecated (alexeevdv)
+- Enh #259: Allow to pass buildAuthUrl params to OAuth flows in `AuthAction` (albertborsos)
+
+
+2.1.7 September 20, 2018
+------------------------
+
+- Bug #241: Unset parameter `scope` on `defaultReturnUrl` for `OAuth2` class since it was causing bad request response from Google provider (okiwan)
+
+
+2.1.6 September 07, 2018
+------------------------
+
+- Bug #211: `RsaSha` was not passing `$key` to `openssl_pkey_get_private()` in `generateSignature()` (cfhodges)
+- Bug #220: Make `OpenIdConnect` client send token as bearer auth instead of querystring parameter (lukos)
+- Bug #237: Fixed redirect if user cancels login in auth form (msvit1989)
+- Enh #203: Updated VKontakte client to use API version 5.0 (Shketkol)
+
+
 2.1.5 February 08, 2018
 -----------------------
 

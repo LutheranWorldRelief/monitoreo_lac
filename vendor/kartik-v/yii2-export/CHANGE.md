@@ -1,6 +1,101 @@
 Change Log: `yii2-export`
 =========================
 
+## version 1.3.9
+
+**Date:** 19-Dec-2018
+
+- (enh #288): Correct export column selection when `asDropdown` is `false`.
+- (enh #276): Ability to configure explicit cell formats (header, footer, content, before, after).
+   Explicit cell formats must be one of the `PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_` constants.
+   This can be set via `cellFormat` settings at one or more of the following levels.
+   -  `Column::headerOptions['cellFormat']` within `columns` array items.
+   -  `Column::contentOptions['cellFormat']` within `columns` array items.
+   -  `Column::footerOptions['cellFormat']` within `columns` array items.
+   -  The `cellFormat` setting for each array item within `ExportMenu::contentBefore`
+   -  The `cellFormat` setting for each array item within `ExportMenu::contentAfter`
+- (enh #162): Disable page summary validation and rendering for `yii2-export`.
+
+## version 1.3.8
+
+**Date:** 29-Nov-2018
+
+- (bug #284): Correct validation when `showColumnSelector` is `false`.
+
+## version 1.3.7
+
+**Date:** 10-Nov-2018
+
+- (enh #283): Correct export columns validation.
+- (enh #282): Include use `yii\db\QueryInterface`.
+- (enh #281): Correct export download to allow parsing new lines in content.
+- (enh #280): Correct attribute label parsing.
+- Update README.
+- (enh #279): Update Persian translations.
+
+## version 1.3.6
+
+**Date:** 13-Oct-2018
+
+- Enhance `ExportWriterPdf` to allow custom formatting
+
+## version 1.3.5
+
+**Date:** 13-Oct-2018
+
+- Enhance PDF output rendering by cleaning HTML for unwanted tags. 
+- (enh #274): Correctly parse UTF-8 filename.
+
+## version 1.3.4
+
+**Date:** 12-Oct-2018
+
+- (enh #273): Enhanced PDF Writer `ExportWriterPdf`.
+- (enh #272): Better UTF-8 encoding for CSV and TEXT formats.
+- (enh #271): Locale specific validation messages and code enhancements.
+- (enh #270): Add iframe as a new target option for export form download.
+- (enh #248): Add direct download, supplement sheets, data validation features.
+- (enh #204): Better event listening for dynamic export menu rendering.
+- (enh #120): Better init of `_columnSelectorEnabled`.
+
+## version 1.3.3
+
+**Date:** 11-Oct-2018
+
+- (enh #269): Correct styles for BS4.
+- (enh #268): Enhance export columns visibility.
+- (enh #267): Configurable export menu form parameters.
+- (enh #266): Enhancements to export form functionality.
+- (enh #225): Enhance column selector dropdown styling.
+
+## version 1.3.2
+
+**Date:** 04-Oct-2018
+
+- Add .gitattributes.
+- (bug #264): Correct headers already sent error.
+- (enh #262, #263): Enhance export menu form action.
+
+## version 1.3.1
+
+**Date:** 24-Sep-2018
+
+- Enhance link file view markup for rendering Bootstrap 4.x styles.
+- (bug #261): Correct headers sending.
+- (enh #260): New property `enableAutoFormat` to control autoformatting excel based on grid format.
+
+## version 1.3.0
+
+**Date:** 07-Sep-2018
+
+- Enhancements to support Bootstrap v4.x.
+- Move all source code to `src` directory.
+- (enh #256, #257): Correct documentation.
+- (enh #255): Modify code for better performance.
+- (kartik-v/yii2-krajee-base#94): Refactor code and consolidate / optimize properties within traits.
+- (bug #252): Correct krajeeDialog plugin undefined initialization.
+- (enh #249, #250): New property `exportFormHiddenInputs` for submitting additional data with export form.
+
 ## version 1.2.9
 
 **Date:** 24-Feb-2018
