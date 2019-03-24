@@ -23,9 +23,9 @@ $this->registerJsFile('@web/js/event.form.js', ['depends' => $depends]);
 $form = ActiveForm::begin();
 ?>
 <div id="event-form">
-
+<div class="box box-body">
     <div class="row">
-        <div class="col-lg-6"><?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?></div>
+        <div class="col-lg-6"><?= $form->field($model, 'name')->textarea(['rows' => 4]) ?></div>
         <div class="col-md-6">
             <?php
             echo $form->field($model, 'structure_id')->widget(\kartik\select2\Select2::classname(), [
@@ -83,8 +83,8 @@ $form = ActiveForm::begin();
     <div class="row">
         <div class="col-lg-6"><?= $form->field($model, 'text')->textarea(['rows' => 4]) ?></div>
         <div class="col-lg-5"><?= $form->field($model, 'notes')->textarea(['rows' => 4]) ?></div>
-        <div class="col-lg-1"><?= $form->field($model, 'monitor')->checkbox() ?>
-        </div>
+
+    </div>
     </div>
 
     <div class="row">

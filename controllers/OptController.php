@@ -3,22 +3,15 @@
 namespace app\controllers;
 
 use app\components\ULog;
-use app\models\Address;
 use app\models\Attendance;
 use app\models\AuthUser;
 use app\models\Contact;
-use app\models\ContactGroups;
-use app\models\ContactWorkedWith;
 use app\models\DataList;
-use app\models\Email;
-use app\models\Phonenumber;
 use app\models\Project;
 use app\models\Organization;
 use app\models\ProjectContact;
-use app\models\Socialnetwork;
 use app\models\SqlContact;
 use app\models\SqlFullReportProjectContact;
-use app\models\Website;
 use function array_merge;
 use function str_replace;
 use Yii;
@@ -337,16 +330,8 @@ class OptController extends Controller
             else {
                 foreach ($models as $key => $m) {
                     $mid = $m->id;
-                    $result['Direcciones'][$mid] = Address::updateAll(['contact_id' => $id], ['contact_id' => $mid]);
                     $result['Participaciones'][$mid] = Attendance::updateAll(['contact_id' => $id], ['contact_id' => $mid]);
-                    $result['Grupos'][$mid] = ContactGroups::updateAll(['contact_id' => $id], ['contact_id' => $mid]);
-                    $result['Trabaja Con'][$mid] = ContactWorkedWith::updateAll(['from_contact_id' => $id], ['from_contact_id' => $mid]);
-                    $result['Trabaja Para'][$mid] = ContactWorkedWith::updateAll(['to_contact_id' => $id], ['to_contact_id' => $mid]);
-                    $result['Email'][$mid] = Email::updateAll(['contact_id' => $id], ['contact_id' => $mid]);
-                    $result['Teléfono'][$mid] = Phonenumber::updateAll(['contact_id' => $id], ['contact_id' => $mid]);
                     $result['Proyectos-Contactos'][$mid] = ProjectContact::updateAll(['contact_id' => $id], ['contact_id' => $mid]);
-                    $result['Red Social'][$mid] = Socialnetwork::updateAll(['contact_id' => $id], ['contact_id' => $mid]);
-                    $result['Website'][$mid] = Website::updateAll(['contact_id' => $id], ['contact_id' => $mid]);
                     $result['Eliminado'][$mid] = $m->delete();
 
                 }

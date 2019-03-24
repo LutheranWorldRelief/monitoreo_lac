@@ -40,7 +40,7 @@ abstract class AuthUser extends \app\components\ActiveRecord
     public function rules()
     {
         return [
-            [['password', 'is_superuser', 'username', 'first_name', 'is_staff', 'is_active', 'date_joined'], 'required'],
+            [['password', 'username', 'first_name', 'is_staff', 'is_active', 'date_joined'], 'required'],
             [['last_login', 'date_joined', 'countries', 'projects'], 'safe'],
             [['is_superuser', 'is_staff', 'is_active'], 'integer'],
             [['access_token'], 'string'],

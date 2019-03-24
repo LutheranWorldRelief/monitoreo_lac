@@ -19,7 +19,6 @@ use Yii;
  * @property string $start
  * @property string $end
  * @property string $place
- * @property string $monitor
  * @property string $notes
  * @property int $country_id
  *
@@ -50,7 +49,6 @@ abstract class Event extends \app\components\ActiveRecord
             [['start', 'end'], 'safe'],
             [['name'], 'string', 'max' => 455],
             [['organizer', 'place'], 'string', 'max' => 200],
-            [['monitor'], 'string', 'max' => 5],
             [['country_id'], 'exist', 'skipOnError' => true, 'targetClass' => DataList::className(), 'targetAttribute' => ['country_id' => 'id']],
             [['implementing_organization_id'], 'exist', 'skipOnError' => true, 'targetClass' => Organization::className(), 'targetAttribute' => ['implementing_organization_id' => 'id']],
             [['structure_id'], 'exist', 'skipOnError' => true, 'targetClass' => Structure::className(), 'targetAttribute' => ['structure_id' => 'id']],
@@ -73,7 +71,6 @@ abstract class Event extends \app\components\ActiveRecord
             'start' => 'Start',
             'end' => 'End',
             'place' => 'Place',
-            'monitor' => 'Monitor',
             'notes' => 'Notes',
             'country_id' => 'Country ID',
         ];
