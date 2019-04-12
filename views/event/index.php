@@ -1,9 +1,8 @@
 <?php
 
+use app\components\WGridView;
+use app\components\WMenuExport;
 use yii\helpers\Html;
-use yii\helpers\Url;
-use kartik\export\ExportMenu;
-use kartik\grid\GridView;
 
 // use app\components\ULog;
 
@@ -62,19 +61,8 @@ $gridColumns = [
 <?= $this->render('_navbar') ?>
 <div class="box">
     <div class="box-body">
-        <?= ExportMenu::widget([
-            'dataProvider' => $provider,
-            'columns' => array_merge(
-                $gridColumns,
-                []
-            )
-        ]);
-        ?>
-        <?= GridView::widget([
-            'id' => 'grid-details',
-            'tableOptions' => [
-                'class' => 'table table-condensed table-stripped',
-            ],
+        <?=
+        WGridView::widget([
             'dataProvider' => $provider,
             'filterModel' => $search,
             'columns' => array_merge(
@@ -92,10 +80,12 @@ $gridColumns = [
                     ],
                 ]
             ),
-            'pjax' => true,
-            'pjaxSettings' => [
-                'id' => 'grid-event-pjax',
-            ]
-        ]); ?>
+            'heading' => '<i class="wi wi-rain-mix wi-flip-horizontal"></i> Eventos',
+            'toolbar' => [
+                WMenuExport::widget(['dataProvider' => $provider, 'filename' => 'Eventos', 'columns' => $gridColumns]),
+                '{toggleData}',
+            ],
+        ]);
+        ?>
     </div>
 </div>

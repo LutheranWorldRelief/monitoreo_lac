@@ -20,7 +20,7 @@ class SqlEvent extends SqlEventModel
     {
         return [
             [['id', 'structure_id', 'implementing_organization_id', 'country_id', 'h', 'm', 't', 'project_id'], 'integer'],
-            [['name', 'title', 'organizer', 'text', 'start', 'end', 'place', 'monitor', 'notes', 'country', 'organization', 'project', 'code', 'structure'], 'safe'],
+            [['name', 'title', 'organizer', 'text', 'start', 'end', 'place', 'notes', 'country', 'organization', 'project', 'code', 'structure'], 'safe'],
         ];
     }
 
@@ -91,7 +91,6 @@ class SqlEvent extends SqlEventModel
             ->andFilterWhere(['like', 'organizer', $this->organizer])
             ->andFilterWhere(['like', 'text', $this->text])
             ->andFilterWhere(['like', 'place', $this->place])
-            ->andFilterWhere(['like', 'monitor', $this->monitor])
             ->andFilterWhere(['like', 'notes', $this->notes])
             ->andFilterWhere(['like', 'country', $this->country])
             ->andFilterWhere(['like', 'organization', $this->organization])

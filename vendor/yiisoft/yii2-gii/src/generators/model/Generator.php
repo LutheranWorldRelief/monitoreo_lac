@@ -8,6 +8,7 @@
 namespace yii\gii\generators\model;
 
 use Yii;
+use yii\base\NotSupportedException;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 use yii\db\Connection;
@@ -15,7 +16,6 @@ use yii\db\Schema;
 use yii\db\TableSchema;
 use yii\gii\CodeFile;
 use yii\helpers\Inflector;
-use yii\base\NotSupportedException;
 
 /**
  * This generator will generate one or multiple ActiveRecord classes for the specified database table.
@@ -38,6 +38,8 @@ class Generator extends \yii\gii\Generator
     public $generateRelationsFromCurrentSchema = true;
     public $generateLabelsFromComments = false;
     public $useTablePrefix = false;
+    public $standardizeCapitals = false;
+    public $singularize = false;
     public $useSchemaName = true;
     public $generateQuery = false;
     public $queryNs = 'app\models';
@@ -82,7 +84,7 @@ class Generator extends \yii\gii\Generator
             [['queryBaseClass'], 'validateClass', 'params' => ['extends' => ActiveQuery::className()]],
             [['generateRelations'], 'in', 'range' => [self::RELATIONS_NONE, self::RELATIONS_ALL, self::RELATIONS_ALL_INVERSE]],
             [['generateLabelsFromComments', 'useTablePrefix', 'useSchemaName', 'generateQuery', 'generateRelationsFromCurrentSchema'], 'boolean'],
-            [['enableI18N'], 'boolean'],
+            [['enableI18N', 'standardizeCapitals', 'singularize'], 'boolean'],
             [['messageCategory'], 'validateMessageCategory', 'skipOnEmpty' => false],
         ]);
     }
@@ -96,6 +98,8 @@ class Generator extends \yii\gii\Generator
             'ns' => 'Namespace',
             'db' => 'Database Connection ID',
             'tableName' => 'Table Name',
+            'standardizeCapitals' => 'Standardize Capitals',
+            'singularize' => 'Singularize',
             'modelClass' => 'Model Class Name',
             'baseClass' => 'Base Class',
             'generateRelations' => 'Generate Relations',
@@ -127,6 +131,12 @@ class Generator extends \yii\gii\Generator
             'modelClass' => 'This is the name of the ActiveRecord class to be generated. The class name should not contain
                 the namespace part as it is specified in "Namespace". You do not need to specify the class name
                 if "Table Name" ends with asterisk, in which case multiple ActiveRecord classes will be generated.',
+            'standardizeCapitals' => 'This indicates whether the generated class names should have standardized capitals. For example,
+            table names like <code>SOME_TABLE</code> or <code>Other_Table</code> will have class names <code>SomeTable</code>
+            and <code>OtherTable</code>, respectively. If not checked, the same tables will have class names <code>SOMETABLE</code>
+            and <code>OtherTable</code> instead.',
+            'singularize' => 'This indicates whether the generated class names should be singularized. For example,
+            table names like <code>some_tables</code> will have class names <code>SomeTable</code>.',
             'baseClass' => 'This is the base class of the new ActiveRecord class. It should be a fully qualified namespaced class name.',
             'generateRelations' => 'This indicates whether the generator should generate relations based on
                 foreign key constraints it detects in the database. Note that if your database contains too many tables,
@@ -689,9 +699,23 @@ class Generator extends \yii\gii\Generator
         /* @var $baseModel \yii\db\ActiveRecord */
         if ($baseModel === null) {
             $baseClass = $this->baseClass;
-            $baseModel = new $baseClass();
+            $baseClassReflector = new \ReflectionClass($baseClass);
+            if ($baseClassReflector->isAbstract()) {
+                $baseClassWrapper =
+                    'namespace ' . __NAMESPACE__ . ';'.
+                    'class GiiBaseClassWrapper extends \\' . $baseClass . ' {' .
+                        'public static function tableName(){' .
+                            'return "' . addslashes($table->fullName) . '";' .
+                        '}' .
+                    '};' .
+                    'return new GiiBaseClassWrapper();';
+                $baseModel = eval($baseClassWrapper);
+            } else {
+                $baseModel = new $baseClass();
+            }
             $baseModel->setAttributes([]);
         }
+
         if (!empty($key) && strcasecmp($key, 'id')) {
             if (substr_compare($key, 'id', -2, 2, true) === 0) {
                 $key = rtrim(substr($key, 0, -2), '_');
@@ -880,7 +904,19 @@ class Generator extends \yii\gii\Generator
             }
         }
 
-        return $this->classNames[$fullTableName] = Inflector::id2camel($schemaName.$className, '_');
+        if ($this->standardizeCapitals) {
+            $schemaName = ctype_upper(preg_replace('/[_-]/', '', $schemaName)) ? strtolower($schemaName) : $schemaName;
+            $className = ctype_upper(preg_replace('/[_-]/', '', $className)) ? strtolower($className) : $className;
+            $this->classNames[$fullTableName] = Inflector::camelize(Inflector::camel2words($schemaName.$className));
+        } else {
+            $this->classNames[$fullTableName] = Inflector::id2camel($schemaName.$className, '_');
+        }
+
+        if ($this->singularize) {
+            $this->classNames[$fullTableName] = Inflector::singularize($this->classNames[$fullTableName]);
+        }
+
+        return $this->classNames[$fullTableName];
     }
 
     /**

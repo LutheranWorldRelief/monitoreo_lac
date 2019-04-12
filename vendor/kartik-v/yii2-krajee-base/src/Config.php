@@ -3,8 +3,8 @@
 /**
  * @package   yii2-krajee-base
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
- * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2018
- * @version   1.9.3
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2019
+ * @version   2.0.5
  */
 
 namespace kartik\base;
@@ -17,12 +17,22 @@ use yii\base\InvalidConfigException;
  * Global configuration helper class for Krajee extensions.
  *
  * @author Kartik Visweswaran <kartikv2@gmail.com>
- * @since 1.0
  */
 class Config
 {
+    /**
+     * @var string the Krajee repo vendor name
+     */
     const VENDOR_NAME = 'kartik-v/';
+
+    /**
+     * @var string the Krajee extension namespace
+     */
     const NAMESPACE_PREFIX = '\\kartik\\';
+
+    /**
+     * @var string the default reason appended for exceptions
+     */
     const DEFAULT_REASON = 'for your selected functionality';
 
     /**
@@ -74,7 +84,7 @@ class Config
         '\kartik\daterange\DateRangePicker' => 'yii2-date-range',
         '\kartik\sortinput\SortableInput' => 'yii2-sortinput',
         '\kartik\tree\TreeViewInput' => 'yii2-tree-manager',
-        '\kartik\money\MaskMoney' => 'yii2-money', // deprecated
+        '\kartik\money\MaskMoney' => 'yii2-money', // deprecated and replaced by yii2-number
         '\kartik\number\NumberControl' => 'yii2-number',
         '\kartik\checkbox\CheckboxX' => 'yii2-checkbox-x',
         '\kartik\slider\Slider' => 'yii2-slider',
@@ -255,7 +265,7 @@ class Config
     }
 
     /**
-     * Initializes and validates the module (deprecated since v1.9.3 - use `getModule` instead directly)
+     * Initializes and validates the module (deprecated since v1.9.0 - use `getModule` instead directly)
      *
      * @param string $class the Module class name
      *
@@ -303,5 +313,21 @@ class Config
             throw new InvalidConfigException("The '{$m}' module MUST be an instance of '{$class}'.");
         }
         return $module;
+    }
+
+    /**
+     * Check if HTML options has specified CSS class
+     * @param array $options the HTML options
+     * @param string $cssClass the css class to test
+     * @return bool
+     */
+    public static function hasCssClass($options, $cssClass)
+    {
+        if (!isset($options['class'])) {
+            return false;
+        }
+        $classes = is_array($options['class']) ? $options['class'] :
+            preg_split('/\s+/', $options['class'], -1, PREG_SPLIT_NO_EMPTY);
+        return in_array($cssClass, $classes);
     }
 }

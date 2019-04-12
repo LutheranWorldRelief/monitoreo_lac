@@ -1,6 +1,13 @@
 Yii Framework 2 HTTP client extension Change Log
 ================================================
 
+2.0.7 September 24, 2018
+------------------------
+
+- Bug #165: `Response::detectFormatByContent` now detects JSON Array (germanow)
+- Enh #156: Added `Request::setFullUrl()` return reference (vuongxuongminh)
+
+
 2.0.6 February 13, 2018
 -----------------------
 

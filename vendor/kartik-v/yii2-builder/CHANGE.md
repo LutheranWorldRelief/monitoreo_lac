@@ -1,6 +1,27 @@
 Change Log: `yii2-builder`
 ==========================
 
+## Version 1.6.6
+
+**Date:** 26-Nov-2018
+
+- Update README.
+- (enh #137): Correct form validation for TabularForm.
+- Better version dependencies.
+
+## Version 1.6.5
+
+**Date:** 26-Sep-2018
+
+- Enhancements in parsing Bootstrap CSS classes (ref: kartik-v/yii2-krajee-base#100).
+
+## Version 1.6.4
+
+**Date:** 20-Sep-2018
+
+- Enhancements to support Bootstrap v4.x.
+- Move all source code to `src` directory.
+
 ## Version 1.6.3
 
 **Date:** 29-Aug-2017

@@ -5,72 +5,80 @@ namespace app\models\base;
 use Yii;
 
 /**
-* This is the model class for table "{{%project}}".
-* Please do not add custom code to this file, as it is supposed to be overriden
-* by the gii model generator. Custom code belongs to app\models\Project.
-*
-    * @property integer $id
-    * @property string $name
-    * @property string $code
-    * @property string $logo
-    * @property string $colors
-    * @property string $url
-    * @property string $start
-    * @property string $end
-    * @property integer $goal_men
-    * @property integer $goal_women
-    *
-            * @property \app\models\ProjectContact[] $projectContacts
-            * @property \app\models\Structure[] $structures
-    */
+ * This is the model class for table "project".
+ * Please do not add custom code to this file, as it is supposed to be overriden
+ * by the gii model generator. Custom code belongs to app\models\Project.
+ *
+ * @property int $id
+ * @property string $name
+ * @property string $code
+ * @property string $logo
+ * @property string $colors
+ * @property string $url
+ * @property string $start
+ * @property string $end
+ * @property int $goal_men
+ * @property int $goal_women
+ *
+ * @property \app\models\ProjectContact[] $projectContacts
+ * @property \app\models\Structure[] $structures
+ */
 abstract class Project extends \app\components\ActiveRecord
 {
-/**
-* @inheritdoc
-*/
-public function rules()
-{
-return [
+    /**
+     * @inheritdoc
+     */
+    public static function tableName()
+    {
+        return 'project';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
             [['name', 'code', 'colors'], 'required'],
             [['name', 'colors'], 'string'],
             [['start', 'end'], 'safe'],
             [['goal_men', 'goal_women'], 'integer'],
-            [['code', 'logo', 'url'], 'string', 'max' => 255]
+            [['code', 'logo', 'url'], 'string', 'max' => 255],
         ];
-}
-
-/**
-* @inheritdoc
-*/
-public function attributeLabels()
-{
-return [
-    'id' => 'ID',
-    'name' => 'Name',
-    'code' => 'Code',
-    'logo' => 'Logo',
-    'colors' => 'Colors',
-    'url' => 'Url',
-    'start' => 'Start',
-    'end' => 'End',
-    'goal_men' => 'Goal Men',
-    'goal_women' => 'Goal Women',
-];
-}
-
-    /**
-    * @return \yii\db\ActiveQuery
-    */
-    public function getProjectContacts()
-    {
-    return $this->hasMany(\app\models\ProjectContact::className(), ['project_id' => 'id']);
     }
 
     /**
-    * @return \yii\db\ActiveQuery
-    */
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'name' => 'Name',
+            'code' => 'Code',
+            'logo' => 'Logo',
+            'colors' => 'Colors',
+            'url' => 'Url',
+            'start' => 'Start',
+            'end' => 'End',
+            'goal_men' => 'Goal Men',
+            'goal_women' => 'Goal Women',
+        ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProjectContacts()
+    {
+        return $this->hasMany(\app\models\ProjectContact::className(), ['project_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getStructures()
     {
-    return $this->hasMany(\app\models\Structure::className(), ['project_id' => 'id']);
+        return $this->hasMany(\app\models\Structure::className(), ['project_id' => 'id']);
     }
 }

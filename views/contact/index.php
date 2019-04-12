@@ -1,11 +1,15 @@
 <?php
 
+use app\components\WGridView;
+use app\components\WMenuExport;
+use kartik\editable\Editable;
+use kartik\export\ExportMenu;
+use kartik\select2\Select2;
 use yii\helpers\Html;
-use yii\helpers\Url;
 use kartik\grid\GridView;
 use app\components\UCatalogo;
+use app\models\DataList;
 use app\models\Organization;
-use app\models\Attendeetype;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\search\Contact */
@@ -16,16 +20,12 @@ $gridColumns = [
     ['class' => 'yii\grid\SerialColumn'],
     [
         'attribute' => 'id',
-        'headerOptions' => [
-            'style' => 'width:30px',
-        ]
+        'headerOptions' => ['style' => 'width:30px']
     ],
     [
         'attribute' => 'name',
         'format' => 'raw',
-        'value' => function ($model) {
-            return Html::a($model->name, ['contact/view', 'id' => $model->id]);
-        },
+        'value' => function ($model) { return Html::a($model->name, ['contact/view', 'id' => $model->id]); },
     ],
     [
         'attribute' => 'document',
@@ -33,76 +33,38 @@ $gridColumns = [
     [
         'class' => 'kartik\grid\EditableColumn',
         'attribute' => 'country',
-        'value' => function ($model) {
-            return $model->countryName;
-        },
+        'value' => function ($model) { return $model->countryName; },
         'filter' => [null => 'Todos'] + UCatalogo::listCountries(),
         'filterType' => GridView::FILTER_SELECT2,
-        'filterWidgetOptions' => [
-            'size' => \kartik\select2\Select2::MEDIUM,
-            'pluginOptions' => [
-//                'allowClear' => true,
-            ],
-        ],
+        'filterWidgetOptions' => ['size' => Select2::MEDIUM],
         'editableOptions' => [
             'header' => 'Country',
             'asPopover' => false,
-            'inputType' => kartik\editable\Editable::INPUT_DROPDOWN_LIST,
+            'inputType' => Editable::INPUT_DROPDOWN_LIST,
             'data' => UCatalogo::listCountries(),
-            'options' => ['pluginOptions' => []]
         ]],
-//    [
-//        'attribute' => 'country',
-//        'filter' => UCatalogo::listCountries(),
-//        'value' => function($model) {
-//            return $model->countryName;
-//        },
-//    ],
     [
         'attribute' => 'organization_id',
         'filter' => [null => 'Todos'] + Organization::listData('name', 'id'),
         'filterType' => GridView::FILTER_SELECT2,
-        'filterWidgetOptions' => [
-            'size' => \kartik\select2\Select2::MEDIUM,
-            'pluginOptions' => [
-//                'allowClear' => true,
-            ],
-        ],
-        'value' => function ($model) {
-            return $model->organizationName;
-        },
-        'headerOptions' => [
-            'style' => 'width:250px',
-        ]
+        'filterWidgetOptions' => ['size' => Select2::MEDIUM],
+        'value' => function ($model) { return $model->organizationName; },
+        'headerOptions' => ['style' => 'width:250px']
     ],
     [
         'class' => 'kartik\grid\EditableColumn',
         'attribute' => 'type_id',
-        'filter' => [null => 'Todos'] + app\models\DataList::itemsBySlug('participantes'),
+        'filter' => [null => 'Todos'] + DataList::itemsBySlug('participantes'),
         'filterType' => GridView::FILTER_SELECT2,
-        'filterWidgetOptions' => [
-            'size' => \kartik\select2\Select2::MEDIUM,
-            'pluginOptions' => [
-//                'allowClear' => true,
-            ],
-        ],
-        'value' => function ($model) {
-            return $model->attendeeTypeName;
-        },
+        'filterWidgetOptions' => ['size' => Select2::MEDIUM],
+        'value' => function ($model) { return $model->attendeeTypeName; },
         'editableOptions' => [
             'header' => 'Tipo',
             'asPopover' => false,
-            'inputType' => kartik\editable\Editable::INPUT_DROPDOWN_LIST,
-            'data' => app\models\DataList::itemsBySlug('participantes'),
+            'inputType' => Editable::INPUT_DROPDOWN_LIST,
+            'data' => Datalist::itemsBySlug('participantes'),
             'options' => ['pluginOptions' => []]
         ]],
-//    [
-//        'attribute' => 'type_id',
-//        'filter' => app\models\DataList::itemsBySlug('participantes'),
-//        'value' => function($model) {
-//            return $model->attendeeTypeName;
-//        },
-//    ],
     [
         'attribute' => 'title',
     ],
@@ -125,12 +87,16 @@ unset($gridColumnsExcel[8]);
 <?= $this->render('_navbar') ?>
 <div class="box">
     <div class="box-body">
-        <?= kartik\export\ExportMenu::widget(['dataProvider' => $dataProvider, 'columns' => $gridColumnsExcel]); ?>
         <?=
-        GridView::widget([
+        WGridView::widget([
             'dataProvider' => $dataProvider,
             'filterModel' => $searchModel,
             'columns' => $gridColumns,
+            'heading' => '<i class="wi wi-rain-mix wi-flip-horizontal"></i> Contactos',
+            'toolbar' => [
+                WMenuExport::widget(['dataProvider' => $dataProvider, 'filename' => 'Contactos', 'columns' => $gridColumnsExcel]),
+                '{toggleData}',
+            ],
         ]);
         ?>
     </div>

@@ -1,6 +1,139 @@
 Change Log: `yii2-grid`
 =======================
 
+## Version 3.3.0
+
+**Date:** 12-Mar-2019
+
+- (enh #881): Allow page summary to be positioned via `pageSummaryPosition` (`GridView::POS_TOP` or `GridView::POS_BOTTOM`). 
+- (enh #879): Implement `itemsLabelAccusative` and message token `items-acc`.
+- (enh #878): Update German Translations.
+- (enh #874): Allow control of export config hashing via new boolean property `GridView::hashExportConfig`.
+- (enh #870): Correct grid grouping rowspan for grouped rows.
+
+## Version 3.2.9
+
+**Date:** 07-Dec-2018
+
+- (enh #864): Unique `columnKey` property in grid columns.
+- (enh #862): Enhance `ExpandRowColumn` behavior to support multiple expand row columns per grid.
+- (enh #859): Harmonized asset namespaces.
+
+## Version 3.2.8
+
+**Date:** 09-Nov-2018
+
+- (bug #854): Correct grid export to allow parsing new lines in content (for CSV/TEXT).
+- (enh #853): Correct grid grouping for child groups with repeating values.
+- (enh #852): Correct grid grouping for grids without grid footer.
+- Update README.
+
+## Version 3.2.7
+
+**Date:** 03-Nov-2018
+
+- (enh #847): Add new grid column `EnumColumn`.
+- (enh #846): Enhance Grid Grouping to better parse multi level group footers.
+- (enh #843, #844): Add ability to have different exportConversions for specific export type.
+    - For example `from_pdf` and `to_pdf` will be used instead of `from` and `to`. If 
+     only `to_pdf` is set then `from` and `to_pdf` will be used.
+- (enh #840): Update Persian Translations.
+- (enh #839): Enhancements to export form functionality.
+
+## Version 3.2.6
+
+**Date:** 09-Oct-2018
+
+- Update composer dependencies.
+- Enhance `ExportController` HTTP headers.
+- (enh #837): Various enhancements to grid export styling.
+- (bug #835): Correct rendering error due to code change in core `GridView` in `yiisoft/yii2`.
+
+## Version 3.2.5
+
+**Date:** 27-Sep-2018
+
+- Bump up version.
+
+## Version 3.2.4
+
+**Date:** 22-Sep-2018
+
+- (enh #829): Enhancements in parsing Bootstrap CSS classes (ref: kartik-v/yii2-krajee-base#100).
+- (enh #828): Enhance `ActionColumn::dropdownButton` to be setup as a callback.
+ 
+## Version 3.2.3
+
+**Date:** 22-Sep-2018
+
+- Implement `kartik\base\BootstrapInterface`.
+
+## Version 3.2.2
+
+**Date:** 20-Sep-2018
+
+- Enhance ExpandRowColumn default row css for Bootstrap 4.x.
+- Enhance styling and behavior for Bootstrap 4.x.
+- (enh #826): Update Ukrainian Translations.
+
+## Version 3.2.1
+
+**Date:** 12-Sep-2018
+
+- (bug #817): Correct properties for BootstrapTrait use.
+
+## Version 3.2.0
+
+**Date:** 10-Sep-2018
+
+- Enhance grid loading CSS for Bootstrap 4.x card layout.
+- (enh #820): Ability to strip HTML tags for columns from export.
+- (enh #819): Enhance grid export generation for PJAX grids (correct timestamp).
+- (enh #818): Correct PDF Export Generation response.
+- (enh #816): Fix typo in check if has `xlFormat`.
+
+## Version 3.1.9
+
+**Date:** 07-Sep-2018
+
+- Refactor code and consolidate / optimize properties within traits.
+- Enhancements to grid sort (include numerical indicators).
+- Enhancements to support bootstrap v4.x.
+- Enhancements for updated perfect scrollbar plugin. 
+- (bug #813, #814): Correct Krajee Dialog plugin init.
+- (enh #805): Configure translated properties for MPDF .
+
+## Version 3.1.8
+
+**Date:** 18-Jul-2018
+
+- Reorganize source code in `src` directory as per yii2 standards.
+- (enh #805): Update Polish Translations .
+- (enh #799): Update Portugese Brazilian Translations .
+- (bug #798, #797): Correct decimal part validation.
+- (enh #795): Update `floatTHead` plugin to latest version.
+- (enh #793): Update Farsi Translations.
+- (bug #791): Correct PHP Doc for `getDataCellValue` method in `ColumnTrait`.
+- (enh #789): Correct `resizeableColumns` plugin init with `floatThead`.
+- (enh #787): Correct grid group summary decimal formatting for whole numbers.
+- (enh #786): Correct docs for grid group footer/header `customCallback`.
+- (enh #781): Add deprecated support for `ActionColumnAsset`.
+- (enh #770, #771): Add grid filter support for the Krajee NumberControl.
+- (enh #767): Add capability to format ExportMenu spreadsheet cells.
+- Update copyright year to current.
+- (enh #766): Correct export for EditableColumn when `asPopover = false`.
+- (enh #760): Use request `getQueryParam` instead of `$_GET`.
+- (enh #756): Correct default CSS class for `toolbarContainer`.
+- (bug #755): Correct grid group summary row to consider `hiddenFromExport` and `hidden` properties.
+- (enh #754): Enhance group summary number formatting for integers.
+- (bug #752): Correct string position validation for layout tokens.
+- (enh #747): Remove unnecessary variable declaration `$grid`.
+- (enh #746): Enhance to allow configurable toolbar container.
+- (enh #739): Update Portuguese Brazilian Translations.
+- (enh #733): More correct `jQuery` usage.
+- (bug #730): Fix comma errors in message files.
+- (enh #729): Update Polish Translations.
+
 ## Version 3.1.7
 
 **Date:** 23-Nov-2017

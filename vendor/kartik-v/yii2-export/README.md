@@ -1,5 +1,15 @@
-yii2-export
-===========
+<h1 align="center">
+    <a href="http://demos.krajee.com" title="Krajee Demos" target="_blank">
+        <img src="http://kartik-v.github.io/bootstrap-fileinput-samples/samples/krajee-logo-b.png" alt="Krajee Logo"/>
+    </a>
+    <br>
+    yii2-export
+    <hr>
+    <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=DTP3NZQ6G2AYU"
+       title="Donate via Paypal" target="_blank">
+        <img src="http://kartik-v.github.io/bootstrap-fileinput-samples/samples/donate.png" alt="Donate"/>
+    </a>
+</h1>
 
 [![Stable Version](https://poser.pugx.org/kartik-v/yii2-export/v/stable)](https://packagist.org/packages/kartik-v/yii2-export)
 [![Unstable Version](https://poser.pugx.org/kartik-v/yii2-export/v/unstable)](https://packagist.org/packages/kartik-v/yii2-export)
@@ -26,14 +36,14 @@ In addition, with release v1.2.0, the extension also displays a handy grid colum
 
 The extension offers configurable user interfaces for advanced cases using view templates.
 
-- `exportFormView` allows you to setup your own custom view file for rendering the export form.
 - `exportColumnsView` allows you to setup your own custom view file for rendering the column selector dropdown.
+- `afterSaveView` allows you to setup your own after save view file if you are configuring to save exported file on server.
 
 ## Demo
 You can see detailed [documentation](http://demos.krajee.com/export) and [demonstration](http://demos.krajee.com/export-demo) on usage of the extension.
 
-## Latest Release
->NOTE: The latest version of the extension is v1.2.9. Refer the [CHANGE LOG](https://github.com/kartik-v/yii2-export/blob/master/CHANGE.md) for details.
+## Release Changes
+> NOTE: Refer the [CHANGE LOG](https://github.com/kartik-v/yii2-export/blob/master/CHANGE.md) for details on changes to various releases.
 
 ## Installation
 
@@ -54,6 +64,21 @@ or add
 ```
 
 to the `require` section of your `composer.json` file.
+
+> Note: you must run `composer update` to have the latest stable dependencies like `kartik-v/yii2-krajee-base`
+
+## Pre-requisites
+
+The `yii2-export` extension is dependent on `yii2-grid` extension module. In order to start using `yii2-export`, you need to ensure setup of the `gridview` module in your application modules configuration file. For example:
+
+```php
+'modules' => [
+    'gridview' => [
+        'class' => 'kartik\grid\Module',
+        // other module settings
+    ]
+]
+```
 
 ## Usage
 
@@ -87,4 +112,4 @@ echo \kartik\grid\GridView::widget([
 
 ## License
 
-**yii2-export** is released under the BSD 3-Clause License. See the bundled `LICENSE.md` for details.
+**yii2-export** is released under the BSD-3-Clause License. See the bundled `LICENSE.md` for details.

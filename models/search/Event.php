@@ -19,7 +19,7 @@ class Event extends EventModel
     {
         return [
             [['id', 'structure_id','country_id','implementing_organization_id'], 'integer'],
-            [['name', 'title', 'organizer', 'text', 'start', 'end', 'place', 'monitor', 'notes'], 'safe'],
+            [['name', 'title', 'organizer', 'text', 'start', 'end', 'place', 'notes'], 'safe'],
         ];
     }
 
@@ -77,7 +77,6 @@ class Event extends EventModel
             ->andFilterWhere(['like', 'organizer', $this->organizer])
             ->andFilterWhere(['like', 'text', $this->text])
             ->andFilterWhere(['like', 'place', $this->place])
-            ->andFilterWhere(['like', 'monitor', $this->monitor])
             ->andFilterWhere(['like', 'notes', $this->notes]);
 
         return $dataProvider;

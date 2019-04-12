@@ -1,13 +1,13 @@
 <?php
 
-use yii\helpers\Html;
-use yii\grid\GridView;
+use app\components\WGridView;
+use app\components\WMenuExport;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\search\OrganizationType */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Organization Types';
+$this->title = 'Tipos de organizaciones';
 $this->params['breadcrumbs'][] = $this->title;
 $gridColumns = [
     ['class' => 'yii\grid\SerialColumn'],
@@ -25,12 +25,16 @@ $gridColumns = [
 <div class="box">
     <div class="box-body">
         <div class="organization-type-index">
-            <?= kartik\export\ExportMenu::widget(['dataProvider' => $dataProvider, 'columns' => array_merge($gridColumns, [])]); ?>
             <?=
-            GridView::widget([
+            WGridView::widget([
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,
                 'columns' => $gridColumns,
+                'heading' => '<i class="wi wi-rain-mix wi-flip-horizontal"></i> Tipos de organizaciones',
+                'toolbar' => [
+                    WMenuExport::widget(['dataProvider' => $dataProvider, 'filename' => 'Tipos de organizaciones', 'columns' => $gridColumns]),
+                    '{toggleData}',
+                ],
             ]);
             ?>
         </div>

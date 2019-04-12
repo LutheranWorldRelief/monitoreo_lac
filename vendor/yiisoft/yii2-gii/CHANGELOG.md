@@ -1,6 +1,26 @@
 Yii Framework 2 gii extension Change Log
 ========================================
 
+2.1.0 March 17, 2019
+--------------------
+
+- Enh #390, Bug #260: Create (bootstrap)-independent version (simialbi)
+- Bug #386: Move "Create" button outside of pjax container to avoid redirect (alexkart)
+- Bug #398, #397: Use strict mode when generating view folder name (machour)
+- Enh #395: Made `yii\gii\CodeFile` independent of controller context, do not apply `$newDirMode` and `$newFileMode` if module is not available (CeBe)
+- Enh #399: Option to allow singularize class names in model generator (alexkart)
+
+
+2.0.8 December 08, 2018
+-----------------------
+
+- Bug #327: Fixed bug in Model generator when $baseClass is an abstract class (rhertogh)
+- Bug #379: Fixed bug in view page where delete button not work well (zacksleo)
+- Bug #383: Fix incorrect title generation in CRUD update view (bscheshirwork)
+- Enh #366: Option to allow standardized class names capitals in model generator (slinstj)
+- Enh #378: Remove useless import of `Yii` from CRUD generator search model template (CeBe)
+
+
 2.0.7 May 3, 2018
 -----------------
 

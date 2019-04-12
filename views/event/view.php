@@ -9,7 +9,7 @@ use app\assets\AlertifyAsset;
 /* @var $this yii\web\View */
 /* @var $model app\models\DataList */
 AlertifyAsset::register($this);
-$this->title = 'Event / ' . $model->name;
+$this->title = 'Event';
 ?>
 <?= $this->render('_navbar', [
     'options' => [
@@ -30,7 +30,6 @@ $this->title = 'Event / ' . $model->name;
     <?= $this->render('_view', ['model'=>$model,'attrib'=>'organizer','class'=>'col-lg-3']) ?>
     <?= $this->render('_view', ['model'=>$model,'attrib'=>'start','class'=>'col-lg-2']) ?>
     <?= $this->render('_view', ['model'=>$model,'attrib'=>'end','class'=>'col-lg-2']) ?>
-    <?= $this->render('_view', ['model'=>$model,'attrib'=>'monitor','class'=>'col-lg-1']) ?>
 </div>
 <div class="row">
     <?= $this->render('_view', ['model'=>$model,'attrib'=>'implementingOrganizationName','class'=>'col-lg-6']) ?>

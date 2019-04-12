@@ -16,7 +16,7 @@ module.exports = {
 		 * Formatter for value labels
 		 * @method Chart.Ticks.formatters.values
 		 * @param value the value to display
-		 * @return {String|Array} the label to display
+		 * @return {string|string[]} the label to display
 		 */
 		values: function(value) {
 			return helpers.isArray(value) ? value : '' + value;
@@ -25,10 +25,10 @@ module.exports = {
 		/**
 		 * Formatter for linear numeric ticks
 		 * @method Chart.Ticks.formatters.linear
-		 * @param tickValue {Number} the value to be formatted
-		 * @param index {Number} the position of the tickValue parameter in the ticks array
-		 * @param ticks {Array<Number>} the list of ticks being converted
-		 * @return {String} string representation of the tickValue parameter
+		 * @param tickValue {number} the value to be formatted
+		 * @param index {number} the position of the tickValue parameter in the ticks array
+		 * @param ticks {number[]} the list of ticks being converted
+		 * @return {string} string representation of the tickValue parameter
 		 */
 		linear: function(tickValue, index, ticks) {
 			// If we have lots of ticks, don't use the ones
@@ -46,9 +46,15 @@ module.exports = {
 			var tickString = '';
 
 			if (tickValue !== 0) {
-				var numDecimal = -1 * Math.floor(logDelta);
-				numDecimal = Math.max(Math.min(numDecimal, 20), 0); // toFixed has a max of 20 decimal places
-				tickString = tickValue.toFixed(numDecimal);
+				var maxTick = Math.max(Math.abs(ticks[0]), Math.abs(ticks[ticks.length - 1]));
+				if (maxTick < 1e-4) { // all ticks are small numbers; use scientific notation
+					var logTick = helpers.log10(Math.abs(tickValue));
+					tickString = tickValue.toExponential(Math.floor(logTick) - Math.floor(logDelta));
+				} else {
+					var numDecimal = -1 * Math.floor(logDelta);
+					numDecimal = Math.max(Math.min(numDecimal, 20), 0); // toFixed has a max of 20 decimal places
+					tickString = tickValue.toFixed(numDecimal);
+				}
 			} else {
 				tickString = '0'; // never show decimal places for 0
 			}

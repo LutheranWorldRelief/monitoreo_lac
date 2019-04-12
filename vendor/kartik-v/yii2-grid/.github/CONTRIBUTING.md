@@ -9,7 +9,7 @@ When [reporting bugs][reporting-bugs] or
 [issue tracker on GitHub][issue-tracker] is the recommended channel to use.
 
 The issue tracker **is not** a place for support requests. Refer the 
-[extension documentation and demos](http://demos.krajee.com/dynagrid) and/or refer to the
+[extension documentation and demos](http://demos.krajee.com/grid) and/or refer to the
 [webtips Q & A forum](http://webtips.krajee.com/questions) which are the better places to get help.
 
 How to contribute via a pull request?
@@ -46,7 +46,7 @@ All of these questions will help others fix and identify any potential bugs.
 Requesting features in yii2-grid
 ------------------------------------------
 Before starting work on a major feature for yii2-grid, **read the
-[documentation](http://demos.krajee.com/dynagrid)  first** or you may risk spending a considerable amount of
+[documentation](http://demos.krajee.com/grid)  first** or you may risk spending a considerable amount of
 time on something which the project developers are not interested in bringing into the project.
 
 Licensing
