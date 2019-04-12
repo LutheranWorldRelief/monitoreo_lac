@@ -30,30 +30,35 @@ $logo = Yii::$app->urlManager->createAbsoluteUrl("img/logo/");
         </div>
     </div>
 
-    <!--Filtros-->
-    <?= $this->render('dashboard/filtros'); ?>
+    <div ng-if="cargando">
+        <img style="margin:0 auto; display: block" src="<?= Url::to('@web/img/loading.gif') ?>" alt="">
+    </div>
+    <section ng-show="!cargando" class="row" >
+        <!--Filtros-->
+        <?= $this->render('dashboard/filtros'); ?>
 
-    <!--Resumen-->
-    <?= $this->render('dashboard/resumen'); ?>
+        <!--Resumen-->
+        <?= $this->render('dashboard/resumen'); ?>
 
-    <!--Paises y Rubros-->
-    <?= $this->render('dashboard/paises_rubros'); ?>
+        <!--Paises y Rubros-->
+        <?= $this->render('dashboard/paises_rubros'); ?>
 
-    <!--Metas-->
-    <?= $this->render('dashboard/metas'); ?>
+        <!--Metas-->
+        <?= $this->render('dashboard/metas'); ?>
 
 
-    <!--Metas-->
-    <?= $this->render('dashboard/nacionalidad'); ?>
+        <!--Metas-->
+        <?= $this->render('dashboard/nacionalidad'); ?>
 
-    <!-- Organizaciones, Pastel, Fiscal   -->
-    <?= $this->render('dashboard/organizaciones_pastel_fiscal'); ?>
+        <!-- Organizaciones, Pastel, Fiscal   -->
+        <?= $this->render('dashboard/organizaciones_pastel_fiscal'); ?>
 
-    <!--Edad y Educación-->
-    <?= $this->render('dashboard/educacion'); ?>
+        <!--Edad y Educación-->
+        <?= $this->render('dashboard/educacion'); ?>
 
-    <!--Eventos y Tipo-->
-    <?= $this->render('dashboard/eventos_tipo'); ?>
+        <!--Eventos y Tipo-->
+        <?= $this->render('dashboard/eventos_tipo'); ?>
+    </section>
 </div>
 <script>
     UrlsAcciones = {};
@@ -71,17 +76,17 @@ $logo = Yii::$app->urlManager->createAbsoluteUrl("img/logo/");
     UrlsAcciones.UrlDatosGraficoEducacion = '<?php echo Url::toRoute("grafico-educacion"); ?>';
     UrlsAcciones.UrlDatosGraficoEventos = '<?php echo Url::toRoute("grafico-eventos"); ?>';
     UrlsAcciones.UrlDatosGraficoTipoParticipante = '<?php echo Url::toRoute("grafico-tipo-participante"); ?>';
-    UrlsAcciones.UrlDatosGraficoNacionalidad= '<?php echo Url::toRoute("grafico-nacionalidad"); ?>';
-    UrlsAcciones.UrlDatosGraficoPaisEventos= '<?php echo Url::toRoute("grafico-pais-eventos"); ?>';
+    UrlsAcciones.UrlDatosGraficoNacionalidad = '<?php echo Url::toRoute("grafico-nacionalidad"); ?>';
+    UrlsAcciones.UrlDatosGraficoPaisEventos = '<?php echo Url::toRoute("grafico-pais-eventos"); ?>';
     UrlsAcciones.UrlLogo = '<?php echo Yii::$app->urlManager->createAbsoluteUrl("img/logo.png"); ?>';
 </script>
 <style>
     .bg-blue, .callout.callout-success, .alert-success, .label-success, .modal-success .modal-body {
         background-color: #00AAA7 !important;
-    }
+        }
 
     .bg-green, .callout.callout-success, .alert-success, .label-success, .modal-success .modal-body {
         background-color: #C1CD23 !important;
-    }
+        }
 </style>
 <link href="<?= \yii\helpers\Url::to('@web/css/checkbox.css') ?>" rel="stylesheet">
