@@ -1,2 +1,0 @@
-php yii audit/cleanup --age=30
-php yii audit/cleanup --panels=audit/log,audit/profiling --age=7
