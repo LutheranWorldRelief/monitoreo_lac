@@ -2,10 +2,10 @@
     'use strict';
 
     var app = angular.module("App", ["ngGrid"])
-        .service('DatosService', DatosService)
-        .constant('UrlsAcciones', UrlsAcciones)
-        .constant('highchartsOpciones', highchartsOpciones)
-        .controller('AppCtrl', DatosCtrl);
+                     .service('DatosService', DatosService)
+                     .constant('UrlsAcciones', UrlsAcciones)
+                     .constant('highchartsOpciones', highchartsOpciones)
+                     .controller('AppCtrl', DatosCtrl);
 
     DatosCtrl.$inject = ['$scope', 'UrlsAcciones', 'DatosService', 'highchartsOpciones', '$timeout'];
 
@@ -13,6 +13,7 @@
         $scope.cantidadConsultas = 0;
         $scope.cambioRubrosCantidad = 0;
         $scope.cambioPaisesCantidad = 0;
+        $scope.cargando = true;
         $scope.formulario = {
             paises: [],
             rubros: [],
@@ -36,6 +37,15 @@
         $scope.organizacionesObj.total = 0;
         $scope.nacionalidad = [];
         $scope.paisEventos = [];
+        $scope.cargado = {
+            organizaciones: false,
+            porSexo: false,
+            anioFiscal: false
+        };
+
+        $scope.validaCarga = function () {
+            $scope.cargando = $scope.cargado.organizaciones && $scope.cargado.porSexo && $scope.cargado.anioFiscal;
+        };
 
         function cargarDatosProyecto(data) {
             DatosService
@@ -132,6 +142,7 @@
                 .then(function (result) {
                     $scope.organizaciones = result.data.organizaciones.data;
                     $scope.organizacionesObj = result.data.organizaciones;
+                    $scope.validaCarga();
                 })
                 .catch(function (mensaje, codigo) {
                     console.log(codigo + ' => ' + mensaje);
@@ -176,6 +187,7 @@
                 .Enviar(UrlsAcciones.UrlDatosGraficoAnioFiscal, data)
                 .then(function (result) {
                     $scope.seriesFiscal = setSeries(result.data.fiscal);
+                    $scope.validaCarga();
                 })
                 .catch(function (mensaje, codigo) {
                     console.log(codigo + ' => ' + mensaje);
@@ -225,6 +237,7 @@
                 .then(function (result) {
                     $scope.seriesType = setSeries(result.data.type);
                     $scope.dataTotales = result.data.total;
+                    $scope.validaCarga();
                 })
                 .catch(function (mensaje, codigo) {
                     console.log(codigo + ' => ' + mensaje);
@@ -232,6 +245,7 @@
         }
 
         $scope.cargarDatos = function () {
+            $scope.cargando = true;
             var data = angular.copy($scope.formulario);
             if ($scope.cantidadConsultas == 0)
                 data.post = false;
@@ -242,21 +256,66 @@
             if ($scope.cambioPaisesCantidad == 0)
                 data.paises = $scope.getDataPaises();
 
-            cargarDatosCantidadProyectos(data);
-            cargarDatosProyecto(data);
-            cargarDatosCantidadEventos(data);
-            cargarDatosGraficoActividades(data);
-            cargarDatosGraficoTipoParticipante(data);
-            cargarDatosPaises(data);
-            cargarDatosRubros(data);
-            cargarDatosGraficoOrganizaciones(data);
-            cargarDatosProyectosMetas(data);
-            cargarDatosGraficoAnioFiscal(data);
-            cargarDatosGraficoNacionalidad(data);
-            cargarDatosGraficoPaisEventos(data);
-            cargarDatosGraficoEdad(data);
-            cargarDatosGraficoEducacion(data);
-            cargarDatosGraficoEventos(data);
+            $timeout(function () {
+                cargarDatosCantidadProyectos(data);
+            }, 1);
+
+            $timeout(function () {
+                cargarDatosProyecto(data);
+            }, 1);
+
+            $timeout(function () {
+                cargarDatosCantidadEventos(data);
+            }, 1);
+
+            $timeout(function () {
+                cargarDatosGraficoAnioFiscal(data);
+            }, 1);
+
+            $timeout(function () {
+                cargarDatosGraficoOrganizaciones(data);
+            }, 1);
+
+            $timeout(function () {
+                cargarDatosPaises(data);
+            }, 1);
+
+            $timeout(function () {
+                cargarDatosGraficoTipoParticipante(data);
+            }, 1);
+
+            $timeout(function () {
+                cargarDatosRubros(data);
+            }, 1);
+
+            $timeout(function () {
+                cargarDatosGraficoEdad(data);
+            }, 1);
+
+            $timeout(function () {
+                cargarDatosGraficoEducacion(data);
+            }, 1);
+
+            $timeout(function () {
+                cargarDatosGraficoNacionalidad(data);
+            }, 1);
+
+            $timeout(function () {
+                cargarDatosGraficoPaisEventos(data);
+            }, 1);
+
+            $timeout(function () {
+                cargarDatosGraficoEventos(data);
+            }, 1);
+
+            $timeout(function () {
+                cargarDatosGraficoActividades(data);
+            }, 1);
+
+            $timeout(function () {
+                cargarDatosProyectosMetas(data);
+            }, 1);
+            $scope.validaCargado();
             $scope.cantidadConsultas++;
 
         };
@@ -516,16 +575,16 @@
 
         $scope.$watchCollection('nacionalidad', function () {
             $timeout(function () {
-                $scope.mapaPaises($scope.nacionalidad, 'participantes-nacionalidad','Participantes por Nacionalidad');
+                $scope.mapaPaises($scope.nacionalidad, 'participantes-nacionalidad', 'Participantes por Nacionalidad');
             }, 50);
         });
         $scope.$watchCollection('paisEventos', function () {
             $timeout(function () {
-                $scope.mapaPaises($scope.paisEventos, 'pais-eventos','Ubicación geográfica de participantes');
+                $scope.mapaPaises($scope.paisEventos, 'pais-eventos', 'Ubicación geográfica de participantes');
             }, 50);
         });
 
-        $scope.mapaPaises = function (paises, divMapa,tituloMapa) {
+        $scope.mapaPaises = function (paises, divMapa, tituloMapa) {
             // New map-pie series type that also allows lat/lon as center option.
             // Also adds a sizeFormatter option to the series, to allow dynamic sizing
             // of the pies.
@@ -543,38 +602,38 @@
                     enabled: false
                 }
             }, {
-                getCenter: function () {
-                    var options = this.options,
-                        chart = this.chart,
-                        slicingRoom = 2 * (options.slicedOffset || 0);
-                    if (!options.center) {
-                        options.center = [null, null]; // Do the default here instead
-                    }
-                    // Handle lat/lon support
-                    if (options.center.lat !== undefined) {
-                        var point = chart.fromLatLonToPoint(options.center);
-                        options.center = [
-                            chart.xAxis[0].toPixels(point.x, true),
-                            chart.yAxis[0].toPixels(point.y, true)
-                        ];
-                    }
-                    // Handle dynamic size
-                    if (options.sizeFormatter) {
-                        options.size = options.sizeFormatter.call(this);
-                    }
-                    // Call parent function
-                    var result = Highcharts.seriesTypes.pie.prototype.getCenter.call(this);
-                    // Must correct for slicing room to get exact pixel pos
-                    result[0] -= slicingRoom;
-                    result[1] -= slicingRoom;
-                    return result;
-                },
-                translate: function (p) {
-                    this.options.center = this.userOptions.center;
-                    this.center = this.getCenter();
-                    return Highcharts.seriesTypes.pie.prototype.translate.call(this, p);
-                }
-            });
+                                      getCenter: function () {
+                                          var options = this.options,
+                                              chart = this.chart,
+                                              slicingRoom = 2 * (options.slicedOffset || 0);
+                                          if (!options.center) {
+                                              options.center = [null, null]; // Do the default here instead
+                                          }
+                                          // Handle lat/lon support
+                                          if (options.center.lat !== undefined) {
+                                              var point = chart.fromLatLonToPoint(options.center);
+                                              options.center = [
+                                                  chart.xAxis[0].toPixels(point.x, true),
+                                                  chart.yAxis[0].toPixels(point.y, true)
+                                              ];
+                                          }
+                                          // Handle dynamic size
+                                          if (options.sizeFormatter) {
+                                              options.size = options.sizeFormatter.call(this);
+                                          }
+                                          // Call parent function
+                                          var result = Highcharts.seriesTypes.pie.prototype.getCenter.call(this);
+                                          // Must correct for slicing room to get exact pixel pos
+                                          result[0] -= slicingRoom;
+                                          result[1] -= slicingRoom;
+                                          return result;
+                                      },
+                                      translate: function (p) {
+                                          this.options.center = this.userOptions.center;
+                                          this.center = this.getCenter();
+                                          return Highcharts.seriesTypes.pie.prototype.translate.call(this, p);
+                                      }
+                                  });
 
             var data = [];
             //País en ingles, total, mujeres, hombres, coordenada x, cooredenada y, pais en español, alfa2
@@ -638,9 +697,9 @@
                             var hoverVotes = this.hoverVotes; // Used by pie only
                             var tooltip = '<b>Participantes ' + this.pais + '</b><br/>' +
                                 Highcharts.map([
-                                    ['Hombres', this.hombres, hombresColor],
-                                    ['Mujeres', this.mujeres, mujeresColor]
-                                ].sort(function (a, b) {
+                                                   ['Hombres', this.hombres, hombresColor],
+                                                   ['Mujeres', this.mujeres, mujeresColor]
+                                               ].sort(function (a, b) {
                                     return b[1] - a[1]; // Sort tooltip by most votes
                                 }), function (line) {
                                     return '<span style="color:' + line[2] +
@@ -693,62 +752,62 @@
 
                 // Add the pie for this state
                 chart.addSeries({
-                    type: 'mappie',
-                    zIndex: 6, // Keep pies above connector lines
-                    sizeFormatter: function () {
-                        var yAxis = this.chart.yAxis[0],
-                            zoomFactor = (yAxis.dataMax - yAxis.dataMin) /
-                                (yAxis.max - yAxis.min);
-                        return Math.max(
-                            this.chart.chartWidth / 250 * zoomFactor, // Min size
-                            this.chart.chartWidth / 200 * zoomFactor * state.total / maxTotal
-                        );
-                    },
-                    tooltip: {
-                        // Use the state tooltip for the pies as well
-                        pointFormatter: function () {
-                            return state.series.tooltipOptions.pointFormatter.call({
-                                id: state.id,
-                                hoverVotes: this.name,
-                                pais: state.pais,
-                                mujeres: state.mujeres,
-                                hombres: state.hombres,
-                                total: state.total,
-                                eventos: state.eventos
-                            });
-                        }
-                    },
+                                    type: 'mappie',
+                                    zIndex: 6, // Keep pies above connector lines
+                                    sizeFormatter: function () {
+                                        var yAxis = this.chart.yAxis[0],
+                                            zoomFactor = (yAxis.dataMax - yAxis.dataMin) /
+                                                (yAxis.max - yAxis.min);
+                                        return Math.max(
+                                            this.chart.chartWidth / 250 * zoomFactor, // Min size
+                                            this.chart.chartWidth / 200 * zoomFactor * state.total / maxTotal
+                                        );
+                                    },
+                                    tooltip: {
+                                        // Use the state tooltip for the pies as well
+                                        pointFormatter: function () {
+                                            return state.series.tooltipOptions.pointFormatter.call({
+                                                                                                       id: state.id,
+                                                                                                       hoverVotes: this.name,
+                                                                                                       pais: state.pais,
+                                                                                                       mujeres: state.mujeres,
+                                                                                                       hombres: state.hombres,
+                                                                                                       total: state.total,
+                                                                                                       eventos: state.eventos
+                                                                                                   });
+                                        }
+                                    },
 
-                    data: [{
-                        name: 'Hombres',
-                        y: state.hombres,
-                        color: hombresColor
-                    }, {
-                        name: 'Mujeres',
-                        y: state.mujeres,
-                        color: mujeresColor
-                    }],
-                    center: {
-                        lat: centerLat + (pieOffset.lat || 0),
-                        lon: centerLon + (pieOffset.lon || 0)
-                    }
-                }, false);
+                                    data: [{
+                                        name: 'Hombres',
+                                        y: state.hombres,
+                                        color: hombresColor
+                                    }, {
+                                        name: 'Mujeres',
+                                        y: state.mujeres,
+                                        color: mujeresColor
+                                    }],
+                                    center: {
+                                        lat: centerLat + (pieOffset.lat || 0),
+                                        lon: centerLon + (pieOffset.lon || 0)
+                                    }
+                                }, false);
 
                 // Draw connector to state center if the pie has been offset
                 if (pieOffset.drawConnector !== false) {
                     var centerPoint = chart.fromLatLonToPoint({
-                            lat: centerLat,
-                            lon: centerLon
-                        }),
+                                                                  lat: centerLat,
+                                                                  lon: centerLon
+                                                              }),
                         offsetPoint = chart.fromLatLonToPoint({
-                            lat: centerLat + (pieOffset.lat || 0),
-                            lon: centerLon + (pieOffset.lon || 0)
-                        });
+                                                                  lat: centerLat + (pieOffset.lat || 0),
+                                                                  lon: centerLon + (pieOffset.lon || 0)
+                                                              });
                     chart.series[2].addPoint({
-                        name: state.id,
-                        path: 'M' + offsetPoint.x + ' ' + offsetPoint.y +
-                        'L' + centerPoint.x + ' ' + centerPoint.y
-                    }, false);
+                                                 name: state.id,
+                                                 path: 'M' + offsetPoint.x + ' ' + offsetPoint.y +
+                                                     'L' + centerPoint.x + ' ' + centerPoint.y
+                                             }, false);
                 }
             });
             // Only redraw once all pies and connectors have been added
