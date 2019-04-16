@@ -33,31 +33,33 @@ $logo = Yii::$app->urlManager->createAbsoluteUrl("img/logo/");
     <div ng-if="cargando">
         <img style="margin:0 auto; display: block" src="<?= Url::to('@web/img/loading.gif') ?>" alt="">
     </div>
-    <section ng-show="!cargando" class="row" >
-        <!--Filtros-->
-        <?= $this->render('dashboard/filtros'); ?>
+    <section ng-show="!cargando">
+        <div class="row container-fluid">
+            <!--Filtros-->
+            <?= $this->render('dashboard/filtros'); ?>
 
-        <!--Resumen-->
-        <?= $this->render('dashboard/resumen'); ?>
+            <!--Resumen-->
+            <?= $this->render('dashboard/resumen'); ?>
 
-        <!--Paises y Rubros-->
-        <?= $this->render('dashboard/paises_rubros'); ?>
+            <!--Paises y Rubros-->
+            <?= $this->render('dashboard/paises_rubros'); ?>
 
-        <!--Metas-->
-        <?= $this->render('dashboard/metas'); ?>
+            <!--Metas-->
+            <?= $this->render('dashboard/metas'); ?>
 
 
-        <!--Metas-->
-        <?= $this->render('dashboard/nacionalidad'); ?>
+            <!--Metas-->
+            <?= $this->render('dashboard/nacionalidad'); ?>
 
-        <!-- Organizaciones, Pastel, Fiscal   -->
-        <?= $this->render('dashboard/organizaciones_pastel_fiscal'); ?>
+            <!-- Organizaciones, Pastel, Fiscal   -->
+            <?= $this->render('dashboard/organizaciones_pastel_fiscal'); ?>
 
-        <!--Edad y Educación-->
-        <?= $this->render('dashboard/educacion'); ?>
+            <!--Edad y Educación-->
+            <?= $this->render('dashboard/educacion'); ?>
 
-        <!--Eventos y Tipo-->
-        <?= $this->render('dashboard/eventos_tipo'); ?>
+            <!--Eventos y Tipo-->
+            <?= $this->render('dashboard/eventos_tipo'); ?>
+        </div>
     </section>
 </div>
 <script>
