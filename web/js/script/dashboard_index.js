@@ -13,6 +13,7 @@
         $scope.cantidadConsultas = 0;
         $scope.cambioRubrosCantidad = 0;
         $scope.cambioPaisesCantidad = 0;
+        $scope.proyecto = null;
         $scope.cargando = true;
         $scope.formulario = {
             paises: [],
@@ -45,6 +46,7 @@
 
         $scope.validaCarga = function () {
             $scope.cargando = $scope.cargado.organizaciones && $scope.cargado.porSexo && $scope.cargado.anioFiscal;
+            $scope.cargando = !$scope.cargando;
         };
 
         function cargarDatosProyecto(data) {
@@ -142,7 +144,7 @@
                 .then(function (result) {
                     $scope.organizaciones = result.data.organizaciones.data;
                     $scope.organizacionesObj = result.data.organizaciones;
-                    $scope.validaCarga();
+                    $scope.cargado.organizaciones = true;
                 })
                 .catch(function (mensaje, codigo) {
                     console.log(codigo + ' => ' + mensaje);
@@ -187,7 +189,7 @@
                 .Enviar(UrlsAcciones.UrlDatosGraficoAnioFiscal, data)
                 .then(function (result) {
                     $scope.seriesFiscal = setSeries(result.data.fiscal);
-                    $scope.validaCarga();
+                    $scope.cargado.anioFiscal = true;
                 })
                 .catch(function (mensaje, codigo) {
                     console.log(codigo + ' => ' + mensaje);
@@ -235,9 +237,20 @@
             DatosService
                 .Enviar(UrlsAcciones.UrlDatosGraficoTipoParticipante, data)
                 .then(function (result) {
-                    $scope.seriesType = setSeries(result.data.type);
-                    $scope.dataTotales = result.data.total;
-                    $scope.validaCarga();
+                    $scope.seriesType = setSeries(result.data);
+                })
+                .catch(function (mensaje, codigo) {
+                    console.log(codigo + ' => ' + mensaje);
+                });
+        }
+
+
+        function cargarDatosGraficoSexoParticipante(data) {
+            DatosService
+                .Enviar(UrlsAcciones.UrlDatosGraficoSexoParticipante, data)
+                .then(function (result) {
+                    $scope.dataTotales = result.data;
+                    $scope.cargado.porSexo = true;
                 })
                 .catch(function (mensaje, codigo) {
                     console.log(codigo + ' => ' + mensaje);
@@ -247,29 +260,20 @@
         $scope.cargarDatos = function () {
             $scope.cargando = true;
             var data = angular.copy($scope.formulario);
-            if ($scope.cantidadConsultas == 0)
-                data.post = false;
-
-            if ($scope.cambioRubrosCantidad == 0)
-                data.rubros = $scope.getDataRubros();
-
-            if ($scope.cambioPaisesCantidad == 0)
-                data.paises = $scope.getDataPaises();
+            if ($scope.cantidadConsultas == 0) data.post = false;
+            if ($scope.cambioRubrosCantidad == 0) data.rubros = $scope.getDataRubros();
+            if ($scope.cambioPaisesCantidad == 0) data.paises = $scope.getDataPaises();
 
             $timeout(function () {
-                cargarDatosCantidadProyectos(data);
+                cargarDatosPaises(data);
             }, 1);
 
             $timeout(function () {
-                cargarDatosProyecto(data);
+                cargarDatosRubros(data);
             }, 1);
 
             $timeout(function () {
-                cargarDatosCantidadEventos(data);
-            }, 1);
-
-            $timeout(function () {
-                cargarDatosGraficoAnioFiscal(data);
+                cargarDatosProyectosMetas(data);
             }, 1);
 
             $timeout(function () {
@@ -277,15 +281,12 @@
             }, 1);
 
             $timeout(function () {
-                cargarDatosPaises(data);
+                cargarDatosGraficoAnioFiscal(data);
             }, 1);
 
-            $timeout(function () {
-                cargarDatosGraficoTipoParticipante(data);
-            }, 1);
 
             $timeout(function () {
-                cargarDatosRubros(data);
+                cargarDatosGraficoSexoParticipante(data);
             }, 1);
 
             $timeout(function () {
@@ -297,11 +298,23 @@
             }, 1);
 
             $timeout(function () {
-                cargarDatosGraficoNacionalidad(data);
+                cargarDatosCantidadProyectos(data);
             }, 1);
 
             $timeout(function () {
                 cargarDatosGraficoPaisEventos(data);
+            }, 1);
+
+            $timeout(function () {
+                cargarDatosProyecto(data);
+            }, 1);
+
+            $timeout(function () {
+                cargarDatosCantidadEventos(data);
+            }, 1);
+
+            $timeout(function () {
+                cargarDatosGraficoNacionalidad(data);
             }, 1);
 
             $timeout(function () {
@@ -313,8 +326,9 @@
             }, 1);
 
             $timeout(function () {
-                cargarDatosProyectosMetas(data);
+                cargarDatosGraficoTipoParticipante(data);
             }, 1);
+
             $scope.cantidadConsultas++;
 
         };
@@ -328,6 +342,10 @@
         // $scope.$watchCollection('formulario', function () {
         //     $scope.refrescar();
         // });
+
+        $scope.$watchCollection('cargado', function () {
+            $scope.validaCarga();
+        });
 
         $scope.$watchCollection('series', function () {
             $timeout(function () {

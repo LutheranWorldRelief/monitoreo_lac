@@ -47,8 +47,7 @@ $logo = Yii::$app->urlManager->createAbsoluteUrl("img/logo/");
             <!--Metas-->
             <?= $this->render('dashboard/metas'); ?>
 
-
-            <!--Metas-->
+            <!--Paises-->
             <?= $this->render('dashboard/nacionalidad'); ?>
 
             <!-- Organizaciones, Pastel, Fiscal   -->
@@ -78,6 +77,7 @@ $logo = Yii::$app->urlManager->createAbsoluteUrl("img/logo/");
     UrlsAcciones.UrlDatosGraficoEducacion = '<?php echo Url::toRoute("grafico-educacion"); ?>';
     UrlsAcciones.UrlDatosGraficoEventos = '<?php echo Url::toRoute("grafico-eventos"); ?>';
     UrlsAcciones.UrlDatosGraficoTipoParticipante = '<?php echo Url::toRoute("grafico-tipo-participante"); ?>';
+    UrlsAcciones.UrlDatosGraficoSexoParticipante = '<?php echo Url::toRoute("grafico-sexo-participante"); ?>';
     UrlsAcciones.UrlDatosGraficoNacionalidad = '<?php echo Url::toRoute("grafico-nacionalidad"); ?>';
     UrlsAcciones.UrlDatosGraficoPaisEventos = '<?php echo Url::toRoute("grafico-pais-eventos"); ?>';
     UrlsAcciones.UrlLogo = '<?php echo Yii::$app->urlManager->createAbsoluteUrl("img/logo.png"); ?>';
