@@ -47,6 +47,7 @@
         $scope.validaCarga = function () {
             $scope.cargando = $scope.cargado.organizaciones && $scope.cargado.porSexo && $scope.cargado.anioFiscal;
             $scope.cargando = !$scope.cargando;
+            return $scope.cargando;
         };
 
         function cargarDatosProyecto(data) {
@@ -258,7 +259,11 @@
         }
 
         $scope.cargarDatos = function () {
-            $scope.cargando = true;
+            $scope.cargado = {
+                organizaciones: false,
+                porSexo: false,
+                anioFiscal: false
+            };
             var data = angular.copy($scope.formulario);
             if ($scope.cantidadConsultas == 0) data.post = false;
             if ($scope.cambioRubrosCantidad == 0) data.rubros = $scope.getDataRubros();
@@ -344,6 +349,7 @@
         // });
 
         $scope.$watchCollection('cargado', function () {
+            console.log($scope.validaCarga());
             $scope.validaCarga();
         });
 
