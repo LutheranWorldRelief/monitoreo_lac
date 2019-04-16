@@ -315,7 +315,6 @@
             $timeout(function () {
                 cargarDatosProyectosMetas(data);
             }, 1);
-            $scope.validaCargado();
             $scope.cantidadConsultas++;
 
         };
