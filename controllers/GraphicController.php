@@ -2,16 +2,10 @@
 
 namespace app\controllers;
 
-use app\components\ULog;
 use app\components\UString;
-use Mpdf\Tag\Ul;
-use Yii;
 use app\models\Activity;
-use app\models\search\Activity as ActivitySearch;
+use Yii;
 use yii\helpers\ArrayHelper;
-use yii\web\Controller;
-use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * ActivityController implements the CRUD actions for Activity model.
@@ -50,15 +44,281 @@ class GraphicController extends ControladorController
     private function cantidadProyectos()
     {
         $subquery = (new \yii\db\Query());
-        $subquery->select([
-            'COUNT(DISTINCT act.project_id)',
-        ])->from('event e')
+        $subquery->select('count(distinct p.id)')
+            ->from('event e')
             ->leftJoin('structure act', 'e.structure_id = act.id')
             ->leftJoin('project p', 'act.project_id = p.id')
             ->leftJoin('project_contact pc', 'pc.project_id = p.id');
 
         $this->AplicarFiltros($subquery);
         return $subquery->scalar();
+    }
+
+    private function AplicarFiltros(&$query)
+    {
+        /* @var $query \yii\db\Query */
+
+        /*Rango de Fechas*/
+        $request = \Yii::$app->request;
+        $desde = $request->post('desde');
+        $hasta = $request->post('hasta');
+        if ($desde && $hasta)
+            $query->andFilterWhere(['>=', 'e.start', $desde])->andFilterWhere(['<=', 'e.start', $hasta]);
+
+        /*Rubros*/
+        if ($this->getRubrosAlgunoSeleccionado())
+            $query->andFilterWhere(['in', 'pc.product', $this->getRubros()]);
+        if ($this->getRubrosNingunoSeleccionado())
+            $query->andWhere('pc.product is null');
+
+        /*Proyecto*/
+        $proyecto = $request->post('proyecto');
+        if ($proyecto)
+            $query->andFilterWhere(['p.id' => $proyecto]);
+
+        /*Paises*/
+        if ($this->getPaisesAlgunoSeleccionado())
+            $query->andFilterWhere(['in', 'e.country_id', $this->getPaises()]);
+        if ($this->getPaisesNingunoSeleccionado())
+            $query->andWhere('e.country_id is null');
+
+    }
+
+    private function getRubrosAlgunoSeleccionado()
+    {
+        return !$this->getRubrosTodosSeleccionados() && $this->getRubrosPostCantidad() > 0 && !$this->getRubrosNingunoSeleccionado();
+    }
+
+    private function getRubrosTodosSeleccionados()
+    {
+        $request = Yii::$app->request;
+        $rubrosPost = $request->post('rubros');
+        $todos = $request->post('rubros_todos');
+        if ((int)$todos === (int)1)
+            return true;
+        if (!$rubrosPost && $this->getExistePost())
+            return false;
+        if ($rubrosPost && $this->getExistePost())
+            if ($this->getRubrosPostCantidad() == 0)
+                return false;
+        $rubros = $this->getRubrosDbCantidad();
+        $selecionados = 0;
+        foreach ($this->Rubros() as $r)
+            if ($r['active'] == true)
+                $selecionados++;
+        return $rubros == $selecionados;
+    }
+
+    private function getExistePost()
+    {
+        return \Yii::$app->request->post('post', 'false') != 'false';
+    }
+
+    private function getRubrosPostCantidad()
+    {
+        $request = \Yii::$app->request;
+        $this->_rubros_post_cantidad = $request->post('rubros', []);
+        return count($this->_rubros_post_cantidad);
+    }
+
+    private function getRubrosDbCantidad()
+    {
+        if ($this->_rubros_db_cantidad === null)
+            $this->_rubros_db_cantidad = count($this->getRubrosDB());
+        return $this->_rubros_db_cantidad;
+    }
+
+    private function getRubrosDB()
+    {
+        if ($this->_rubros_db === null) {
+            $request = \Yii::$app->request;
+            $subquery = (new \yii\db\Query());
+            $subquery->select([
+                "ifnull(product, 'N/E') as rubro, ifnull(product,0) as id, 'true' as active",
+            ])->from('project_contact')
+                ->where('product is not null')
+                ->groupBy(["ifnull(product, 'N/E')"]);
+            $proyecto = $request->post('proyecto');
+            if ($proyecto)
+                $subquery->andFilterWhere(['project_id' => $proyecto]);
+            $this->_rubros_db = $subquery->all();
+        }
+        return $this->_rubros_db;
+    }
+
+    private function Rubros()
+    {
+        $result = $this->getRubrosDB();
+        $rubros = $this->getRubros(0);
+
+        $estado = $this->getRubrosNingunoSeleccionado() ? false : true;
+
+        foreach ($result as $key => $value) {
+            $result[$key]['active'] = (bool)$estado;
+        }
+        if ($rubros) {
+            $data = [];
+            foreach ($result as $value) {
+                $value['active'] = (bool)false;
+                $data[$value['id']] = $value;
+            }
+            foreach ($rubros as $p) {
+                if (isset($data[$p]['rubro']))
+                    $data[$p]['active'] = (bool)true;
+            }
+
+            return array_values($data);
+        }
+        return $result;
+    }
+
+    private function getRubros($value = '')
+    {
+        $request = \Yii::$app->request;
+        $rubros = $request->post('rubros', []);
+        foreach ($rubros as $k => $p) {
+            if (empty($p) || $p == '')
+                $rubros[$k] = $value;
+        }
+        return $rubros;
+    }
+
+    private function getRubrosNingunoSeleccionado()
+    {
+        $request = Yii::$app->request;
+        $rubrosPost = $request->post('rubros');
+        if (!$rubrosPost && $this->getExistePost())
+            return true;
+        if ($rubrosPost && $this->getExistePost()) {
+            if ($this->getRubrosPostCantidad() == 0)
+                return true;
+            if ($_POST['rubros'][0] == '')
+                return true;
+        }
+        return false;
+
+    }
+
+    private function getPaisesAlgunoSeleccionado()
+    {
+        return !$this->getPaisesTodosSeleccionados() && $this->getPaisesPostCantidad() > 0 && !$this->getPaisesNingunoSeleccionado();
+    }
+
+    private function getPaisesTodosSeleccionados()
+    {
+
+        $request = Yii::$app->request;
+        $paisesPost = $request->post('paises');
+        $todos = $request->post('paises_todos');
+        if ((int)$todos === (int)1)
+            return true;
+        if (!$paisesPost && $this->getExistePost())
+            return false;
+        if ($paisesPost && $this->getExistePost())
+            if ($this->getPaisesPostCantidad() == 0)
+                return false;
+        $paises = $this->getPaisesDbCantidad();
+        $selecionados = 0;
+        foreach ($this->Paises() as $r)
+            if ($r['active'] == true)
+                $selecionados++;
+        return $paises == $selecionados;
+    }
+
+    private function getPaisesPostCantidad()
+    {
+        $request = \Yii::$app->request;
+        $this->_paises_post_cantidad = $request->post('paises', []);
+        return count($this->_paises_post_cantidad);
+    }
+
+    private function getPaisesDbCantidad()
+    {
+        if ($this->_paises_db_cantidad === null)
+            $this->_paises_db_cantidad = count($this->getPaisesDB());
+        return $this->_paises_db_cantidad;
+    }
+
+    private function getPaisesDb()
+    {
+
+        if (!$this->_paises_db) {
+            $request = \Yii::$app->request;
+            $subquery = (new \yii\db\Query());
+            $subquery->select([
+                "ifnull(t.value, 'N/E') as country, ifnull(t.id,0) as id, 'true' as active",
+            ])->from('event e')
+                ->leftJoin('data_list t', 'e.country_id = t.id')
+                ->leftJoin('structure act', 'e.structure_id = act.id')
+                ->leftJoin('project p', 'act.project_id = p.id')
+                ->where('t.value is not null')
+                ->groupBy(["ifnull(t.value, 'N/E')"]);
+            $desde = $request->post('desde');
+            $hasta = $request->post('hasta');
+            if ($desde && $hasta)
+                $subquery->andFilterWhere(['>=', 'e.start', $desde])->andFilterWhere(['<=', 'e.start', $hasta]);
+            $proyecto = $request->post('proyecto');
+            if ($proyecto)
+                $subquery->andFilterWhere(['p.id' => $proyecto]);
+
+
+            $this->_paises_db = $subquery->all();
+        }
+        return $this->_paises_db;
+    }
+
+    private function Paises()
+    {
+        $paises = $this->getPaises(0);
+        $result = $this->getPaisesDb();
+        $estado = $this->getPaisesNingunoSeleccionado() ? false : true;
+        foreach ($result as $key => $value) {
+            $result[$key]['active'] = (bool)$estado;
+        }
+
+        if ($paises) {
+            $data = [];
+            foreach ($result as $value) {
+                $value['active'] = (bool)false;
+                $data[(int)$value['id']] = $value;
+            }
+            foreach ($paises as $p) {
+                if (isset($data[$p]['country']))
+                    $data[(int)$p]['active'] = (bool)true;
+            }
+            return array_values($data);
+        }
+        return $result;
+    }
+
+    private function getPaises($value = null)
+    {
+        $request = \Yii::$app->request;
+        $paises = $request->post('paises', []);
+
+        foreach ($paises as $k => $p) {
+            if (empty($p) || $p == '')
+                $paises[$k] = $value;
+        }
+        return $paises;
+    }
+
+    private function getPaisesNingunoSeleccionado()
+    {
+        $request = Yii::$app->request;
+        $paisesPost = $request->post('paises');
+
+        if (!$paisesPost && $this->getExistePost())
+            return true;
+        if ($paisesPost && $this->getExistePost()) {
+
+            if ($this->getPaisesPostCantidad() == 0)
+                return true;
+            if ($_POST['paises'][0] == '')
+                return true;
+        }
+        return false;
+
     }
 
     public function actionCantidadEventos()
@@ -70,18 +330,20 @@ class GraphicController extends ControladorController
 
     private function cantidadEventos()
     {
+
+
         $subquery = (new \yii\db\Query());
-        $subquery->select([
-            'COUNT(DISTINCT e.id) AS eventos',
-            'COUNT(DISTINCT e.structure_id) AS actividades'
-        ])->from('event e')
+        $subquery->from('event e')
             ->leftJoin('structure act', 'e.structure_id = act.id')
             ->leftJoin('project p', 'act.project_id = p.id')
             ->leftJoin('project_contact pc', 'pc.project_id = p.id');
 
         $this->AplicarFiltros($subquery);
 
-        return $subquery->one();
+        return [
+            'eventos' => $subquery->select('e.id')->groupBy('e.id')->count(),
+            'actividades' => $subquery->select('e.structure_id')->groupBy('e.structure_id')->count(),
+        ];
     }
 
     public function actionGraficoActividades()
@@ -144,23 +406,13 @@ class GraphicController extends ControladorController
     {
         $this->validacionPost();
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        return ['organizaciones' => $this->OrganizacionesTipoFormato()];
+        return (['organizaciones' => $this->OrganizacionesTipoFormato()]);
     }
 
     private function OrganizacionesTipoFormato()
     {
         $org = $this->Organizaciones();
-        $tipo_id = [];
-        foreach ($org as $key => $v) {
-            $tipo = $v['parent'];
-            if ($tipo && $tipo !== 'ne') {
-                $tipo = explode('-', $tipo);
-                if (!in_array($tipo[1], $tipo_id)) {
-                    $tipo_id [] = $tipo[1];
-                }
-            }
-            $org[$key]['value'] = (int)1;
-        }
+        foreach ($org as $key => $v) $org[$key]['value'] = 1;
         $result = $this->OrganizacionesTipo();
         $data = [];
         $colorNumero = 0;
@@ -168,23 +420,42 @@ class GraphicController extends ControladorController
         foreach ($result as $key => $v) {
             $v['color'] = $colores[$colorNumero];
             $colorNumero += 1;
-            if ($colorNumero > 9)
-                $colorNumero = 0;
+            if ($colorNumero > 9) $colorNumero = 0;
             $v['value'] = 0;
             $data[$v['id']] = $v;
         }
-        foreach ($org as $v) {
-            $data[$v['parent']]['value'] += 1;
-        }
+        foreach ($org as $v) $data[$v['parent']]['value'] += 1;
 
-        return ['data' => ArrayHelper::merge(array_values($data), array_values($org)), 'total' => count($org), 'tipos' => $data, 'total_categorias' => count($data)];
+        return ['data' => array_merge(array_values($data), array_values($org)), 'total' => count($org), 'tipos' => $data, 'total_categorias' => count($data)];
+    }
+
+    /*FIN DE DATA PARA DASHBOARD*/
+
+
+    /*INICIO DE FUNCIONES AUXILIARES PARA DATA PARA DASHBOARD*/
+
+    private function Organizaciones()
+    {
+        $subquery = (new \yii\db\Query());
+        $subquery
+            ->select(["distinct o.id, IFNULL(o.name,'NE') as name, IFNULL(t.id,'ne') parent",])
+            ->from('event e')
+            ->leftJoin('organization o', 'e.implementing_organization_id = o.id')
+            ->leftJoin('data_list pa', 'e.country_id= pa.id')
+            ->leftJoin('organization_type t', 'o.organization_type_id = t.id')
+            ->leftJoin('structure act', 'e.structure_id = act.id')
+            ->leftJoin('project p', 'act.project_id = p.id')
+            ->leftJoin('project_contact pc', 'pc.project_id = p.id');
+        $this->AplicarFiltros($subquery);
+        $subquery->andWhere('o.organization_id is null');
+        return $subquery->all();
     }
 
     private function OrganizacionesTipo()
     {
         $subquery = (new \yii\db\Query());
         $subquery
-            ->select(["CONCAT( REPLACE(t.name,' ',''), '-',t.id) as id, ifnull( t.name,'Sin Tipo') as name"])
+            ->select(["distinct t.id as id, ifnull( t.name,'Sin Tipo') as name"])
             ->from('event e')
             ->leftJoin('organization o', 'e.implementing_organization_id = o.id')
             ->leftJoin('data_list pa', 'e.country_id= pa.id')
@@ -194,29 +465,10 @@ class GraphicController extends ControladorController
             ->leftJoin('project_contact pc', 'pc.project_id = p.id');
         $this->AplicarFiltros($subquery);
         $subquery->andWhere('o.organization_id is null');
-        $subquery->groupBy(['t.id']);
 
         $query = (new \yii\db\Query());
         $query->select(["ifnull(id,'ne') as id, name "])->from(['q' => $subquery]);
         return $query->all();
-    }
-
-    private function Organizaciones()
-    {
-        $subquery = (new \yii\db\Query());
-        $subquery
-            ->select(["IFNULL(o.`name`,'NE') as name, IFNULL(CONCAT( REPLACE(t.name,' ',''), '-',t.id),'ne') parent",])
-            ->from('event e')
-            ->leftJoin('organization o', 'e.implementing_organization_id = o.id')
-            ->leftJoin('data_list pa', 'e.country_id= pa.id')
-            ->leftJoin('organization_type t', 'o.organization_type_id = t.id')
-            ->leftJoin('structure act', 'e.structure_id = act.id')
-            ->leftJoin('project p', 'act.project_id = p.id')
-            ->leftJoin('project_contact pc', 'pc.project_id = p.id');
-        $this->AplicarFiltros($subquery);
-        $subquery->andWhere('o.organization_id is null');
-        $subquery->groupBy(['o.id']);
-        return $subquery->all();
     }
 
     public function actionProyectosMetas()
@@ -229,11 +481,14 @@ class GraphicController extends ControladorController
     private function metasProyectos()
     {
         $request = \Yii::$app->request;
+        $proyecto = $request->post('proyecto');
+        if (is_array($proyecto))
+            if (count($proyecto) > 3) return [];
+        if (!$proyecto) return [];
         $queryMetas = (new \yii\db\Query());
         $queryMetas
             ->select(['id', 'name', 'goal_men', 'goal_women'])
             ->from('project');
-        $proyecto = $request->post('proyecto');
         if ($proyecto)
             $queryMetas->andFilterWhere(['id' => $proyecto]);
         $proyectos = $queryMetas->all();
@@ -303,7 +558,6 @@ class GraphicController extends ControladorController
         $series = [$serieMetaH, $serieH, $serieMetaF, $serieF];
         return ['categorias' => $categorias, 'series' => $series, 'data' => $result];
     }
-
 
     public function actionGraficoPaisEventos()
     {
@@ -433,7 +687,6 @@ class GraphicController extends ControladorController
         $result['pais'] = $paises;
         return $result;
     }
-
 
     public function actionGraficoAnioFiscal()
     {
@@ -636,24 +889,7 @@ class GraphicController extends ControladorController
 
     private function ParticipantesTipoData()
     {
-        $result = [];
-        $subquery = (new \yii\db\Query());
-        $subquery->select([
-            'c.type_id',
-            'IFNULL(t.`name`,"NE") as type',
-            'c.sex',
-            'e.`start`'
-        ])->from('attendance a')
-            ->leftJoin('contact c', 'a.contact_id = c.id')
-            ->leftJoin('data_list t', 'c.type_id = t.id')
-            ->leftJoin('event e', 'a.event_id = e.id')
-            ->leftJoin('data_list pa', 'e.country_id= pa.id')
-            ->leftJoin('structure act', 'e.structure_id = act.id')
-            ->leftJoin('project p', 'act.project_id = p.id')
-            ->leftJoin('project_contact pc', 'pc.contact_id = c.id');
-
-        $this->AplicarFiltros($subquery);
-        $subquery->groupBy(['c.type_id', 'c.id']);
+        $subquery = $this->ParticipantesTipoSexoSubquery();
         $query = (new \yii\db\Query());
         $query
             ->select([
@@ -665,7 +901,20 @@ class GraphicController extends ControladorController
             ->from(['q' => $subquery])
             ->groupBy(['type'])
             ->orderBy(['total' => SORT_DESC]);
-        $result['type'] = $query->all();
+        return $query->all();
+    }
+
+
+    public function actionGraficoSexoParticipante()
+    {
+        $this->validacionPost();
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return $this->ParticipantesSexoData();
+    }
+
+    private function ParticipantesSexoData()
+    {
+        $subquery = $this->ParticipantesTipoSexoSubquery();
         $queryTotal = (new \yii\db\Query());
         $queryTotal
             ->select([
@@ -674,281 +923,33 @@ class GraphicController extends ControladorController
                 "count(sex) as total",
             ])
             ->from(['q' => $subquery]);
-        $result['total'] = $queryTotal->one();
+        $result=$queryTotal->one();
+//        $result['total'] = $queryTotal->one();
         return $result;
+
     }
 
-    /*FIN DE DATA PARA DASHBOARD*/
 
-
-    /*INICIO DE FUNCIONES AUXILIARES PARA DATA PARA DASHBOARD*/
-
-    private function getExistePost()
+    private function ParticipantesTipoSexoSubquery()
     {
-        return \Yii::$app->request->post('post', 'false') != 'false';
+        $subquery = (new \yii\db\Query());
+        $subquery->select([
+            'c.type_id',
+            'IFNULL(t.name,"NE") as type',
+            'c.sex',
+            'e.start'
+        ])->from('attendance a')
+            ->leftJoin('contact c', 'a.contact_id = c.id')
+            ->leftJoin('data_list t', 'c.type_id = t.id')
+            ->leftJoin('event e', 'a.event_id = e.id')
+            ->leftJoin('data_list pa', 'e.country_id= pa.id')
+            ->leftJoin('structure act', 'e.structure_id = act.id')
+            ->leftJoin('project p', 'act.project_id = p.id')
+            ->leftJoin('project_contact pc', 'pc.contact_id = c.id');
+
+        $this->AplicarFiltros($subquery);
+        $subquery->groupBy(['c.type_id', 'c.id']);
+        return $subquery;
     }
-
-    private function getPaisesDbCantidad()
-    {
-        if ($this->_paises_db_cantidad === null)
-            $this->_paises_db_cantidad = count($this->getPaisesDB());
-        return $this->_paises_db_cantidad;
-    }
-
-    private function getPaisesPostCantidad()
-    {
-        $request = \Yii::$app->request;
-        $this->_paises_post_cantidad = $request->post('paises', []);
-        return count($this->_paises_post_cantidad);
-    }
-
-    private function getPaisesAlgunoSeleccionado()
-    {
-        return !$this->getPaisesTodosSeleccionados() && $this->getPaisesPostCantidad() > 0 && !$this->getPaisesNingunoSeleccionado();
-    }
-
-    private function getPaisesTodosSeleccionados()
-    {
-
-        $request = Yii::$app->request;
-        $paisesPost = $request->post('paises');
-        $todos = $request->post('paises_todos');
-        if ((int)$todos === (int)1)
-            return true;
-        if (!$paisesPost && $this->getExistePost())
-            return false;
-        if ($paisesPost && $this->getExistePost())
-            if ($this->getPaisesPostCantidad() == 0)
-                return false;
-        $paises = $this->getPaisesDbCantidad();
-        $selecionados = 0;
-        foreach ($this->Paises() as $r)
-            if ($r['active'] == true)
-                $selecionados++;
-        return $paises == $selecionados;
-    }
-
-    private function getPaisesNingunoSeleccionado()
-    {
-        $request = Yii::$app->request;
-        $paisesPost = $request->post('paises');
-
-        if (!$paisesPost && $this->getExistePost())
-            return true;
-        if ($paisesPost && $this->getExistePost()) {
-
-            if ($this->getPaisesPostCantidad() == 0)
-                return true;
-            if ($_POST['paises'][0] == '')
-                return true;
-        }
-        return false;
-
-    }
-
-    private function getPaises($value = null)
-    {
-        $request = \Yii::$app->request;
-        $paises = $request->post('paises', []);
-
-        foreach ($paises as $k => $p) {
-            if (empty($p) || $p == '')
-                $paises[$k] = $value;
-        }
-        return $paises;
-    }
-
-    private function getPaisesDb()
-    {
-
-        if (!$this->_paises_db) {
-            $request = \Yii::$app->request;
-            $subquery = (new \yii\db\Query());
-            $subquery->select([
-                "ifnull(t.value, 'N/E') as country, ifnull(t.id,0) as id, 'true' as active",
-            ])->from('event e')
-                ->leftJoin('data_list t', 'e.country_id = t.id')
-                ->leftJoin('structure act', 'e.structure_id = act.id')
-                ->leftJoin('project p', 'act.project_id = p.id')
-                ->where('t.value is not null')
-                ->groupBy(["ifnull(t.value, 'N/E')"]);
-            $desde = $request->post('desde');
-            $hasta = $request->post('hasta');
-            if ($desde && $hasta)
-                $subquery->andFilterWhere(['>=', 'e.start', $desde])->andFilterWhere(['<=', 'e.start', $hasta]);
-            $proyecto = $request->post('proyecto');
-            if ($proyecto)
-                $subquery->andFilterWhere(['p.id' => $proyecto]);
-
-
-            $this->_paises_db = $subquery->all();
-        }
-        return $this->_paises_db;
-    }
-
-    private function Paises()
-    {
-        $paises = $this->getPaises(0);
-        $result = $this->getPaisesDb();
-        $estado = $this->getPaisesNingunoSeleccionado() ? false : true;
-        foreach ($result as $key => $value) {
-            $result[$key]['active'] = (bool)$estado;
-        }
-
-        if ($paises) {
-            $data = [];
-            foreach ($result as $value) {
-                $value['active'] = (bool)false;
-                $data[(int)$value['id']] = $value;
-            }
-            foreach ($paises as $p) {
-                if (isset($data[$p]['country']))
-                    $data[(int)$p]['active'] = (bool)true;
-            }
-            return array_values($data);
-        }
-        return $result;
-    }
-
-    private function getRubrosDbCantidad()
-    {
-        if ($this->_rubros_db_cantidad === null)
-            $this->_rubros_db_cantidad = count($this->getRubrosDB());
-        return $this->_rubros_db_cantidad;
-    }
-
-    private function getRubrosPostCantidad()
-    {
-        $request = \Yii::$app->request;
-        $this->_rubros_post_cantidad = $request->post('rubros', []);
-        return count($this->_rubros_post_cantidad);
-    }
-
-    private function getRubrosAlgunoSeleccionado()
-    {
-        return !$this->getRubrosTodosSeleccionados() && $this->getRubrosPostCantidad() > 0 && !$this->getRubrosNingunoSeleccionado();
-    }
-
-    private function getRubrosTodosSeleccionados()
-    {
-        $request = Yii::$app->request;
-        $rubrosPost = $request->post('rubros');
-        $todos = $request->post('rubros_todos');
-        if ((int)$todos === (int)1)
-            return true;
-        if (!$rubrosPost && $this->getExistePost())
-            return false;
-        if ($rubrosPost && $this->getExistePost())
-            if ($this->getRubrosPostCantidad() == 0)
-                return false;
-        $rubros = $this->getRubrosDbCantidad();
-        $selecionados = 0;
-        foreach ($this->Rubros() as $r)
-            if ($r['active'] == true)
-                $selecionados++;
-        return $rubros == $selecionados;
-    }
-
-    private function getRubrosNingunoSeleccionado()
-    {
-        $request = Yii::$app->request;
-        $rubrosPost = $request->post('rubros');
-        if (!$rubrosPost && $this->getExistePost())
-            return true;
-        if ($rubrosPost && $this->getExistePost()) {
-            if ($this->getRubrosPostCantidad() == 0)
-                return true;
-            if ($_POST['rubros'][0] == '')
-                return true;
-        }
-        return false;
-
-    }
-
-    private function getRubros($value = '')
-    {
-        $request = \Yii::$app->request;
-        $rubros = $request->post('rubros', []);
-        foreach ($rubros as $k => $p) {
-            if (empty($p) || $p == '')
-                $rubros[$k] = $value;
-        }
-        return $rubros;
-    }
-
-    private function getRubrosDB()
-    {
-        if ($this->_rubros_db === null) {
-            $request = \Yii::$app->request;
-            $subquery = (new \yii\db\Query());
-            $subquery->select([
-                "ifnull(product, 'N/E') as rubro, ifnull(product,0) as id, 'true' as active",
-            ])->from('project_contact')
-                ->where('product is not null')
-                ->groupBy(["ifnull(product, 'N/E')"]);
-            $proyecto = $request->post('proyecto');
-            if ($proyecto)
-                $subquery->andFilterWhere(['project_id' => $proyecto]);
-            $this->_rubros_db = $subquery->all();
-        }
-        return $this->_rubros_db;
-    }
-
-    private function Rubros()
-    {
-        $result = $this->getRubrosDB();
-        $rubros = $this->getRubros(0);
-
-        $estado = $this->getRubrosNingunoSeleccionado() ? false : true;
-
-        foreach ($result as $key => $value) {
-            $result[$key]['active'] = (bool)$estado;
-        }
-        if ($rubros) {
-            $data = [];
-            foreach ($result as $value) {
-                $value['active'] = (bool)false;
-                $data[$value['id']] = $value;
-            }
-            foreach ($rubros as $p) {
-                if (isset($data[$p]['rubro']))
-                    $data[$p]['active'] = (bool)true;
-            }
-
-            return array_values($data);
-        }
-        return $result;
-    }
-
-    private function AplicarFiltros(&$query)
-    {
-        /* @var $query \yii\db\Query */
-
-        /*Rango de Fechas*/
-        $request = \Yii::$app->request;
-        $desde = $request->post('desde');
-        $hasta = $request->post('hasta');
-        if ($desde && $hasta)
-            $query->andFilterWhere(['>=', 'e.start', $desde])->andFilterWhere(['<=', 'e.start', $hasta]);
-
-        /*Rubros*/
-        if ($this->getRubrosAlgunoSeleccionado())
-            $query->andFilterWhere(['in', 'pc.product', $this->getRubros()]);
-        if ($this->getRubrosNingunoSeleccionado())
-            $query->andWhere('pc.product is null');
-
-        /*Proyecto*/
-        $proyecto = $request->post('proyecto');
-        if ($proyecto)
-            $query->andFilterWhere(['p.id' => $proyecto]);
-
-        /*Paises*/
-        if ($this->getPaisesAlgunoSeleccionado())
-            $query->andFilterWhere(['in', 'e.country_id', $this->getPaises()]);
-        if ($this->getPaisesNingunoSeleccionado())
-            $query->andWhere('e.country_id is null');
-
-    }
-
     /*INICIO DE FUNCIONES AUXILIARES PARA DATA PARA DASHBOARD*/
 }
