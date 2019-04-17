@@ -51,7 +51,7 @@ class GraphicController extends ControladorController
             ->from('event e')
             ->leftJoin('structure act', 'e.structure_id = act.id')
             ->leftJoin('project p', 'act.project_id = p.id')
-            ->leftJoin('project_contact pc', 'pc.project_id = p.id');
+            ->leftJoin('sql_project_product pc', 'pc.project_id = p.id');
 
         $this->AplicarFiltros($subquery);
         return $subquery->scalar();
@@ -195,17 +195,18 @@ class GraphicController extends ControladorController
 
 
         $subquery = (new Query());
-        $subquery->from('event e')
+        $subquery
+            ->select([
+                'eventos' => 'count(distinct e.id)',
+                'actividades' => 'count(distinct e.structure_id)'
+            ])
+            ->from('event e')
             ->leftJoin('structure act', 'e.structure_id = act.id')
             ->leftJoin('project p', 'act.project_id = p.id')
-            ->leftJoin('project_contact pc', 'pc.project_id = p.id');
-
+            ->leftJoin('sql_project_product pc', 'pc.project_id = p.id');
         $this->AplicarFiltros($subquery);
+        return $subquery->one();
 
-        return [
-            'eventos' => $subquery->select('e.id')->groupBy('e.id')->count(),
-            'actividades' => $subquery->select('e.structure_id')->groupBy('e.structure_id')->count(),
-        ];
     }
 
     public function actionGraficoActividades()
@@ -229,7 +230,7 @@ class GraphicController extends ControladorController
             ->leftJoin('data_list pa', 'e.country_id= pa.id')
             ->leftJoin('structure act', 'e.structure_id = act.id')
             ->leftJoin('project p', 'act.project_id = p.id')
-            ->leftJoin('project_contact pc', 'pc.contact_id = c.id');
+            ->leftJoin('sql_project_product pc', 'pc.project_id = p.id');
 
         $this->AplicarFiltros($subquery);
 
@@ -395,7 +396,7 @@ class GraphicController extends ControladorController
             ->leftJoin('organization_type t', 'o.organization_type_id = t.id')
             ->leftJoin('structure act', 'e.structure_id = act.id')
             ->leftJoin('project p', 'act.project_id = p.id')
-            ->leftJoin('project_contact pc', 'pc.project_id = p.id');
+            ->leftJoin('sql_project_product pc', 'pc.project_id = p.id');
         $this->AplicarFiltros($subquery);
         $subquery->andWhere('o.organization_id is null');
         return $subquery->all();
@@ -412,7 +413,7 @@ class GraphicController extends ControladorController
             ->leftJoin('organization_type t', 'o.organization_type_id = t.id')
             ->leftJoin('structure act', 'e.structure_id = act.id')
             ->leftJoin('project p', 'act.project_id = p.id')
-            ->leftJoin('project_contact pc', 'pc.project_id = p.id');
+            ->leftJoin('sql_project_product pc', 'pc.project_id = p.id');
         $this->AplicarFiltros($subquery);
         $subquery->andWhere('o.organization_id is null');
 
@@ -491,7 +492,7 @@ class GraphicController extends ControladorController
                 ->leftJoin('event e', 'a.event_id = e.id')
                 ->leftJoin('structure act', 'e.structure_id = act.id')
                 ->leftJoin('project p', 'act.project_id = p.id')
-                ->leftJoin('project_contact pc', 'pc.contact_id = c.id')
+                ->leftJoin('sql_project_product pc', 'pc.project_id = p.id')
                 ->groupBy('a.contact_id');
 
             $this->AplicarFiltros($subquery);
@@ -537,7 +538,7 @@ class GraphicController extends ControladorController
             ->leftJoin('data_list pa', 'e.country_id= pa.id')
             ->leftJoin('structure act', 'e.structure_id = act.id')
             ->leftJoin('project p', 'act.project_id = p.id')
-            ->leftJoin('project_contact pc', 'pc.contact_id = c.id')
+            ->leftJoin('sql_project_product pc', 'pc.project_id = p.id')
             ->leftJoin('country_aux ca', 'pa.value = ca.alfa2');
 
         $this->AplicarFiltros($subquery);
@@ -590,7 +591,6 @@ class GraphicController extends ControladorController
     private function ParticipantesNacionalidadData()
     {
         $result = [];
-        $request = Yii::$app->request;
         $subquery = (new Query());
         $subquery->select([
             "ifnull(c.country,'') as country",
@@ -602,7 +602,7 @@ class GraphicController extends ControladorController
             ->leftJoin('data_list pa', 'e.country_id= pa.id')
             ->leftJoin('structure act', 'e.structure_id = act.id')
             ->leftJoin('project p', 'act.project_id = p.id')
-            ->leftJoin('project_contact pc', 'pc.contact_id = c.id')
+            ->leftJoin('sql_project_product pc', 'pc.project_id = p.id')
             ->leftJoin('country_aux ca', 'c.country = ca.alfa2');
 
         $this->AplicarFiltros($subquery);
@@ -681,7 +681,7 @@ class GraphicController extends ControladorController
             ->leftJoin('data_list pa', 'e.country_id= pa.id')
             ->leftJoin('structure act', 'e.structure_id = act.id')
             ->leftJoin('project p', 'act.project_id = p.id')
-            ->leftJoin('project_contact pc', 'pc.contact_id = c.id');
+            ->leftJoin('sql_project_product pc', 'pc.project_id = p.id');
 
         $this->AplicarFiltros($subquery);
 
@@ -722,7 +722,7 @@ class GraphicController extends ControladorController
             ->leftJoin('data_list pa', 'e.country_id= pa.id')
             ->leftJoin('structure act', 'e.structure_id = act.id')
             ->leftJoin('project p', 'act.project_id = p.id')
-            ->leftJoin('project_contact pc', 'pc.contact_id = c.id');
+            ->leftJoin('sql_project_product pc', 'pc.project_id = p.id');
 
         $this->AplicarFiltros($subquery);
 
@@ -764,7 +764,7 @@ class GraphicController extends ControladorController
             ->leftJoin('data_list pa', 'e.country_id= pa.id')
             ->leftJoin('structure act', 'e.structure_id = act.id')
             ->leftJoin('project p', 'act.project_id = p.id')
-            ->leftJoin('project_contact pc', 'pc.contact_id = c.id');
+            ->leftJoin('sql_project_product pc', 'pc.project_id = p.id');
 
         $this->AplicarFiltros($subquery);
 
@@ -807,7 +807,7 @@ class GraphicController extends ControladorController
             ->leftJoin('data_list pa', 'e.country_id= pa.id')
             ->leftJoin('structure act', 'e.structure_id = act.id')
             ->leftJoin('project p', 'act.project_id = p.id')
-            ->leftJoin('project_contact pc', 'pc.contact_id = c.id');
+            ->leftJoin('sql_project_product pc', 'pc.project_id = p.id');
 
         $this->AplicarFiltros($subquery);
 
@@ -874,7 +874,7 @@ class GraphicController extends ControladorController
             ->leftJoin('data_list pa', 'e.country_id= pa.id')
             ->leftJoin('structure act', 'e.structure_id = act.id')
             ->leftJoin('project p', 'act.project_id = p.id')
-            ->leftJoin('project_contact pc', 'pc.contact_id = c.id');
+            ->leftJoin('sql_project_product pc', 'pc.project_id = p.id');
 
         $this->AplicarFiltros($subquery);
         $subquery->groupBy(['c.type_id', 'c.id']);

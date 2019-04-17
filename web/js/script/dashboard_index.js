@@ -38,6 +38,10 @@
         $scope.organizacionesObj.total = 0;
         $scope.nacionalidad = [];
         $scope.paisEventos = [];
+        $scope.eventos = {
+            actividades: null,
+            eventos: null,
+        };
         $scope.cargado = {
             organizaciones: false,
             porSexo: false,
@@ -98,17 +102,14 @@
                 .then(function (result) {
                     var hombres = {name: 'Hombres', data: []};
                     var mujeres = {name: 'Mujeres', data: []};
-                    // var total = {name: 'Total', data: []};
 
                     angular.forEach(result.data.actividades, function (value, key) {
                         hombres.data.push(objetoDataSerie(value, value.m));
                         mujeres.data.push(objetoDataSerie(value, value.f));
-                        // total.data.push(objetoDataSerie(value, value.total));
                     });
 
 
                     $scope.series = [hombres, mujeres];
-                    // $scope.series = [total, hombres, mujeres];
                 })
                 .catch(function (mensaje, codigo) {
                     console.log(codigo + ' => ' + mensaje);
@@ -245,7 +246,6 @@
                 });
         }
 
-
         function cargarDatosGraficoSexoParticipante(data) {
             DatosService
                 .Enviar(UrlsAcciones.UrlDatosGraficoSexoParticipante, data)
@@ -258,12 +258,22 @@
                 });
         }
 
-        $scope.cargarDatos = function () {
+        $scope.limpiarData = function () {
             $scope.cargado = {
                 organizaciones: false,
                 porSexo: false,
                 anioFiscal: false
             };
+
+            $scope.proyecto = null;
+            $scope.proyectos = null;
+            $scope.eventos.actividades = null;
+            $scope.eventos.eventos = null;
+        };
+
+        $scope.cargarDatos = function () {
+
+            $scope.limpiarData();
             var data = angular.copy($scope.formulario);
             if ($scope.cantidadConsultas == 0) data.post = false;
             if ($scope.cambioRubrosCantidad == 0) data.rubros = $scope.getDataRubros();
@@ -286,9 +296,16 @@
             }, 1);
 
             $timeout(function () {
+                cargarDatosCantidadEventos(data);
+            }, 1);
+
+            $timeout(function () {
                 cargarDatosGraficoAnioFiscal(data);
             }, 1);
 
+            $timeout(function () {
+                cargarDatosCantidadProyectos(data);
+            }, 1);
 
             $timeout(function () {
                 cargarDatosGraficoSexoParticipante(data);
@@ -302,9 +319,6 @@
                 cargarDatosGraficoEducacion(data);
             }, 1);
 
-            $timeout(function () {
-                cargarDatosCantidadProyectos(data);
-            }, 1);
 
             $timeout(function () {
                 cargarDatosGraficoPaisEventos(data);
@@ -314,9 +328,6 @@
                 cargarDatosProyecto(data);
             }, 1);
 
-            $timeout(function () {
-                cargarDatosCantidadEventos(data);
-            }, 1);
 
             $timeout(function () {
                 cargarDatosGraficoNacionalidad(data);
@@ -341,7 +352,7 @@
         $scope.refrescar = function () {
             $timeout(function () {
                 $scope.cargarDatos();
-            }, 50);
+            }, 10);
         };
 
         // $scope.$watchCollection('formulario', function () {
@@ -349,7 +360,6 @@
         // });
 
         $scope.$watchCollection('cargado', function () {
-            console.log($scope.validaCarga());
             $scope.validaCarga();
         });
 
@@ -362,9 +372,7 @@
                     title: highchartsOpciones.title(UrlsAcciones.nombreGrafico),
                     xAxis: {type: 'category', title: {text: 'Actividades'},},
                     yAxis: {
-                        title: {
-                            text: 'Cantidad de Personas'
-                        },
+                        title: {text: 'Cantidad de Personas'},
                         stackLabels: {
                             enabled: true,
                             style: {
@@ -383,10 +391,7 @@
                             borderWidth: 0,
                             dataLabels: {
                                 enabled: true,
-                                style: {
-                                    color: 'white',
-                                    /* textShadow: '0 0 2px black, 0 0 2px black'*/
-                                }
+                                style: {color: 'white'}
                             },
                             stacking: 'normal'
                         }
@@ -401,7 +406,7 @@
                     }
                 };
                 $scope.Graficar('participantes', opciones);
-            }, 50);
+            }, 10);
         });
 
         $scope.$watchCollection('seriesType', function () {
@@ -416,9 +421,7 @@
                         title: {text: 'Tipos'},
                     },
                     yAxis: {
-                        title: {
-                            text: 'Cantidad de Personas'
-                        },
+                        title: {text: 'Cantidad de Personas'},
                         stackLabels: {
                             enabled: true,
                             style: {
@@ -437,10 +440,7 @@
                             borderWidth: 0,
                             dataLabels: {
                                 enabled: true,
-                                style: {
-                                    color: 'white',
-                                    /* textShadow: '0 0 2px black, 0 0 2px black'*/
-                                }
+                                style: {color: 'white'}
                             },
                             stacking: 'normal'
                         }
@@ -449,7 +449,7 @@
 
                 };
                 $scope.Graficar('participantes-tipo', opciones);
-            }, 50);
+            }, 10);
         });
 
         $scope.$watchCollection('seriesEdad', function () {
@@ -464,9 +464,7 @@
                         title: {text: 'Edades'},
                     },
                     yAxis: {
-                        title: {
-                            text: 'Cantidad de Personas'
-                        },
+                        title: {text: 'Cantidad de Personas'},
                         stackLabels: {
                             enabled: true,
                             style: {
@@ -485,10 +483,7 @@
                             borderWidth: 0,
                             dataLabels: {
                                 enabled: true,
-                                style: {
-                                    color: 'white',
-                                    /* textShadow: '0 0 2px black, 0 0 2px black'*/
-                                }
+                                style: {color: 'white'}
                             },
                             stacking: 'normal'
                         }
@@ -497,7 +492,7 @@
 
                 };
                 $scope.Graficar('participantes-edad', opciones);
-            }, 50);
+            }, 10);
         });
 
         $scope.$watchCollection('seriesFiscal', function () {
@@ -533,10 +528,7 @@
                             borderWidth: 0,
                             dataLabels: {
                                 enabled: true,
-                                style: {
-                                    color: 'white',
-                                    /* textShadow: '0 0 2px black, 0 0 2px black'*/
-                                }
+                                style: {color: 'white'}
                             },
                             stacking: 'normal'
                         }
@@ -545,7 +537,7 @@
 
                 };
                 $scope.Graficar('participantes-fiscal', opciones);
-            }, 50);
+            }, 10);
         });
 
         $scope.$watchCollection('seriesEducacion', function () {
@@ -560,9 +552,7 @@
                         title: {text: 'Educación'},
                     },
                     yAxis: {
-                        title: {
-                            text: 'Cantidad de Personas'
-                        },
+                        title: {text: 'Cantidad de Personas'},
                         stackLabels: {
                             enabled: true,
                             style: {
@@ -581,10 +571,7 @@
                             borderWidth: 0,
                             dataLabels: {
                                 enabled: true,
-                                style: {
-                                    color: 'white',
-                                    /* textShadow: '0 0 2px black, 0 0 2px black'*/
-                                }
+                                style: {color: 'white'}
                             },
                             stacking: 'normal'
                         }
@@ -593,18 +580,19 @@
 
                 };
                 $scope.Graficar('participantes-educacion', opciones);
-            }, 50);
+            }, 10);
         });
 
         $scope.$watchCollection('nacionalidad', function () {
             $timeout(function () {
                 $scope.mapaPaises($scope.nacionalidad, 'participantes-nacionalidad', 'Participantes por Nacionalidad');
-            }, 50);
+            }, 10);
         });
+
         $scope.$watchCollection('paisEventos', function () {
             $timeout(function () {
                 $scope.mapaPaises($scope.paisEventos, 'pais-eventos', 'Ubicación geográfica de participantes');
-            }, 50);
+            }, 10);
         });
 
         $scope.mapaPaises = function (paises, divMapa, tituloMapa) {
@@ -614,16 +602,8 @@
             Highcharts.seriesType('mappie', 'pie', {
                 center: null, // Can't be array by default anymore
                 clip: true, // For map navigation
-                states: {
-                    hover: {
-                        halo: {
-                            size: 5
-                        }
-                    }
-                },
-                dataLabels: {
-                    enabled: false
-                }
+                states: {hover: {halo: {size: 5}}},
+                dataLabels: {enabled: false}
             }, {
                                       getCenter: function () {
                                           var options = this.options,
@@ -677,31 +657,23 @@
             var chart = Highcharts.mapChart(divMapa, {
                 title: highchartsOpciones.title(tituloMapa),
 
-                mapNavigation: {
-                    enabled: true
-                },
+                mapNavigation: {enabled: true},
                 // Limit zoom range
                 yAxis: {
                     // minRange: 2300
                 },
                 credits: highchartsOpciones.credits,
-                tooltip: {
-                    useHTML: true
-                },
+                tooltip: {useHTML: true},
 
                 // Default options for the pies
                 plotOptions: {
                     mappie: {
                         borderColor: 'rgba(255,255,255,0.4)',
                         borderWidth: 1,
-                        tooltip: {
-                            headerFormat: ''
-                        }
+                        tooltip: {headerFormat: ''}
                     }
                 },
-                legend: {
-                    enabled: false
-                },
+                legend: {enabled: false},
 
                 series: [{
                     mapData: Highcharts.maps['custom/world'],
@@ -711,7 +683,8 @@
                     borderColor: '#FFF',
                     showInLegend: false,
                     joinBy: ['name', 'id'],
-                    keys: ['id', 'total', 'mujeres', 'hombres',
+                    keys: [
+                        'id', 'total', 'mujeres', 'hombres',
                         'lat', 'lon', 'pais', 'alfa2', 'eventos'
                     ],
                     tooltip: {
@@ -744,14 +717,6 @@
                         }
                     }
                 },
-                    /*  {
-                        name: 'Separators',
-                        type: 'mapline',
-                        data: Highcharts.geojson(Highcharts.maps['countries/us/us-all'], 'mapline'),
-                        color: '#707070',
-                        showInLegend: false,
-                        enableMouseTracking: false
-                      }, */
                     {
                         name: 'Connectors',
                         type: 'mapline',
@@ -875,7 +840,6 @@
                             name: 'Mujeres',
                             y: parseFloat($scope.dataTotales.f),
                             sliced: true,
-//                                selected: true
                         }]
                     }],
 
@@ -883,7 +847,7 @@
                     exporting: highchartsOpciones.exporting('Participantes'),
                 };
                 $scope.Graficar('pastel', opciones);
-            }, 50);
+            }, 10);
         });
 
         $scope.$watchCollection('organizaciones', function () {
@@ -915,7 +879,7 @@
                     exporting: highchartsOpciones.exporting('Organizaciones'),
                 };
                 $scope.Graficar('organizaciones', opciones);
-            }, 50);
+            }, 10);
         });
 
         $scope.$watchCollection('dataMetas', function () {
@@ -960,7 +924,7 @@
                     exporting: highchartsOpciones.exporting('Metas'),
                 }
                 $scope.Graficar('metas', opciones);
-            }, 50);
+            }, 10);
         });
 
         $scope.Graficar = function (div, opcions) {
@@ -1110,7 +1074,7 @@
 
         function objetoDataSerie(value, valorY) {
             var obj = {};
-            name = !value.name ? 'NE' : value.name;
+            var name = !value.name ? 'NE' : value.name;
             obj.name = name;
             obj.drilldown = 'Event_' + value.activity_id;
             obj.y = parseFloat(valorY);
