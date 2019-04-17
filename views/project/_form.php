@@ -1,11 +1,10 @@
 <?php
 
-use yii\helpers\Html;
-use yii\widgets\ActiveForm;
 use kartik\color\ColorInput;
-use \kartik\select2\Select2;
-use app\components\UCatalogo;
 use kartik\date\DatePicker;
+use yii\helpers\Html;
+use yii\helpers\Url;
+use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Project */
@@ -90,7 +89,7 @@ use kartik\date\DatePicker;
                 <?php endfor; ?>
             </div>
             <div class="form-group">
-                <?php $url = $model->isNewRecord ? \yii\helpers\Url::to(['index']) : \yii\helpers\Url::to(['view', 'id' => $model->id]); ?>
+                <?php $url = $model->isNewRecord ? Url::to(['index']) : Url::to(['view', 'id' => $model->id]); ?>
                 <?= Html::a('<i class="fa fa-reply"></i> Cancelar', $url, ['class' => 'btn btn-danger']) ?>
                 <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
             </div>

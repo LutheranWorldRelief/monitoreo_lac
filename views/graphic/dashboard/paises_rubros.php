@@ -26,7 +26,7 @@
                                                autocomplete="off" ng-model="r.active"
                                                value="{{r.country}}" class="d-none"
                                                ng-checked="r.active">
-<!--                                        <i class="fa {{iconChecked(r)}}"></i>-->
+                                        <!--                                        <i class="fa {{iconChecked(r)}}"></i>-->
                                         <h5>{{r.country}}</h5>
                                     </div>
                                 </label>
@@ -65,7 +65,7 @@
                                                autocomplete="off" ng-model="r.active"
                                                value="{{r.rubro}}" class="d-none"
                                                ng-checked="r.active">
-<!--                                        <i class="fa {{iconChecked(r)}}"></i>-->
+                                        <!--                                        <i class="fa {{iconChecked(r)}}"></i>-->
                                         <h5>{{r.rubro}}</h5>
                                     </div>
                                 </label>

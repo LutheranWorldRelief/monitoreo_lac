@@ -2,22 +2,20 @@
 
 namespace app\models;
 
-use Yii;
-
 /**
  * This is the model class for table "{{%sql_contact}}".
  *
  * Check the base class at app\models\base\SqlContact in order to
  * see the column names and relations.
  */
-class SqlContact extends \app\models\base\SqlContact
+class SqlContact extends base\SqlContact
 {
     public $cuenta = 0;
 
-	public static function primaryKey()
-	{
-		return ['id'];
-	}
+    public static function primaryKey()
+    {
+        return ['id'];
+    }
 
     public function rules()
     {

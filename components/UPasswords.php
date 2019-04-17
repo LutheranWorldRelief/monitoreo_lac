@@ -4,10 +4,8 @@ namespace app\components;
 
 use Yii;
 use yii\base\Component;
-use yii\base\InvalidConfigException;
-use yii\helpers\VarDumper;
-use yii\helpers\StringHelper;
 use yii\base\InvalidParamException;
+use yii\helpers\StringHelper;
 
 class UPasswords extends Component {
 

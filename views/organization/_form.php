@@ -1,9 +1,12 @@
 <?php
 
+use app\components\UCatalogo;
+use app\models\Organization;
+use app\models\OrganizationType;
+use kartik\widgets\Select2;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use kartik\widgets\Select2;
-use app\components\UCatalogo;
+
 /* @var $this yii\web\View */
 /* @var $model app\models\Organization */
 /* @var $form yii\widgets\ActiveForm */
@@ -36,7 +39,7 @@ use app\components\UCatalogo;
         <div class="col-lg-3">
             <?=
             $form->field($model, 'organization_id')->widget(Select2::classname(), [
-                'data' => \app\models\Organization::listDataBlank('name'),
+                'data' => Organization::listDataBlank('name'),
                 'language' => 'es',
                 'options' => ['placeholder' => '...'],
                 'pluginOptions' => [
@@ -48,7 +51,7 @@ use app\components\UCatalogo;
         <div class="col-lg-3">
             <?=
             $form->field($model, 'organization_type_id')->widget(Select2::classname(), [
-                'data' => \app\models\OrganizationType::listDataBlank('name'),
+                'data' => OrganizationType::listDataBlank('name'),
                 'language' => 'es',
                 'options' => ['placeholder' => '...'],
                 'pluginOptions' => [
@@ -72,12 +75,10 @@ use app\components\UCatalogo;
     </div>
 
 
-
-
     <div class="form-group">
-    <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
-<?php ActiveForm::end(); ?>
+    <?php ActiveForm::end(); ?>
 
 </div>

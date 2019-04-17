@@ -1,13 +1,13 @@
 <?php
 
-use yii\helpers\Html;
+use app\components\UCatalogo;
+use app\models\DataList;
+use app\models\Monitor;
 use app\models\Organization;
 use app\models\Profession;
-use app\models\Monitor;
-use app\components\UCatalogo;
-use kartik\widgets\ActiveForm;
-use kartik\date\DatePicker;
 use kartik\select2\Select2;
+use kartik\widgets\ActiveForm;
+use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Contact */
@@ -73,7 +73,7 @@ $form = ActiveForm::begin();
                 </div>
                 <div class="col-lg-4">
                     <?= $form->field($model, 'education_id')->widget(Select2::classname(), [
-                        'data' => \app\models\DataList::itemsBySlug('education'),
+                        'data' => DataList::itemsBySlug('education'),
                         'language' => 'es',
                         'options' => ['placeholder' => '...'],
                         'pluginOptions' => [

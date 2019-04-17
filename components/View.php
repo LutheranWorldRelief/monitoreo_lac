@@ -4,7 +4,6 @@
  */
 namespace app\components;
 
-use app\models\User;
 use kartik\select2\Select2Asset;
 use kartik\widgets\WidgetAsset;
 use yii\base\Controller;

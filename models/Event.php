@@ -2,9 +2,10 @@
 
 namespace app\models;
 
-use Mpdf\Tag\Ul;
+use Throwable;
 use Yii;
-use app\components\Ulog;
+use yii\db\ActiveQuery;
+use yii\db\Exception;
 
 /**
  * This is the model class for table "{{%event}}".
@@ -12,12 +13,83 @@ use app\components\Ulog;
  * Check the base class at app\models\base\Event in order to
  * see the column names and relations.
  */
-class Event extends \app\models\base\Event
+class Event extends base\Event
 {
     public $attendancesArray = null;
     public $attendancesDelete = [];
 
     private $_attendancesModels = null;
+
+    public static function CreateFromImport($data, &$id = null)
+    {
+        /*
+         * SE ESPERA QUE DATA TENGA UN ARREGLO, CON:
+         *           CABECERA $data['cabecera'],
+         *           DETALLES $data['detalles'],
+         *           BANDERAS PARA REGISTRAR COMO NUEVO EL PROYECTO ($proyectoNuevo) Y ORGANIZACIÓN IMPLEMENTADORA ($organizacionNueva)
+         *           DATOS DE PROYECTO $data['proyecto'] Y ORGANIZACIÓN IMPLEMENTADORA $data['organizacionImplementadora']
+         * */
+
+        $cabecera = [];
+        $detalles = [];
+        $proyectoNuevo = false;
+        $organizacionNueva = false;
+        $proyecto = [];
+        $fechaIngreso = date('Y-m-d');
+        $organizacionImplementadora = [];
+        $proyectoId = null;
+        $paisNombre = null;
+        /*Extracción de las variables*/
+        extract($data, null);
+        $evento = new self();
+        $evento->attributes = $cabecera;
+        $evento->start = $fechaIngreso;
+        $evento->end = $fechaIngreso;
+
+        $evento->name = 'IMPORTACIÓN DESDE EXCEL POR ' . Yii::$app->getUser()->getIdentity()->first_name . ' ' . Yii::$app->getUser()->getIdentity()->last_name . ' El ' . date('Y-m-d H:i:s') . ' Con datos correspondientes al ' . $fechaIngreso . ' de la Organización ' . $organizacionImplementadora['name'] . ' del País ' . $paisNombre;
+        $evento->implementing_organization_id = (int)$evento->implementing_organization_id;
+
+        if ($proyectoNuevo) {
+            $result = Project::CreateFromImport($proyecto);
+            if (!is_null($result)) $evento->structure_id = $result['estructura']; else return false;
+            $proyectoId = $result['proyecto'];
+        } else {
+
+            $estructura = Structure::find()->where(['project_id' => $proyectoId, 'description' => 'IMPORTACIÓN DESDE EXCEL'])->one();
+            if (!$estructura) {
+                $estructura = new Structure();
+                $estructura->project_id = $proyectoId;
+                $estructura->description = 'IMPORTACIÓN DESDE EXCEL';
+                $estructura->save();
+            }
+            $evento->structure_id = $estructura->id;
+        }
+
+        if ($organizacionNueva) {
+            $nombreOrg = $organizacionImplementadora['name'];
+            $model = Organization::find()->where(['name' => $nombreOrg])->one();
+            if (!$model) {
+                $model = new Organization();
+                $model->attributes = $organizacionImplementadora;
+                $model->is_implementer = 1;
+            }
+            if ($model->save()) $evento->implementing_organization_id = $model->id; else return false;
+        }
+
+        $detallesValidos = true;
+        $evento->validate();
+        if ($evento->saveImport()) {
+            foreach ($detalles as $d)
+                $detallesValidos &= Attendance::CreateFromImport($d, $evento->id, $proyectoId);
+            $id = $evento->id;
+        } else return false;
+        return $detallesValidos;
+    }
+
+    public function saveImport()
+    {
+        return parent::save(false);
+    }
 
     public function getImplementingOrganizationName()
     {
@@ -84,11 +156,6 @@ class Event extends \app\models\base\Event
         $this->attendancesModels = $validated;
     }
 
-    public function saveImport()
-    {
-        return parent::save(false);
-    }
-
     public function save($runValidation = true, $attributeNames = null)
     {
         $validEvent = true;
@@ -110,18 +177,20 @@ class Event extends \app\models\base\Event
                 $m->delete();
 
             if (!($validEvent && $validAttendances))
-                throw new \yii\db\Exception("No se logró guardar la actividad");
+                throw new Exception("No se logró guardar la actividad");
 
             $transaction->commit();
-        } catch (\yii\db\Exception $e) {
+        } catch (Exception $e) {
             $transaction->rollBack();
             $this->addError('id', $e->getMessage());
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             $transaction->rollBack();
         }
 
         return $validEvent && $validAttendances;
     }
+
+    //---------------------------------------------------------------------------- Attendances Models
 
     public function delete()
     {
@@ -134,10 +203,10 @@ class Event extends \app\models\base\Event
             $deletedAll &= parent::delete();
 
             if (!$deletedAll)
-                throw new \yii\db\Exception("No se logró eliminar esta actividad");
+                throw new Exception("No se logró eliminar esta actividad");
 
             $transaction->commit();
-        } catch (\yii\db\Exception $e) {
+        } catch (Exception $e) {
             $transaction->rollBack();
             throw $e;
         }
@@ -145,7 +214,6 @@ class Event extends \app\models\base\Event
         return $deletedAll;
     }
 
-    //---------------------------------------------------------------------------- Attendances Models
     public function getAttendancesModels()
     {
 
@@ -183,24 +251,23 @@ class Event extends \app\models\base\Event
         $this->_attendancesModels = $value;
     }
 
-
     /**
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getAttendances()
     {
         return $this->hasMany(Attendance::className(), ['event_id' => 'id'])->with(['contact', 'contact.organization', 'org', 'type']);
     }
 
+    public function getHombres()
+    {
+        return $this->getContacts()->where(['sex' => 'M'])->count();
+    }
+
     public function getContacts()
     {
         return $this->hasMany(Contact::className(), ['id' => 'contact_id'])
             ->via('attendances');
-    }
-
-    public function getHombres()
-    {
-        return $this->getContacts()->where(['sex' => 'M'])->count();
     }
 
     public function getMujeres()
@@ -215,72 +282,6 @@ class Event extends \app\models\base\Event
 
     public function getType()
     {
-        return $this->hasOne(\app\models\DataList::className(), ['id' => 'type_id']);
-    }
-
-    public static function CreateFromImport($data, &$id = null)
-    {
-        /*
-         * SE ESPERA QUE DATA TENGA UN ARREGLO, CON:
-         *           CABECERA $data['cabecera'],
-         *           DETALLES $data['detalles'],
-         *           BANDERAS PARA REGISTRAR COMO NUEVO EL PROYECTO ($proyectoNuevo) Y ORGANIZACIÓN IMPLEMENTADORA ($organizacionNueva)
-         *           DATOS DE PROYECTO $data['proyecto'] Y ORGANIZACIÓN IMPLEMENTADORA $data['organizacionImplementadora']
-         * */
-
-        $cabecera = [];
-        $detalles = [];
-        $proyectoNuevo = false;
-        $organizacionNueva = false;
-        $proyecto = [];
-        $fechaIngreso = date('Y-m-d');
-        $organizacionImplementadora = [];
-        $proyectoId = null;
-        $paisNombre = null;
-        /*Extracción de las variables*/
-        extract($data, null);
-        $evento = new self();
-        $evento->attributes = $cabecera;
-        $evento->start = $fechaIngreso;
-        $evento->end = $fechaIngreso;
-
-        $evento->name = 'IMPORTACIÓN DESDE EXCEL POR ' . Yii::$app->getUser()->getIdentity()->first_name . ' ' . Yii::$app->getUser()->getIdentity()->last_name . ' El ' . date('Y-m-d H:i:s') . ' Con datos correspondientes al ' . $fechaIngreso . ' de la Organización ' . $organizacionImplementadora['name'] . ' del País ' . $paisNombre;
-        $evento->implementing_organization_id = (int)$evento->implementing_organization_id;
-
-        if ($proyectoNuevo) {
-            $result = Project::CreateFromImport($proyecto);
-            if (!is_null($result)) $evento->structure_id = $result['estructura']; else return false;
-            $proyectoId = $result['proyecto'];
-        } else {
-
-            $estructura = Structure::find()->where(['project_id' => $proyectoId, 'description' => 'IMPORTACIÓN DESDE EXCEL'])->one();
-            if (!$estructura) {
-                $estructura = new Structure();
-                $estructura->project_id = $proyectoId;
-                $estructura->description = 'IMPORTACIÓN DESDE EXCEL';
-                $estructura->save();
-            }
-            $evento->structure_id = $estructura->id;
-        }
-
-        if ($organizacionNueva) {
-            $nombreOrg = $organizacionImplementadora['name'];
-            $model = Organization::find()->where(['name' => $nombreOrg])->one();
-            if (!$model) {
-                $model = new Organization();
-                $model->attributes = $organizacionImplementadora;
-                $model->is_implementer = 1;
-            }
-            if ($model->save()) $evento->implementing_organization_id = $model->id; else return false;
-        }
-
-        $detallesValidos = true;
-        $evento->validate();
-        if ($evento->saveImport()) {
-            foreach ($detalles as $d)
-                $detallesValidos &= Attendance::CreateFromImport($d, $evento->id, $proyectoId);
-            $id = $evento->id;
-        } else return false;
-        return $detallesValidos;
+        return $this->hasOne(DataList::className(), ['id' => 'type_id']);
     }
 }

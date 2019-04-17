@@ -19,7 +19,7 @@ $gridColumns = [
         'header' => 'Actions',
         'headerOptions' => ['style' => 'color:#337ab7'],
         'template' => '{update}{delete}',
-        ]];
+    ]];
 ?>
 <?= $this->render('_navbar') ?>
 <div class="box">

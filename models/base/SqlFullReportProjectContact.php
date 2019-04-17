@@ -2,45 +2,45 @@
 
 namespace app\models\base;
 
-use Yii;
+use app\components\ActiveRecord;
 
 /**
  * This is the model class for table "sql_full_report_project_contact".
  * Please do not add custom code to this file, as it is supposed to be overriden
  * by the gii model generator. Custom code belongs to app\models\SqlFullReportProjectContact.
  *
- * @property int $project_id
+ * @property int    $project_id
  * @property string $project_code
  * @property string $project_name
- * @property int $structure_id
+ * @property int    $structure_id
  * @property string $structure_code
  * @property string $structure_description
- * @property int $event_id
+ * @property int    $event_id
  * @property string $event_title
  * @property string $event_date_start
- * @property int $event_date_start_year
- * @property int $event_date_start_month
- * @property int $event_date_start_day
+ * @property int    $event_date_start_year
+ * @property int    $event_date_start_month
+ * @property int    $event_date_start_day
  * @property string $event_date_end
- * @property int $event_date_end_year
- * @property int $event_date_end_month
- * @property int $event_date_end_day
- * @property int $event_country_id
+ * @property int    $event_date_end_year
+ * @property int    $event_date_end_month
+ * @property int    $event_date_end_day
+ * @property int    $event_country_id
  * @property string $event_country_code
  * @property string $event_country_name
- * @property int $attendance_id
- * @property int $contact_id
+ * @property int    $attendance_id
+ * @property int    $contact_id
  * @property string $contact_name
  * @property string $contact_lastname
  * @property string $contact_sex
  * @property string $contact_document
  * @property string $contact_birthdate
- * @property int $contact_education_id
+ * @property int    $contact_education_id
  * @property string $contact_education
  * @property string $contact_phone_personal
- * @property int $contact_men_home
- * @property int $contact_women_home
- * @property int $contact_organization_id
+ * @property int    $contact_men_home
+ * @property int    $contact_women_home
+ * @property int    $contact_organization_id
  * @property string $contact_organization
  * @property string $contact_country_code
  * @property string $contact_country
@@ -51,14 +51,14 @@ use Yii;
  * @property string $contact_project_product
  * @property string $contact_project_area_farm
  * @property string $contact_project_dev_area
- * @property int $contact_project_age_dev_plantation
+ * @property int    $contact_project_age_dev_plantation
  * @property string $contact_project_productive_area
- * @property int $contact_project_age_prod_plantation
+ * @property int    $contact_project_age_prod_plantation
  * @property double $contact_project_yield
- * @property int $organization_implementing_id
+ * @property int    $organization_implementing_id
  * @property string $organization_implementing_name
  */
-abstract class SqlFullReportProjectContact extends \app\components\ActiveRecord
+abstract class SqlFullReportProjectContact extends ActiveRecord
 {
     /**
      * @inheritdoc

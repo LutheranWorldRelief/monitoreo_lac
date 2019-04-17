@@ -1,7 +1,5 @@
 <?php
 
-use yii\helpers\Html;
-
 
 /* @var $this yii\web\View */
 /* @var $model app\models\DataList */
@@ -11,5 +9,5 @@ $this->title .= ' / DataList / Nuevo';
 echo $this->render('_navbar');
 echo $this->render('_form', [
     'model' => $model,
-]); 
+]);
 ?>

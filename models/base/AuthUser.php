@@ -2,29 +2,29 @@
 
 namespace app\models\base;
 
-use Yii;
+use app\components\ActiveRecord;
 
 /**
  * This is the model class for table "auth_user".
  * Please do not add custom code to this file, as it is supposed to be overriden
  * by the gii model generator. Custom code belongs to app\models\AuthUser.
  *
- * @property int $id
+ * @property int    $id
  * @property string $password
  * @property string $last_login
- * @property int $is_superuser
+ * @property int    $is_superuser
  * @property string $username
  * @property string $first_name
  * @property string $last_name
  * @property string $email
- * @property int $is_staff
- * @property int $is_active
+ * @property int    $is_staff
+ * @property int    $is_active
  * @property string $date_joined
  * @property string $access_token
- * @property array $countries
- * @property array $projects
+ * @property array  $countries
+ * @property array  $projects
  */
-abstract class AuthUser extends \app\components\ActiveRecord
+abstract class AuthUser extends ActiveRecord
 {
     /**
      * @inheritdoc

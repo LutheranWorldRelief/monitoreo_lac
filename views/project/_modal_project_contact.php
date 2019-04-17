@@ -1,21 +1,25 @@
 <?php
 
 /* @var $this yii\web\View */
-/* @var $models \app\components\ActiveRecord[]|\app\models\Contact[]|\app\models\SqlDebugContactDoc[]|\app\models\SqlDebugContactName[]|array|\yii\db\ActiveRecord[] */
+/* @var $models \app\components\ActiveRecord[]|Contact[]|SqlDebugContactDoc[]|SqlDebugContactName[]|array|ActiveRecord[] */
 
 /* @var Project $project */
 
-use kartik\widgets\DatePicker;
+use app\models\Contact;
+use app\models\SqlDebugContactDoc;
+use app\models\SqlDebugContactName;
 use yii\bootstrap\Modal;
+use yii\db\ActiveRecord;
 use yii\helpers\Url;
+
 $modalId = 'modal-project-contact';
 
 Modal::begin([
     'id' => $modalId,
     'header' => '<h4>Beneficiario/a: {{modal.contact.name}}</h4>',
-//    'size' => 'modal-lg',
+    //    'size' => 'modal-lg',
     'clientEvents' => [
-        'shown.bs.modal'=>'function(e){ appVue.modalLoadDatepicker(e); }',
+        'shown.bs.modal' => 'function(e){ appVue.modalLoadDatepicker(e); }',
     ]
 ]);
 ?>
@@ -101,7 +105,10 @@ Modal::begin([
         <div class="row">
             <div class="col-lg-6" :class="{'has-error':modal.errors.date_entry_project}">
                 <label>{{labels.projectContact.date_entry_project}}</label>
-                <input type="text" id="date_entry" class="form-control datepicker" v-model="modal.model.date_entry_project">
+                <input type="text"
+                       id="date_entry"
+                       class="form-control datepicker"
+                       v-model="modal.model.date_entry_project">
                 <div class="help-block" v-if="modal.errors.date_entry_project">
                     <div v-for="error in modal.errors.date_entry_project">
                         <small>{{ error }}</small>

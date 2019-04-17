@@ -2,14 +2,17 @@
 
 /* @var $this yii\web\View */
 
-/* @var $models \app\components\ActiveRecord[]|\app\models\Contact[]|\app\models\SqlDebugContactDoc[]|\app\models\SqlDebugContactName[]|array|\yii\db\ActiveRecord[] */
+/* @var $models \app\components\ActiveRecord[]|Contact[]|SqlDebugContactDoc[]|SqlDebugContactName[]|array|ActiveRecord[] */
 
 use app\assets\Alertify1Asset;
+use app\assets\Vue2Asset;
+use app\models\Contact;
+use app\models\SqlDebugContactDoc;
+use app\models\SqlDebugContactName;
 use kartik\select2\Select2Asset;
 use yii\bootstrap\BootstrapPluginAsset;
+use yii\db\ActiveRecord;
 use yii\helpers\Url;
-
-use app\assets\Vue2Asset;
 
 BootstrapPluginAsset::register($this);
 Select2Asset::register($this);
@@ -33,36 +36,36 @@ $this->registerJsFile("@web/js/vue/contact.merge.document.js", ['depends' => [Al
                     </div>
 
                     <div class="col-md-6">
-                    <table class="table table-bordered table-striped table-condensed">
-                        <thead>
-                        <tr>
-                            <th>Caso N°</th>
-                            <th>Documento</th>
-                            <th>Nombres</th>
-                            <th></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <template v-for="(model, index) in modelsAll">
-                            <tr v-if="(index <= parseInt( modelsAll.length/2))">
-                                <td> {{index+1}}</td>
-                                <td>{{model.document}} <span class="badge">{{model.cuenta}}</span></td>
-                                <td>
-                                    <div v-html="model.name"></div>
-                                </td>
-                                <td>
-                                    <button
-                                            class="btn btn-xs btn-primary pull-right"
-                                            @click="preparingFusionForm(model)"
-                                            data-toggle="modal"
-                                            data-target="#modal-merge">
-                                        Fusionar
-                                    </button>
-                                </td>
+                        <table class="table table-bordered table-striped table-condensed">
+                            <thead>
+                            <tr>
+                                <th>Caso N°</th>
+                                <th>Documento</th>
+                                <th>Nombres</th>
+                                <th></th>
                             </tr>
-                        </template>
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                            <template v-for="(model, index) in modelsAll">
+                                <tr v-if="(index <= parseInt( modelsAll.length/2))">
+                                    <td> {{index+1}}</td>
+                                    <td>{{model.document}} <span class="badge">{{model.cuenta}}</span></td>
+                                    <td>
+                                        <div v-html="model.name"></div>
+                                    </td>
+                                    <td>
+                                        <button
+                                                class="btn btn-xs btn-primary pull-right"
+                                                @click="preparingFusionForm(model)"
+                                                data-toggle="modal"
+                                                data-target="#modal-merge">
+                                            Fusionar
+                                        </button>
+                                    </td>
+                                </tr>
+                            </template>
+                            </tbody>
+                        </table>
                     </div>
                     <div class="col-md-6">
                         <table class="table table-bordered table-striped table-condensed">

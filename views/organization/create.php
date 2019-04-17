@@ -10,7 +10,7 @@ $this->title = 'Create Organization';
 $this->params['breadcrumbs'][] = ['label' => 'Organizations', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<?= $this->render('_navbar')?>
+<?= $this->render('_navbar') ?>
 <div class="organization-create">
 
     <h1><?= Html::encode($this->title) ?></h1>

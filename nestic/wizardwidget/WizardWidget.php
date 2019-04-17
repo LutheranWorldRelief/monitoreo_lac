@@ -2,24 +2,23 @@
 
 /**
  * @copyright Copyright &copy; A.F.Schuurman, 2015
- * @package yii2-wizardwidget
- * @version 1.0.0
+ * @package   yii2-wizardwidget
+ * @version   1.0.0
  */
 
 namespace app\nestic\wizardwidget;
 
-use yii;
 use yii\base\Widget;
-use yii\web\View;
 use yii\helpers\Html;
 
 /**
  * Widget for wizard widget
  *
  * @author A.F.Schuurman <andre.schuurman+yii2-wizardwidget@gmail.com>
- * @since 1.0
+ * @since  1.0
  */
-class WizardWidget extends Widget {
+class WizardWidget extends Widget
+{
 
     /**
      * @var string widget html id
@@ -30,10 +29,10 @@ class WizardWidget extends Widget {
      * @var array default button configuration
      */
     public $default_buttons = [
-        'prev' => ['title' => 'Previous', 'options' => [ 'class' => 'btn btn-default', 'type' => 'button']],
-        'next' => ['title' => 'Next', 'options' => [ 'class' => 'btn btn-default', 'type' => 'button']],
-        'save' => ['title' => 'Save', 'options' => [ 'class' => 'btn btn-default', 'type' => 'button']],
-        'skip' => ['title' => 'Skip', 'options' => [ 'class' => 'btn btn-default', 'type' => 'button']],
+        'prev' => ['title' => 'Previous', 'options' => ['class' => 'btn btn-default', 'type' => 'button']],
+        'next' => ['title' => 'Next', 'options' => ['class' => 'btn btn-default', 'type' => 'button']],
+        'save' => ['title' => 'Save', 'options' => ['class' => 'btn btn-default', 'type' => 'button']],
+        'skip' => ['title' => 'Skip', 'options' => ['class' => 'btn btn-default', 'type' => 'button']],
     ];
 
     /**
@@ -54,7 +53,8 @@ class WizardWidget extends Widget {
     /**
      * Main entry to execute the widget
      */
-    public function run() {
+    public function run()
+    {
         parent::run();
         WizardWidgetAsset::register($this->getView());
 
@@ -73,7 +73,7 @@ class WizardWidget extends Widget {
         foreach ($this->steps as $id => $step) {
 
             // Current or fist step is active, next steps are inactive (previous steps are available)
-            if ($id == $this->start_step or ( is_null($this->start_step) && $class == '')) {
+            if ($id == $this->start_step or (is_null($this->start_step) && $class == '')) {
                 $class = 'active';
             } elseif ($class == 'active') {
                 $class = 'disabled';
@@ -89,8 +89,8 @@ class WizardWidget extends Widget {
             else
                 $opciones = $opcionesDefecto;
             $wizard_line .= '<li role="presentation" class="' . $class . '" style="width:' . $wizard_line_distribution . '%">' .
-                    Html::a('<span class="round-tab"><i class="' . $step['icon'] . '"></i></span>', '#step' . $id, $opciones) .
-                    '</li>';
+                Html::a('<span class="round-tab"><i class="' . $step['icon'] . '"></i></span>', '#step' . $id, $opciones) .
+                '</li>';
 
             // Setup tab content (first tab is always active)
             $tab_content .= '<div class="tab-pane ' . $class . '" role="tabpanel" id="step' . $id . '">';
@@ -126,13 +126,13 @@ class WizardWidget extends Widget {
                 $class = 'active';
             }
             $wizard_line .= '<li role="presentation" class="' . $class . '" style="width:' . $wizard_line_distribution . '%">' .
-                    Html::a('<span class="round-tab"><i class="glyphicon glyphicon-ok"></i></span>', '#complete', [
-                        'data-toggle' => 'tab',
-                        'aria-controls' => 'complete',
-                        'role' => 'tab',
-                        'title' => 'Complete',
-                    ]) .
-                    '</li>';
+                Html::a('<span class="round-tab"><i class="glyphicon glyphicon-ok"></i></span>', '#complete', [
+                    'data-toggle' => 'tab',
+                    'aria-controls' => 'complete',
+                    'role' => 'tab',
+                    'title' => 'Complete',
+                ]) .
+                '</li>';
             $tab_content .= '<div class="tab-pane ' . $class . '" role="tabpanel" id="complete">' . $this->complete_content . '</div>';
         }
 
@@ -158,12 +158,13 @@ class WizardWidget extends Widget {
      * Generate navigation button
      *
      * @param string $button_type prev|skip|next\save
-     * @param array $step step configuration
+     * @param array  $step        step configuration
      * @param string $button_id
      *
      * @return string
      */
-    protected function navButton($button_type, $step, $button_id) {
+    protected function navButton($button_type, $step, $button_id)
+    {
         // Setup a unique button id
         $options = ['id' => $button_id . $button_type];
 

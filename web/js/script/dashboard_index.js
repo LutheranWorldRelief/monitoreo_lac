@@ -922,7 +922,7 @@
                     series: $scope.dataMetas.series,
                     credits: highchartsOpciones.credits,
                     exporting: highchartsOpciones.exporting('Metas'),
-                }
+                };
                 $scope.Graficar('metas', opciones);
             }, 10);
         });
@@ -979,7 +979,7 @@
 
         $scope.CantidadRubros = function () {
             return $scope.rubros.length;
-        }
+        };
 
         $scope.classChecked = function (obj) {
             return $scope.isChecked(obj) ? 'active' : '';

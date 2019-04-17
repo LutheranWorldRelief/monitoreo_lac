@@ -3,11 +3,7 @@
 namespace app\components;
 
 use app\models\DataList;
-use Yii;
 use yii\base\Component;
-use yii\base\InvalidConfigException;
-use yii\helpers\ArrayHelper;
-use yii\helpers\VarDumper;
 
 class UCatalogo extends Component
 {

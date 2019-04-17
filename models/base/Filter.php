@@ -2,25 +2,26 @@
 
 namespace app\models\base;
 
-use Yii;
+use app\components\ActiveRecord;
+use yii\db\ActiveQuery;
 
 /**
  * This is the model class for table "filter".
  * Please do not add custom code to this file, as it is supposed to be overriden
  * by the gii model generator. Custom code belongs to app\models\Filter.
  *
- * @property int $id
- * @property string $name
- * @property string $start
- * @property string $end
- * @property string $slug
- * @property int $order
- * @property int $filter_id
+ * @property int                  $id
+ * @property string               $name
+ * @property string               $start
+ * @property string               $end
+ * @property string               $slug
+ * @property int                  $order
+ * @property int                  $filter_id
  *
- * @property \app\models\Filter $filter
+ * @property \app\models\Filter   $filter
  * @property \app\models\Filter[] $filters
  */
-abstract class Filter extends \app\components\ActiveRecord
+abstract class Filter extends ActiveRecord
 {
     /**
      * @inheritdoc
@@ -60,7 +61,7 @@ abstract class Filter extends \app\components\ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getFilter()
     {
@@ -68,7 +69,7 @@ abstract class Filter extends \app\components\ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getFilters()
     {

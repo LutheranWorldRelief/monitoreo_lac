@@ -1,16 +1,21 @@
 <?php
 
 /* @var $this yii\web\View */
-/* @var $models \app\components\ActiveRecord[]|\app\models\Contact[]|\app\models\SqlDebugContactDoc[]|\app\models\SqlDebugContactName[]|array|\yii\db\ActiveRecord[] */
+/* @var $models \app\components\ActiveRecord[]|Contact[]|SqlDebugContactDoc[]|SqlDebugContactName[]|array|ActiveRecord[] */
 
 /* @var array $projects */
 /* @var array $organizations */
 /* @var array $countries */
 /* @var integer|null $projectId */
 /* @var integer|null $organizationId */
+
 /* @var string|null $countryCode */
 
+use app\models\Contact;
+use app\models\SqlDebugContactDoc;
+use app\models\SqlDebugContactName;
 use yii\bootstrap\Modal;
+use yii\db\ActiveRecord;
 use yii\helpers\Url;
 
 Modal::begin([
@@ -39,7 +44,8 @@ Modal::begin([
                     <td><input type="radio" :value="model.id" v-model="modelSelected"></td>
                     <td>{{index+1}}</td>
                     <td>{{model.id}}</td>
-                    <td><a :href="'<?= Url::to(['contact/view'])?>?id=' + model.id" target="_blank">{{model.name}}</a></td>
+                    <td><a :href="'<?= Url::to(['contact/view']) ?>?id=' + model.id" target="_blank">{{model.name}}</a>
+                    </td>
                     <td>{{model.document}}</td>
                     <td>{{list_countries[model.country]}}</td>
                     <td>
@@ -63,7 +69,7 @@ Modal::begin([
                     <th>{{ modelLabels[key] }}</th>
                     <td>
                         <select class="form-control" v-model="modelMerge[key]" v-if="showField(key)">
-                            <option v-for="value in values" >{{ value }}</option>
+                            <option v-for="value in values">{{ value }}</option>
                         </select>
                         <select class="form-control" v-model="modelMerge[key]" v-if="'country' == key">
                             <option v-for="value in values" :value="value">{{ list_countries[value] }}</option>
@@ -152,10 +158,10 @@ Modal::begin([
             <i class="fa fa-check"></i> Finalizar
         </button>
 
-        <a  class="btn btn-large btn-primary pull-right"
-            v-if="models.length > 1 && modalState == 'finish'"
-            target="_blank"
-            :href="'<?= Url::to(['contact/view'])?>?id=' + modelSelected">
+        <a class="btn btn-large btn-primary pull-right"
+           v-if="models.length > 1 && modalState == 'finish'"
+           target="_blank"
+           :href="'<?= Url::to(['contact/view']) ?>?id=' + modelSelected">
             Ver Registro Fusionado
         </a>
     </div>

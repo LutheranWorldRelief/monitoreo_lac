@@ -2,25 +2,21 @@
 
 namespace app\controllers;
 
-use app\components\UHttp;
-use app\components\ULog;
-use app\components\UString;
 use app\models\AuthUser;
+use app\models\DataList;
 use app\models\form\ReportForm;
 use app\models\Organization;
-use app\models\DataList;
 use app\models\Project;
-use app\models\search\Contact;
 use app\models\SqlFullReportProjectContact;
 use PhpOffice\PhpSpreadsheet\Cell\DataValidation;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Style\Color;
 use PhpOffice\PhpSpreadsheet\Style\Conditional;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use Yii;
 use yii\helpers\ArrayHelper;
-use yii\web\HttpException;
-use yii\web\Response;
 
 /**
  * ReportController implements the CRUD actions for Project model.
@@ -44,7 +40,7 @@ class ReportController extends ControladorController
             ->orderBy('name')
             ->all(), 'id', 'name');
 
-//        if ($data && $model->load($data) && $model->validate()){
+        //        if ($data && $model->load($data) && $model->validate()){
         if ($model->load(Yii::$app->request->post())) {
 
             $query = SqlFullReportProjectContact::find();
@@ -81,11 +77,10 @@ class ReportController extends ControladorController
                 ->andFilterWhere(['event_country_code' => $model->country_code])
                 ->andFilterWhere(['organization_implementing_id' => $model->org_implementing_id]);
 
-            if (!$auth->is_superuser)
-            {
+            if (!$auth->is_superuser) {
                 $query
                     ->andWhere(['project_id' => $auth->projects])
-                    ->andFilterWhere([ 'event_country_id' => $auth->countries]);
+                    ->andFilterWhere(['event_country_id' => $auth->countries]);
             }
 
             $query->groupBy([
@@ -103,7 +98,7 @@ class ReportController extends ControladorController
             $spreadsheet = $this->getTemplateClean();
             $sheetData = $spreadsheet->getSheetByName("datos");
 
-            $sheetData->fromArray($models, NULL, 'A3');
+            $sheetData->fromArray($models, null, 'A3');
 
             $this->addCatalogAndValidation($spreadsheet);
 
@@ -177,14 +172,14 @@ class ReportController extends ControladorController
                 ->all();
 
 
-            $countries = DataList::itemsBySlug('countries','name','id','name asc');
+            $countries = DataList::itemsBySlug('countries', 'name', 'id', 'name asc');
 
             $department = [];
 
-            $sheetCatalogues->fromArray($projects, NULL, 'A3');
-            $sheetCatalogues->fromArray($organizations, NULL, 'B3');
-            $sheetCatalogues->fromArray(array_chunk($countries, 1), NULL, 'E3');
-            $sheetCatalogues->fromArray(array_chunk($department, 1), NULL, 'F3');
+            $sheetCatalogues->fromArray($projects, null, 'A3');
+            $sheetCatalogues->fromArray($organizations, null, 'B3');
+            $sheetCatalogues->fromArray(array_chunk($countries, 1), null, 'E3');
+            $sheetCatalogues->fromArray(array_chunk($department, 1), null, 'F3');
 
             $AddValidationToRange($sheetData, 1, 3, 1, 2000, 'catalogos!$A$2:$A$1000', null); //validate projects
             $AddValidationToRange($sheetData, 2, 3, 2, 2000, 'catalogos!$B$2:$B$1000', null); //validate orgs
@@ -199,14 +194,14 @@ class ReportController extends ControladorController
             $conditional = new Conditional();
             $conditional->setConditionType(Conditional::CONDITION_EXPRESSION);
             $conditional->addCondition('COUNTIF($C$3:$C$10000,C' . $i . ')>1');
-            $conditional->getStyle()->getFont()->getColor()->setARGB(\PhpOffice\PhpSpreadsheet\Style\Color::COLOR_WHITE);
+            $conditional->getStyle()->getFont()->getColor()->setARGB(Color::COLOR_WHITE);
 
             $styleArray = [
                 'font' => [
                     'bold' => true,
                 ],
                 'fill' => [
-                    'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                    'fillType' => Fill::FILL_SOLID,
                     'startColor' => [
                         'argb' => Color::COLOR_RED,
                     ],
@@ -214,8 +209,8 @@ class ReportController extends ControladorController
                         'argb' => Color::COLOR_RED,
                     ],
                 ],
-                'numberFormat'=>[
-                    'formatCode' => \PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_TEXT,
+                'numberFormat' => [
+                    'formatCode' => NumberFormat::FORMAT_TEXT,
                 ]
             ];
 
@@ -226,16 +221,6 @@ class ReportController extends ControladorController
 
             $spreadsheet->getActiveSheet()->getStyle('C' . $i)->setConditionalStyles($conditionalStyles);
         }
-    }
-
-    public function actionTemplateClean()
-    {
-        $fileName = 'lwr_contacts_';
-
-        $spreadsheet = $this->getTemplateClean();
-        $this->addCatalogAndValidation($spreadsheet);
-
-        $this->sendExcel($spreadsheet, $fileName . Yii::$app->language . date('_Ymj_His'));
     }
 
     private function sendExcel($spreadsheet, $fileName = 'file')
@@ -256,6 +241,16 @@ class ReportController extends ControladorController
         $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
         $writer->save('php://output');
         die;
+    }
+
+    public function actionTemplateClean()
+    {
+        $fileName = 'lwr_contacts_';
+
+        $spreadsheet = $this->getTemplateClean();
+        $this->addCatalogAndValidation($spreadsheet);
+
+        $this->sendExcel($spreadsheet, $fileName . Yii::$app->language . date('_Ymj_His'));
     }
 
 

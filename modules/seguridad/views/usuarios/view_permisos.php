@@ -1,9 +1,9 @@
 <?php
 
-use yii\helpers\Html;
 use mdm\admin\AnimateAsset;
-use yii\web\YiiAsset;
+use yii\helpers\Html;
 use yii\helpers\Json;
+use yii\web\YiiAsset;
 
 AnimateAsset::register($this);
 YiiAsset::register($this);

@@ -2,7 +2,7 @@
 
 namespace app\models\base;
 
-use Yii;
+use app\components\ActiveRecord;
 
 /**
  * This is the model class for table "sql_debug_contact_doc".
@@ -10,9 +10,9 @@ use Yii;
  * by the gii model generator. Custom code belongs to app\models\SqlDebugContactDoc.
  *
  * @property string $doc_id
- * @property int $cuenta
+ * @property int    $cuenta
  */
-abstract class SqlDebugContactDoc extends \app\components\ActiveRecord
+abstract class SqlDebugContactDoc extends ActiveRecord
 {
     /**
      * @inheritdoc

@@ -2,28 +2,29 @@
 
 namespace app\models\base;
 
-use Yii;
+use app\components\ActiveRecord;
+use yii\db\ActiveQuery;
 
 /**
  * This is the model class for table "attendance".
  * Please do not add custom code to this file, as it is supposed to be overriden
  * by the gii model generator. Custom code belongs to app\models\Attendance.
  *
- * @property int $id
- * @property int $event_id
- * @property int $contact_id
- * @property string $document
- * @property string $sex
- * @property string $country
- * @property string $community
- * @property int $org_id
- * @property string $phone_personal
- * @property int $type_id
+ * @property int                 $id
+ * @property int                 $event_id
+ * @property int                 $contact_id
+ * @property string              $document
+ * @property string              $sex
+ * @property string              $country
+ * @property string              $community
+ * @property int                 $org_id
+ * @property string              $phone_personal
+ * @property int                 $type_id
  *
  * @property \app\models\Contact $contact
- * @property \app\models\Event $event
+ * @property \app\models\Event   $event
  */
-abstract class Attendance extends \app\components\ActiveRecord
+abstract class Attendance extends ActiveRecord
 {
     /**
      * @inheritdoc
@@ -68,7 +69,7 @@ abstract class Attendance extends \app\components\ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getContact()
     {
@@ -76,7 +77,7 @@ abstract class Attendance extends \app\components\ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getEvent()
     {

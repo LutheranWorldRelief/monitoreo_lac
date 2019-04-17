@@ -1,4 +1,8 @@
-<?php use kartik\widgets\DatePicker; ?>
+<?php use app\components\UCatalogo;
+use app\models\Project;
+use kartik\select2\Select2;
+use kartik\widgets\DatePicker;
+use yii\helpers\Html; ?>
 <div class="row">
     <div class="box">
         <div class="box-header with-border">
@@ -13,7 +17,7 @@
         <div class="box-body">
             <div class="col-md-2">
                 <label>Mes inicio Año Fiscal</label>
-                <?= \yii\helpers\Html::dropDownList('mes_fiscal', null, \app\components\UCatalogo::getNombreMesesArrayDesde1(), ['ng-model' => 'formulario.mes_fiscal', 'class' => 'form-control']) ?>
+                <?= Html::dropDownList('mes_fiscal', null, UCatalogo::getNombreMesesArrayDesde1(), ['ng-model' => 'formulario.mes_fiscal', 'class' => 'form-control']) ?>
             </div>
             <div class="col-md-2">
                 <?php
@@ -48,9 +52,9 @@
             <div class="col-md-4">
                 <label>Proyecto</label>
                 <?php
-                echo \kartik\select2\Select2::widget([
+                echo Select2::widget([
                     'name' => 'state_10',
-                    'data' => \app\models\Project::listDataBlank("name"),
+                    'data' => Project::listDataBlank("name"),
                     'pluginOptions' => [
                         'allowClear' => true,
                     ],

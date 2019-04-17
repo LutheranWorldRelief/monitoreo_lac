@@ -2,32 +2,33 @@
 
 namespace app\models\base;
 
-use Yii;
+use app\components\ActiveRecord;
+use yii\db\ActiveQuery;
 
 /**
  * This is the model class for table "event".
  * Please do not add custom code to this file, as it is supposed to be overriden
  * by the gii model generator. Custom code belongs to app\models\Event.
  *
- * @property int $id
- * @property int $structure_id
- * @property string $name
- * @property string $title
- * @property int $implementing_organization_id
- * @property string $organizer
- * @property string $text
- * @property string $start
- * @property string $end
- * @property string $place
- * @property string $notes
- * @property int $country_id
+ * @property int                      $id
+ * @property int                      $structure_id
+ * @property string                   $name
+ * @property string                   $title
+ * @property int                      $implementing_organization_id
+ * @property string                   $organizer
+ * @property string                   $text
+ * @property string                   $start
+ * @property string                   $end
+ * @property string                   $place
+ * @property string                   $notes
+ * @property int                      $country_id
  *
  * @property \app\models\Attendance[] $attendances
- * @property \app\models\DataList $country
+ * @property \app\models\DataList     $country
  * @property \app\models\Organization $implementingOrganization
- * @property \app\models\Structure $structure
+ * @property \app\models\Structure    $structure
  */
-abstract class Event extends \app\components\ActiveRecord
+abstract class Event extends ActiveRecord
 {
     /**
      * @inheritdoc
@@ -77,7 +78,7 @@ abstract class Event extends \app\components\ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getAttendances()
     {
@@ -85,7 +86,7 @@ abstract class Event extends \app\components\ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getCountry()
     {
@@ -93,7 +94,7 @@ abstract class Event extends \app\components\ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getImplementingOrganization()
     {
@@ -101,7 +102,7 @@ abstract class Event extends \app\components\ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getStructure()
     {

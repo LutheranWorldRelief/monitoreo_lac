@@ -2,16 +2,27 @@
 
 namespace app\controllers;
 
+use app\models\AuthUser;
+use Yii;
 use yii\filters\auth\HttpBearerAuth;
+use yii\rest\ActiveController;
 
-class ControladorRestController extends \yii\rest\ActiveController {
+class ControladorRestController extends ActiveController
+{
 
-    public function init() {
+    public $serializer = [
+        'class' => 'yii\rest\Serializer',
+        'collectionEnvelope' => 'data',
+    ];
+
+    public function init()
+    {
         parent::init();
-        \Yii::$app->user->enableSession = false;
+        Yii::$app->user->enableSession = false;
     }
 
-    public function behaviors() {
+    public function behaviors()
+    {
         $behaviors = parent::behaviors();
         $behaviors['authenticator'] = [
             'class' => HttpBearerAuth::className(),
@@ -20,14 +31,10 @@ class ControladorRestController extends \yii\rest\ActiveController {
         return $behaviors;
     }
 
-    public $serializer = [
-        'class' => 'yii\rest\Serializer',
-        'collectionEnvelope' => 'data',
-    ];
-
-    public function actionLogin() {
-        $request = \Yii::$app->request;
-        $user = \app\models\AuthUser::findByUsername($request->post('usuario'));
+    public function actionLogin()
+    {
+        $request = Yii::$app->request;
+        $user = AuthUser::findByUsername($request->post('usuario'));
         if ($user && $user->validatePassword($request->post('clave'))) {
             $user->generarToken();
             return $user->access_token;

@@ -1,9 +1,8 @@
 <?php
 
-use yii\helpers\Html;
-use yii\grid\GridView;
-use mdm\admin\components\RouteRule;
 use mdm\admin\components\Configs;
+use mdm\admin\components\RouteRule;
+use yii\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -34,11 +33,11 @@ unset($rules[RouteRule::RULE_NAME]);
                         'header' => 'Nombre',
                         'label' => Yii::t('rbac-admin', 'Name'),
                     ],
-//                    [
-//                        'attribute' => 'ruleName',
-//                        'label' => Yii::t('rbac-admin', 'Rule Name'),
-//                        'filter' => $rules
-//                    ],
+                    //                    [
+                    //                        'attribute' => 'ruleName',
+                    //                        'label' => Yii::t('rbac-admin', 'Rule Name'),
+                    //                        'filter' => $rules
+                    //                    ],
                     [
                         'attribute' => 'description',
                         'header' => 'Descripción',

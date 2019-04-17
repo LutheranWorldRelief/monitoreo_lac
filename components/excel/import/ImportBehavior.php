@@ -2,7 +2,6 @@
 
 namespace app\components\excel\import;
 
-use app\components\ULog;
 use Yii;
 use yii\base\Behavior;
 use yii\validators\FileValidator;

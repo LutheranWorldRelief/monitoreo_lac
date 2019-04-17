@@ -2,10 +2,9 @@
 
 namespace app\models\search;
 
-use Yii;
+use app\models\Organization as OrganizationModel;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Organization as OrganizationModel;
 
 /**
  * Organization represents the model behind the search form of `app\models\Organization`.

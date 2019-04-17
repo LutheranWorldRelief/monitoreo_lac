@@ -1,7 +1,6 @@
 <?php
 
 use app\assets\Vue2Asset;
-use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\helpers\Url;
 
@@ -13,7 +12,8 @@ extract($data);
 <div class="row">
     <div class="col-lg-10 col-lg-offset-1">
         <h3 class="text-info pull-left">Proceso Finalizado con éxito</h3>
-        <a href="<?= Url::to(['import/beneficiarios-paso1']) ?>" class="btn btn-primary"><i class="fa fa-reply"></i> Regresar</a>
+        <a href="<?= Url::to(['import/beneficiarios-paso1']) ?>"
+           class="btn btn-primary"><i class="fa fa-reply"></i> Regresar</a>
     </div>
 
 </div>
@@ -40,7 +40,8 @@ extract($data);
                 <td>{{index + 1}}</td>
                 <td>{{model.contact_id}}</td>
                 <td>
-                    <a :href="'<?= Url::to(['contact/view']) ?>?id=' + model.contact_id" target="_blank">{{model.contact_name}}</a>
+                    <a :href="'<?= Url::to(['contact/view']) ?>?id=' + model.contact_id"
+                       target="_blank">{{model.contact_name}}</a>
                 </td>
                 <td>{{model.contact_sex}}</td>
                 <td>{{model.contact_document}}</td>

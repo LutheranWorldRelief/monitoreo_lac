@@ -1,6 +1,8 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
+
 $archivo = Yii::$app->request->get('archivo');
 extract($data);
 ?>
@@ -11,7 +13,8 @@ extract($data);
     <div class="col-lg-7">
         <ul class="list-inline pull-right">
             <li>
-                <a class="btn btn-success btn-block pull-right" href="<?= \yii\helpers\Url::to(['import/beneficiarios-paso4', 'archivo' => $archivo]) ?>">
+                <a class="btn btn-success btn-block pull-right"
+                   href="<?= Url::to(['import/beneficiarios-paso4', 'archivo' => $archivo]) ?>">
                     <i class="fa fa-check"></i> Finalizar y ver duplicados
                 </a>
             </li>
@@ -35,7 +38,7 @@ extract($data);
             <tbody>
             <?php foreach ($data as $d): ?>
                 <tr>
-                    <td><?= Html::a($d['name'], \yii\helpers\Url::to(['event/view', 'id' => $d['id']]), ['target' => '_blank']) ?></td>
+                    <td><?= Html::a($d['name'], Url::to(['event/view', 'id' => $d['id']]), ['target' => '_blank']) ?></td>
                     <td><?= $d['structure']['project']['name'] ?></td>
                     <td><?= $d['structure']['description'] ?></td>
                     <td><?= $d['implementingOrganization']['name'] ?></td>

@@ -6,8 +6,8 @@ use app\components\WMenuExport;
 use app\models\DataList;
 use app\models\OrganizationType;
 use kartik\editable\Editable;
-use kartik\select2\Select2;
 use kartik\grid\GridView;
+use kartik\select2\Select2;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\search\Organization */

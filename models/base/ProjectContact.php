@@ -2,30 +2,31 @@
 
 namespace app\models\base;
 
-use Yii;
+use app\components\ActiveRecord;
+use yii\db\ActiveQuery;
 
 /**
  * This is the model class for table "project_contact".
  * Please do not add custom code to this file, as it is supposed to be overriden
  * by the gii model generator. Custom code belongs to app\models\ProjectContact.
  *
- * @property int $id
- * @property int $project_id
- * @property int $contact_id
- * @property string $product
- * @property string $area
- * @property string $development_area
- * @property string $productive_area
- * @property int $age_development_plantation
- * @property int $age_productive_plantation
- * @property double $yield
- * @property string $date_entry_project
- * @property string $date_end_project
+ * @property int                 $id
+ * @property int                 $project_id
+ * @property int                 $contact_id
+ * @property string              $product
+ * @property string              $area
+ * @property string              $development_area
+ * @property string              $productive_area
+ * @property int                 $age_development_plantation
+ * @property int                 $age_productive_plantation
+ * @property double              $yield
+ * @property string              $date_entry_project
+ * @property string              $date_end_project
  *
  * @property \app\models\Contact $contact
  * @property \app\models\Project $project
  */
-abstract class ProjectContact extends \app\components\ActiveRecord
+abstract class ProjectContact extends ActiveRecord
 {
     /**
      * @inheritdoc
@@ -73,7 +74,7 @@ abstract class ProjectContact extends \app\components\ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getContact()
     {
@@ -81,7 +82,7 @@ abstract class ProjectContact extends \app\components\ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getProject()
     {

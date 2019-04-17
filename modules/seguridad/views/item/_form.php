@@ -1,11 +1,11 @@
 <?php
 
-use yii\helpers\Html;
-use yii\widgets\ActiveForm;
-use mdm\admin\components\RouteRule;
 use mdm\admin\AutocompleteAsset;
-use yii\helpers\Json;
 use mdm\admin\components\Configs;
+use mdm\admin\components\RouteRule;
+use yii\helpers\Html;
+use yii\helpers\Json;
+use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model mdm\admin\models\AuthItem */
@@ -21,7 +21,8 @@ $source = Json::htmlEncode(array_keys($rules));
 $js = <<<JS
     $('#rule_name').autocomplete({
         source: $source,
-    });
+    })
+
 JS;
 AutocompleteAsset::register($this);
 $this->registerJs($js);

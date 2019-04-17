@@ -2,10 +2,9 @@
 
 namespace app\models\search;
 
-use Yii;
+use app\models\Structure as StructureModel;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Structure as StructureModel;
 
 /**
  * Structure represents the model behind the search form about `app\models\Structure`.

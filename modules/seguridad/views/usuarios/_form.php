@@ -1,14 +1,15 @@
 <?php
 
-use yii\helpers\Html;
+use app\assets\iCheckAsset;
 use yii\bootstrap\ActiveForm;
+use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\AuthUser */
 /* @var $form yii\widgets\ActiveForm */
 
 $this->registerAssetBundle("\yii\web\JqueryAsset", yii\web\View::POS_HEAD);
-\app\assets\iCheckAsset::register($this);
+iCheckAsset::register($this);
 ?>
 <div class="auth-user-form">
     <?php $form = ActiveForm::begin(); ?>
@@ -37,8 +38,8 @@ $this->registerAssetBundle("\yii\web\JqueryAsset", yii\web\View::POS_HEAD);
 <script>
     $(document).ready(function () {
         $('input').iCheck({
-            checkboxClass: 'icheckbox_flat-green',
-            radioClass: 'iradio_square-green'
-        });
+                              checkboxClass: 'icheckbox_flat-green',
+                              radioClass: 'iradio_square-green'
+                          });
     });
 </script>

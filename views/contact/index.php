@@ -1,15 +1,14 @@
 <?php
 
+use app\components\UCatalogo;
 use app\components\WGridView;
 use app\components\WMenuExport;
-use kartik\editable\Editable;
-use kartik\export\ExportMenu;
-use kartik\select2\Select2;
-use yii\helpers\Html;
-use kartik\grid\GridView;
-use app\components\UCatalogo;
 use app\models\DataList;
 use app\models\Organization;
+use kartik\editable\Editable;
+use kartik\grid\GridView;
+use kartik\select2\Select2;
+use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\search\Contact */

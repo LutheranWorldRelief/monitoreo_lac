@@ -2,10 +2,9 @@
 
 namespace app\models\search;
 
-use Yii;
+use app\models\SqlProject as SqlProjectModel;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\SqlProject as SqlProjectModel;
 
 /**
  * SqlProject represents the model behind the search form of `app\models\SqlProject`.

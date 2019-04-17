@@ -2,7 +2,7 @@
 
 namespace app\models;
 
-use app\components\ULog;
+use Throwable;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\db\Exception;
@@ -14,8 +14,66 @@ use yii\helpers\ArrayHelper;
  * Check the base class at app\models\base\DataList in order to
  * see the column names and relations.
  */
-class DataList extends \app\models\base\DataList
+class DataList extends base\DataList
 {
+
+    public static function itemsBySlug($slug, $label = 'name', $id = 'id', $order = "order DESC")
+    {
+        $model = DataList::find()->where(['slug' => $slug])->one();
+        if (!$model)
+            return [];
+        return ArrayHelper::map($model->getDataLists()->orderBy($order)->all(), $id, $label);
+    }
+
+    public static function idItemBySlug($slug, $name)
+    {
+        $model = DataList::find()->where(['slug' => $slug])->one();
+        if (!$model)
+            return null;
+        $item = DataList::find()->andWhere(['list_id' => $model->id, 'name' => $name])->one();
+
+        if ($item)
+            return $item->id;
+        return null;
+    }
+
+    public static function CreateItem($slug, $name)
+    {
+        $model = DataList::find()->where(['slug' => $slug])->one();
+        if (!$model) {
+            $model = new DataList();
+            $model->name = $slug;
+            $model->slug = $slug;
+            $model->save();
+        }
+        $item = new DataList();
+        $item->list_id = $model->id;
+        $item->name = $name;
+        $item->validate();
+        if ($item->save())
+            return $item->id;
+        return null;
+    }
+
+    public static function CountryCode($name)
+    {
+        $model = DataList::find()->where(['slug' => 'countries'])->one();
+        if (!$model)
+            return null;
+
+        $list = ArrayHelper::map($model->getDataLists()->all(), 'value', 'name');
+        $keys = array_keys($list, trim($name));
+        if (count($keys) > 0)
+            return $keys[0];
+        return null;
+    }
+
+    public static function CountriesCode()
+    {
+        $model = DataList::find()->where(['slug' => 'countries'])->one();
+        return ArrayHelper::map($model->getDataLists()->all(), 'value', 'name');
+
+    }
 
     public function rules()
     {
@@ -88,70 +146,12 @@ class DataList extends \app\models\base\DataList
             $transaction->rollBack();
             echo $e;
 
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             $transaction->rollBack();
             echo $e;
         }
 
         return $deleted;
-    }
-
-    public static function itemsBySlug($slug, $label = 'name', $id = 'id', $order = "order DESC")
-    {
-        $model = DataList::find()->where(['slug' => $slug])->one();
-        if (!$model)
-            return [];
-        return ArrayHelper::map($model->getDataLists()->orderBy($order)->all(), $id, $label);
-    }
-
-    public static function idItemBySlug($slug, $name)
-    {
-        $model = DataList::find()->where(['slug' => $slug])->one();
-        if (!$model)
-            return null;
-        $item = DataList::find()->andWhere(['list_id' => $model->id, 'name' => $name])->one();
-
-        if ($item)
-            return $item->id;
-        return null;
-    }
-
-    public static function CreateItem($slug, $name)
-    {
-        $model = DataList::find()->where(['slug' => $slug])->one();
-        if (!$model) {
-            $model = new DataList();
-            $model->name = $slug;
-            $model->slug = $slug;
-            $model->save();
-        }
-        $item = new DataList();
-        $item->list_id = $model->id;
-        $item->name = $name;
-        $item->validate();
-        if ($item->save())
-            return $item->id;
-        return null;
-    }
-
-    public static function CountryCode($name)
-    {
-        $model = DataList::find()->where(['slug' => 'countries'])->one();
-        if (!$model)
-            return null;
-
-        $list = ArrayHelper::map($model->getDataLists()->all(), 'value', 'name');
-        $keys = array_keys($list, trim($name));
-        if (count($keys) > 0)
-            return $keys[0];
-        return null;
-    }
-
-    public static function CountriesCode()
-    {
-        $model = DataList::find()->where(['slug' => 'countries'])->one();
-        return ArrayHelper::map($model->getDataLists()->all(), 'value', 'name');
-
     }
 
     public function beforeValidate()

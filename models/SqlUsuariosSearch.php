@@ -2,20 +2,20 @@
 
 namespace app\models;
 
-use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\AuthUser;
 
 /**
  * SqlUsuariosSearch represents the model behind the search form about `app\models\AuthUser`.
  */
 class SqlUsuariosSearch extends AuthUser
 {
-        public static function tableName() {
+    public static function tableName()
+    {
         $parent = get_parent_class();
         return $parent::tableName();
     }
+
     /**
      * @inheritdoc
      */

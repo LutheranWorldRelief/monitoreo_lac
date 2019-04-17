@@ -4,7 +4,7 @@
             <h3 class="box-title">Organizaciones Implementadoras, Participantes por Sexo y por Año Fiscal</h3>
             <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
-                        class="fa fa-minus"></i>
+                            class="fa fa-minus"></i>
                 </button>
             </div>
         </div>

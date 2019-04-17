@@ -1,9 +1,8 @@
 <?php
 
-use yii\bootstrap\NavBar;
 use yii\bootstrap\Nav;
+use yii\bootstrap\NavBar;
 use yii\helpers\Url;
-use app\components\Ulog;
 
 if (!isset($options))
     $options = [];
@@ -21,18 +20,18 @@ NavBar::begin([
 ]);
 echo Nav::widget([
     'items' => array_merge(
-            $options, [
-        [
-            'label' => '<i class="fa fa-plus"></i> Nuevo Proyecto',
-            'url' => ['project/create'],
-            'encode' => false
-        ],
-        [
-            'label' => '<i class="fa fa-database"></i> Lista',
-            'url' => ['project/'],
-            'encode' => false
-        ],
-            ]
+        $options, [
+            [
+                'label' => '<i class="fa fa-plus"></i> Nuevo Proyecto',
+                'url' => ['project/create'],
+                'encode' => false
+            ],
+            [
+                'label' => '<i class="fa fa-database"></i> Lista',
+                'url' => ['project/'],
+                'encode' => false
+            ],
+        ]
     ),
     'options' => ['class' => 'navbar-nav navbar-right'],
 ]);

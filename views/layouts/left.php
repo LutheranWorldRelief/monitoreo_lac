@@ -89,8 +89,8 @@ $visibleConfig = validaArray($ConfigItems);
                             ['icon' => 'users', 'label' => 'Participantes/Evento', 'url' => Yii::$app->urlManager->createAbsoluteUrl(['/contact/contact-event']), 'visible' => $visibleParticipantesEventos],
                             ['label' => 'Duplicados', 'visible' => $visibleDuplicadosNombre || $visibleDuplicadosDocumento,
                                 'items' => [
-                                    ['label' => 'Nombre', 'icon' => 'user', 'url' =>  Yii::$app->urlManager->createAbsoluteUrl(['/opt/debug-contact-name']), $visibleDuplicadosNombre],
-                                    ['label' => 'Documento', 'icon' => 'id-card', 'url' =>  Yii::$app->urlManager->createAbsoluteUrl(['/opt/debug-contact-doc']), $visibleDuplicadosDocumento],
+                                    ['label' => 'Nombre', 'icon' => 'user', 'url' => Yii::$app->urlManager->createAbsoluteUrl(['/opt/debug-contact-name']), $visibleDuplicadosNombre],
+                                    ['label' => 'Documento', 'icon' => 'id-card', 'url' => Yii::$app->urlManager->createAbsoluteUrl(['/opt/debug-contact-doc']), $visibleDuplicadosDocumento],
                                 ]
                             ],
                         ],
@@ -111,13 +111,13 @@ $visibleConfig = validaArray($ConfigItems);
                             [
                                 'label' => 'Principal',
                                 'icon' => 'file-excel-o',
-                                'url' => Yii::$app->urlManager->createAbsoluteUrl( ['report/index']),
+                                'url' => Yii::$app->urlManager->createAbsoluteUrl(['report/index']),
                                 'visible' => $visibleExcel,
                             ],
                             [
                                 'label' => 'Plantilla en Limpio',
                                 'icon' => 'file-excel-o',
-                                'url' =>  Yii::$app->urlManager->createAbsoluteUrl(['report/template-clean']),
+                                'url' => Yii::$app->urlManager->createAbsoluteUrl(['report/template-clean']),
                                 'visible' => $visiblePlantilla,
                             ],
                         ],
@@ -207,17 +207,17 @@ $visibleConfig = validaArray($ConfigItems);
                             ],
                         ]
                     ],
-//                    [
-//                        'label' => 'Dev Tools',
-//                        'icon' => 'gears',
-//                        'url' => '#',
-//                        'visible' => $user->getIsSuperUser(),
-//                        'items' => [
-//                            ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii'],],
-//                            ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug'],],
-//
-//                        ],
-//                    ],
+                    //                    [
+                    //                        'label' => 'Dev Tools',
+                    //                        'icon' => 'gears',
+                    //                        'url' => '#',
+                    //                        'visible' => $user->getIsSuperUser(),
+                    //                        'items' => [
+                    //                            ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii'],],
+                    //                            ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug'],],
+                    //
+                    //                        ],
+                    //                    ],
 
 
                 ],

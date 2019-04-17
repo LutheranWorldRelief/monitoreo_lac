@@ -1,17 +1,16 @@
 <?php
-use yii\bootstrap\Html;
-use yii\widgets\DetailView;
-use kartik\grid\GridView;
-use yii\data\ArrayDataProvider;
-use app\models\DataList;
+
 use app\assets\AlertifyAsset;
+use kartik\grid\GridView;
+use yii\bootstrap\Html;
+use yii\data\ArrayDataProvider;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\DataList */
 AlertifyAsset::register($this);
 
 $this->registerJsFile('@web/js/vue/vue2.js');
-$this->registerJsFile('@web/js/datalist.view.vue.js', ['depends'=>[
+$this->registerJsFile('@web/js/datalist.view.vue.js', ['depends' => [
     'app\assets\AppAsset',
     'yii\web\JqueryAsset',
     'yii\web\YiiAsset',
@@ -23,7 +22,7 @@ echo $this->render('_navbar', [
         [
             'label' => '<i class="fa fa-reply"></i> Regresar',
             'url' => ['data-list/view', 'id' => $model->id],
-            'encode'=>false
+            'encode' => false
         ],
     ]
 ])
@@ -38,7 +37,7 @@ echo $this->render('_navbar', [
             'attribute' => 'name',
             'format' => 'raw',
             'value' => function ($model) {
-                return Html::a($model->name, ['contact/view', 'id' => $model->id], ['target'=>'_blank']);
+                return Html::a($model->name, ['contact/view', 'id' => $model->id], ['target' => '_blank']);
             },
         ],
         'countryName',

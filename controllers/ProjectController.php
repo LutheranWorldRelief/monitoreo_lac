@@ -2,35 +2,31 @@
 
 namespace app\controllers;
 
-use app\components\ULog;
 use app\models\Contact;
+use app\models\Project;
 use app\models\ProjectContact;
+use app\models\search\SqlProject as ProjectSearch;
+use Yii;
+use yii\db\Query;
+use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
+use yii\web\NotFoundHttpException;
+use yii\web\Response;
+use yii\web\UploadedFile;
 use function count;
 use const SORT_ASC;
-use const SORT_DESC;
-use Yii;
-use app\models\Project;
-use app\models\search\SqlProject as ProjectSearch;
-use yii\data\ActiveDataProvider;
-use yii\db\ActiveQuery;
-use yii\db\Expression;
-use yii\db\Query;
-use yii\helpers\ArrayHelper;
-use yii\web\Controller;
-use yii\web\HttpException;
-use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
-use yii\web\Response;
 
 /**
  * ProjectController implements the CRUD actions for Project model.
  */
-class ProjectController extends ControladorController {
+class ProjectController extends ControladorController
+{
 
     /**
      * @inheritdoc
      */
-    public function behaviors() {
+    public function behaviors()
+    {
         return [
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -46,7 +42,8 @@ class ProjectController extends ControladorController {
      * Lists all Project models.
      * @return mixed
      */
-    public function actionIndex() {
+    public function actionIndex()
+    {
         $searchModel = new ProjectSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -58,64 +55,29 @@ class ProjectController extends ControladorController {
 
     /**
      * Displays a single Project model.
+     *
      * @param integer $id
+     *
      * @return mixed
      */
-    public function actionView($id) {
+    public function actionView($id)
+    {
         return $this->render('view', [
-                    'model' => $this->findModel($id),
+            'model' => $this->findModel($id),
         ]);
-    }
-
-    /**
-     * Creates a new Project model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreate() {
-        $model = new \app\models\Project();
-        $this->guardar($model);
-        return $this->render('create', ['model' => $model,]);
-    }
-
-    public function actionUpdate($id) {
-        $model = $this->findModel($id);
-        $this->guardar($model);
-        return $this->render('update', ['model' => $model,]);
-    }
-
-    private function guardar($model) {
-        $logo = $model->logo;
-        if ($model->load(Yii::$app->request->post())) {
-            $model->logo = \yii\web\UploadedFile::getInstance($model, 'logo');
-            $model->SubirLogo();
-            if (!$model->logo)
-                $model->logo = $logo;
-            if ($model->save())
-                return $this->redirect(['index']);
-        }
-    }
-
-    /**
-     * Deletes an existing Project model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionDelete($id) {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
     }
 
     /**
      * Finds the Project model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
+     *
      * @param integer $id
+     *
      * @return Project the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id) {
+    protected function findModel($id)
+    {
         if (($model = Project::findOne($id)) !== null) {
             return $model;
         } else {
@@ -124,69 +86,87 @@ class ProjectController extends ControladorController {
     }
 
     /**
-     * Finds the Contact model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Contact the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
+     * Creates a new Project model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
      */
-    protected function findModelContact($id) {
-        if (($model = Contact::findOne($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
+    public function actionCreate()
+    {
+        $model = new Project();
+        $this->guardar($model);
+        return $this->render('create', ['model' => $model,]);
+    }
+
+    private function guardar($model)
+    {
+        $logo = $model->logo;
+        if ($model->load(Yii::$app->request->post())) {
+            $model->logo = UploadedFile::getInstance($model, 'logo');
+            $model->SubirLogo();
+            if (!$model->logo)
+                $model->logo = $logo;
+            if ($model->save())
+                return $this->redirect(['index']);
         }
     }
 
-    /**
-     * Finds the ProjectContact model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return ProjectContact the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModelProjectContact($projectId, $contactId) {
-        return ProjectContact::find()
-            ->andWhere([
-                'project_id' => $projectId,
-                'contact_id' => $contactId
-            ])
-            ->one();
+    public function actionUpdate($id)
+    {
+        $model = $this->findModel($id);
+        $this->guardar($model);
+        return $this->render('update', ['model' => $model,]);
     }
 
-    public function actionDataStructure() {
-        $request = \Yii::$app->request;
-        $query = (new \yii\db\Query());
-        $query
-                ->select(['e.*', 'project' => 'p.name'])
-                ->from('structure e')
-                ->leftJoin('project p', 'e.project_id = p.id')
-                ->andFilterWhere(['project_id' => $request->get('proyecto')])
-                ->orderBy(['structure_id' => SORT_ASC, 'code' => SORT_ASC,'description'=>SORT_ASC]);
+    /**
+     * Deletes an existing Project model.
+     * If deletion is successful, the browser will be redirected to the 'index' page.
+     *
+     * @param integer $id
+     *
+     * @return mixed
+     */
+    public function actionDelete($id)
+    {
+        $this->findModel($id)->delete();
 
-        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return $this->redirect(['index']);
+    }
+
+    public function actionDataStructure()
+    {
+        $request = Yii::$app->request;
+        $query = (new Query());
+        $query
+            ->select(['e.*', 'project' => 'p.name'])
+            ->from('structure e')
+            ->leftJoin('project p', 'e.project_id = p.id')
+            ->andFilterWhere(['project_id' => $request->get('proyecto')])
+            ->orderBy(['structure_id' => SORT_ASC, 'code' => SORT_ASC, 'description' => SORT_ASC]);
+
+        Yii::$app->response->format = Response::FORMAT_JSON;
         return $query->all();
     }
 
-    public function actionApiContact($projectId, $contactId){
+    public function actionApiContact($projectId, $contactId)
+    {
 
         Yii::$app->response->format = Response::FORMAT_JSON;
 
-        $request  = Yii::$app->request;
+        $request = Yii::$app->request;
         $response = Yii::$app->response;
 
-//        $project = $this->findModel($projectId);
-//        $contact = $this->findModelContact($contactId);
+        //        $project = $this->findModel($projectId);
+        //        $contact = $this->findModelContact($contactId);
         $projectContact = $this->findModelProjectContact($projectId, $contactId);
         if (!$projectContact)
             $projectContact = new ProjectContact();
         $data = $request->post();
 
-        if ($projectContact->load($data)){
+        if ($projectContact->load($data)) {
             $projectContact->contact_id = $contactId;
             $projectContact->project_id = $projectId;
 
-            if (!$projectContact->save()){
+            if (!$projectContact->save()) {
                 $response->statusCode = 400;
                 $response->statusText = 'error_registro_dato';
             }
@@ -197,7 +177,28 @@ class ProjectController extends ControladorController {
         ];
 
     }
-    public function actionApiContacts($projectId, $q=null){
+
+    /**
+     * Finds the ProjectContact model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     *
+     * @param integer $id
+     *
+     * @return ProjectContact the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findModelProjectContact($projectId, $contactId)
+    {
+        return ProjectContact::find()
+            ->andWhere([
+                'project_id' => $projectId,
+                'contact_id' => $contactId
+            ])
+            ->one();
+    }
+
+    public function actionApiContacts($projectId, $q = null)
+    {
 
         $project = $this->findModel($projectId);
 
@@ -210,46 +211,65 @@ class ProjectController extends ControladorController {
 
         $query = Contact::find()
             ->select(['id', 'name'])
-            ->with(['projectContactOne'=> function($query) use ($projectId){
+            ->with(['projectContactOne' => function ($query) use ($projectId) {
                 $query->andWhere(['project_id' => $projectId]);
             }])
-            ->andWhere(['id'=>$contactIds])
-            ->orderBy(['TRIM(name)'=>SORT_ASC]);
+            ->andWhere(['id' => $contactIds])
+            ->orderBy(['TRIM(name)' => SORT_ASC]);
 
         if ($q)
-            $query->andWhere(['or', ['id'=>$q], ['like', 'name', trim($q)]]);
+            $query->andWhere(['or', ['id' => $q], ['like', 'name', trim($q)]]);
 
 
         Yii::$app->response->format = Response::FORMAT_JSON;
         return [
-            'q'=>$q,
+            'q' => $q,
             'projectId' => $projectId,
-            'project'   => $project,
-            'count'     => [
-                'contacts'    => $query->count() * 1,
+            'project' => $project,
+            'count' => [
+                'contacts' => $query->count() * 1,
                 'contactsIds' => count($contactIds),
             ],
-            'labels'    => [
-                'contact'        => (new Contact())->attributeLabels(),
+            'labels' => [
+                'contact' => (new Contact())->attributeLabels(),
                 'projectContact' => (new ProjectContact())->attributeLabels(),
             ],
-            'new'   => [
+            'new' => [
                 'contact' => new Contact(),
                 'projectContact' => new ProjectContact(),
             ],
-            'models'    => $query->asArray()->all(),
+            'models' => $query->asArray()->all(),
         ];
 
     }
 
-    public function actionContacts($projectId){
+    public function actionContacts($projectId)
+    {
 
         $project = $this->findModel($projectId);
 
         return $this->render('contacts', [
-            'project'   => $project,
+            'project' => $project,
         ]);
 
+    }
+
+    /**
+     * Finds the Contact model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     *
+     * @param integer $id
+     *
+     * @return Contact the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findModelContact($id)
+    {
+        if (($model = Contact::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
     }
 
 }

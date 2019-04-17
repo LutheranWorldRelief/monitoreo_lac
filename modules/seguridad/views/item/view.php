@@ -12,7 +12,7 @@ use yii\widgets\DetailView;
 
 $context = $this->context;
 $labels = $context->labels();
-$this->title = $labels['Item'] .' : ' .$model->name;
+$this->title = $labels['Item'] . ' : ' . $model->name;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('rbac-admin', $labels['Items']), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
