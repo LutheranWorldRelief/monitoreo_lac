@@ -1,5 +1,4 @@
 <?php
-JSLoggingAsset::register($this);
 
 use bedezign\yii2\audit\web\JSLoggingAsset;
 use yii\helpers\Html;
@@ -8,6 +7,7 @@ use yii\web\View;
 /* @var $this View */
 /* @var $content string */
 
+JSLoggingAsset::register($this);
 
 if (Yii::$app->controller->action->id === 'login') {
     /**
