@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use Exception;
 use Yii;
 
 /**
@@ -10,11 +11,11 @@ use Yii;
  * Check the base class at app\models\base\Filter in order to
  * see the column names and relations.
  */
-class Filter extends \app\models\base\Filter
+class Filter extends base\Filter
 {
     public function delete()
     {
-        $transaction = \Yii::$app->db->beginTransaction();
+        $transaction = Yii::$app->db->beginTransaction();
         try {
             foreach ($this->filters as $d)
                 $d->delete();
@@ -23,7 +24,7 @@ class Filter extends \app\models\base\Filter
             } else {
                 $transaction->rollBack();
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $transaction->rollBack();
         }
 

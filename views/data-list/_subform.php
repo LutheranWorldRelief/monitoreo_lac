@@ -1,10 +1,8 @@
 <?php
 
-use yii\helpers\Html;
+use yii\bootstrap\Modal;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
-use yii\bootstrap\Modal;
-use app\models\DataList;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\DataList */

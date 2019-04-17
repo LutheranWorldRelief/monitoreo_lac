@@ -2,10 +2,7 @@
 
 namespace app\components;
 
-use Yii;
 use yii\base\Component;
-use yii\base\InvalidConfigException;
-use yii\helpers\VarDumper;
 
 class UNumero extends Component {
 

@@ -1,9 +1,15 @@
 <?php
 
+use app\components\UString;
+use app\models\DataList;
+use app\models\Organization;
+use kartik\select2\Select2;
 use yii\helpers\Html;
+use yii\helpers\Url;
+use yii\widgets\ActiveForm;
 
 extract($data);
-$form = \yii\widgets\ActiveForm::begin(['options' => ['enctype' => "multipart/form-data",]]);
+$form = ActiveForm::begin(['options' => ['enctype' => "multipart/form-data",]]);
 
 ?>
 <?= Html::hiddenInput("guardar", true); ?>
@@ -14,7 +20,7 @@ $form = \yii\widgets\ActiveForm::begin(['options' => ['enctype' => "multipart/fo
     <div class="col-lg-7">
         <ul class="list-inline pull-right">
             <li>
-                <a class="btn btn-danger pull-left" href="<?= \yii\helpers\Url::to(['import/beneficiarios-paso1']) ?>">
+                <a class="btn btn-danger pull-left" href="<?= Url::to(['import/beneficiarios-paso1']) ?>">
                     <i class="fa fa-backward"></i> Cancelar
                 </a>
             </li>
@@ -55,9 +61,9 @@ if (count($data['Guardar']) < 1):
     <div class="col-lg-4 col-lg-offset-1">
         País de la importación
         <?=
-        \kartik\select2\Select2::widget([
+        Select2::widget([
             'name' => "pais",
-            'data' => \app\models\DataList::itemsBySlug('countries'),
+            'data' => DataList::itemsBySlug('countries'),
             'language' => 'es',
             'options' => ['placeholder' => '...'],
             'pluginOptions' => [
@@ -73,13 +79,13 @@ if (count($data['Guardar']) < 1):
         <ul class="nav nav-pills" id="myTabs" role="tablist">
             <li role="presentation" class="active">
                 <a href="#crear" id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">Registros
-                    a Crear</a>
+                                                                                                                      a Crear</a>
             </li>
             <?php if (count($data['Guardar']) > 0): ?>
                 <li role="presentation" class="">
                     <a href="#correcto" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile"
                        aria-expanded="false">Datos
-                        a Importar</a>
+                                             a Importar</a>
                 </li>
             <?php endif; ?>
             <?php if (count($data['Incorrecto']) > 0): ?>
@@ -87,7 +93,7 @@ if (count($data['Guardar']) < 1):
                     <div class="alert alert-danger">
                         <a href="#errores" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile"
                            aria-expanded="false">Datos
-                            que no se importarán</a>
+                                                 que no se importarán</a>
                     </div>
                 </li>
             <?php endif; ?>
@@ -136,9 +142,9 @@ if (count($data['Guardar']) < 1):
                                     <td>
                                         <?= Html::hiddenInput("organizacion[$key][nombre]", $d['organization_name']); ?>
                                         <?=
-                                        \kartik\select2\Select2::widget([
+                                        Select2::widget([
                                             'name' => "organizacion[$key][vincular_con]",
-                                            'data' => \app\models\Organization::listData('name', 'id'),
+                                            'data' => Organization::listData('name', 'id'),
                                             'language' => 'es',
                                             'options' => ['placeholder' => '...'],
                                             'pluginOptions' => [
@@ -176,9 +182,9 @@ if (count($data['Guardar']) < 1):
                                     <td>
                                         <?= Html::hiddenInput("educacion[$key][nombre]", $d['education_name']); ?>
                                         <?=
-                                        \kartik\select2\Select2::widget([
+                                        Select2::widget([
                                             'name' => "educacion[$key][vincular_con]",
-                                            'data' => \app\models\DataList::itemsBySlug('education'),
+                                            'data' => DataList::itemsBySlug('education'),
                                             'language' => 'es',
                                             'options' => ['placeholder' => '...'],
                                             'pluginOptions' => [
@@ -203,7 +209,7 @@ if (count($data['Guardar']) < 1):
                 <div class="row">
                     <div class="col-lg-12 table-responsive">
                         <h3>Datos a importar</h3>
-                        <?php if (count($data['Guardar']) > 0) echo \app\components\UString::array2Table($data['Guardar']); ?>
+                        <?php if (count($data['Guardar']) > 0) echo UString::array2Table($data['Guardar']); ?>
                     </div>
                 </div>
 
@@ -218,7 +224,7 @@ if (count($data['Guardar']) < 1):
                         <div class="col-lg-12 table-responsive">
                             <h3>Datos Incorrectos</h3>
                             <div class="alert alert-error">Verifique datos de proyecto, organización implementadora y
-                                beneficiario para:
+                                                           beneficiario para:
                             </div>
                             <table class="table table-bordered">
                                 <?php foreach ($data['Incorrecto'] as $d): ?>
@@ -237,7 +243,7 @@ if (count($data['Guardar']) < 1):
 
 <ul class="list-inline pull-right">
     <li>
-        <a class="btn btn-danger pull-left" href="<?= \yii\helpers\Url::to(['import/beneficiarios-paso1']) ?>">
+        <a class="btn btn-danger pull-left" href="<?= Url::to(['import/beneficiarios-paso1']) ?>">
             <i class="fa fa-backward"></i> Cancelar
         </a>
     </li>
@@ -250,6 +256,6 @@ if (count($data['Guardar']) < 1):
     <?php endif; ?>
 </ul>
 <div style="clear: both;"></div>
-<?php \yii\widgets\ActiveForm::end(); ?>
+<?php ActiveForm::end(); ?>
 </div>
 

@@ -3,10 +3,10 @@
 namespace app\models\search;
 
 use app\models\AuthUser;
+use app\models\SqlEvent as SqlEventModel;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\SqlEvent as SqlEventModel;
 
 /**
  * SqlEvent represents the model behind the search form of `app\models\SqlEvent`.

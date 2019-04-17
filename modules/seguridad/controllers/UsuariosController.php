@@ -2,22 +2,19 @@
 
 namespace app\modules\seguridad\controllers;
 
-use app\components\ULog;
+use app\models\AuthUser;
 use app\models\search\SqlUsuario;
+use mdm\admin\controllers\AssignmentController;
+use mdm\admin\models\Assignment;
 use Yii;
 use yii\base\ExitException;
 use yii\base\Model;
-use yii\base\Module as Module2;
-use yii\filters\AccessControl;
-use yii\filters\VerbFilter;
 use yii\helpers\Url;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
-use app\models\AuthUser;
 
-class UsuariosController extends \mdm\admin\controllers\AssignmentController
+class UsuariosController extends AssignmentController
 {
 
     /**
@@ -65,6 +62,25 @@ class UsuariosController extends \mdm\admin\controllers\AssignmentController
                 'activeProject' => $activeProject
             ]
         ]);
+    }
+
+    /**
+     * Finds the User model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     *
+     * @param int $id
+     *
+     * @return User the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findModel($id)
+    {
+
+        if (($user = AuthUser::findIdentity($id)) !== null) {
+            return new Assignment($id, $user);
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
     }
 
     /**
@@ -133,7 +149,9 @@ class UsuariosController extends \mdm\admin\controllers\AssignmentController
     /**
      * Updates an existing AuthUser model.
      * If update is successful, the browser will be redirected to the 'view' page.
+     *
      * @param integer $id
+     *
      * @return mixed
      */
     public function actionUpdate($id)
@@ -145,25 +163,6 @@ class UsuariosController extends \mdm\admin\controllers\AssignmentController
             return $this->redirect(['view', 'id' => $model->id]);
         else
             return $this->render('update', ['model' => $model]);
-    }
-
-    /**
-     * Finds the User model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     *
-     * @param int $id
-     *
-     * @return User the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-
-        if (($user = \app\models\AuthUser::findIdentity($id)) !== null) {
-            return new \mdm\admin\models\Assignment($id, $user);
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
     }
 
     /**

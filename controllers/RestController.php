@@ -2,7 +2,8 @@
 
 namespace app\controllers;
 
-class RestController extends ControladorRestController {
+class RestController extends ControladorRestController
+{
 
     public $modelClass = '\app\models\Modelo';
 

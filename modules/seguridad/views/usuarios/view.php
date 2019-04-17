@@ -1,19 +1,24 @@
 <?php
 extract($activo);
 
+use app\models\DataList;
+use app\models\Project;
 use kartik\tabs\TabsX;
+use yii\helpers\Html;
+use yii\helpers\Url;
+use yii\web\View;
 
 /* @var $this yii\web\View */
 $this->title = $model->first_name . ' ' . $model->last_name . ' / ' . $model->username;
-$this->registerCssFile('@web/css/multiselect.listbox.custom.css',[
-    'position' => \yii\web\View::POS_END,
+$this->registerCssFile('@web/css/multiselect.listbox.custom.css', [
+    'position' => View::POS_END,
 ]);
 ?>
 <?= $this->render('/menu/_menu') ?>
 <div class="box">
     <div class="box-body">
         <h1 class="pull-left"><?= $this->title; ?></h1>
-        <?php echo \yii\helpers\Html::a('Modificar', \yii\helpers\Url::to(['usuarios/update', 'id' => $usuario->id]), ['class' => 'btn btn-primary pull-right']) ?>
+        <?php echo Html::a('Modificar', Url::to(['usuarios/update', 'id' => $usuario->id]), ['class' => 'btn btn-primary pull-right']) ?>
     </div>
 </div>
 <div class="box">
@@ -34,13 +39,13 @@ $this->registerCssFile('@web/css/multiselect.listbox.custom.css',[
             ],
             [
                 'label' => '<i class="fa fa-lock"></i> Paises',
-                'content' => $this->render('view_multiselect', ['model' => $usuario, 'attribute' => 'countries', 'data' => \app\models\DataList::itemsBySlug('countries')]),
+                'content' => $this->render('view_multiselect', ['model' => $usuario, 'attribute' => 'countries', 'data' => DataList::itemsBySlug('countries')]),
                 'bordered' => true,
                 'active' => $activePais
             ],
             [
                 'label' => '<i class="fa fa-lock"></i> Proyectos',
-                'content' => $this->render('view_multiselect', ['model' => $usuario, 'attribute' => 'projects', 'data' => \app\models\Project::listDataModel('nameCode')]),
+                'content' => $this->render('view_multiselect', ['model' => $usuario, 'attribute' => 'projects', 'data' => Project::listDataModel('nameCode')]),
                 'bordered' => true,
                 'active' => $activeProject
             ],
@@ -57,4 +62,4 @@ $this->registerCssFile('@web/css/multiselect.listbox.custom.css',[
         ?>
     </div>
 </div>
-<link href="<?= \yii\helpers\Url::to('@web/css/multiselect.listbox.custom.css')?>" rel="stylesheet">
+<link href="<?= Url::to('@web/css/multiselect.listbox.custom.css') ?>" rel="stylesheet">

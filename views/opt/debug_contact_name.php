@@ -1,7 +1,7 @@
 <?php
 
 /* @var $this yii\web\View */
-/* @var $models \app\components\ActiveRecord[]|\app\models\Contact[]|\app\models\SqlDebugContactDoc[]|\app\models\SqlDebugContactName[]|array|\yii\db\ActiveRecord[] */
+/* @var $models \app\components\ActiveRecord[]|Contact[]|SqlDebugContactDoc[]|SqlDebugContactName[]|array|ActiveRecord[] */
 
 /* @var array $projects */
 /* @var array $organizations */
@@ -11,11 +11,14 @@
 
 /* @var string|null $countryCode */
 
+use app\assets\Vue2Asset;
+use app\models\Contact;
+use app\models\SqlDebugContactDoc;
+use app\models\SqlDebugContactName;
 use kartik\select2\Select2Asset;
 use yii\bootstrap\BootstrapPluginAsset;
+use yii\db\ActiveRecord;
 use yii\helpers\Url;
-
-use app\assets\Vue2Asset;
 
 BootstrapPluginAsset::register($this);
 Select2Asset::register($this);

@@ -2,26 +2,27 @@
 
 namespace app\models\base;
 
-use Yii;
+use app\components\ActiveRecord;
+use yii\db\ActiveQuery;
 
 /**
  * This is the model class for table "structure".
  * Please do not add custom code to this file, as it is supposed to be overriden
  * by the gii model generator. Custom code belongs to app\models\Structure.
  *
- * @property int $id
- * @property string $code
- * @property string $description
- * @property int $structure_id
- * @property string $notes
- * @property int $project_id
+ * @property int                     $id
+ * @property string                  $code
+ * @property string                  $description
+ * @property int                     $structure_id
+ * @property string                  $notes
+ * @property int                     $project_id
  *
- * @property \app\models\Event[] $events
- * @property \app\models\Project $project
- * @property \app\models\Structure $structure
+ * @property \app\models\Event[]     $events
+ * @property \app\models\Project     $project
+ * @property \app\models\Structure   $structure
  * @property \app\models\Structure[] $structures
  */
-abstract class Structure extends \app\components\ActiveRecord
+abstract class Structure extends ActiveRecord
 {
     /**
      * @inheritdoc
@@ -62,7 +63,7 @@ abstract class Structure extends \app\components\ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getEvents()
     {
@@ -70,7 +71,7 @@ abstract class Structure extends \app\components\ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getProject()
     {
@@ -78,7 +79,7 @@ abstract class Structure extends \app\components\ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getStructure()
     {
@@ -86,7 +87,7 @@ abstract class Structure extends \app\components\ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getStructures()
     {

@@ -1,8 +1,6 @@
 <?php
 
 use kartik\grid\GridView;
-use kartik\widgets\ActiveForm;
-use kartik\builder\Form;
 use yii\helpers\Html;
 
 echo $this->render('navbar');
@@ -22,7 +20,7 @@ echo $this->render('navbar');
                     'format' => 'raw',
                     'value' => function ($m) {
                         return Html::a(
-                                        $m->description, ['view', 'id' => $m->id]
+                            $m->description, ['view', 'id' => $m->id]
                         );
                     },
                 ],

@@ -2,42 +2,43 @@
 
 namespace app\models\base;
 
-use Yii;
+use app\components\ActiveRecord;
+use yii\db\ActiveQuery;
 
 /**
  * This is the model class for table "contact".
  * Please do not add custom code to this file, as it is supposed to be overriden
  * by the gii model generator. Custom code belongs to app\models\Contact.
  *
- * @property int $id
- * @property string $name
- * @property string $last_name
- * @property string $first_name
- * @property string $document
- * @property string $title
- * @property int $organization_id
- * @property string $sex
- * @property string $community
- * @property string $municipality
- * @property string $city
- * @property string $country
- * @property int $education_id
- * @property string $phone_personal
- * @property string $phone_work
- * @property int $men_home
- * @property int $women_home
- * @property string $created
- * @property string $modified
- * @property int $type_id
- * @property string $birthdate
+ * @property int                          $id
+ * @property string                       $name
+ * @property string                       $last_name
+ * @property string                       $first_name
+ * @property string                       $document
+ * @property string                       $title
+ * @property int                          $organization_id
+ * @property string                       $sex
+ * @property string                       $community
+ * @property string                       $municipality
+ * @property string                       $city
+ * @property string                       $country
+ * @property int                          $education_id
+ * @property string                       $phone_personal
+ * @property string                       $phone_work
+ * @property int                          $men_home
+ * @property int                          $women_home
+ * @property string                       $created
+ * @property string                       $modified
+ * @property int                          $type_id
+ * @property string                       $birthdate
  *
- * @property \app\models\Attendance[] $attendances
- * @property \app\models\DataList $education
- * @property \app\models\Organization $organization
- * @property \app\models\DataList $type
+ * @property \app\models\Attendance[]     $attendances
+ * @property \app\models\DataList         $education
+ * @property \app\models\Organization     $organization
+ * @property \app\models\DataList         $type
  * @property \app\models\ProjectContact[] $projectContacts
  */
-abstract class Contact extends \app\components\ActiveRecord
+abstract class Contact extends ActiveRecord
 {
     /**
      * @inheritdoc
@@ -100,7 +101,7 @@ abstract class Contact extends \app\components\ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getAttendances()
     {
@@ -108,7 +109,7 @@ abstract class Contact extends \app\components\ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getEducation()
     {
@@ -116,7 +117,7 @@ abstract class Contact extends \app\components\ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getOrganization()
     {
@@ -124,7 +125,7 @@ abstract class Contact extends \app\components\ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getType()
     {
@@ -132,7 +133,7 @@ abstract class Contact extends \app\components\ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getProjectContacts()
     {

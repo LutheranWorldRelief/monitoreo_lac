@@ -2,26 +2,26 @@
 
 namespace app\models\base;
 
-use Yii;
+use app\components\ActiveRecord;
 
 /**
  * This is the model class for table "sql_contact_event".
  * Please do not add custom code to this file, as it is supposed to be overriden
  * by the gii model generator. Custom code belongs to app\models\SqlContactEvent.
  *
- * @property int $contact_id
+ * @property int    $contact_id
  * @property string $name
  * @property string $country
  * @property string $org_name
  * @property string $type_name
  * @property string $event
- * @property int $event_id
+ * @property int    $event_id
  * @property string $organizer
  * @property string $start
  * @property string $end
  * @property string $place
  */
-abstract class SqlContactEvent extends \app\components\ActiveRecord
+abstract class SqlContactEvent extends ActiveRecord
 {
     /**
      * @inheritdoc

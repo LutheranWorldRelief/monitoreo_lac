@@ -2,36 +2,36 @@
 
 namespace app\models\base;
 
-use Yii;
+use app\components\ActiveRecord;
 
 /**
  * This is the model class for table "sql_event".
  * Please do not add custom code to this file, as it is supposed to be overriden
  * by the gii model generator. Custom code belongs to app\models\SqlEvent.
  *
- * @property int $id
- * @property int $structure_id
+ * @property int    $id
+ * @property int    $structure_id
  * @property string $name
  * @property string $title
- * @property int $implementing_organization_id
+ * @property int    $implementing_organization_id
  * @property string $organizer
  * @property string $text
  * @property string $start
  * @property string $end
  * @property string $place
  * @property string $notes
- * @property int $country_id
- * @property int $h
- * @property int $m
- * @property int $t
+ * @property int    $country_id
+ * @property int    $h
+ * @property int    $m
+ * @property int    $t
  * @property string $country
  * @property string $organization
- * @property int $project_id
+ * @property int    $project_id
  * @property string $project
  * @property string $code
  * @property string $structure
  */
-abstract class SqlEvent extends \app\components\ActiveRecord
+abstract class SqlEvent extends ActiveRecord
 {
     /**
      * @inheritdoc

@@ -2,28 +2,29 @@
 
 namespace app\models\base;
 
-use Yii;
+use app\components\ActiveRecord;
+use yii\db\ActiveQuery;
 
 /**
  * This is the model class for table "project".
  * Please do not add custom code to this file, as it is supposed to be overriden
  * by the gii model generator. Custom code belongs to app\models\Project.
  *
- * @property int $id
- * @property string $name
- * @property string $code
- * @property string $logo
- * @property string $colors
- * @property string $url
- * @property string $start
- * @property string $end
- * @property int $goal_men
- * @property int $goal_women
+ * @property int                          $id
+ * @property string                       $name
+ * @property string                       $code
+ * @property string                       $logo
+ * @property string                       $colors
+ * @property string                       $url
+ * @property string                       $start
+ * @property string                       $end
+ * @property int                          $goal_men
+ * @property int                          $goal_women
  *
  * @property \app\models\ProjectContact[] $projectContacts
- * @property \app\models\Structure[] $structures
+ * @property \app\models\Structure[]      $structures
  */
-abstract class Project extends \app\components\ActiveRecord
+abstract class Project extends ActiveRecord
 {
     /**
      * @inheritdoc
@@ -67,7 +68,7 @@ abstract class Project extends \app\components\ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getProjectContacts()
     {
@@ -75,7 +76,7 @@ abstract class Project extends \app\components\ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getStructures()
     {

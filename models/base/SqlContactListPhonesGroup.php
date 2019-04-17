@@ -2,18 +2,18 @@
 
 namespace app\models\base;
 
-use Yii;
+use app\components\ActiveRecord;
 
 /**
  * This is the model class for table "sql_contact_list_phones_group".
  * Please do not add custom code to this file, as it is supposed to be overriden
  * by the gii model generator. Custom code belongs to app\models\SqlContactListPhonesGroup.
  *
- * @property int $contact_id
- * @property int $cuenta
+ * @property int    $contact_id
+ * @property int    $cuenta
  * @property string $phone_personal
  */
-abstract class SqlContactListPhonesGroup extends \app\components\ActiveRecord
+abstract class SqlContactListPhonesGroup extends ActiveRecord
 {
     /**
      * @inheritdoc

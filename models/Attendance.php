@@ -2,10 +2,11 @@
 
 namespace app\models;
 
-use Mpdf\Tag\Ul;
-use Yii;
 use app\components\Ulog;
 use app\components\UString;
+use Throwable;
+use Yii;
+use yii\db\Exception;
 
 /**
  * This is the model class for table "{{%attendance}}".
@@ -13,12 +14,80 @@ use app\components\UString;
  * Check the base class at app\models\base\Attendance in order to
  * see the column names and relations.
  */
-class Attendance extends \app\models\base\Attendance
+class Attendance extends base\Attendance
 {
     public $fullname = "";
     public $org_name = "";
     public $type_name = "";
 
+    public static function CreateFromImport($data, $event_id, $project_id)
+    {
+        $model = new  self();
+        $model->event_id = $event_id;
+        $model->contact_id = Contact::CreateFromImport($data, $project_id);
+        $model->fullname = $data['first_name'];
+        return $model->save(false);
+    }
+
+    public function save($runValidation = true, $attributeNames = null)
+    {
+        $org = $this->org;
+
+        if (!$org && $this->org_name && !$this->org_id) {
+            $org = Organization::find()->where(['name' => $this->org_name])->one();
+            if (!$org) {
+                $org = new Organization;
+                $org->name = $this->org_name;
+            }
+        }
+        $contact = $this->contact;
+        if (!$contact) {
+            if ($this->fullname) {
+                $contact = new Contact;
+                $contact->attributes = $this->attributes;
+                $contact->name = UString::upperCase($this->fullname);
+            }
+        }
+
+        $return = true;
+        $transaction = Yii::$app->db->beginTransaction();
+        try {
+            if ($org && $org->isNewRecord) {
+                if ($return &= $org->save())
+                    $this->org_id = $org->id;
+                else {
+                    Ulog::l([$org->errors]);
+                    throw new Exception("No se logró guardar el registro de organización");
+                }
+            }
+
+            if ($contact) {
+                if ($org)
+                    $contact->organization_id = $org->id;
+
+                if ($return &= $contact->save())
+                    $this->contact_id = $contact->id;
+                else {
+                    $this->addErrors($contact->errors);
+                    throw new Exception("No se logró guardar el registro del contacto");
+                }
+            }
+
+            $return &= parent::save();
+
+            if (!$return) {
+                throw new Exception("No se logró guardar el registro de participante");
+            }
+
+            $transaction->commit();
+        } catch (Exception $e) {
+            $transaction->rollBack();
+            $this->addError('contact_id', $e->getMessage());
+        } catch (Throwable $e) {
+            $transaction->rollBack();
+        }
+        return $return;
+    }
 
     public function rules()
     {
@@ -52,66 +121,6 @@ class Attendance extends \app\models\base\Attendance
                 'type_name' => 'Type',
             ]
         );
-    }
-
-    public function save($runValidation = true, $attributeNames = null)
-    {
-        $org = $this->org;
-
-        if (!$org && $this->org_name && !$this->org_id) {
-            $org = Organization::find()->where(['name' => $this->org_name])->one();
-            if (!$org) {
-                $org = new Organization;
-                $org->name = $this->org_name;
-            }
-        }
-        $contact = $this->contact;
-        if (!$contact) {
-            if ($this->fullname) {
-                $contact = new Contact;
-                $contact->attributes = $this->attributes;
-                $contact->name = UString::upperCase($this->fullname);
-            }
-        }
-
-        $return = true;
-        $transaction = Yii::$app->db->beginTransaction();
-        try {
-            if ($org && $org->isNewRecord) {
-                if ($return &= $org->save())
-                    $this->org_id = $org->id;
-                else {
-                    Ulog::l([$org->errors]);
-                    throw new \yii\db\Exception("No se logró guardar el registro de organización");
-                }
-            }
-
-            if ($contact) {
-                if ($org)
-                    $contact->organization_id = $org->id;
-
-                if ($return &= $contact->save())
-                    $this->contact_id = $contact->id;
-                else {
-                    $this->addErrors($contact->errors);
-                    throw new \yii\db\Exception("No se logró guardar el registro del contacto");
-                }
-            }
-
-            $return &= parent::save();
-
-            if (!$return) {
-                throw new \yii\db\Exception("No se logró guardar el registro de participante");
-            }
-
-            $transaction->commit();
-        } catch (\yii\db\Exception $e) {
-            $transaction->rollBack();
-            $this->addError('contact_id', $e->getMessage());
-        } catch (\Throwable $e) {
-            $transaction->rollBack();
-        }
-        return $return;
     }
 
     public function afterFind()
@@ -163,30 +172,20 @@ class Attendance extends \app\models\base\Attendance
         return $this->errors;
     }
 
-
     public function getOrg()
     {
-        return $this->hasOne(\app\models\Organization::className(), ['id' => 'org_id']);
+        return $this->hasOne(Organization::className(), ['id' => 'org_id']);
     }
 
     public function getType()
     {
-        return $this->hasOne(\app\models\DataList::className(), ['id' => 'type_id']);
+        return $this->hasOne(DataList::className(), ['id' => 'type_id']);
     }
 
     public function getAttendanceType()
     {
 
 
-        return $this->hasOne(\app\models\DataList::className(), ['id' => 'type_id']);
-    }
-
-    public static function CreateFromImport($data, $event_id, $project_id)
-    {
-        $model = new  self();
-        $model->event_id = $event_id;
-        $model->contact_id = Contact::CreateFromImport($data,$project_id);
-        $model->fullname = $data['first_name'];
-        return $model->save(false);
+        return $this->hasOne(DataList::className(), ['id' => 'type_id']);
     }
 }

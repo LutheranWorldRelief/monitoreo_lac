@@ -2,16 +2,18 @@
 
 namespace app\modules\seguridad\components;
 
-use yii\web\ForbiddenHttpException;
-use yii\base\Module;
 use Yii;
-use yii\web\User;
+use yii\base\ActionFilter;
+use yii\base\Module;
 use yii\di\Instance;
+use yii\web\ForbiddenHttpException;
+use yii\web\User;
 
 /**
- * Access Control Filter (ACF) is a simple authorization method that is best used by applications that only need some simple access control.
- * As its name indicates, ACF is an action filter that can be attached to a controller or a module as a behavior.
- * ACF will check a set of access rules to make sure the current user can access the requested action.
+ * Access Control Filter (ACF) is a simple authorization method that is best used by applications that only need some
+ * simple access control. As its name indicates, ACF is an action filter that can be attached to a controller or a
+ * module as a behavior. ACF will check a set of access rules to make sure the current user can access the requested
+ * action.
  *
  * To use AccessControl, declare it in the application config as behavior.
  * For example.
@@ -26,43 +28,25 @@ use yii\di\Instance;
  * @property User $user
  *
  * @author Misbahul D Munir <misbahuldmunir@gmail.com>
- * @since 1.0
+ * @since  1.0
  */
-class AccessControl extends \yii\base\ActionFilter {
+class AccessControl extends ActionFilter
+{
 
+    /**
+     * @var array List of action that not need to check access.
+     */
+    public $allowActions = [];
     /**
      * @var User User for check access.
      */
     private $_user = 'user';
 
     /**
-     * @var array List of action that not need to check access.
-     */
-    public $allowActions = [];
-
-    /**
-     * Get user
-     * @return User
-     */
-    public function getUser() {
-        if (!$this->_user instanceof User) {
-            $this->_user = Instance::ensure($this->_user, User::className());
-        }
-        return $this->_user;
-    }
-
-    /**
-     * Set user
-     * @param User|string $user
-     */
-    public function setUser($user) {
-        $this->_user = $user;
-    }
-
-    /**
      * @inheritdoc
      */
-    public function beforeAction($action) {
+    public function beforeAction($action)
+    {
         $actionId = $action->getUniqueId();
         $user = $this->getUser();
         if ($user->can('/' . $actionId)) {
@@ -79,13 +63,38 @@ class AccessControl extends \yii\base\ActionFilter {
     }
 
     /**
+     * Get user
+     * @return User
+     */
+    public function getUser()
+    {
+        if (!$this->_user instanceof User) {
+            $this->_user = Instance::ensure($this->_user, User::className());
+        }
+        return $this->_user;
+    }
+
+    /**
+     * Set user
+     *
+     * @param User|string $user
+     */
+    public function setUser($user)
+    {
+        $this->_user = $user;
+    }
+
+    /**
      * Denies the access of the user.
      * The default implementation will redirect the user to the login page if he is a guest;
      * if the user is already logged, a 403 HTTP exception will be thrown.
-     * @param  yii\web\User $user the current user
+     *
+     * @param yii\web\User $user the current user
+     *
      * @throws yii\web\ForbiddenHttpException if the user is already logged in.
      */
-    protected function denyAccess($user) {
+    protected function denyAccess($user)
+    {
         if ($user->getIsGuest()) {
             $user->loginRequired();
         } else {
@@ -96,7 +105,8 @@ class AccessControl extends \yii\base\ActionFilter {
     /**
      * @inheritdoc
      */
-    protected function isActive($action) {
+    protected function isActive($action)
+    {
         $uniqueId = $action->getUniqueId();
         if ($uniqueId === Yii::$app->getErrorHandler()->errorAction) {
             return false;

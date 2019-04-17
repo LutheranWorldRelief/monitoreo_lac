@@ -2,7 +2,6 @@
 
 use dektrium\user\models\User;
 use yii\bootstrap\Nav;
-use yii\web\View;
 
 ?>
 <?=

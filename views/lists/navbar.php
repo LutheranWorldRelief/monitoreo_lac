@@ -1,16 +1,17 @@
-<?php 
-use yii\bootstrap\NavBar;
+<?php
+
 use yii\bootstrap\Nav;
+use yii\bootstrap\NavBar;
 
 NavBar::begin([
-	'brandLabel' => 'Data List',
-	'brandUrl' => ['/lists/index'],
+    'brandLabel' => 'Data List',
+    'brandUrl' => ['/lists/index'],
 ]);
 echo Nav::widget([
     'items' => [
         [
-        	'label' => 'Nuevo', 
-        	'url' => [ '/lists/create' ]
+            'label' => 'Nuevo',
+            'url' => ['/lists/create']
         ],
     ],
     'options' => ['class' => 'navbar-nav navbar-right'],

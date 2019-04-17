@@ -1,9 +1,7 @@
 <?php
 
-use yii\bootstrap\Html;
-use yii\widgets\DetailView;
-use yii\data\ArrayDataProvider;
 use app\assets\AlertifyAsset;
+use yii\data\ArrayDataProvider;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Contact */
@@ -46,7 +44,7 @@ $this->title = 'Contacto / ' . $model->id . ' / ' . $model->fullname;
     <?= $this->render('_view', ['model' => $model, 'attrib' => 'modified', 'class' => 'col-lg-3']) ?>
 </div>
 
-<section >
+<section>
     <!-- Custom tabs (Charts with tabs)-->
     <div class="nav-tabs-custom" style="cursor: move;">
         <!-- Tabs within a box -->

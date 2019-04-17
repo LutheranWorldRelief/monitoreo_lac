@@ -2,10 +2,9 @@
 
 namespace app\models\search;
 
-use Yii;
+use app\models\Event as EventModel;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Event as EventModel;
 
 /**
  * Event represents the model behind the search form about `app\models\Event`.
@@ -18,7 +17,7 @@ class Event extends EventModel
     public function rules()
     {
         return [
-            [['id', 'structure_id','country_id','implementing_organization_id'], 'integer'],
+            [['id', 'structure_id', 'country_id', 'implementing_organization_id'], 'integer'],
             [['name', 'title', 'organizer', 'text', 'start', 'end', 'place', 'notes'], 'safe'],
         ];
     }
@@ -49,7 +48,7 @@ class Event extends EventModel
             'query' => $query,
             'sort' => [
                 'defaultOrder' => [
-                    'start'=> SORT_DESC
+                    'start' => SORT_DESC
                 ]
             ],
         ]);

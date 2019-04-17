@@ -3,15 +3,11 @@
 namespace app\controllers;
 
 use app\components\Excel;
-use app\models\AuthUser;
-use app\models\Contact;
+use app\models\ContactForm;
+use app\models\LoginForm;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
-use yii\filters\VerbFilter;
-use app\components\Ulog;
-use app\models\LoginForm;
-use app\models\ContactForm;
 
 class SiteController extends Controller
 {
@@ -59,7 +55,7 @@ class SiteController extends Controller
     public function actionIndex()
     {
         return Yii::$app->getResponse()->redirect('graphic/dashboard');
-//        return $this->render('index');
+        //        return $this->render('index');
     }
 
     /**
@@ -130,7 +126,7 @@ class SiteController extends Controller
         $passwordPost = Yii::$app->request->post('Password');
 
         if ($passwordPost) {
-            if (!empty($passwordPost['new']) &&!empty($passwordPost['current'])) {
+            if (!empty($passwordPost['new']) && !empty($passwordPost['current'])) {
                 if ($user->validatePassword($passwordPost['current'])) {
                     if (($passwordPost['new'] === $passwordPost['confirm'])) {
                         $user->password = $passwordPost['new'];
@@ -145,9 +141,9 @@ class SiteController extends Controller
 
         }
 
-        if($user->load(Yii::$app->request->post())){
+        if ($user->load(Yii::$app->request->post())) {
             $user->password = 'nestic';
-            if($user->modificar($pass))
+            if ($user->modificar($pass))
                 Yii::$app->session->setFlash('success', "Perfil actualizado con éxito");
             else
                 Yii::$app->session->setFlash('error', "No se logró actualizar su perfil");

@@ -1,5 +1,6 @@
 <?php
 
+use yii\helpers\Html;
 use yii\helpers\Url;
 
 $this->registerAssetBundle("\app\assets\HighchartsAsset", yii\web\View::POS_BEGIN);
@@ -16,7 +17,7 @@ $logo = Yii::$app->urlManager->createAbsoluteUrl("img/logo/");
         <div class="box-body">
             <div class="row">
                 <div class="col-lg-2 col-md-2 col-sm-2">
-                    <?= \yii\helpers\Html::img(Yii::$app->urlManager->createAbsoluteUrl("img/logo.png"), ['class' => 'image-responsive']) ?>
+                    <?= Html::img(Yii::$app->urlManager->createAbsoluteUrl("img/logo.png"), ['class' => 'image-responsive']) ?>
                 </div>
                 <div class="col-lg-8 col-md-8 col-sm-8">
                     <h1 class="text-center" style="color: #3A3A3A;">Sistema de Monitoreo de Proyectos</h1>
@@ -91,4 +92,4 @@ $logo = Yii::$app->urlManager->createAbsoluteUrl("img/logo/");
         background-color: #C1CD23 !important;
         }
 </style>
-<link href="<?= \yii\helpers\Url::to('@web/css/checkbox.css') ?>" rel="stylesheet">
+<link href="<?= Url::to('@web/css/checkbox.css') ?>" rel="stylesheet">

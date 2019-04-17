@@ -1,11 +1,15 @@
 <?php
 //\app\components\ULog::l($data['valido']);
 extract($data);
-?>
+
+use app\components\excel\import\ImportFileWidget;
+use app\components\UExcelBeneficiario;
+use yii\helpers\Url; ?>
 <div class="row">
     <div class="col-lg-10 col-lg-offset-1">
         <h3 class="text-info pull-left">Paso 1: Cargar el Archivo</h3>
-        <a href="<?= \yii\helpers\Url::to(['report/template-clean/'])?>" class="btn btn-info pull-right"><i class="fa fa-download"></i> Descargar Plantilla</a>
+        <a href="<?= Url::to(['report/template-clean/']) ?>"
+           class="btn btn-info pull-right"><i class="fa fa-download"></i> Descargar Plantilla</a>
     </div>
 </div>
 <?php if (!$valido): ?>
@@ -29,7 +33,9 @@ extract($data);
     <?php endforeach; endif; ?>
     <div class="row">
         <div class="col-lg-10 col-lg-offset-1">
-            El archivo debe tener las siguientes columnas en el siguiente orden         <a href="<?= \yii\helpers\Url::to(['report/template-clean/'])?>" class="btn btn-info"><i class="fa fa-download"></i> Descargar Plantilla</a>
+            El archivo debe tener las siguientes columnas en el siguiente orden
+            <a href="<?= Url::to(['report/template-clean/']) ?>"
+               class="btn btn-info"><i class="fa fa-download"></i> Descargar Plantilla</a>
         </div>
     </div>
 
@@ -38,7 +44,7 @@ extract($data);
             <table class="table table-bordered">
                 <thead>
                 <tr>
-                    <?php foreach (\app\components\UExcelBeneficiario::getCamposNombre() as $campo): ?>
+                    <?php foreach (UExcelBeneficiario::getCamposNombre() as $campo): ?>
                         <td><b><?= $campo ?></b></td>
                     <?php endforeach; ?>
                 </tr>
@@ -57,9 +63,9 @@ extract($data);
     <div class="col-lg-10 col-lg-offset-1 well">
         <label for="excel_file" class="control-label">
             <span class="glyphicon glyphicon-cloud-upload"></span>&nbsp;
-            Archivo de beneficiarios
+                                                                  Archivo de beneficiarios
         </label>
-        <?= \app\components\excel\import\ImportFileWidget::widget() ?>
+        <?= ImportFileWidget::widget() ?>
 
     </div>
 </div>

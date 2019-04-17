@@ -2,30 +2,31 @@
 
 namespace app\models\base;
 
-use Yii;
+use app\components\ActiveRecord;
+use yii\db\ActiveQuery;
 
 /**
  * This is the model class for table "organization".
  * Please do not add custom code to this file, as it is supposed to be overriden
  * by the gii model generator. Custom code belongs to app\models\Organization.
  *
- * @property int $id
- * @property string $name
- * @property string $country
- * @property int $organization_type_id
- * @property int $organization_id
- * @property string $description
- * @property int $country_id
- * @property int $is_implementer
+ * @property int                          $id
+ * @property string                       $name
+ * @property string                       $country
+ * @property int                          $organization_type_id
+ * @property int                          $organization_id
+ * @property string                       $description
+ * @property int                          $country_id
+ * @property int                          $is_implementer
  *
- * @property \app\models\Contact[] $contacts
- * @property \app\models\Event[] $events
- * @property \app\models\DataList $country0
+ * @property \app\models\Contact[]        $contacts
+ * @property \app\models\Event[]          $events
+ * @property \app\models\DataList         $country0
  * @property \app\models\OrganizationType $organizationType
- * @property \app\models\Organization $organization
- * @property \app\models\Organization[] $organizations
+ * @property \app\models\Organization     $organization
+ * @property \app\models\Organization[]   $organizations
  */
-abstract class Organization extends \app\components\ActiveRecord
+abstract class Organization extends ActiveRecord
 {
     /**
      * @inheritdoc
@@ -70,7 +71,7 @@ abstract class Organization extends \app\components\ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getContacts()
     {
@@ -78,7 +79,7 @@ abstract class Organization extends \app\components\ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getEvents()
     {
@@ -86,7 +87,7 @@ abstract class Organization extends \app\components\ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getCountry0()
     {
@@ -94,7 +95,7 @@ abstract class Organization extends \app\components\ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getOrganizationType()
     {
@@ -102,7 +103,7 @@ abstract class Organization extends \app\components\ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getOrganization()
     {
@@ -110,7 +111,7 @@ abstract class Organization extends \app\components\ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getOrganizations()
     {

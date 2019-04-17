@@ -2,7 +2,6 @@
 
 namespace app\models;
 
-use Yii;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -11,20 +10,21 @@ use yii\helpers\ArrayHelper;
  * Check the base class at app\models\base\SqlDebugContactName in order to
  * see the column names and relations.
  */
-class SqlDebugContactName extends \app\models\base\SqlDebugContactName
+class SqlDebugContactName extends base\SqlDebugContactName
 {
-    public static function primaryKey() {
-        return ['name'];
-    }
-
-    public function getContacts()
+    public static function primaryKey()
     {
-    	$models = \app\models\SqlContact::findAll(['name'=>$this->name]);
-    	return $models;
+        return ['name'];
     }
 
     public function getContactsIds()
     {
         return ArrayHelper::map($this->getContacts(), "id", "name");
+    }
+
+    public function getContacts()
+    {
+        $models = SqlContact::findAll(['name' => $this->name]);
+        return $models;
     }
 }

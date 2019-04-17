@@ -2,7 +2,6 @@
 
 namespace app\models;
 
-use Yii;
 use app\components\UCatalogo;
 
 /**
@@ -11,11 +10,19 @@ use app\components\UCatalogo;
  * Check the base class at app\models\base\Organization in order to
  * see the column names and relations.
  */
-class Organization extends \app\models\base\Organization
+class Organization extends base\Organization
 {
+    public static function getIdFromName($name)
+    {
+        $model = self::find()->where(['name' => $name])->one();
+        if ($model)
+            return $model->id;
+        return null;
+    }
+
     public function getImplementer()
     {
-        return $this->is_implementer ? 'Si': 'No';
+        return $this->is_implementer ? 'Si' : 'No';
     }
 
     public function getCountryNameText()
@@ -45,14 +52,6 @@ class Organization extends \app\models\base\Organization
         if ($this->organization)
             return $this->organization->name;
         return '';
-    }
-
-    public static function getIdFromName($name)
-    {
-        $model = self::find()->where(['name' => $name])->one();
-        if ($model)
-            return $model->id;
-        return null;
     }
 
     public function attributeLabels()

@@ -2,16 +2,15 @@
 
 namespace app\controllers;
 
-use app\models\search\SqlContactEvent;
-use Yii;
-use app\components\Ulog;
+use app\components\Controller;
 use app\components\UString;
 use app\models\Contact;
-use app\models\SqlContact;
 use app\models\search\Contact as ContactSearch;
-use app\components\Controller;
-use yii\web\NotFoundHttpException;
+use app\models\search\SqlContactEvent;
+use app\models\SqlContact;
+use Yii;
 use yii\filters\VerbFilter;
+use yii\web\NotFoundHttpException;
 use yii\web\Response;
 
 /**
@@ -75,7 +74,7 @@ class ContactController extends Controller
         // Check if there is an Editable ajax request
         if (isset($_POST['hasEditable'])) {
             // use Yii's response format to encode output as JSON
-            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            Yii::$app->response->format = Response::FORMAT_JSON;
 
             $request = Yii::$app->request;
 
@@ -92,7 +91,7 @@ class ContactController extends Controller
                     $value = $model->getAttendeeTypeName();
                 if ($attribute == 'country')
                     $value = $model->getCountryName();
-//                \app\components\ULog::Log($model);
+                //                \app\components\ULog::Log($model);
                 $model->save();
                 // return JSON encoded output in the below format
                 return ['output' => $value, 'message' => ''];
@@ -123,7 +122,9 @@ class ContactController extends Controller
 
     /**
      * Displays a single Contact model.
+     *
      * @param integer $id
+     *
      * @return mixed
      */
     public function actionView($id)
@@ -131,6 +132,24 @@ class ContactController extends Controller
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
+    }
+
+    /**
+     * Finds the Contact model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     *
+     * @param integer $id
+     *
+     * @return Contact the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findModel($id)
+    {
+        if (($model = Contact::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
     }
 
     /**
@@ -154,7 +173,9 @@ class ContactController extends Controller
     /**
      * Updates an existing Contact model.
      * If update is successful, the browser will be redirected to the 'view' page.
+     *
      * @param integer $id
+     *
      * @return mixed
      */
     public function actionUpdate($id)
@@ -173,7 +194,9 @@ class ContactController extends Controller
     /**
      * Deletes an existing Contact model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
+     *
      * @param integer $id
+     *
      * @return mixed
      */
     public function actionDelete($id)
@@ -182,22 +205,6 @@ class ContactController extends Controller
 
         // return $this->redirect(['index']);
         return "";
-    }
-
-    /**
-     * Finds the Contact model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Contact the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        if (($model = Contact::findOne($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
     }
 
 }

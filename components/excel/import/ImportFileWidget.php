@@ -10,7 +10,6 @@ namespace app\components\excel\import;
 
 use kartik\widgets\FileInput;
 use yii\base\Widget;
-use yii\helpers\Html;
 
 class ImportFileWidget extends Widget
 {

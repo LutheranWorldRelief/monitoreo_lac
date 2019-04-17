@@ -2,19 +2,22 @@
 
 namespace app\nestic\behaviors;
 
-use yii\base\Behavior;
-use yii\web\Response;
-use yii\data\Pagination;
 use Yii;
+use yii\base\Behavior;
+use yii\data\Pagination;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
+use yii\web\Response;
 
-class BNgTable extends Behavior {
+class BNgTable extends Behavior
+{
 
-    public function ngTable($class) {
+    public function ngTable($class)
+    {
         Yii::$app->response->format = Response::FORMAT_JSON;
-        $request = \Yii::$app->request;
+        $request = Yii::$app->request;
         $orden = $request->getQueryParam('orden');
-        $filtros = \yii\helpers\ArrayHelper::merge(Json::decode($request->getQueryParam('filtros')), Json::decode($request->getQueryParam('extra')));
+        $filtros = ArrayHelper::merge(Json::decode($request->getQueryParam('filtros')), Json::decode($request->getQueryParam('extra')));
         $query = $class::ngFiltros($filtros, $orden, $class);
 
         $pageSize = $request->getQueryParam('tamanio_pagina');

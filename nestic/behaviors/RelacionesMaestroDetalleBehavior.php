@@ -2,6 +2,8 @@
 
 namespace app\nestic\behaviors;
 
+use Closure;
+use yii\base\Behavior;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 
@@ -31,9 +33,10 @@ use yii\helpers\ArrayHelper;
  * @property ActiveRecord $owner
  *
  * @author Misbahul D Munir <misbahuldmunir@gmail.com>
- * @since 1.0
+ * @since  1.0
  */
-class RelacionesMaestroDetalleBehavior extends \yii\base\Behavior {
+class RelacionesMaestroDetalleBehavior extends Behavior
+{
 
     /**
      * @var array scenario for relation
@@ -41,7 +44,7 @@ class RelacionesMaestroDetalleBehavior extends \yii\base\Behavior {
     public $relatedScenarios = [];
 
     /**
-     * @var \Closure callback execute before related validate.
+     * @var Closure callback execute before related validate.
      *
      * ```php
      * function($model,$index,$relationName){
@@ -52,7 +55,7 @@ class RelacionesMaestroDetalleBehavior extends \yii\base\Behavior {
     public $beforeRValidate;
 
     /**
-     * @var \Closure Execute before relation save
+     * @var Closure Execute before relation save
      * When return false, save will be canceled
      * @see [[$beforeRValidate]]
      * If function return `false`, save will be canceled
@@ -60,7 +63,7 @@ class RelacionesMaestroDetalleBehavior extends \yii\base\Behavior {
     public $beforeRSave;
 
     /**
-     * @var \Closure Execute after relation save
+     * @var Closure Execute after relation save
      * @see [[$beforeRValidate]]
      */
     public $afterRSave;
@@ -76,7 +79,7 @@ class RelacionesMaestroDetalleBehavior extends \yii\base\Behavior {
     public $deleteUnsaved = true;
 
     /**
-     * @var \Closure function to check is two model is equal.
+     * @var Closure function to check is two model is equal.
      *
      * ```
      * function ($model1, $model2, $keys){
@@ -109,8 +112,9 @@ class RelacionesMaestroDetalleBehavior extends \yii\base\Behavior {
     /**
      * @inheritdoc
      */
-    public function events() {
-        return[
+    public function events()
+    {
+        return [
             ActiveRecord::EVENT_AFTER_VALIDATE => 'afterValidate',
             ActiveRecord::EVENT_AFTER_INSERT => 'afterSave',
             ActiveRecord::EVENT_AFTER_UPDATE => 'afterSave',
@@ -120,26 +124,23 @@ class RelacionesMaestroDetalleBehavior extends \yii\base\Behavior {
     /**
      * @inheritdoc
      */
-    public function __set($name, $value) {
+    public function __set($name, $value)
+    {
         if ($this->setRelated($name, $value) === false) {
             parent::__set($name, $value);
         }
     }
 
     /**
-     * @inheritdoc
-     */
-    public function canSetProperty($name, $checkVars = true) {
-        return $this->owner->getRelation($name, false) !== null || parent::canSetProperty($name, $checkVars);
-    }
-
-    /**
      * Populate relation
+     *
      * @param string $name
      * @param array||\yii\db\ActiveRecord||\yii\db\ActiveRecord[] $values
+     *
      * @return boolean
      */
-    public function setRelated($name, $values) {
+    public function setRelated($name, $values)
+    {
         $relation = $this->owner->getRelation($name, false);
         if ($relation === null) {
             return false;
@@ -164,7 +165,7 @@ class RelacionesMaestroDetalleBehavior extends \yii\base\Behavior {
             foreach ($values as $index => $value) {
                 // get from current relation
                 // if has child with same primary key, use this
-                /* @var $newChild \yii\db\ActiveRecord */
+                /* @var $newChild ActiveRecord */
                 $newChild = null;
                 if (empty($relation->indexBy)) {
                     foreach ($children as $i => $child) {
@@ -200,10 +201,10 @@ class RelacionesMaestroDetalleBehavior extends \yii\base\Behavior {
                 if (!$value instanceof $class) {
                     $newChild->load($value, '');
                 }
-//                if ($this->owner->isNewRecord)
-//                    foreach ($link as $from => $to)
-//                        $newChild->$from = 0;
-//                else
+                //                if ($this->owner->isNewRecord)
+                //                    foreach ($link as $from => $to)
+                //                        $newChild->$from = 0;
+                //                else
                 foreach ($link as $from => $to)
                     $newChild->$from = $this->owner->$to;
 
@@ -251,11 +252,42 @@ class RelacionesMaestroDetalleBehavior extends \yii\base\Behavior {
     }
 
     /**
+     * Check is boot of model is equal
+     *
+     * @param ActiveRecord|array $model1
+     * @param ActiveRecord|array $model2
+     * @param array              $keys
+     *
+     * @return boolean
+     */
+    protected function isEqual($model1, $model2, $keys)
+    {
+        if ($this->isEqual !== null) {
+            return call_user_func($this->isEqual, $model1, $model2, $keys);
+        }
+        foreach ($keys as $key) {
+            if (ArrayHelper::getValue($model1, $key) != ArrayHelper::getValue($model2, $key)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function canSetProperty($name, $checkVars = true)
+    {
+        return $this->owner->getRelation($name, false) !== null || parent::canSetProperty($name, $checkVars);
+    }
+
+    /**
      * Handler for event afterValidate
      */
-    public function afterValidate() {
+    public function afterValidate()
+    {
 
-        /* @var $child \yii\db\ActiveRecord */
+        /* @var $child ActiveRecord */
         foreach ($this->_process_relation as $name => $process) {
             if (!$process) {
                 continue;
@@ -308,14 +340,15 @@ class RelacionesMaestroDetalleBehavior extends \yii\base\Behavior {
     /**
      * Handler for event afterSave
      */
-    public function afterSave() {
+    public function afterSave()
+    {
 
         foreach ($this->_process_relation as $name => $process) {
             if (!$process) {
                 continue;
             }
             // delete old related
-            /* @var $child \yii\db\ActiveRecord */
+            /* @var $child ActiveRecord */
             if (isset($this->_old_relations[$name])) {
                 foreach ($this->_old_relations[$name] as $child) {
                     $child->delete();
@@ -341,7 +374,7 @@ class RelacionesMaestroDetalleBehavior extends \yii\base\Behavior {
                     }
                 }
             } else {
-                /* @var $children \yii\db\ActiveRecord */
+                /* @var $children ActiveRecord */
                 if ($children !== null) {
                     foreach ($link as $from => $to) {
                         $children->$from = $this->owner->$to;
@@ -362,10 +395,13 @@ class RelacionesMaestroDetalleBehavior extends \yii\base\Behavior {
 
     /**
      * Check if relation has error.
-     * @param  string  $relationName
+     *
+     * @param string $relationName
+     *
      * @return boolean
      */
-    public function hasRelatedErrors($relationName = null) {
+    public function hasRelatedErrors($relationName = null)
+    {
         if ($relationName === null) {
             foreach ($this->_relatedErrors as $errors) {
                 if (!empty($errors)) {
@@ -380,34 +416,18 @@ class RelacionesMaestroDetalleBehavior extends \yii\base\Behavior {
 
     /**
      * Get related error(s)
+     *
      * @param string|null $relationName
+     *
      * @return array
      */
-    public function getRelatedErrors($relationName = null) {
+    public function getRelatedErrors($relationName = null)
+    {
         if ($relationName === null) {
             return $this->_relatedErrors;
         } else {
             return isset($this->_relatedErrors[$relationName]) ? $this->_relatedErrors[$relationName] : [];
         }
-    }
-
-    /**
-     * Check is boot of model is equal
-     * @param \yii\db\ActiveRecord|array $model1
-     * @param \yii\db\ActiveRecord|array $model2
-     * @param array $keys
-     * @return boolean
-     */
-    protected function isEqual($model1, $model2, $keys) {
-        if ($this->isEqual !== null) {
-            return call_user_func($this->isEqual, $model1, $model2, $keys);
-        }
-        foreach ($keys as $key) {
-            if (ArrayHelper::getValue($model1, $key) != ArrayHelper::getValue($model2, $key)) {
-                return false;
-            }
-        }
-        return true;
     }
 
 }

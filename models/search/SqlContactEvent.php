@@ -2,10 +2,9 @@
 
 namespace app\models\search;
 
-use Yii;
+use app\models\SqlContactEvent as SqlContactEventModel;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\SqlContactEvent as SqlContactEventModel;
 
 /**
  * SqlContactEvent represents the model behind the search form of `app\models\SqlContactEvent`.

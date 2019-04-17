@@ -1,7 +1,10 @@
 <?php
+
 namespace app\models\form;
 
-class ReportForm extends \yii\base\Model
+use yii\base\Model;
+
+class ReportForm extends Model
 {
     public $send_it;
     public $date_start;
@@ -23,7 +26,7 @@ class ReportForm extends \yii\base\Model
     {
         return [
             [['date_start', 'date_end'], 'date'],
-//          [['date_start', 'date_end'], 'required'],
+            //          [['date_start', 'date_end'], 'required'],
             [['project_id', 'country_code'], 'string'],
             [['org_implementing_id', 'country_id', 'send_it'], 'integer'],
         ];
@@ -32,12 +35,12 @@ class ReportForm extends \yii\base\Model
     public function attributeLabels()
     {
         return [
-            'date_start'    => 'Fecha Inicio',
-            'date_end'      => 'Fecha Fin',
-            'project_id'    => 'Proyecto',
+            'date_start' => 'Fecha Inicio',
+            'date_end' => 'Fecha Fin',
+            'project_id' => 'Proyecto',
             'org_implementing_id' => 'Organización Implementadora',
-            'country_id'    => 'País',
-            'country_code'  => 'País',
+            'country_id' => 'País',
+            'country_code' => 'País',
         ];
     }
 }

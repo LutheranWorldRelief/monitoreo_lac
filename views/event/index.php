@@ -14,7 +14,7 @@ $this->title .= ' / Event / Lista';
 $gridColumns = [
     ['class' => 'yii\grid\SerialColumn'],
     [
-        'attribute'=>'id',
+        'attribute' => 'id',
     ],
     [
         'attribute' => 'name',
@@ -23,7 +23,7 @@ $gridColumns = [
             return Html::a($model->name, ['view', 'id' => $model->id], ['data-pjax' => 0]);
         },
     ],
-      [
+    [
         'attribute' => 'project',
         'label' => 'Project',
         'options' => ['style' => 'width: 170px;'],
@@ -54,7 +54,7 @@ $gridColumns = [
     'h',
     'm',
     't',
-   
+
 ];
 
 ?>

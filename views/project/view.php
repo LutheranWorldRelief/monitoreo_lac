@@ -1,7 +1,6 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\DetailView;
 use yii\helpers\Url;
 
 /* @var $this yii\web\View */
@@ -56,42 +55,46 @@ $this->render('_navbar', [
     $this->registerAssetBundle("\app\assets\AngularTreeAsset", yii\web\View::POS_BEGIN);
     $this->registerJsFile("@web/js/script/project.structure.tree.js");
     ?>
-    <div class="box" ng-app="treeGridStructure" ng-controller="treeGridController" ng-init="formulario.proyecto = <?= $model->id; ?>;cargarDatos()">
+    <div class="box"
+         ng-app="treeGridStructure"
+         ng-controller="treeGridController"
+         ng-init="formulario.proyecto = <?= $model->id; ?>;cargarDatos()">
         <div class="box-body">
             <div class="row">
                 <div class="col-sm-8">
                     <h2>Estructura</h2>
                 </div>
                 <div class="col-sm-4">
-                    <a class="pull-right btn btn-success" href="<?= Url::toRoute(["structure/create", 'project' => $model->id]); ?>">Nueva Estructura</a>
+                    <a class="pull-right btn btn-success"
+                       href="<?= Url::toRoute(["structure/create", 'project' => $model->id]); ?>">Nueva Estructura</a>
                 </div>
             </div>
             <button ng-click="my_tree.expand_all()" class="btn btn-primary btn-sm">Expand All</button>
             <button ng-click="my_tree.collapse_all()" class="btn btn-primary btn-sm">Collapse All</button>
             <br>
             <br>
-            <input class="input-sm form-control" type="text" data-ng-model="filterString" placeholder="Filter" />
+            <input class="input-sm form-control" type="text" data-ng-model="filterString" placeholder="Filter"/>
 
-            <tree-grid 
-                tree-data="tree_data" 
-                tree-control="my_tree" 
-                col-defs="col_defs" 
-                expand-on="expanding_property" 
-                on-select="my_tree_handler(branch)" 
-                icon-leaf= "glyphicon glyphicon-record"
-                icon-expand   = "glyphicon glyphicon-tasks"
-                icon-collapse = "glyphicon glyphicon-folder-open"
-                >
+            <tree-grid
+                    tree-data="tree_data"
+                    tree-control="my_tree"
+                    col-defs="col_defs"
+                    expand-on="expanding_property"
+                    on-select="my_tree_handler(branch)"
+                    icon-leaf="glyphicon glyphicon-record"
+                    icon-expand="glyphicon glyphicon-tasks"
+                    icon-collapse="glyphicon glyphicon-folder-open"
+            >
 
             </tree-grid>
 
             <script>
-                        UrlsAcciones = {};
-                        UrlsAcciones.Proyecto = <?php echo $model->id; ?>;
-                        UrlsAcciones.UrlDatos = '<?php echo Url::toRoute("data-structure"); ?>';
-                        UrlsAcciones.UrlView = '<?php echo Url::toRoute("structure/update"); ?>';
-                        UrlsAcciones.UrlCreate = '<?php echo Url::toRoute("structure/create"); ?>';
-                        UrlsAcciones.UrlEliminar = '<?php echo Url::toRoute("structure/eliminar"); ?>';
+                UrlsAcciones = {};
+                UrlsAcciones.Proyecto = <?php echo $model->id; ?>;
+                UrlsAcciones.UrlDatos = '<?php echo Url::toRoute("data-structure"); ?>';
+                UrlsAcciones.UrlView = '<?php echo Url::toRoute("structure/update"); ?>';
+                UrlsAcciones.UrlCreate = '<?php echo Url::toRoute("structure/create"); ?>';
+                UrlsAcciones.UrlEliminar = '<?php echo Url::toRoute("structure/eliminar"); ?>';
             </script>
         </div>
     </div>

@@ -2,21 +2,22 @@
 
 namespace app\models\base;
 
-use Yii;
+use app\components\ActiveRecord;
+use yii\db\ActiveQuery;
 
 /**
  * This is the model class for table "organization_type".
  * Please do not add custom code to this file, as it is supposed to be overriden
  * by the gii model generator. Custom code belongs to app\models\OrganizationType.
  *
- * @property int $id
- * @property string $abbreviation
- * @property string $name
- * @property string $description
+ * @property int                        $id
+ * @property string                     $abbreviation
+ * @property string                     $name
+ * @property string                     $description
  *
  * @property \app\models\Organization[] $organizations
  */
-abstract class OrganizationType extends \app\components\ActiveRecord
+abstract class OrganizationType extends ActiveRecord
 {
     /**
      * @inheritdoc
@@ -53,7 +54,7 @@ abstract class OrganizationType extends \app\components\ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getOrganizations()
     {

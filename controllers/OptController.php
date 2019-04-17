@@ -2,39 +2,78 @@
 
 namespace app\controllers;
 
-use app\components\ULog;
+use app\components\Controller;
 use app\models\Attendance;
 use app\models\AuthUser;
 use app\models\Contact;
 use app\models\DataList;
-use app\models\Project;
 use app\models\Organization;
+use app\models\Project;
 use app\models\ProjectContact;
 use app\models\SqlContact;
 use app\models\SqlFullReportProjectContact;
-use function array_merge;
-use function str_replace;
+use Exception;
 use Yii;
-use app\components\Controller;
 use yii\helpers\ArrayHelper;
 use yii\web\HttpException;
 use yii\web\Response;
+use function array_merge;
+use function str_replace;
 
 class OptController extends Controller
 {
-    public function actionIndex()
-    {
-        return $this->render('index');
-    }
-
     private $removeFields = [
         'created',
         'modified',
         'errors',
     ];
-
     private $extraFields = [
     ];
+
+    public function actionIndex()
+    {
+        return $this->render('index');
+    }
+
+    public function actionApiContact($id)
+    {
+        $model = Contact::findOne($id);
+        if (!$model)
+            return [];
+
+        Yii::warning($model->attributes, 'developer');
+
+        $modelsName = $this->namesQuery($model->name)
+            ->select('sql_contact.id')
+            ->all();
+
+        $modelsDoc = $this->docsQuery($model->document)
+            ->select('sql_contact.id')
+            ->all();
+
+        return $this->renderModels(array_merge($modelsName, $modelsDoc));
+    }
+
+    //-------------------------------------------------------------------------- BY ID
+
+    private function namesQuery($name = null)
+    {
+        $query = $this->baseQuery();
+
+        $name2 = preg_replace('/\s+/', " ", TRIM($name));
+        if ($name2)
+            $query->andWhere('REGEXP_REPLACE(TRIM(sql_contact.name), "\\\\s\\\\s+", " ") = :user_name COLLATE utf8_general_ci', [':user_name' => $name2]);
+
+        $query->andWhere("NOT TRIM(sql_contact.name) = ''");
+
+        if ($name === '')
+            $query->andWhere("1 = 0");
+
+        return $query;
+
+    }
+
+    //-------------------------------------------------------------------------- BY NAME
 
     private function baseQuery()
     {
@@ -75,95 +114,6 @@ class OptController extends Controller
         return $query;
     }
 
-    //-------------------------------------------------------------------------- BY ID
-    public function actionApiContact($id)
-    {
-        $model = Contact::findOne($id);
-        if (!$model)
-            return [];
-
-        Yii::warning($model->attributes, 'developer');
-
-        $modelsName = $this->namesQuery($model->name)
-            ->select('sql_contact.id')
-            ->all();
-
-        $modelsDoc = $this->docsQuery($model->document)
-            ->select('sql_contact.id')
-            ->all();
-
-        return $this->renderModels(array_merge($modelsName, $modelsDoc));
-    }
-
-    //-------------------------------------------------------------------------- BY NAME
-    public function actionApiName($name)
-    {
-        Yii::warning($name, 'developer');
-
-        $query = $this->namesQuery($name);
-
-        return $this->renderModels($query->select('sql_contact.id')->all());
-    }
-
-    public function actionApiNameValues()
-    {
-        return $this->renderModelsById(Yii::$app->request->post('ids'));
-    }
-
-    private function namesQuery($name = null)
-    {
-        $query = $this->baseQuery();
-
-        $name2 = preg_replace('/\s+/', " ", TRIM($name));
-        if ($name2)
-            $query->andWhere('REGEXP_REPLACE(TRIM(sql_contact.name), "\\\\s\\\\s+", " ") = :user_name COLLATE utf8_general_ci', [':user_name'=>$name2]);
-
-        $query->andWhere("NOT TRIM(sql_contact.name) = ''");
-
-        if ($name === '')
-            $query->andWhere("1 = 0");
-
-        return $query;
-
-    }
-
-    private function namesModels($name = null)
-    {
-        $query = $this->namesQuery($name);
-//ULog::l($query->createCommand()->query());
-
-        $query->select([
-            'sql_contact.id as id',
-            'TRIM(sql_contact.name) as name',
-            'count(DISTINCT sql_contact.id) as cuenta',
-        ])
-            ->andWhere('TRIM(sql_contact.name) <> ""')
-            ->groupBy('sql_contact.name')
-            ->having('cuenta > 1');
-
-        return $query->all();
-    }
-
-    public function actionApiNames()
-    {
-        $models = $this->namesModels();
-
-        return $this->renderJson($models);
-    }
-
-    //-------------------------------------------------------------------------- BY DOCS
-    public function actionApiDoc($doc)
-    {
-        $query = $this->docsQuery($doc);
-
-        return $this->renderModels($query->select('sql_contact.id')->all());
-    }
-
-    public function actionApiDocValues()
-    {
-        return $this->renderModelsById(Yii::$app->request->post('ids'));
-    }
-
     private function docsQuery($doc = null)
     {
         $query = $this->baseQuery();
@@ -178,6 +128,131 @@ class OptController extends Controller
             $query->andWhere("1 = 0");
 
         return $query;
+    }
+
+    private function renderModels($ms)
+    {
+        $ids = ArrayHelper::map($ms, 'id', 'id');
+
+        $models = Contact::findAll($ids);
+
+        return $this->renderJson([
+            'models' => $models,
+        ]);
+    }
+
+    public function actionApiName($name)
+    {
+        Yii::warning($name, 'developer');
+
+        $query = $this->namesQuery($name);
+
+        return $this->renderModels($query->select('sql_contact.id')->all());
+    }
+
+    public function actionApiNameValues()
+    {
+        return $this->renderModelsById(Yii::$app->request->post('ids'));
+    }
+
+    //-------------------------------------------------------------------------- BY DOCS
+
+    private function renderModelsById($ids)
+    {
+        $models = Contact::findAll($ids);
+
+        $modelMerge = new Contact();
+        $attributes = $modelMerge->attributes;
+
+        foreach ($this->removeFields as $field)
+            unset($attributes[$field]);
+
+        foreach ($this->extraFields as $field)
+            $attributes[$field] = null;
+
+        $result = [];
+
+        foreach ($attributes as $attr => $value) {
+            if ($attr == 'id') continue;
+            if (!isset($resul[$attr]))
+                $result[$attr] = [];
+            if (!is_array($result[$attr]))
+                $result[$attr] = [];
+
+            foreach ($models as $model) {
+                if ($model[$attr] !== null && trim($model[$attr]) != "" && !in_array($model[$attr], $result[$attr])) {
+                    $result[$attr][] = $model[$attr];
+                }
+            }
+        }
+
+        $resolve = [];
+
+        foreach ($result as $key => $values) {
+            $count = count($values);
+            if ($count == 0)
+                $result[$key] = null;
+            elseif (count($values) == 1)
+                $result[$key] = $values[0];
+            else
+                $resolve[$key] = $values;
+        }
+
+        Yii::warning([
+            'result' => $result,
+            'resolve' => $resolve,
+        ], 'developer');
+
+        return $this->renderJson([
+            'ids' => $ids,
+            'values' => $result,
+            'resolve' => $resolve,
+        ]);
+    }
+
+    public function actionApiNames()
+    {
+        $models = $this->namesModels();
+
+        return $this->renderJson($models);
+    }
+
+    private function namesModels($name = null)
+    {
+        $query = $this->namesQuery($name);
+        //ULog::l($query->createCommand()->query());
+
+        $query->select([
+            'sql_contact.id as id',
+            'TRIM(sql_contact.name) as name',
+            'count(DISTINCT sql_contact.id) as cuenta',
+        ])
+            ->andWhere('TRIM(sql_contact.name) <> ""')
+            ->groupBy('sql_contact.name')
+            ->having('cuenta > 1');
+
+        return $query->all();
+    }
+
+    public function actionApiDoc($doc)
+    {
+        $query = $this->docsQuery($doc);
+
+        return $this->renderModels($query->select('sql_contact.id')->all());
+    }
+
+    public function actionApiDocValues()
+    {
+        return $this->renderModelsById(Yii::$app->request->post('ids'));
+    }
+
+    //-------------------------------------------------------------------------- LISTS/CATALOGS
+
+    public function actionApiDocs()
+    {
+        $models = $this->docsModels();
+
+        return $this->renderJson($models);
     }
 
     private function docsModels($doc = null)
@@ -197,15 +272,6 @@ class OptController extends Controller
 
         return $query->all();
     }
-
-    public function actionApiDocs()
-    {
-        $models = $this->docsModels();
-
-        return $this->renderJson($models);
-    }
-
-    //-------------------------------------------------------------------------- LISTS/CATALOGS
 
     public function actionApiProjects()
     {
@@ -236,6 +302,8 @@ class OptController extends Controller
         $data = Organization::listData('name');
         return $this->renderJson($data);
     }
+
+    //-------------------------------------------------------------------------- FUSION
 
     public function actionApiEmpty()
     {
@@ -268,7 +336,6 @@ class OptController extends Controller
         return $data;
     }
 
-    //-------------------------------------------------------------------------- FUSION
     public function actionApiFusion()
     {
         $request = Yii::$app->request;
@@ -337,7 +404,7 @@ class OptController extends Controller
                 }
             }
             $transaction->commit();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $transaction->rollBack();
             throw new HttpException(500, $e->getMessage());
         }
@@ -440,69 +507,5 @@ class OptController extends Controller
             Attendance::deleteAll(['contact_id' => $idsWithNoProjects]),
             Contact::deleteAll(['id' => $idsWithNoProjects])
         ];
-    }
-
-    private function renderModelsById($ids)
-    {
-        $models = Contact::findAll($ids);
-
-        $modelMerge = new Contact();
-        $attributes = $modelMerge->attributes;
-
-        foreach ($this->removeFields as $field)
-            unset($attributes[$field]);
-
-        foreach ($this->extraFields as $field)
-            $attributes[$field] = null;
-
-        $result = [];
-
-        foreach ($attributes as $attr => $value) {
-            if ($attr == 'id') continue;
-            if (!isset($resul[$attr]))
-                $result[$attr] = [];
-            if (!is_array($result[$attr]))
-                $result[$attr] = [];
-
-            foreach ($models as $model) {
-                if ($model[$attr] !== null && trim($model[$attr]) != "" && !in_array($model[$attr], $result[$attr])) {
-                    $result[$attr][] = $model[$attr];
-                }
-            }
-        }
-
-        $resolve = [];
-
-        foreach ($result as $key => $values) {
-            $count = count($values);
-            if ($count == 0)
-                $result[$key] = null;
-            elseif (count($values) == 1)
-                $result[$key] = $values[0];
-            else
-                $resolve[$key] = $values;
-        }
-
-        Yii::warning([
-            'result' => $result,
-            'resolve' => $resolve,
-        ], 'developer');
-
-        return $this->renderJson([
-            'ids' => $ids,
-            'values' => $result,
-            'resolve' => $resolve,
-        ]);
-    }
-
-    private function renderModels($ms)
-    {
-        $ids = ArrayHelper::map($ms, 'id', 'id');
-
-        $models = Contact::findAll($ids);
-
-        return $this->renderJson([
-            'models' => $models,
-        ]);
     }
 }

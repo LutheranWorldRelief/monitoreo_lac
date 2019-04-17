@@ -2,26 +2,26 @@
 
 namespace app\models\base;
 
-use Yii;
+use app\components\ActiveRecord;
 
 /**
  * This is the model class for table "sql_contact".
  * Please do not add custom code to this file, as it is supposed to be overriden
  * by the gii model generator. Custom code belongs to app\models\SqlContact.
  *
- * @property int $id
+ * @property int    $id
  * @property string $name
  * @property string $document
  * @property string $sex
- * @property int $org_id
+ * @property int    $org_id
  * @property string $org_name
  * @property string $country
  * @property string $community
- * @property int $type_id
+ * @property int    $type_id
  * @property string $type_name
  * @property string $phone_personal
  */
-abstract class SqlContact extends \app\components\ActiveRecord
+abstract class SqlContact extends ActiveRecord
 {
     /**
      * @inheritdoc

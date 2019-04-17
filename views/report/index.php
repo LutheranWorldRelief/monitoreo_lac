@@ -1,12 +1,12 @@
 <?php
 
-use \app\models\form\ReportForm;
-use \kartik\form\ActiveForm;
-use \kartik\widgets\DatePicker;
-use \kartik\select2\Select2;
+use app\models\form\ReportForm;
+use kartik\form\ActiveForm;
+use kartik\select2\Select2;
+use kartik\widgets\DatePicker;
 use yii\bootstrap\Html;
 use yii\bootstrap\NavBar;
-use \yii\helpers\Url;
+use yii\helpers\Url;
 
 /* @var ReportForm $model */
 /* @var array $projects */

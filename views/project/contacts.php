@@ -5,7 +5,6 @@ use app\assets\Vue2Asset;
 use app\models\Project;
 use kartik\date\DatePickerAsset;
 use yii\helpers\Url;
-use yii\jui\JuiAsset;
 
 /* @var $project Project */
 /* @var $this yii\web\View */
@@ -28,8 +27,8 @@ $this->registerJsFile("@web/js/vue/project.contact.js", ['depends' => $depends])
 <?= $this->render('_navbar', [
     'options' => [
         [
-            'label'  => '<i class="fa fa-folder-open"></i> Proyecto',
-            'url'    => ['project/view', 'id' => $project->id],
+            'label' => '<i class="fa fa-folder-open"></i> Proyecto',
+            'url' => ['project/view', 'id' => $project->id],
             'encode' => false
         ],
     ]
@@ -58,47 +57,48 @@ $this->registerJsFile("@web/js/vue/project.contact.js", ['depends' => $depends])
                 <h4>Total Beneficiarios {{count.contacts}}</h4>
                 <table class="table table-condensed" style="font-size: 12px;">
                     <thead>
-                        <tr>
-                            <th style="width: 80px">{{labels.contact.id}}</th>
-                            <th>{{labels.contact.name}}</th>
-                            <th style="width: 80px"></th>
-                            <th style="width: 120px">{{labels.projectContact.product}}</th>
-                            <th style="width: 70px">{{labels.projectContact.area}}</th>
-                            <th style="width: 90px">{{labels.projectContact.development_area}}</th>
-                            <th style="width: 90px">{{labels.projectContact.productive_area}}</th>
-                            <th style="width: 120px">{{labels.projectContact.age_development_plantation}}</th>
-                            <th style="width: 120px">{{labels.projectContact.age_productive_plantation}}</th>
-                            <th style="width: 50px">{{labels.projectContact.yield}}</th>
-                            <th style="width: 100px">{{labels.projectContact.date_entry_project}}</th>
-                            <th style="width: 100px">{{labels.projectContact.date_end_project}}</th>
-                        </tr>
+                    <tr>
+                        <th style="width: 80px">{{labels.contact.id}}</th>
+                        <th>{{labels.contact.name}}</th>
+                        <th style="width: 80px"></th>
+                        <th style="width: 120px">{{labels.projectContact.product}}</th>
+                        <th style="width: 70px">{{labels.projectContact.area}}</th>
+                        <th style="width: 90px">{{labels.projectContact.development_area}}</th>
+                        <th style="width: 90px">{{labels.projectContact.productive_area}}</th>
+                        <th style="width: 120px">{{labels.projectContact.age_development_plantation}}</th>
+                        <th style="width: 120px">{{labels.projectContact.age_productive_plantation}}</th>
+                        <th style="width: 50px">{{labels.projectContact.yield}}</th>
+                        <th style="width: 100px">{{labels.projectContact.date_entry_project}}</th>
+                        <th style="width: 100px">{{labels.projectContact.date_end_project}}</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(model, index) in models">
-                            <td>{{model.id}}</td>
-                            <td>
-                                <a :href="'<?= Url::to(['contact/view']) ?>?id=' + model.id" target="_blank">{{model.name | uppercase}}</a>
-                            </td>
-                            <td>
-                                <button
+                    <tr v-for="(model, index) in models">
+                        <td>{{model.id}}</td>
+                        <td>
+                            <a :href="'<?= Url::to(['contact/view']) ?>?id=' + model.id"
+                               target="_blank">{{model.name | uppercase}}</a>
+                        </td>
+                        <td>
+                            <button
                                     type="button"
                                     class="btn btn-xs btn-warning"
                                     @click="modalEdit(model, index)"
                                     data-toggle="modal"
                                     data-target="#modal-project-contact">
-                                    <i class="fa fa-pencil"></i>
-                                </button>
-                            </td>
-                            <td v-if="model.projectContactOne">{{model.projectContactOne.product}}</td>
-                            <td v-if="model.projectContactOne">{{model.projectContactOne.area}}</td>
-                            <td v-if="model.projectContactOne">{{model.projectContactOne.development_area}}</td>
-                            <td v-if="model.projectContactOne">{{model.projectContactOne.productive_area}}</td>
-                            <td v-if="model.projectContactOne">{{model.projectContactOne.age_development_plantation}}</td>
-                            <td v-if="model.projectContactOne">{{model.projectContactOne.age_productive_plantation}}</td>
-                            <td v-if="model.projectContactOne">{{model.projectContactOne.yield}}</td>
-                            <td v-if="model.projectContactOne">{{model.projectContactOne.date_entry_project}}</td>
-                            <td v-if="model.projectContactOne">{{model.projectContactOne.date_end_project}}</td>
-                        </tr>
+                                <i class="fa fa-pencil"></i>
+                            </button>
+                        </td>
+                        <td v-if="model.projectContactOne">{{model.projectContactOne.product}}</td>
+                        <td v-if="model.projectContactOne">{{model.projectContactOne.area}}</td>
+                        <td v-if="model.projectContactOne">{{model.projectContactOne.development_area}}</td>
+                        <td v-if="model.projectContactOne">{{model.projectContactOne.productive_area}}</td>
+                        <td v-if="model.projectContactOne">{{model.projectContactOne.age_development_plantation}}</td>
+                        <td v-if="model.projectContactOne">{{model.projectContactOne.age_productive_plantation}}</td>
+                        <td v-if="model.projectContactOne">{{model.projectContactOne.yield}}</td>
+                        <td v-if="model.projectContactOne">{{model.projectContactOne.date_entry_project}}</td>
+                        <td v-if="model.projectContactOne">{{model.projectContactOne.date_end_project}}</td>
+                    </tr>
                     </tbody>
                 </table>
             </div>

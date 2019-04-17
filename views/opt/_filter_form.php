@@ -1,9 +1,5 @@
 <?php
 
-use kartik\form\ActiveForm;
-use yii\bootstrap\Html;
-use yii\helpers\Json;
-
 /* @var array $projects */
 /* @var array $organizations */
 /* @var array $countries */

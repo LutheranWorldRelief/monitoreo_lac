@@ -1,7 +1,11 @@
 <?php
-\bedezign\yii2\audit\web\JSLoggingAsset::register($this);
+JSLoggingAsset::register($this);
+
+use bedezign\yii2\audit\web\JSLoggingAsset;
 use yii\helpers\Html;
-/* @var $this \yii\web\View */
+use yii\web\View;
+
+/* @var $this View */
 /* @var $content string */
 
 
@@ -68,13 +72,15 @@ if (Yii::$app->controller->action->id === 'login') {
 <style>
     .skin-blue .main-header .navbar {
         background-color: #00AAA7;
-    }
+        }
+
     .skin-blue .main-header .logo {
         background-color: #00AAA7;
-        color: #fff;
-        border-bottom: 0 solid transparent;
-    }
+        color:            #fff;
+        border-bottom:    0 solid transparent;
+        }
+
     .skin-blue .main-header li.user-header {
         background-color: #00AAA7;
-    }
+        }
 </style>

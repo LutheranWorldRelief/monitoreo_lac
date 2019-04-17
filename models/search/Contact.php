@@ -2,10 +2,10 @@
 
 namespace app\models\search;
 
+use app\models\Contact as ContactModel;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Contact as ContactModel;
 
 /**
  * Contact represents the model behind the search form of `app\models\Contact`.
