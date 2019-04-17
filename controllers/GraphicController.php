@@ -2,10 +2,13 @@
 
 namespace app\controllers;
 
+use app\components\UBool;
 use app\components\UString;
-use app\models\Activity;
+use app\models\Project;
 use Yii;
+use yii\db\Query;
 use yii\helpers\ArrayHelper;
+use yii\web\Response;
 
 /**
  * ActivityController implements the CRUD actions for Activity model.
@@ -28,22 +31,22 @@ class GraphicController extends ControladorController
     public function actionProyecto()
     {
         $this->validacionPost();
-        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        $idProject = \Yii::$app->request->post('proyecto');
-        $proyecto = \app\models\Project::findOne($idProject);
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $idProject = Yii::$app->request->post('proyecto');
+        $proyecto = Project::findOne($idProject);
         return ['proyecto' => $proyecto ? $proyecto->ToArrayString(['colores']) : null,];
     }
 
     public function actionCantidadProyectos()
     {
         $this->validacionPost();
-        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        Yii::$app->response->format = Response::FORMAT_JSON;
         return ['proyectos' => $this->cantidadProyectos(),];
     }
 
     private function cantidadProyectos()
     {
-        $subquery = (new \yii\db\Query());
+        $subquery = (new Query());
         $subquery->select('count(distinct p.id)')
             ->from('event e')
             ->leftJoin('structure act', 'e.structure_id = act.id')
@@ -56,10 +59,10 @@ class GraphicController extends ControladorController
 
     private function AplicarFiltros(&$query)
     {
-        /* @var $query \yii\db\Query */
+        /* @var $query Query */
 
         /*Rango de Fechas*/
-        $request = \Yii::$app->request;
+        $request = Yii::$app->request;
         $desde = $request->post('desde');
         $hasta = $request->post('hasta');
         if ($desde && $hasta)
@@ -91,96 +94,14 @@ class GraphicController extends ControladorController
 
     private function getRubrosTodosSeleccionados()
     {
-        $request = Yii::$app->request;
-        $rubrosPost = $request->post('rubros');
-        $todos = $request->post('rubros_todos');
-        if ((int)$todos === (int)1)
-            return true;
-        if (!$rubrosPost && $this->getExistePost())
-            return false;
-        if ($rubrosPost && $this->getExistePost())
-            if ($this->getRubrosPostCantidad() == 0)
-                return false;
-        $rubros = $this->getRubrosDbCantidad();
-        $selecionados = 0;
-        foreach ($this->Rubros() as $r)
-            if ($r['active'] == true)
-                $selecionados++;
-        return $rubros == $selecionados;
-    }
-
-    private function getExistePost()
-    {
-        return \Yii::$app->request->post('post', 'false') != 'false';
+        return UBool::Str2Bool(Yii::$app->request->post('rubros_todos'));
     }
 
     private function getRubrosPostCantidad()
     {
-        $request = \Yii::$app->request;
+        $request = Yii::$app->request;
         $this->_rubros_post_cantidad = $request->post('rubros', []);
         return count($this->_rubros_post_cantidad);
-    }
-
-    private function getRubrosDbCantidad()
-    {
-        if ($this->_rubros_db_cantidad === null)
-            $this->_rubros_db_cantidad = count($this->getRubrosDB());
-        return $this->_rubros_db_cantidad;
-    }
-
-    private function getRubrosDB()
-    {
-        if ($this->_rubros_db === null) {
-            $request = \Yii::$app->request;
-            $subquery = (new \yii\db\Query());
-            $subquery->select([
-                "ifnull(product, 'N/E') as rubro, ifnull(product,0) as id, 'true' as active",
-            ])->from('project_contact')
-                ->where('product is not null')
-                ->groupBy(["ifnull(product, 'N/E')"]);
-            $proyecto = $request->post('proyecto');
-            if ($proyecto)
-                $subquery->andFilterWhere(['project_id' => $proyecto]);
-            $this->_rubros_db = $subquery->all();
-        }
-        return $this->_rubros_db;
-    }
-
-    private function Rubros()
-    {
-        $result = $this->getRubrosDB();
-        $rubros = $this->getRubros(0);
-
-        $estado = $this->getRubrosNingunoSeleccionado() ? false : true;
-
-        foreach ($result as $key => $value) {
-            $result[$key]['active'] = (bool)$estado;
-        }
-        if ($rubros) {
-            $data = [];
-            foreach ($result as $value) {
-                $value['active'] = (bool)false;
-                $data[$value['id']] = $value;
-            }
-            foreach ($rubros as $p) {
-                if (isset($data[$p]['rubro']))
-                    $data[$p]['active'] = (bool)true;
-            }
-
-            return array_values($data);
-        }
-        return $result;
-    }
-
-    private function getRubros($value = '')
-    {
-        $request = \Yii::$app->request;
-        $rubros = $request->post('rubros', []);
-        foreach ($rubros as $k => $p) {
-            if (empty($p) || $p == '')
-                $rubros[$k] = $value;
-        }
-        return $rubros;
     }
 
     private function getRubrosNingunoSeleccionado()
@@ -199,6 +120,22 @@ class GraphicController extends ControladorController
 
     }
 
+    private function getExistePost()
+    {
+        return Yii::$app->request->post('post', 'false') != 'false';
+    }
+
+    private function getRubros($value = '')
+    {
+        $request = Yii::$app->request;
+        $rubros = $request->post('rubros', []);
+        foreach ($rubros as $k => $p) {
+            if (empty($p) || $p == '')
+                $rubros[$k] = $value;
+        }
+        return $rubros;
+    }
+
     private function getPaisesAlgunoSeleccionado()
     {
         return !$this->getPaisesTodosSeleccionados() && $this->getPaisesPostCantidad() > 0 && !$this->getPaisesNingunoSeleccionado();
@@ -206,45 +143,149 @@ class GraphicController extends ControladorController
 
     private function getPaisesTodosSeleccionados()
     {
-
-        $request = Yii::$app->request;
-        $paisesPost = $request->post('paises');
-        $todos = $request->post('paises_todos');
-        if ((int)$todos === (int)1)
-            return true;
-        if (!$paisesPost && $this->getExistePost())
-            return false;
-        if ($paisesPost && $this->getExistePost())
-            if ($this->getPaisesPostCantidad() == 0)
-                return false;
-        $paises = $this->getPaisesDbCantidad();
-        $selecionados = 0;
-        foreach ($this->Paises() as $r)
-            if ($r['active'] == true)
-                $selecionados++;
-        return $paises == $selecionados;
+        return UBool::Str2Bool(Yii::$app->request->post('paises_todos'));
     }
 
     private function getPaisesPostCantidad()
     {
-        $request = \Yii::$app->request;
+        $request = Yii::$app->request;
         $this->_paises_post_cantidad = $request->post('paises', []);
         return count($this->_paises_post_cantidad);
     }
 
-    private function getPaisesDbCantidad()
+    private function getPaisesNingunoSeleccionado()
     {
-        if ($this->_paises_db_cantidad === null)
-            $this->_paises_db_cantidad = count($this->getPaisesDB());
-        return $this->_paises_db_cantidad;
+        $request = Yii::$app->request;
+        $paisesPost = $request->post('paises');
+
+        if (!$paisesPost && $this->getExistePost())
+            return true;
+        if ($paisesPost && $this->getExistePost()) {
+
+            if ($this->getPaisesPostCantidad() == 0)
+                return true;
+            if ($_POST['paises'][0] == '')
+                return true;
+        }
+        return false;
+
+    }
+
+    private function getPaises($value = null)
+    {
+        $request = Yii::$app->request;
+        $paises = $request->post('paises', []);
+
+        foreach ($paises as $k => $p) {
+            if (empty($p) || $p == '')
+                $paises[$k] = $value;
+        }
+        return $paises;
+    }
+
+    public function actionCantidadEventos()
+    {
+        $this->validacionPost();
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return ['cantidadEventos' => $this->cantidadEventos()];
+    }
+
+    private function cantidadEventos()
+    {
+
+
+        $subquery = (new Query());
+        $subquery->from('event e')
+            ->leftJoin('structure act', 'e.structure_id = act.id')
+            ->leftJoin('project p', 'act.project_id = p.id')
+            ->leftJoin('project_contact pc', 'pc.project_id = p.id');
+
+        $this->AplicarFiltros($subquery);
+
+        return [
+            'eventos' => $subquery->select('e.id')->groupBy('e.id')->count(),
+            'actividades' => $subquery->select('e.structure_id')->groupBy('e.structure_id')->count(),
+        ];
+    }
+
+    public function actionGraficoActividades()
+    {
+        $this->validacionPost();
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return ['actividades' => $this->ParticipantesActividadPorSexo(),];
+    }
+
+    private function ParticipantesActividadPorSexo()
+    {
+        $subquery = (new Query());
+        $subquery->select([
+            'e.structure_id as activity_id',
+            'if(p.id >0, concat(act.description, " / ", p.name),act.description) as name',
+            'c.id',
+            'c.sex'
+        ])->from('attendance a')
+            ->leftJoin('contact c', 'a.contact_id = c.id')
+            ->leftJoin('event e', 'a.event_id = e.id')
+            ->leftJoin('data_list pa', 'e.country_id= pa.id')
+            ->leftJoin('structure act', 'e.structure_id = act.id')
+            ->leftJoin('project p', 'act.project_id = p.id')
+            ->leftJoin('project_contact pc', 'pc.contact_id = c.id');
+
+        $this->AplicarFiltros($subquery);
+
+        $subquery->groupBy(['act.id', 'c.id']);
+
+        $query = (new Query());
+        $query
+            ->select([
+                'activity_id',
+                'name',
+                "COUNT(IF(sex = 'F', 1, NULL)) AS f",
+                "COUNT(IF(sex = 'M', 1, NULL)) AS m",
+                "count(sex) as total",
+            ])
+            ->from(['q' => $subquery])
+            ->groupBy(['activity_id'])
+            ->orderBy(['total' => SORT_DESC]);
+        return $query->all();
+    }
+
+    public function actionPaises()
+    {
+        $this->validacionPost();
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return ['paises' => $this->Paises(), 'todos' => (bool)$this->getPaisesTodosSeleccionados(), 'ninguno' => (bool)$this->getPaisesNingunoSeleccionado()];
+    }
+
+    private function Paises()
+    {
+        $paises = $this->getPaises(0);
+        $estado = $this->getPaisesTodosSeleccionados();
+        $result = $this->getPaisesDb();
+
+        foreach ($result as $key => $value) $result[$key]['active'] = $estado;
+
+        if ($paises) {
+            $data = [];
+            foreach ($result as $value) {
+                $value['active'] = $estado;
+                $data[(int)$value['id']] = $value;
+            }
+            if (!$estado)
+                foreach ($paises as $p)
+                    if (isset($data[$p]['country']))
+                        $data[(int)$p]['active'] = (bool)true;
+            return array_values($data);
+        }
+        return $result;
     }
 
     private function getPaisesDb()
     {
 
         if (!$this->_paises_db) {
-            $request = \Yii::$app->request;
-            $subquery = (new \yii\db\Query());
+            $request = Yii::$app->request;
+            $subquery = (new Query());
             $subquery->select([
                 "ifnull(t.value, 'N/E') as country, ifnull(t.id,0) as id, 'true' as active",
             ])->from('event e')
@@ -267,145 +308,59 @@ class GraphicController extends ControladorController
         return $this->_paises_db;
     }
 
-    private function Paises()
+    public function actionRubros()
     {
-        $paises = $this->getPaises(0);
-        $result = $this->getPaisesDb();
-        $estado = $this->getPaisesNingunoSeleccionado() ? false : true;
-        foreach ($result as $key => $value) {
-            $result[$key]['active'] = (bool)$estado;
-        }
+        $this->validacionPost();
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return ['rubros' => $this->Rubros(),];
+    }
 
-        if ($paises) {
+    private function Rubros()
+    {
+        $result = $this->getRubrosDB();
+        $rubros = $this->getRubros(0);
+        $estado = $this->getRubrosTodosSeleccionados();
+        foreach ($result as $key => $value)
+            $result[$key]['active'] = (bool)$estado;
+
+        if ($rubros) {
             $data = [];
             foreach ($result as $value) {
-                $value['active'] = (bool)false;
-                $data[(int)$value['id']] = $value;
+                $value['active'] = $estado;
+                $data[$value['id']] = $value;
             }
-            foreach ($paises as $p) {
-                if (isset($data[$p]['country']))
-                    $data[(int)$p]['active'] = (bool)true;
-            }
+            if (!$estado)
+                foreach ($rubros as $p)
+                    if (isset($data[$p]['rubro']))
+                        $data[$p]['active'] = (bool)true;
+
             return array_values($data);
         }
         return $result;
     }
 
-    private function getPaises($value = null)
+    private function getRubrosDB()
     {
-        $request = \Yii::$app->request;
-        $paises = $request->post('paises', []);
-
-        foreach ($paises as $k => $p) {
-            if (empty($p) || $p == '')
-                $paises[$k] = $value;
+        if ($this->_rubros_db === null) {
+            $request = Yii::$app->request;
+            $subquery = (new Query());
+            $subquery->select([
+                "ifnull(product, 'N/E') as rubro, ifnull(product,0) as id, 'true' as active",
+            ])->from('project_contact')
+                ->where('product is not null')
+                ->groupBy(["ifnull(product, 'N/E')"]);
+            $proyecto = $request->post('proyecto');
+            if ($proyecto)
+                $subquery->andFilterWhere(['project_id' => $proyecto]);
+            $this->_rubros_db = $subquery->all();
         }
-        return $paises;
-    }
-
-    private function getPaisesNingunoSeleccionado()
-    {
-        $request = Yii::$app->request;
-        $paisesPost = $request->post('paises');
-
-        if (!$paisesPost && $this->getExistePost())
-            return true;
-        if ($paisesPost && $this->getExistePost()) {
-
-            if ($this->getPaisesPostCantidad() == 0)
-                return true;
-            if ($_POST['paises'][0] == '')
-                return true;
-        }
-        return false;
-
-    }
-
-    public function actionCantidadEventos()
-    {
-        $this->validacionPost();
-        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        return ['cantidadEventos' => $this->cantidadEventos()];
-    }
-
-    private function cantidadEventos()
-    {
-
-
-        $subquery = (new \yii\db\Query());
-        $subquery->from('event e')
-            ->leftJoin('structure act', 'e.structure_id = act.id')
-            ->leftJoin('project p', 'act.project_id = p.id')
-            ->leftJoin('project_contact pc', 'pc.project_id = p.id');
-
-        $this->AplicarFiltros($subquery);
-
-        return [
-            'eventos' => $subquery->select('e.id')->groupBy('e.id')->count(),
-            'actividades' => $subquery->select('e.structure_id')->groupBy('e.structure_id')->count(),
-        ];
-    }
-
-    public function actionGraficoActividades()
-    {
-        $this->validacionPost();
-        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        return ['actividades' => $this->ParticipantesActividadPorSexo(),];
-    }
-
-    private function ParticipantesActividadPorSexo()
-    {
-        $subquery = (new \yii\db\Query());
-        $subquery->select([
-            'e.structure_id as activity_id',
-            'if(p.id >0, concat(act.description, " / ", p.name),act.description) as name',
-            'c.id',
-            'c.sex'
-        ])->from('attendance a')
-            ->leftJoin('contact c', 'a.contact_id = c.id')
-            ->leftJoin('event e', 'a.event_id = e.id')
-            ->leftJoin('data_list pa', 'e.country_id= pa.id')
-            ->leftJoin('structure act', 'e.structure_id = act.id')
-            ->leftJoin('project p', 'act.project_id = p.id')
-            ->leftJoin('project_contact pc', 'pc.contact_id = c.id');
-
-        $this->AplicarFiltros($subquery);
-
-        $subquery->groupBy(['act.id', 'c.id']);
-
-        $query = (new \yii\db\Query());
-        $query
-            ->select([
-                'activity_id',
-                'name',
-                "COUNT(IF(sex = 'F', 1, NULL)) AS f",
-                "COUNT(IF(sex = 'M', 1, NULL)) AS m",
-                "count(sex) as total",
-            ])
-            ->from(['q' => $subquery])
-            ->groupBy(['activity_id'])
-            ->orderBy(['total' => SORT_DESC]);
-        return $query->all();
-    }
-
-    public function actionPaises()
-    {
-        $this->validacionPost();
-        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        return ['paises' => $this->Paises(), 'todos' => (bool)$this->getPaisesTodosSeleccionados(), 'ninguno' => (bool)$this->getPaisesNingunoSeleccionado()];
-    }
-
-    public function actionRubros()
-    {
-        $this->validacionPost();
-        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        return ['rubros' => $this->Rubros(),];
+        return $this->_rubros_db;
     }
 
     public function actionGraficoOrganizaciones()
     {
         $this->validacionPost();
-        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        Yii::$app->response->format = Response::FORMAT_JSON;
         return (['organizaciones' => $this->OrganizacionesTipoFormato()]);
     }
 
@@ -429,14 +384,9 @@ class GraphicController extends ControladorController
         return ['data' => array_merge(array_values($data), array_values($org)), 'total' => count($org), 'tipos' => $data, 'total_categorias' => count($data)];
     }
 
-    /*FIN DE DATA PARA DASHBOARD*/
-
-
-    /*INICIO DE FUNCIONES AUXILIARES PARA DATA PARA DASHBOARD*/
-
     private function Organizaciones()
     {
-        $subquery = (new \yii\db\Query());
+        $subquery = (new Query());
         $subquery
             ->select(["distinct o.id, IFNULL(o.name,'NE') as name, IFNULL(t.id,'ne') parent",])
             ->from('event e')
@@ -453,7 +403,7 @@ class GraphicController extends ControladorController
 
     private function OrganizacionesTipo()
     {
-        $subquery = (new \yii\db\Query());
+        $subquery = (new Query());
         $subquery
             ->select(["distinct t.id as id, ifnull( t.name,'Sin Tipo') as name"])
             ->from('event e')
@@ -466,26 +416,31 @@ class GraphicController extends ControladorController
         $this->AplicarFiltros($subquery);
         $subquery->andWhere('o.organization_id is null');
 
-        $query = (new \yii\db\Query());
+        $query = (new Query());
         $query->select(["ifnull(id,'ne') as id, name "])->from(['q' => $subquery]);
         return $query->all();
     }
 
+    /*FIN DE DATA PARA DASHBOARD*/
+
+
+    /*INICIO DE FUNCIONES AUXILIARES PARA DATA PARA DASHBOARD*/
+
     public function actionProyectosMetas()
     {
         $this->validacionPost();
-        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        Yii::$app->response->format = Response::FORMAT_JSON;
         return ['proyectos_metas' => $this->metasProyectos(),];
     }
 
     private function metasProyectos()
     {
-        $request = \Yii::$app->request;
+        $request = Yii::$app->request;
         $proyecto = $request->post('proyecto');
         if (is_array($proyecto))
             if (count($proyecto) > 3) return [];
         if (!$proyecto) return [];
-        $queryMetas = (new \yii\db\Query());
+        $queryMetas = (new Query());
         $queryMetas
             ->select(['id', 'name', 'goal_men', 'goal_women'])
             ->from('project');
@@ -526,7 +481,7 @@ class GraphicController extends ControladorController
             $categorias[] = $p['name'];
             $serieMetaF['data'][] = (int)$p['goal_women'];
             $serieMetaH['data'][] = (int)$p['goal_men'];
-            $subquery = (new \yii\db\Query());
+            $subquery = (new Query());
             $subquery
                 ->select(['c.sex'])
                 ->from('attendance a')
@@ -541,7 +496,7 @@ class GraphicController extends ControladorController
 
             $this->AplicarFiltros($subquery);
 
-            $queryTotal = (new \yii\db\Query());
+            $queryTotal = (new Query());
             $queryTotal
                 ->select([
                     "COUNT(IF(sex = 'F', 1, NULL)) AS f",
@@ -562,15 +517,15 @@ class GraphicController extends ControladorController
     public function actionGraficoPaisEventos()
     {
         $this->validacionPost();
-        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        Yii::$app->response->format = Response::FORMAT_JSON;
         return $this->ParticipantesPaisEventosData();
     }
 
     private function ParticipantesPaisEventosData()
     {
         $result = [];
-        $request = \Yii::$app->request;
-        $subquery = (new \yii\db\Query());
+        $request = Yii::$app->request;
+        $subquery = (new Query());
         $subquery->select([
             "ifnull(pa.value,'') as country",
             'ca.*',
@@ -588,7 +543,7 @@ class GraphicController extends ControladorController
         $this->AplicarFiltros($subquery);
 
         $subquery->groupBy(["e.id", 'c.id']);
-        $query = (new \yii\db\Query());
+        $query = (new Query());
         $query
             ->select([
                 'pais_en_ingles',
@@ -628,15 +583,15 @@ class GraphicController extends ControladorController
     public function actionGraficoNacionalidad()
     {
         $this->validacionPost();
-        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        Yii::$app->response->format = Response::FORMAT_JSON;
         return $this->ParticipantesNacionalidadData();
     }
 
     private function ParticipantesNacionalidadData()
     {
         $result = [];
-        $request = \Yii::$app->request;
-        $subquery = (new \yii\db\Query());
+        $request = Yii::$app->request;
+        $subquery = (new Query());
         $subquery->select([
             "ifnull(c.country,'') as country",
             'ca.*',
@@ -653,7 +608,7 @@ class GraphicController extends ControladorController
         $this->AplicarFiltros($subquery);
 
         $subquery->groupBy(["c.id"]);
-        $query = (new \yii\db\Query());
+        $query = (new Query());
         $query
             ->select([
                 'pais_en_ingles',
@@ -691,16 +646,16 @@ class GraphicController extends ControladorController
     public function actionGraficoAnioFiscal()
     {
         $this->validacionPost();
-        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        Yii::$app->response->format = Response::FORMAT_JSON;
         return $this->ParticipantesFiscalData();
     }
 
     private function ParticipantesFiscalData()
     {
         $result = [];
-        $request = \Yii::$app->request;
+        $request = Yii::$app->request;
         $mes = (int)$request->post('mes_fiscal', 10);
-        $subquery = (new \yii\db\Query());
+        $subquery = (new Query());
         /*
           Gráfico de año fiscal de modo que
             Si el mes de inicio es del primer semestre se conserva el año,
@@ -731,7 +686,7 @@ class GraphicController extends ControladorController
         $this->AplicarFiltros($subquery);
 
         $subquery->groupBy(["c.id"]);
-        $query = (new \yii\db\Query());
+        $query = (new Query());
         $query
             ->select([
                 'type',
@@ -749,14 +704,14 @@ class GraphicController extends ControladorController
     public function actionGraficoEdad()
     {
         $this->validacionPost();
-        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        Yii::$app->response->format = Response::FORMAT_JSON;
         return $this->ParticipantesEdadData();
     }
 
     private function ParticipantesEdadData()
     {
         $result = [];
-        $subquery = (new \yii\db\Query());
+        $subquery = (new Query());
         $subquery->select([
             "IFNULL( f.name, 'N/E' ) as type",
             "c.sex",
@@ -772,7 +727,7 @@ class GraphicController extends ControladorController
         $this->AplicarFiltros($subquery);
 
         $subquery->groupBy(["a.contact_id"]);
-        $query = (new \yii\db\Query());
+        $query = (new Query());
         $query
             ->select([
                 'type',
@@ -790,7 +745,7 @@ class GraphicController extends ControladorController
     public function actionGraficoEducacion()
     {
         $this->validacionPost();
-        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        Yii::$app->response->format = Response::FORMAT_JSON;
         return $this->ParticipantesEducacionData();
     }
 
@@ -798,7 +753,7 @@ class GraphicController extends ControladorController
     {
         $result = [];
 
-        $subquery = (new \yii\db\Query());
+        $subquery = (new Query());
         $subquery->select([
             "IFNULL( edu.name, 'N/E' ) as type",
             "c.sex",
@@ -814,7 +769,7 @@ class GraphicController extends ControladorController
         $this->AplicarFiltros($subquery);
 
         $subquery->groupBy(["a.contact_id"]);
-        $query = (new \yii\db\Query());
+        $query = (new Query());
         $query
             ->select([
                 'type',
@@ -832,13 +787,13 @@ class GraphicController extends ControladorController
     public function actionGraficoEventos()
     {
         $this->validacionPost();
-        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        Yii::$app->response->format = Response::FORMAT_JSON;
         return ['eventos' => $this->ParticipantesEventosPorSexo()];
     }
 
     private function ParticipantesEventosPorSexo()
     {
-        $subquery = (new \yii\db\Query());
+        $subquery = (new Query());
         $subquery->select([
             'e.id',
             'e.name',
@@ -858,7 +813,7 @@ class GraphicController extends ControladorController
 
         $subquery->groupBy(['e.id', 'c.id']);
 
-        $query = (new \yii\db\Query());
+        $query = (new Query());
         $query->select([
             'id',
             'name',
@@ -883,14 +838,14 @@ class GraphicController extends ControladorController
     public function actionGraficoTipoParticipante()
     {
         $this->validacionPost();
-        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        Yii::$app->response->format = Response::FORMAT_JSON;
         return $this->ParticipantesTipoData();
     }
 
     private function ParticipantesTipoData()
     {
         $subquery = $this->ParticipantesTipoSexoSubquery();
-        $query = (new \yii\db\Query());
+        $query = (new Query());
         $query
             ->select([
                 'type',
@@ -904,35 +859,9 @@ class GraphicController extends ControladorController
         return $query->all();
     }
 
-
-    public function actionGraficoSexoParticipante()
-    {
-        $this->validacionPost();
-        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        return $this->ParticipantesSexoData();
-    }
-
-    private function ParticipantesSexoData()
-    {
-        $subquery = $this->ParticipantesTipoSexoSubquery();
-        $queryTotal = (new \yii\db\Query());
-        $queryTotal
-            ->select([
-                "COUNT(IF(sex = 'F', 1, NULL)) AS f",
-                "COUNT(IF(sex = 'M', 1, NULL)) AS m",
-                "count(sex) as total",
-            ])
-            ->from(['q' => $subquery]);
-        $result=$queryTotal->one();
-//        $result['total'] = $queryTotal->one();
-        return $result;
-
-    }
-
-
     private function ParticipantesTipoSexoSubquery()
     {
-        $subquery = (new \yii\db\Query());
+        $subquery = (new Query());
         $subquery->select([
             'c.type_id',
             'IFNULL(t.name,"NE") as type',
@@ -950,6 +879,44 @@ class GraphicController extends ControladorController
         $this->AplicarFiltros($subquery);
         $subquery->groupBy(['c.type_id', 'c.id']);
         return $subquery;
+    }
+
+    public function actionGraficoSexoParticipante()
+    {
+        $this->validacionPost();
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return $this->ParticipantesSexoData();
+    }
+
+    private function ParticipantesSexoData()
+    {
+        $subquery = $this->ParticipantesTipoSexoSubquery();
+        $queryTotal = (new Query());
+        $queryTotal
+            ->select([
+                "COUNT(IF(sex = 'F', 1, NULL)) AS f",
+                "COUNT(IF(sex = 'M', 1, NULL)) AS m",
+                "count(sex) as total",
+            ])
+            ->from(['q' => $subquery]);
+        $result = $queryTotal->one();
+        //        $result['total'] = $queryTotal->one();
+        return $result;
+
+    }
+
+    private function getRubrosDbCantidad()
+    {
+        if ($this->_rubros_db_cantidad === null)
+            $this->_rubros_db_cantidad = count($this->getRubrosDB());
+        return $this->_rubros_db_cantidad;
+    }
+
+    private function getPaisesDbCantidad()
+    {
+        if ($this->_paises_db_cantidad === null)
+            $this->_paises_db_cantidad = count($this->getPaisesDB());
+        return $this->_paises_db_cantidad;
     }
     /*INICIO DE FUNCIONES AUXILIARES PARA DATA PARA DASHBOARD*/
 }
