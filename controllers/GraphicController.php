@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\components\UBool;
+use app\components\ULog;
 use app\components\UString;
 use app\models\Project;
 use Yii;
@@ -389,7 +390,7 @@ class GraphicController extends ControladorController
     {
         $subquery = (new Query());
         $subquery
-            ->select(["distinct o.id, COALESCE(o.name,'NE') as name, COALESCE(t.id,0) parent",])
+            ->select(["distinct o.id, COALESCE(o.name,'NE') as name, COALESCE(cast( t.id as varchar),'ne') parent",])
             ->from('event e')
             ->leftJoin('organization o', 'e.implementing_organization_id = o.id')
             ->leftJoin('data_list pa', 'e.country_id= pa.id')
@@ -428,7 +429,7 @@ class GraphicController extends ControladorController
         $subquery->andWhere('o.organization_id is null');
 
         $query = (new Query());
-        $query->select(["COALESCE(id,0) as id, name "])->from(['q' => $subquery]);
+        $query->select(["COALESCE(cast( id as varchar),'ne') as id, name "])->from(['q' => $subquery]);
         return $query->all();
     }
 
