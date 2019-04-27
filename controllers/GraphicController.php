@@ -494,24 +494,14 @@ class GraphicController extends ControladorController
             $serieMetaH['data'][] = (int)$p['goal_men'];
             $subquery = (new Query());
             $subquery
-                ->select(['c.sex'])
-                ->from('attendance a')
-                ->leftJoin('contact c', 'a.contact_id = c.id')
-                ->leftJoin('organization o', 'c.organization_id = o.id')
-                ->leftJoin('data_list t', 'c.type_id = t.id')
-                ->leftJoin('event e', 'a.event_id = e.id')
-                ->leftJoin('structure act', 'e.structure_id = act.id')
-                ->leftJoin('project p', 'act.project_id = p.id')
-                ->leftJoin(['pc' => $this->ProjectProductQuery()], 'pc.project_id = p.id')
-                ->groupBy('a.contact_id');
-
-            $this->AplicarFiltros($subquery);
+                ->select(['sex'])
+                ->from(['sq'=>$this->ConcactQuery()]);
 
             $queryTotal = (new Query());
             $queryTotal
                 ->select([
-                    "COUNT(IF(sex = 'F', 1, NULL)) AS f",
-                    "COUNT(IF(sex = 'M', 1, NULL)) AS m",
+                    "COUNT(case when sex = 'F' then 1 else NULL end) AS f",
+                    "COUNT(case when sex = 'M' then 1 else NULL end) AS m",
                     "count(sex) as total",
                 ])
                 ->from(['q' => $subquery]);
