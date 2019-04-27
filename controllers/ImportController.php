@@ -165,12 +165,14 @@ class ImportController extends Controller
 
             $implementingOrganizationValida = $implementingOrganizationId ? true : false;
 
-            if ($beneficiario->validate() & $proyectoValido & !empty($row[$key['organizacion_implementadora']]) & $fechaIngresoValida & $implementingOrganizationValida) {
+            if ($beneficiario->validate() & $countryCode !== null & $proyectoValido & !empty($row[$key['organizacion_implementadora']]) & $fechaIngresoValida & $implementingOrganizationValida) {
                 $this->addSuccessLog($log);
                 $this->addDataGuardar($fila);
             } else {
                 $errorText = "<h3>Fila $index de $totalRow </h3>";
 
+                if (!$countryCode)
+                    $errorText .= '<br><b style="color:#dd4b39">Debe establecer una país válido</b>';
                 if (!$fechaIngresoValida)
                     $errorText .= '<br><b style="color:#dd4b39">Debe establecer una fecha de ingreso válida</b>';
                 if (!$proyectoValido)
