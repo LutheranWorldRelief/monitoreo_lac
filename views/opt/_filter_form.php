@@ -36,7 +36,7 @@
         <combo-select2
                 :options="list_countries"
                 :value="modelFilter.countryCode"
-                prompt="-- Países --"
+                prompt="-- País de la persona --"
                 @input="modelFilter.countryCode = $event">
         </combo-select2>
     </div>

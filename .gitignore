@@ -30,3 +30,6 @@ tests/_output/*
 tests/_support/_generated
 config/db.php
 import/*
+
+#para utilizar en pruebas locales
+web/index-dev.php
