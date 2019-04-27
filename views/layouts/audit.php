@@ -9,6 +9,7 @@ use bedezign\yii2\audit\web\JSLoggingAsset;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\web\View;
+
 JSLoggingAsset::register($this);
 ?>
 <?php $this->beginContent('@app/views/layouts/main.php'); ?>

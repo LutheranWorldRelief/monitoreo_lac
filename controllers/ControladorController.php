@@ -2,8 +2,6 @@
 
 namespace app\controllers;
 
-use Exception;
-use Yii;
 use yii\web\Controller;
 
 class ControladorController extends Controller

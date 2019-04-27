@@ -2,7 +2,9 @@
 use app\models\Project;
 use kartik\select2\Select2;
 use kartik\widgets\DatePicker;
-use yii\helpers\Html; ?>
+use yii\helpers\Html;
+
+?>
 <div class="row">
     <div class="box">
         <div class="box-header with-border">

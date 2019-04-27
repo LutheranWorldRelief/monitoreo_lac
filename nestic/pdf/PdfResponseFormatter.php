@@ -10,8 +10,6 @@ namespace app\nestic\pdf;
 
 use app\models\Empresa;
 use Closure;
-use mPDF;
-use Yii;
 use yii\base\Component;
 use yii\helpers\Url;
 use yii\web\Response;
