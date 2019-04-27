@@ -54,7 +54,8 @@ $ConfigItems [] = $visibleSegementacion = $user->tienePermiso('filter/index');
 $visibleConfig = validaArray($ConfigItems);
 
 /* Fin Configuraciones*/
-?>
+
+use dmstr\widgets\Menu; ?>
 <aside class="main-sidebar">
 
     <section class="sidebar">
@@ -69,7 +70,7 @@ $visibleConfig = validaArray($ConfigItems);
             </div>
         </div>
 
-        <?= dmstr\widgets\Menu::widget(
+        <?= Menu::widget(
             [
                 'options' => ['class' => 'sidebar-menu tree', 'data-widget' => 'tree'],
                 'items' => [
@@ -207,19 +208,6 @@ $visibleConfig = validaArray($ConfigItems);
                             ],
                         ]
                     ],
-                    //                    [
-                    //                        'label' => 'Dev Tools',
-                    //                        'icon' => 'gears',
-                    //                        'url' => '#',
-                    //                        'visible' => $user->getIsSuperUser(),
-                    //                        'items' => [
-                    //                            ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii'],],
-                    //                            ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug'],],
-                    //
-                    //                        ],
-                    //                    ],
-
-
                 ],
             ]
         ) ?>

@@ -8,11 +8,8 @@ use bedezign\yii2\audit\components\panels\Panel;
 use bedezign\yii2\audit\web\JSLoggingAsset;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
-use yii\debug\DebugAsset;
 use yii\web\View;
-
-DebugAsset::register($this);
-JSLoggingAsset::register($this)
+JSLoggingAsset::register($this);
 ?>
 <?php $this->beginContent('@app/views/layouts/main.php'); ?>
 <?=

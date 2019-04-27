@@ -1,13 +1,14 @@
 <?php
 
 use backend\assets\AppAsset;
+use dmstr\web\AdminLteAsset;
 use yii\helpers\Html;
 use yii\web\View;
 
 /* @var $this View */
 /* @var $content string */
 
-dmstr\web\AdminLteAsset::register($this);
+AdminLteAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -20,11 +21,8 @@ dmstr\web\AdminLteAsset::register($this);
     <?php $this->head() ?>
 </head>
 <body class="login-page">
-
 <?php $this->beginBody() ?>
-
 <?= $content ?>
-
 <?php $this->endBody() ?>
 </body>
 </html>
