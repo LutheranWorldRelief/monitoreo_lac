@@ -42,7 +42,7 @@ class DataListController extends Controller
         $searchModel = new DataListSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        $dataProvider->query->andWhere('IFNULL(list_id, "") = ""');
+        $dataProvider->query->andWhere('COALESCE(list_id, 0) = 0');
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -176,13 +176,13 @@ class DataListController extends Controller
         $contactsCount = Contact::find()
             ->orWhere([
                 'and',
-                ['!=', 'education_id', ''],
-                ['education_id' => $id],
+                ['!=', 'education_id',(int) ''],
+                ['education_id' =>(int) $id],
             ])
             ->orWhere([
                 'and',
-                ['!=', 'type_id', ''],
-                ['type_id' => $id],
+                ['!=', 'type_id',(int) ''],
+                ['type_id' =>(int) $id],
             ])
             ->orWhere([
                 'and',

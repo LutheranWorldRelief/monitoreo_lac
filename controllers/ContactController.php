@@ -9,6 +9,7 @@ use app\models\search\Contact as ContactSearch;
 use app\models\search\SqlContactEvent;
 use app\models\SqlContact;
 use Yii;
+use yii\db\Expression;
 use yii\filters\VerbFilter;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
@@ -37,7 +38,8 @@ class ContactController extends Controller
     public function actionFindAll($q)
     {
 
-        $query = SqlContact::find()->where(['like', 'name', trim($q)])->limit(10)->all();
+
+        $query = SqlContact::find()->where(['like', 'name', new Expression("UPPER('%" . trim($q) . "%')")])->limit(10)->all();
         foreach ($query as $model)
             $model->name = UString::upperCase(UString::quitarAcentos($model->name));
 
@@ -47,7 +49,7 @@ class ContactController extends Controller
 
     public function actionFindDoc($q)
     {
-        $query = SqlContact::find()->where(['like', 'document', trim($q)])->limit(10)->all();
+        $query = SqlContact::find()->where(['like', 'document', new Expression("UPPER('%" . trim($q) . "%')")])->limit(10)->all();
         $result = [];
         foreach ($query as $model)
 
@@ -203,7 +205,7 @@ class ContactController extends Controller
     {
         $this->findModel($id)->delete();
 
-        // return $this->redirect(['index']);
+         return $this->redirect(['index']);
         return "";
     }
 
