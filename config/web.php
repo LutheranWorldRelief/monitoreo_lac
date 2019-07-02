@@ -35,7 +35,7 @@ $config = [
             // Maximum age (in days) of the audit entries before they are truncated
             'maxAge' => 10, // 30 days
             // Compress extra data generated or just keep in text? For people who don't like binary data in the DB
-            'compressData' => false,
+            'compressData' => true,
             // The callback to use to convert a user id into an identifier (username, email, ...). Can also be html.
             'userIdentifierCallback' => ['app\models\AuthUser', 'userIdentifierCallback'],
         ],

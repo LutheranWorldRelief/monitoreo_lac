@@ -62,7 +62,7 @@ class ReportController extends ControladorController
                     'contact_country',
                     'contact_municipality',
                     'contact_community',
-                    'IF(contact_project_date_entry!="", contact_project_date_entry, MIN(event_date_start)) as contact_project_date_entry',
+                    'IF(contact_project_date_entry IS NOT NULL, contact_project_date_entry, MIN(event_date_start)) as contact_project_date_entry',
                     'contact_project_product',
                     'contact_project_area_farm',
                     'contact_project_dev_area',
