@@ -7,9 +7,9 @@ $config = [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'name' => 'Monitoreo',
-    'language' => 'en',
-    'sourceLanguage' => 'es',
     'charset' => 'utf-8',
+    'language' => 'en',
+    'sourceLanguage' => 'es-ES',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm' => '@vendor/npm-asset',
@@ -126,12 +126,18 @@ $config = [
         ],
         'i18n' => [
             'translations' => [
+                'app' => [
+                    'class' => 'yii\i18n\GettextMessageSource',
+                    'basePath' => '@app/messages', // if advanced application, set @frontend/messages
+                    'forceTranslation' => true,
+                    'useMoFile' => false,
+                    'sourceLanguage' => 'es-ES',
+                ],
                 '*' => [
                     'class' => 'yii\i18n\GettextMessageSource',
                     'basePath' => '@app/messages', // if advanced application, set @frontend/messages
-                    'fileMap' => [
-                        // 'main' => 'main.php',
-                    ],
+                    'useMoFile' => false,
+                    'sourceLanguage' => 'es-ES',
                 ],
             ],
         ],
@@ -162,7 +168,7 @@ if (YII_ENV_DEV) {
     $config['modules']['debug'] = [
         'class' => 'yii\debug\Module',
         // uncomment the following to add your IP if you are not connecting from localhost.
-        'allowedIPs' => ['127.0.0.1', '::1'],
+        'allowedIPs' => ['127.0.0.1', '::1', '216.59.110.19'],
     ];
 
     $config['bootstrap'][] = 'gii';
