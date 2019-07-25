@@ -347,10 +347,10 @@ class GraphicController extends ControladorController
             $request = Yii::$app->request;
             $subquery = (new Query());
             $subquery->select([
-                "COALESCE(product, 'N/E') as rubro, COALESCE(product,'0') as id, 'true' as active",
+                "COALESCE(UPPER(product), 'N/E') as rubro, COALESCE(UPPER(product),'0') as id, 'true' as active",
             ])->from('project_contact')
                 ->where('product is not null')
-                ->groupBy(["COALESCE(product, 'N/E')", 'product']);
+                ->groupBy(["COALESCE(UPPER(product), 'N/E')", 'UPPER(product)']);
             $proyecto = $request->post('proyecto');
             if ($proyecto)
                 $subquery->andFilterWhere(['project_id' => $proyecto]);
