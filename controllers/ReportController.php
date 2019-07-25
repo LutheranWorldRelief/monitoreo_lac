@@ -47,12 +47,12 @@ class ReportController extends ControladorController
 
             $query
                 ->select([
-                    'CONCAT(IF(project_code IS NULL or project_code = \'\', "00-0000", project_code), \'=>\', project_name) AS project_name',
+                    "CONCAT(CASE WHEN (project_code IS NULL OR project_code = '') THEN '00-0000' ELSE project_code END, '=>', project_name) AS project_name",
                     'organization_implementing_name',
                     'contact_document',
                     'contact_name',
-                    'TRIM("") AS contact_lastname',
-                    'IF(contact_sex="F","Mujer", IF(contact_sex="M","Hombre", null)) AS sex',
+                    "TRIM('') AS contact_lastname",
+                    "(CASE WHEN contact_sex='F' THEN 'Mujer' WHEN contact_sex='M' THEN 'Hombre' ELSE NULL END) AS sex",
                     'contact_birthdate',
                     'contact_education',
                     'contact_phone_personal',
@@ -62,7 +62,7 @@ class ReportController extends ControladorController
                     'contact_country',
                     'contact_municipality',
                     'contact_community',
-                    'IF(contact_project_date_entry IS NOT NULL, contact_project_date_entry, MIN(event_date_start)) as contact_project_date_entry',
+                    "(CASE WHEN contact_project_date_entry IS NOT NULL THEN contact_project_date_entry ELSE MIN(event_date_start) END) AS contact_project_date_entry",
                     'contact_project_product',
                     'contact_project_area_farm',
                     'contact_project_dev_area',
@@ -84,7 +84,25 @@ class ReportController extends ControladorController
             }
 
             $query->groupBy([
-                'project_id',
+                'project_name',
+                'project_code',
+                'organization_implementing_name',
+                'contact_document',
+                'contact_name',
+                'contact_sex',
+                'contact_birthdate',
+                'contact_education',
+                'contact_phone_personal',
+                'contact_men_home',
+                'contact_women_home',
+                'contact_organization',
+                'contact_country',
+                'contact_municipality',
+                'contact_community',
+                'contact_project_date_entry',
+                'contact_project_product',
+                'contact_project_area_farm',
+                "contact_project_dev_area", "contact_project_age_dev_plantation", "contact_project_productive_area", "contact_project_age_prod_plantation", "contact_project_yield",
                 'organization_implementing_id',
                 'contact_id',
             ]);
@@ -160,13 +178,13 @@ class ReportController extends ControladorController
 
         if ($sheetData && $sheetCatalogues) {
 
-            $projects = Project::find()->select(['CONCAT(IF(code IS NULL or code = \'\', "00-0000", code), \'=>\', name) as name',])
+            $projects = Project::find()->select(["CONCAT(CASE WHEN code IS NULL or code = '' THEN '00-0000' ELSE code END, '=>', name) as name",])
                 ->orderBy('code, name')
                 ->asArray()
                 ->all();
 
             $organizations = Organization::find()->select(['name'])
-                ->where('is_implementer = 1')
+                ->where('is_implementer')
                 ->orderBy('name')
                 ->asArray()
                 ->all();

@@ -31,16 +31,17 @@ class Attendance extends base\Attendance
 
     public function save($runValidation = true, $attributeNames = null)
     {
-        $org = $this->org;
+        $org = Organization::find()->where(['id'=>(int)$this->org_id])->one();
 
         if (!$org && $this->org_name && !$this->org_id) {
             $org = Organization::find()->where(['name' => $this->org_name])->one();
             if (!$org) {
                 $org = new Organization;
+               $org->is_implementer = 0;
                 $org->name = $this->org_name;
             }
         }
-        $contact = $this->contact;
+        $contact = Contact::find()->where(['id'=>(int)$this->contact_id])->one();
         if (!$contact) {
             if ($this->fullname) {
                 $contact = new Contact;

@@ -40,7 +40,7 @@ class FilterController extends Controller
         $searchModel = new FilterSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        $dataProvider->query->andWhere('IFNULL(filter_id, "") = ""');
+        $dataProvider->query->andWhere('COALESCE(filter_id, 0) = 0');
 
         return $this->render('index', [
             'searchModel' => $searchModel,

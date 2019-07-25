@@ -7,7 +7,9 @@
  */
 
 use app\assets\WizardAsset;
-use yii\widgets\ActiveForm; ?>
+use yii\widgets\ActiveForm;
+
+?>
 <?php
 $this->title = 'Importar Beneficiarios';
 WizardAsset::register($this);

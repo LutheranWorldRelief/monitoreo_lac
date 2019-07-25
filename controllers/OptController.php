@@ -62,7 +62,7 @@ class OptController extends Controller
 
         $name2 = preg_replace('/\s+/', " ", TRIM($name));
         if ($name2)
-            $query->andWhere('REGEXP_REPLACE(TRIM(sql_contact.name), "\\\\s\\\\s+", " ") = :user_name COLLATE utf8_general_ci', [':user_name' => $name2]);
+            $query->andWhere("REGEXP_REPLACE(TRIM(sql_contact.name), '( ){2,}', ' ') = $name2");
 
         $query->andWhere("NOT TRIM(sql_contact.name) = ''");
 
@@ -223,13 +223,12 @@ class OptController extends Controller
         //ULog::l($query->createCommand()->query());
 
         $query->select([
-            'sql_contact.id as id',
             'TRIM(sql_contact.name) as name',
             'count(DISTINCT sql_contact.id) as cuenta',
         ])
-            ->andWhere('TRIM(sql_contact.name) <> ""')
-            ->groupBy('sql_contact.name')
-            ->having('cuenta > 1');
+            ->andWhere("TRIM(sql_contact.name) <> ''")
+            ->groupBy(['sql_contact.name'])
+            ->having('count(DISTINCT sql_contact.id) > 1');
 
         return $query->all();
     }
@@ -261,14 +260,13 @@ class OptController extends Controller
 
         $query
             ->select([
-                'sql_contact.id as id',
-                'GROUP_CONCAT(DISTINCT  sql_contact.name SEPARATOR "<br>") as name',
+                "STRING_AGG(DISTINCT  sql_contact.name, '<br>') as name",
                 "TRIM( REPLACE( REPLACE(sql_contact.document, '-', '' ), ' ', '' ) ) as document",
                 'count(DISTINCT sql_contact.id) as cuenta',
             ])
-            ->andWhere('TRIM(IFNULL(sql_contact.document, "")) <> ""')
-            ->groupBy('document')
-            ->having('cuenta > 1');
+            ->andWhere("TRIM(COALESCE(sql_contact.document, '')) <> ''")
+            ->groupBy(['sql_contact.document'])
+            ->having('count(DISTINCT sql_contact.id) > 1');
 
         return $query->all();
     }

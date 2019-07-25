@@ -31,7 +31,7 @@ abstract class AuthUser extends ActiveRecord
      */
     public static function tableName()
     {
-        return 'auth_user';
+        return 'auth_user_yii';
     }
 
     /**

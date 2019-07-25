@@ -6,6 +6,7 @@ use app\models\Organization;
 use app\models\search\Organization as OrganizationSearch;
 use app\models\SqlOrganization;
 use Yii;
+use yii\db\Expression;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -19,7 +20,7 @@ class OrganizationController extends Controller
 
     public function actionFindAll($q)
     {
-        $query = SqlOrganization::find()->where(['like', 'name', trim($q)])->limit(10)->all();
+        $query = SqlOrganization::find()->where(['like', 'name',  new Expression("UPPER('%" . trim($q) . "%')")])->limit(10)->all();
 
         Yii::$app->response->format = Response::FORMAT_JSON;
         return $query;

@@ -1,0 +1,2356 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgctxt "app"
+msgid "Choose file for import!"
+msgstr ""
+
+msgctxt "app"
+msgid "Sistema de Monitoreo de Proyectos"
+msgstr "SISTEMA"
+
+msgctxt "audit"
+msgid "<b>{message}</b><br />in <i>{file}</i> on line <i>{line}</i>.<br/>-- {link}"
+msgstr ""
+
+msgctxt "audit"
+msgid "Action"
+msgstr ""
+
+msgctxt "audit"
+msgid "Args"
+msgstr ""
+
+msgctxt "audit"
+msgid "Audit"
+msgstr ""
+
+msgctxt "audit"
+msgid "Audit Error in Audit Entry #{entry_id}"
+msgstr ""
+
+msgctxt "audit"
+msgid "Audit Module"
+msgstr ""
+
+msgctxt "audit"
+msgid "BCC"
+msgstr ""
+
+msgctxt "audit"
+msgid "Bitácora"
+msgstr ""
+
+msgctxt "audit"
+msgid "CC"
+msgstr ""
+
+msgctxt "audit"
+msgid "Called"
+msgstr ""
+
+msgctxt "audit"
+msgid "Content"
+msgstr ""
+
+msgctxt "audit"
+msgid "Content - HTML"
+msgstr ""
+
+msgctxt "audit"
+msgid "Content - JSON"
+msgstr ""
+
+msgctxt "audit"
+msgid "Content - Query"
+msgstr ""
+
+msgctxt "audit"
+msgid "Content - XML"
+msgstr ""
+
+msgctxt "audit"
+msgid "Created"
+msgstr ""
+
+msgctxt "audit"
+msgid "Data"
+msgstr ""
+
+msgctxt "audit"
+msgid "Diff"
+msgstr ""
+
+msgctxt "audit"
+msgid "Difference"
+msgstr ""
+
+msgctxt "audit"
+msgid "Download"
+msgstr ""
+
+msgctxt "audit"
+msgid "Download eml file"
+msgstr ""
+
+msgctxt "audit"
+msgid "Duration"
+msgstr ""
+
+msgctxt "audit"
+msgid "Emailed"
+msgstr ""
+
+msgctxt "audit"
+msgid "Entries"
+msgstr ""
+
+msgctxt "audit"
+msgid "Entry #{id}"
+msgstr ""
+
+msgctxt "audit"
+msgid "Entry ID"
+msgstr ""
+
+msgctxt "audit"
+msgid "Error #{id}"
+msgstr ""
+
+msgctxt "audit"
+msgid "Error Code"
+msgstr ""
+
+msgctxt "audit"
+msgid "Errors"
+msgstr ""
+
+msgctxt "audit"
+msgid "Extra Data"
+msgstr ""
+
+msgctxt "audit"
+msgid "Field"
+msgstr ""
+
+msgctxt "audit"
+msgid "File"
+msgstr ""
+
+msgctxt "audit"
+msgid "From"
+msgstr ""
+
+msgctxt "audit"
+msgid "Guest"
+msgstr ""
+
+msgctxt "audit"
+msgid "HTML"
+msgstr ""
+
+msgctxt "audit"
+msgid "HTML Body"
+msgstr ""
+
+msgctxt "audit"
+msgid "Hash"
+msgstr ""
+
+msgctxt "audit"
+msgid "Headers"
+msgstr ""
+
+msgctxt "audit"
+msgid "ID"
+msgstr ""
+
+msgctxt "audit"
+msgid "IP"
+msgstr ""
+
+msgctxt "audit"
+msgid "Info"
+msgstr ""
+
+msgctxt "audit"
+msgid "Javascript #{id}"
+msgstr ""
+
+msgctxt "audit"
+msgid "Javascripts"
+msgstr ""
+
+msgctxt "audit"
+msgid "Line"
+msgstr ""
+
+msgctxt "audit"
+msgid "Log"
+msgstr ""
+
+msgctxt "audit"
+msgid "Mail #{id}"
+msgstr ""
+
+msgctxt "audit"
+msgid "Mails"
+msgstr ""
+
+msgctxt "audit"
+msgid "Memory"
+msgstr ""
+
+msgctxt "audit"
+msgid "Message"
+msgstr ""
+
+msgctxt "audit"
+msgid "Model ID"
+msgstr ""
+
+msgctxt "audit"
+msgid "New Value"
+msgstr ""
+
+msgctxt "audit"
+msgid "No"
+msgstr ""
+
+msgctxt "audit"
+msgid "Old Value"
+msgstr ""
+
+msgctxt "audit"
+msgid "Origin"
+msgstr ""
+
+msgctxt "audit"
+msgid "POST"
+msgstr ""
+
+msgctxt "audit"
+msgid "POST - HTML"
+msgstr ""
+
+msgctxt "audit"
+msgid "POST - JSON"
+msgstr ""
+
+msgctxt "audit"
+msgid "POST - Query"
+msgstr ""
+
+msgctxt "audit"
+msgid "POST - XML"
+msgstr ""
+
+msgctxt "audit"
+msgid "Profiling"
+msgstr ""
+
+msgctxt "audit"
+msgid "Reply"
+msgstr ""
+
+msgctxt "audit"
+msgid "Request"
+msgstr ""
+
+msgctxt "audit"
+msgid "Request #{id}"
+msgstr ""
+
+msgctxt "audit"
+msgid "Request Method"
+msgstr ""
+
+msgctxt "audit"
+msgid "Result"
+msgstr ""
+
+msgctxt "audit"
+msgid "Result - Object"
+msgstr ""
+
+msgctxt "audit"
+msgid "Result - XML"
+msgstr ""
+
+msgctxt "audit"
+msgid "SOAP"
+msgstr ""
+
+msgctxt "audit"
+msgid "Stack Trace"
+msgstr ""
+
+msgctxt "audit"
+msgid "Subject"
+msgstr ""
+
+msgctxt "audit"
+msgid "Successful"
+msgstr ""
+
+msgctxt "audit"
+msgid "Text"
+msgstr ""
+
+msgctxt "audit"
+msgid "Text Body"
+msgstr ""
+
+msgctxt "audit"
+msgid "To"
+msgstr ""
+
+msgctxt "audit"
+msgid "Trace"
+msgstr ""
+
+msgctxt "audit"
+msgid "Trail #{id}"
+msgstr ""
+
+msgctxt "audit"
+msgid "Trails"
+msgstr ""
+
+msgctxt "audit"
+msgid "Type"
+msgstr ""
+
+msgctxt "audit"
+msgid "User"
+msgstr ""
+
+msgctxt "audit"
+msgid "User ID"
+msgstr ""
+
+msgctxt "audit"
+msgid "Yes"
+msgstr ""
+
+msgctxt "audit"
+msgid "cURL"
+msgstr ""
+
+msgctxt "audit"
+msgid "view audit entry"
+msgstr ""
+
+msgctxt "audit"
+msgid "{message}\nin {file} on line {line}.\n-- {url}"
+msgstr ""
+
+msgctxt "fileinput"
+msgid "Note:"
+msgstr ""
+
+msgctxt "fileinput"
+msgid "Your browser does not support {validation}. Try an alternative or more recent browser to access these features."
+msgstr ""
+
+msgctxt "fileinput"
+msgid "file preview and multiple file upload"
+msgstr ""
+
+msgctxt "fileinput"
+msgid "multiple file upload"
+msgstr ""
+
+msgctxt "kvbase"
+msgid "It is recommended you use an upgraded browser to display the {type} control properly."
+msgstr ""
+
+msgctxt "kvcolor"
+msgid "Clear Color Selection"
+msgstr ""
+
+msgctxt "kvcolor"
+msgid "No Color Selected"
+msgstr ""
+
+msgctxt "kvcolor"
+msgid "cancel"
+msgstr ""
+
+msgctxt "kvcolor"
+msgid "choose"
+msgstr ""
+
+msgctxt "kvcolor"
+msgid "less"
+msgstr ""
+
+msgctxt "kvcolor"
+msgid "more"
+msgstr ""
+
+msgctxt "kvdate"
+msgid "Clear field"
+msgstr ""
+
+msgctxt "kvdate"
+msgid "Select date"
+msgstr ""
+
+msgctxt "kvdetail"
+msgid "Are you sure you want to delete this item?"
+msgstr ""
+
+msgctxt "kvdetail"
+msgid "Cancel Changes"
+msgstr ""
+
+msgctxt "kvdetail"
+msgid "Delete"
+msgstr ""
+
+msgctxt "kvdetail"
+msgid "Save"
+msgstr ""
+
+msgctxt "kvdetail"
+msgid "Update"
+msgstr ""
+
+msgctxt "kvdetail"
+msgid "View"
+msgstr ""
+
+msgctxt "kvdialog"
+msgid "Cancel"
+msgstr ""
+
+msgctxt "kvdialog"
+msgid "Confirmation"
+msgstr ""
+
+msgctxt "kvdialog"
+msgid "Information"
+msgstr ""
+
+msgctxt "kvdialog"
+msgid "Ok"
+msgstr ""
+
+msgctxt "kvdrp"
+msgid "Apply"
+msgstr ""
+
+msgctxt "kvdrp"
+msgid "Cancel"
+msgstr ""
+
+msgctxt "kvdrp"
+msgid "Custom Range"
+msgstr ""
+
+msgctxt "kvdrp"
+msgid "From"
+msgstr ""
+
+msgctxt "kvdrp"
+msgid "Last Month"
+msgstr ""
+
+msgctxt "kvdrp"
+msgid "Last {n} Days"
+msgstr ""
+
+msgctxt "kvdrp"
+msgid "Select Date Range"
+msgstr ""
+
+msgctxt "kvdrp"
+msgid "This Month"
+msgstr ""
+
+msgctxt "kvdrp"
+msgid "To"
+msgstr ""
+
+msgctxt "kvdrp"
+msgid "Today"
+msgstr ""
+
+msgctxt "kvdrp"
+msgid "W"
+msgstr ""
+
+msgctxt "kvdrp"
+msgid "Yesterday"
+msgstr ""
+
+msgctxt "kvdtime"
+msgid "Clear field"
+msgstr ""
+
+msgctxt "kvdtime"
+msgid "Select date & time"
+msgstr ""
+
+msgctxt "kvdynagrid"
+msgid "Abort any changes and reset settings"
+msgstr ""
+
+msgctxt "kvdynagrid"
+msgid "Apply"
+msgstr ""
+
+msgctxt "kvdynagrid"
+msgid "Are you sure you want to delete the setting?"
+msgstr ""
+
+msgctxt "kvdynagrid"
+msgid "Configure Order and Display of Grid Columns"
+msgstr ""
+
+msgctxt "kvdynagrid"
+msgid "Default Filter"
+msgstr ""
+
+msgctxt "kvdynagrid"
+msgid "Default Sort"
+msgstr ""
+
+msgctxt "kvdynagrid"
+msgid "Delete"
+msgstr ""
+
+msgctxt "kvdynagrid"
+msgid "Filter Configuration"
+msgstr ""
+
+msgctxt "kvdynagrid"
+msgid "Filter Name"
+msgstr ""
+
+msgctxt "kvdynagrid"
+msgid "Grid Theme"
+msgstr ""
+
+msgctxt "kvdynagrid"
+msgid "Hidden / Fixed Columns"
+msgstr ""
+
+msgctxt "kvdynagrid"
+msgid "Integer between {min} to {max}"
+msgstr ""
+
+msgctxt "kvdynagrid"
+msgid "NOTE: When editing an existing record, both the {category} name and its settings will be modified."
+msgstr ""
+
+msgctxt "kvdynagrid"
+msgid "NOTE: When editing an existing record, only the {category} name will be modified (and not the settings)."
+msgstr ""
+
+msgctxt "kvdynagrid"
+msgid "Operation disallowed! Invalid request signature detected for dynagrid settings. {params}"
+msgstr ""
+
+msgctxt "kvdynagrid"
+msgid "Page Size"
+msgstr ""
+
+msgctxt "kvdynagrid"
+msgid "Personalize Grid Configuration"
+msgstr ""
+
+msgctxt "kvdynagrid"
+msgid "Personalize grid settings"
+msgstr ""
+
+msgctxt "kvdynagrid"
+msgid "Remove saved grid settings"
+msgstr ""
+
+msgctxt "kvdynagrid"
+msgid "Reset"
+msgstr ""
+
+msgctxt "kvdynagrid"
+msgid "Save"
+msgstr ""
+
+msgctxt "kvdynagrid"
+msgid "Save / Edit Grid {title}"
+msgstr ""
+
+msgctxt "kvdynagrid"
+msgid "Save / edit grid {category}"
+msgstr ""
+
+msgctxt "kvdynagrid"
+msgid "Save grid settings"
+msgstr ""
+
+msgctxt "kvdynagrid"
+msgid "Saved Filters"
+msgstr ""
+
+msgctxt "kvdynagrid"
+msgid "Saved Sorts"
+msgstr ""
+
+msgctxt "kvdynagrid"
+msgid "Saving and applying configuration"
+msgstr ""
+
+msgctxt "kvdynagrid"
+msgid "Select a filter..."
+msgstr ""
+
+msgctxt "kvdynagrid"
+msgid "Select a sort..."
+msgstr ""
+
+msgctxt "kvdynagrid"
+msgid "Select a theme..."
+msgstr ""
+
+msgctxt "kvdynagrid"
+msgid "Select theme to style grid"
+msgstr ""
+
+msgctxt "kvdynagrid"
+msgid "Select..."
+msgstr ""
+
+msgctxt "kvdynagrid"
+msgid "Set a name to save the state of your current grid {category}. You can alternatively select a saved {category} from the list below to edit or delete."
+msgstr ""
+
+msgctxt "kvdynagrid"
+msgid "Set default grid filter criteria"
+msgstr ""
+
+msgctxt "kvdynagrid"
+msgid "Set default grid sort criteria"
+msgstr ""
+
+msgctxt "kvdynagrid"
+msgid "Sort Configuration"
+msgstr ""
+
+msgctxt "kvdynagrid"
+msgid "Sort Name"
+msgstr ""
+
+msgctxt "kvdynagrid"
+msgid "Trash"
+msgstr ""
+
+msgctxt "kvdynagrid"
+msgid "Trashing all personalizations"
+msgstr ""
+
+msgctxt "kvdynagrid"
+msgid "Visible Columns"
+msgstr ""
+
+msgctxt "kvdynagrid"
+msgid "ascending"
+msgstr ""
+
+msgctxt "kvdynagrid"
+msgid "descending"
+msgstr ""
+
+msgctxt "kvdynagrid"
+msgid "filter"
+msgstr ""
+
+msgctxt "kvdynagrid"
+msgid "grid"
+msgstr ""
+
+msgctxt "kvdynagrid"
+msgid "rows per page"
+msgstr ""
+
+msgctxt "kvdynagrid"
+msgid "sort"
+msgstr ""
+
+msgctxt "kveditable"
+msgid "(not set)"
+msgstr ""
+
+msgctxt "kveditable"
+msgid "Apply"
+msgstr ""
+
+msgctxt "kveditable"
+msgid "Close"
+msgstr ""
+
+msgctxt "kveditable"
+msgid "Edit"
+msgstr ""
+
+msgctxt "kveditable"
+msgid "Reset"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "Amaya"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "Android"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "Apple Safari"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "April"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "Arora"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "August"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "Avant"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "Blackberry"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "Chromium"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "December"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "Email"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "Epiphany"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "February"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "Friday"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "Galeon"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "Google Chrome"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "January"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "July"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "June"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "Konqueror"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "Linux"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "Macintosh OSX"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "Maemo"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "March"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "Maxthon"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "May"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "Microsoft Internet Explorer"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "Microsoft Internet Explorer Mobile"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "Minimo"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "Mobile Safari"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "Monday"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "Mosaic"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "Mozilla Firefox"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "Mozilla Firefox Fennec"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "Mozilla Sea Monkey"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "NetFront"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "NetSurf"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "Netscape"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "No"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "November"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "October"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "Omniweb"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "Opera"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "Other"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "Palm"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "Phone"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "Puffin"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "Safari"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "Saturday"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "September"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "Sunday"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "Symbian"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "Thursday"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "Tuesday"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "Unix"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "Unknown"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "Wednesday"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "Windows"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "Yes"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "a moment"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "ago"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "billion"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "eight"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "eighteen"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "eighty"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "eleven"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "fifteen"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "fifty"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "five"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "forty"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "four"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "fourteen"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "hundred"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "iOS"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "million"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "minus"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "nine"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "nineteen"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "ninety"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "nonillion"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "octillion"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "one"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "quadrillion"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "quintillion"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "septillion"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "seven"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "seventeen"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "seventy"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "sextillion"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "six"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "sixteen"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "sixty"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "ten"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "thirteen"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "thirty"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "thousand"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "three"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "trillion"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "twelve"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "twenty"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "two"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "zero"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "{n, plural, one{one day} other{# days}}"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "{n, plural, one{one hour} other{# hours}}"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "{n, plural, one{one minute} other{# minutes}}"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "{n, plural, one{one month} other{# months}}"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "{n, plural, one{one second} other{# seconds}}"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "{n, plural, one{one week} other{# weeks}}"
+msgstr ""
+
+msgctxt "kvenum"
+msgid "{n, plural, one{one year} other{# years}}"
+msgstr ""
+
+msgctxt "kvexport"
+msgid "CSV"
+msgstr ""
+
+msgctxt "kvexport"
+msgid "Column"
+msgstr ""
+
+msgctxt "kvexport"
+msgid "Comma Separated Values"
+msgstr ""
+
+msgctxt "kvexport"
+msgid "Disable any popup blockers in your browser to ensure proper download."
+msgstr ""
+
+msgctxt "kvexport"
+msgid "Download exported file"
+msgstr ""
+
+msgctxt "kvexport"
+msgid "Excel 2007+"
+msgstr ""
+
+msgctxt "kvexport"
+msgid "Excel 95 +"
+msgstr ""
+
+msgctxt "kvexport"
+msgid "Export data in selected format"
+msgstr ""
+
+msgctxt "kvexport"
+msgid "Exported File"
+msgstr ""
+
+msgctxt "kvexport"
+msgid "Generating the export file. Please wait..."
+msgstr ""
+
+msgctxt "kvexport"
+msgid "Grid export generated by Krajee ExportMenu widget (yii2-export)"
+msgstr ""
+
+msgctxt "kvexport"
+msgid "HTML"
+msgstr ""
+
+msgctxt "kvexport"
+msgid "Hyper Text Markup Language"
+msgstr ""
+
+msgctxt "kvexport"
+msgid "Input error"
+msgstr ""
+
+msgctxt "kvexport"
+msgid "Key"
+msgstr ""
+
+msgctxt "kvexport"
+msgid "Microsoft Excel 2007+ (xlsx)"
+msgstr ""
+
+msgctxt "kvexport"
+msgid "Microsoft Excel 95+ (xls)"
+msgstr ""
+
+msgctxt "kvexport"
+msgid "Ok to proceed?"
+msgstr ""
+
+msgctxt "kvexport"
+msgid "PDF"
+msgstr ""
+
+msgctxt "kvexport"
+msgid "Pick from list"
+msgstr ""
+
+msgctxt "kvexport"
+msgid "Please pick a value from the drop-down list."
+msgstr ""
+
+msgctxt "kvexport"
+msgid "Portable Document Format"
+msgstr ""
+
+msgctxt "kvexport"
+msgid "Request submitted! You may safely close this dialog after saving your downloaded file."
+msgstr ""
+
+msgctxt "kvexport"
+msgid "Select Columns"
+msgstr ""
+
+msgctxt "kvexport"
+msgid "Select columns to export"
+msgstr ""
+
+msgctxt "kvexport"
+msgid "Tab Delimited Text"
+msgstr ""
+
+msgctxt "kvexport"
+msgid "Text"
+msgstr ""
+
+msgctxt "kvexport"
+msgid "The CSV export file will be generated for download."
+msgstr ""
+
+msgctxt "kvexport"
+msgid "The EXCEL 2007+ (xlsx) export file will be generated for download."
+msgstr ""
+
+msgctxt "kvexport"
+msgid "The EXCEL 95+ (xls) export file will be generated for download."
+msgstr ""
+
+msgctxt "kvexport"
+msgid "The HTML export file will be generated for download."
+msgstr ""
+
+msgctxt "kvexport"
+msgid "The PDF export file will be generated for download."
+msgstr ""
+
+msgctxt "kvexport"
+msgid "The TEXT export file will be generated for download."
+msgstr ""
+
+msgctxt "kvexport"
+msgid "Toggle All"
+msgstr ""
+
+msgctxt "kvexport"
+msgid "Value"
+msgstr ""
+
+msgctxt "kvexport"
+msgid "Value is not in list."
+msgstr ""
+
+msgctxt "kvexport"
+msgid "grid-export"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "Actions"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "Active"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "Add Book"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "All"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "Are you sure to delete this {item}?"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "Book Listing"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "CSV"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "Clear selection"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "Collapse"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "Collapse All"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "Comma Separated Values"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "Delete"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "Disable any popup blockers in your browser to ensure proper download."
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "Download Selected"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "Excel"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "Expand"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "Expand All"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "Export"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "Export All Data"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "Export Page Data"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "ExportWorksheet"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "Failed to update editable data due to an unknown server error"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "Generated"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "Generating the export file. Please wait..."
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "Grid Export"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "HTML"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "Hyper Text Markup Language"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "Inactive"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "Invalid editable index or model form name"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "Invalid or bad editable data"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "JSON"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "JavaScript Object Notation"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "Krajee Solutions"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "Krajee Yii2 Grid Export Extension"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "Library"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "Microsoft Excel 95+"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "No data found"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "No valid editable model found"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "Ok to proceed?"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "PDF"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "PDF export generated by kartik-v/yii2-grid extension"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "Page"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "Portable Document Format"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "Request submitted! You may safely close this dialog after saving your downloaded file."
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "Reset Grid"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "Resize table columns just like a spreadsheet by dragging the column edges."
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "Show all data"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "Show first page data"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} other{{items}}}."
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "Tab Delimited Text"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "Text"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "The CSV export file will be generated for download."
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "The EXCEL export file will be generated for download."
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "The HTML export file will be generated for download."
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "The JSON export file will be generated for download."
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "The PDF export file will be generated for download."
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "The TEXT export file will be generated for download."
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "The page summary displays SUM for first 3 amount columns and AVG for the last."
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "The table header sticks to the top in this demo as you scroll"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "There are {totalCount} records. Are you sure you want to display them all?"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "Total <b>{count, number}</b> {count, plural, one{{item}} other{{items}}}."
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "Update"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "View"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "Yii2 Grid Export (PDF)"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "export"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "grid-export"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "item"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "items"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "items-acc"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "items-few"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "items-many"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "krajee, grid, export, yii2-grid, pdf"
+msgstr ""
+
+msgctxt "kvgrid"
+msgid "© Krajee Yii2 Extensions"
+msgstr ""
+
+msgctxt "kvselect"
+msgid "Select all"
+msgstr ""
+
+msgctxt "kvselect"
+msgid "Unselect all"
+msgstr ""
+
+msgctxt "rbac-admin"
+msgid "'{class}' must extend from 'yii\rbacRule' or its child class"
+msgstr ""
+
+msgctxt "rbac-admin"
+msgid "Activate"
+msgstr ""
+
+msgctxt "rbac-admin"
+msgid "Add"
+msgstr ""
+
+msgctxt "rbac-admin"
+msgid "Admin"
+msgstr ""
+
+msgctxt "rbac-admin"
+msgid "Application"
+msgstr ""
+
+msgctxt "rbac-admin"
+msgid "Are you sure to delete this item?"
+msgstr ""
+
+msgctxt "rbac-admin"
+msgid "Are you sure you want to activate this user?"
+msgstr ""
+
+msgctxt "rbac-admin"
+msgid "Assign"
+msgstr ""
+
+msgctxt "rbac-admin"
+msgid "Assignment"
+msgstr ""
+
+msgctxt "rbac-admin"
+msgid "Assignments"
+msgstr ""
+
+msgctxt "rbac-admin"
+msgid "Buscar Asignadas"
+msgstr ""
+
+msgctxt "rbac-admin"
+msgid "Buscar Disponibles"
+msgstr ""
+
+msgctxt "rbac-admin"
+msgid "Change"
+msgstr ""
+
+msgctxt "rbac-admin"
+msgid "Change Password"
+msgstr ""
+
+msgctxt "rbac-admin"
+msgid "Class Name"
+msgstr ""
+
+msgctxt "rbac-admin"
+msgid "Create"
+msgstr ""
+
+msgctxt "rbac-admin"
+msgid "Create Menu"
+msgstr ""
+
+msgctxt "rbac-admin"
+msgid "Create Rule"
+msgstr ""
+
+msgctxt "rbac-admin"
+msgid "Create label"
+msgstr ""
+
+msgctxt "rbac-admin"
+msgid "Data"
+msgstr ""
+
+msgctxt "rbac-admin"
+msgid "Delete"
+msgstr ""
+
+msgctxt "rbac-admin"
+msgid "Description"
+msgstr ""
+
+msgctxt "rbac-admin"
+msgid "Help"
+msgstr ""
+
+msgctxt "rbac-admin"
+msgid "ID"
+msgstr ""
+
+msgctxt "rbac-admin"
+msgid "Invalid rule \"{value}\""
+msgstr ""
+
+msgctxt "rbac-admin"
+msgid "Login"
+msgstr ""
+
+msgctxt "rbac-admin"
+msgid "Menus"
+msgstr ""
+
+msgctxt "rbac-admin"
+msgid "Name"
+msgstr ""
+
+msgctxt "rbac-admin"
+msgid "New route(s)"
+msgstr ""
+
+msgctxt "rbac-admin"
+msgid "Order"
+msgstr ""
+
+msgctxt "rbac-admin"
+msgid "Parent"
+msgstr ""
+
+msgctxt "rbac-admin"
+msgid "Parent Name"
+msgstr ""
+
+msgctxt "rbac-admin"
+msgid "Remove"
+msgstr ""
+
+msgctxt "rbac-admin"
+msgid "Reset"
+msgstr ""
+
+msgctxt "rbac-admin"
+msgid "Route"
+msgstr ""
+
+msgctxt "rbac-admin"
+msgid "Routes"
+msgstr ""
+
+msgctxt "rbac-admin"
+msgid "Rule \"{value}\" does not exists"
+msgstr ""
+
+msgctxt "rbac-admin"
+msgid "Rule Name"
+msgstr ""
+
+msgctxt "rbac-admin"
+msgid "Rules"
+msgstr ""
+
+msgctxt "rbac-admin"
+msgid "Save"
+msgstr ""
+
+msgctxt "rbac-admin"
+msgid "Search"
+msgstr ""
+
+msgctxt "rbac-admin"
+msgid "Search for assigned"
+msgstr ""
+
+msgctxt "rbac-admin"
+msgid "Search for available"
+msgstr ""
+
+msgctxt "rbac-admin"
+msgid "Send"
+msgstr ""
+
+msgctxt "rbac-admin"
+msgid "Signup"
+msgstr ""
+
+msgctxt "rbac-admin"
+msgid "Type"
+msgstr ""
+
+msgctxt "rbac-admin"
+msgid "Unknown class '{class}'"
+msgstr ""
+
+msgctxt "rbac-admin"
+msgid "Update"
+msgstr ""
+
+msgctxt "rbac-admin"
+msgid "Update Menu"
+msgstr ""
+
+msgctxt "rbac-admin"
+msgid "Update Rule"
+msgstr ""
+
+msgctxt "rbac-admin"
+msgid "Update label"
+msgstr ""
+
+msgctxt "rbac-admin"
+msgid "Username"
+msgstr ""
+
+msgctxt "rbac-admin"
+msgid "Users"
+msgstr ""
+
+msgctxt "user"
+msgid "Bitácora"
+msgstr ""
+
+msgctxt "user"
+msgid "Block"
+msgstr ""
+
+msgctxt "user"
+msgid "Crear"
+msgstr ""
+
+msgctxt "user"
+msgid "Detalle de la Cuenta"
+msgstr ""
+
+msgctxt "user"
+msgid "Detalle del Perfil"
+msgstr ""
+
+msgctxt "user"
+msgid "Eliminar"
+msgstr ""
+
+msgctxt "user"
+msgid "Está seguro de bloquear este usuario?"
+msgstr ""
+
+msgctxt "user"
+msgid "Está seguro de eliminar este usuario?"
+msgstr ""
+
+msgctxt "user"
+msgid "Está seguro de habilitar este usuario?"
+msgstr ""
+
+msgctxt "user"
+msgid "Información"
+msgstr ""
+
+msgctxt "user"
+msgid "Nuevo Rol"
+msgstr ""
+
+msgctxt "user"
+msgid "Nuevo Usuario"
+msgstr ""
+
+msgctxt "user"
+msgid "Permisos"
+msgstr ""
+
+msgctxt "user"
+msgid "Roles"
+msgstr ""
+
+msgctxt "user"
+msgid "Rutas"
+msgstr ""
+
+msgctxt "user"
+msgid "Unblock"
+msgstr ""
+
+msgctxt "user"
+msgid "User has been confirmed"
+msgstr ""
+
+msgctxt "user"
+msgid "Usuarios"
+msgstr ""
+
+msgctxt "yii"
+msgid " and "
+msgstr ""
+
+msgctxt "yii"
+msgid "\"{attribute}\" does not support operator \"{operator}\"."
+msgstr ""
+
+msgctxt "yii"
+msgid "(not set)"
+msgstr ""
+
+msgctxt "yii"
+msgid "An internal server error occurred."
+msgstr ""
+
+msgctxt "yii"
+msgid "Are you sure you want to delete this item?"
+msgstr ""
+
+msgctxt "yii"
+msgid "Condition for \"{attribute}\" should be either a value or valid operator specification."
+msgstr ""
+
+msgctxt "yii"
+msgid "Delete"
+msgstr ""
+
+msgctxt "yii"
+msgid "Error"
+msgstr ""
+
+msgctxt "yii"
+msgid "File upload failed."
+msgstr ""
+
+msgctxt "yii"
+msgid "Home"
+msgstr ""
+
+msgctxt "yii"
+msgid "Invalid data received for parameter \"{param}\"."
+msgstr ""
+
+msgctxt "yii"
+msgid "Login Required"
+msgstr ""
+
+msgctxt "yii"
+msgid "Missing required arguments: {params}"
+msgstr ""
+
+msgctxt "yii"
+msgid "Missing required parameters: {params}"
+msgstr ""
+
+msgctxt "yii"
+msgid "No"
+msgstr ""
+
+msgctxt "yii"
+msgid "No results found."
+msgstr ""
+
+msgctxt "yii"
+msgid "Only files with these MIME types are allowed: {mimeTypes}."
+msgstr ""
+
+msgctxt "yii"
+msgid "Only files with these extensions are allowed: {extensions}."
+msgstr ""
+
+msgctxt "yii"
+msgid "Operator \"{operator}\" must be used with a search attribute."
+msgstr ""
+
+msgctxt "yii"
+msgid "Operator \"{operator}\" requires multiple operands."
+msgstr ""
+
+msgctxt "yii"
+msgid "Page not found."
+msgstr ""
+
+msgctxt "yii"
+msgid "Please fix the following errors:"
+msgstr ""
+
+msgctxt "yii"
+msgid "Please upload a file."
+msgstr ""
+
+msgctxt "yii"
+msgid "Powered by {yii}"
+msgstr ""
+
+msgctxt "yii"
+msgid "Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{item} other{items}}."
+msgstr ""
+
+msgctxt "yii"
+msgid "The combination {values} of {attributes} has already been taken."
+msgstr ""
+
+msgctxt "yii"
+msgid "The file \"{file}\" is not an image."
+msgstr ""
+
+msgctxt "yii"
+msgid "The file \"{file}\" is too big. Its size cannot exceed {formattedLimit}."
+msgstr ""
+
+msgctxt "yii"
+msgid "The file \"{file}\" is too small. Its size cannot be smaller than {formattedLimit}."
+msgstr ""
+
+msgctxt "yii"
+msgid "The format of {attribute} is invalid."
+msgstr ""
+
+msgctxt "yii"
+msgid "The format of {filter} is invalid."
+msgstr ""
+
+msgctxt "yii"
+msgid "The image \"{file}\" is too large. The height cannot be larger than {limit, number} {limit, plural, one{pixel} other{pixels}}."
+msgstr ""
+
+msgctxt "yii"
+msgid "The image \"{file}\" is too large. The width cannot be larger than {limit, number} {limit, plural, one{pixel} other{pixels}}."
+msgstr ""
+
+msgctxt "yii"
+msgid "The image \"{file}\" is too small. The height cannot be smaller than {limit, number} {limit, plural, one{pixel} other{pixels}}."
+msgstr ""
+
+msgctxt "yii"
+msgid "The image \"{file}\" is too small. The width cannot be smaller than {limit, number} {limit, plural, one{pixel} other{pixels}}."
+msgstr ""
+
+msgctxt "yii"
+msgid "The requested view \"{name}\" was not found."
+msgstr ""
+
+msgctxt "yii"
+msgid "The verification code is incorrect."
+msgstr ""
+
+msgctxt "yii"
+msgid "Total <b>{count, number}</b> {count, plural, one{item} other{items}}."
+msgstr ""
+
+msgctxt "yii"
+msgid "Unable to verify your data submission."
+msgstr ""
+
+msgctxt "yii"
+msgid "Unknown alias: -{name}"
+msgstr ""
+
+msgctxt "yii"
+msgid "Unknown filter attribute \"{attribute}\""
+msgstr ""
+
+msgctxt "yii"
+msgid "Unknown option: --{name}"
+msgstr ""
+
+msgctxt "yii"
+msgid "Update"
+msgstr ""
+
+msgctxt "yii"
+msgid "View"
+msgstr ""
+
+msgctxt "yii"
+msgid "Yes"
+msgstr ""
+
+msgctxt "yii"
+msgid "Yii Framework"
+msgstr ""
+
+msgctxt "yii"
+msgid "You are not allowed to perform this action."
+msgstr ""
+
+msgctxt "yii"
+msgid "You can upload at most {limit, number} {limit, plural, one{file} other{files}}."
+msgstr ""
+
+msgctxt "yii"
+msgid "You should upload at least {limit, number} {limit, plural, one{file} other{files}}."
+msgstr ""
+
+msgctxt "yii"
+msgid "in {delta, plural, =1{a day} other{# days}}"
+msgstr ""
+
+msgctxt "yii"
+msgid "in {delta, plural, =1{a minute} other{# minutes}}"
+msgstr ""
+
+msgctxt "yii"
+msgid "in {delta, plural, =1{a month} other{# months}}"
+msgstr ""
+
+msgctxt "yii"
+msgid "in {delta, plural, =1{a second} other{# seconds}}"
+msgstr ""
+
+msgctxt "yii"
+msgid "in {delta, plural, =1{a year} other{# years}}"
+msgstr ""
+
+msgctxt "yii"
+msgid "in {delta, plural, =1{an hour} other{# hours}}"
+msgstr ""
+
+msgctxt "yii"
+msgid "just now"
+msgstr ""
+
+msgctxt "yii"
+msgid "the input value"
+msgstr ""
+
+msgctxt "yii"
+msgid "{attribute} \"{value}\" has already been taken."
+msgstr ""
+
+msgctxt "yii"
+msgid "{attribute} cannot be blank."
+msgstr ""
+
+msgctxt "yii"
+msgid "{attribute} contains wrong subnet mask."
+msgstr ""
+
+msgctxt "yii"
+msgid "{attribute} is invalid."
+msgstr ""
+
+msgctxt "yii"
+msgid "{attribute} is not a valid URL."
+msgstr ""
+
+msgctxt "yii"
+msgid "{attribute} is not a valid email address."
+msgstr ""
+
+msgctxt "yii"
+msgid "{attribute} is not in the allowed range."
+msgstr ""
+
+msgctxt "yii"
+msgid "{attribute} must be \"{requiredValue}\"."
+msgstr ""
+
+msgctxt "yii"
+msgid "{attribute} must be a number."
+msgstr ""
+
+msgctxt "yii"
+msgid "{attribute} must be a string."
+msgstr ""
+
+msgctxt "yii"
+msgid "{attribute} must be a valid IP address."
+msgstr ""
+
+msgctxt "yii"
+msgid "{attribute} must be an IP address with specified subnet."
+msgstr ""
+
+msgctxt "yii"
+msgid "{attribute} must be an integer."
+msgstr ""
+
+msgctxt "yii"
+msgid "{attribute} must be either \"{true}\" or \"{false}\"."
+msgstr ""
+
+msgctxt "yii"
+msgid "{attribute} must be equal to \"{compareValueOrAttribute}\"."
+msgstr ""
+
+msgctxt "yii"
+msgid "{attribute} must be greater than \"{compareValueOrAttribute}\"."
+msgstr ""
+
+msgctxt "yii"
+msgid "{attribute} must be greater than or equal to \"{compareValueOrAttribute}\"."
+msgstr ""
+
+msgctxt "yii"
+msgid "{attribute} must be less than \"{compareValueOrAttribute}\"."
+msgstr ""
+
+msgctxt "yii"
+msgid "{attribute} must be less than or equal to \"{compareValueOrAttribute}\"."
+msgstr ""
+
+msgctxt "yii"
+msgid "{attribute} must be no greater than {max}."
+msgstr ""
+
+msgctxt "yii"
+msgid "{attribute} must be no less than {min}."
+msgstr ""
+
+msgctxt "yii"
+msgid "{attribute} must not be a subnet."
+msgstr ""
+
+msgctxt "yii"
+msgid "{attribute} must not be an IPv4 address."
+msgstr ""
+
+msgctxt "yii"
+msgid "{attribute} must not be an IPv6 address."
+msgstr ""
+
+msgctxt "yii"
+msgid "{attribute} must not be equal to \"{compareValueOrAttribute}\"."
+msgstr ""
+
+msgctxt "yii"
+msgid "{attribute} should contain at least {min, number} {min, plural, one{character} other{characters}}."
+msgstr ""
+
+msgctxt "yii"
+msgid "{attribute} should contain at most {max, number} {max, plural, one{character} other{characters}}."
+msgstr ""
+
+msgctxt "yii"
+msgid "{attribute} should contain {length, number} {length, plural, one{character} other{characters}}."
+msgstr ""
+
+msgctxt "yii"
+msgid "{delta, plural, =1{1 day} other{# days}}"
+msgstr ""
+
+msgctxt "yii"
+msgid "{delta, plural, =1{1 hour} other{# hours}}"
+msgstr ""
+
+msgctxt "yii"
+msgid "{delta, plural, =1{1 minute} other{# minutes}}"
+msgstr ""
+
+msgctxt "yii"
+msgid "{delta, plural, =1{1 month} other{# months}}"
+msgstr ""
+
+msgctxt "yii"
+msgid "{delta, plural, =1{1 second} other{# seconds}}"
+msgstr ""
+
+msgctxt "yii"
+msgid "{delta, plural, =1{1 year} other{# years}}"
+msgstr ""
+
+msgctxt "yii"
+msgid "{delta, plural, =1{a day} other{# days}} ago"
+msgstr ""
+
+msgctxt "yii"
+msgid "{delta, plural, =1{a minute} other{# minutes}} ago"
+msgstr ""
+
+msgctxt "yii"
+msgid "{delta, plural, =1{a month} other{# months}} ago"
+msgstr ""
+
+msgctxt "yii"
+msgid "{delta, plural, =1{a second} other{# seconds}} ago"
+msgstr ""
+
+msgctxt "yii"
+msgid "{delta, plural, =1{a year} other{# years}} ago"
+msgstr ""
+
+msgctxt "yii"
+msgid "{delta, plural, =1{an hour} other{# hours}} ago"
+msgstr ""
+
+msgctxt "yii"
+msgid "{nFormatted} B"
+msgstr ""
+
+msgctxt "yii"
+msgid "{nFormatted} GB"
+msgstr ""
+
+msgctxt "yii"
+msgid "{nFormatted} GiB"
+msgstr ""
+
+msgctxt "yii"
+msgid "{nFormatted} KiB"
+msgstr ""
+
+msgctxt "yii"
+msgid "{nFormatted} MB"
+msgstr ""
+
+msgctxt "yii"
+msgid "{nFormatted} MiB"
+msgstr ""
+
+msgctxt "yii"
+msgid "{nFormatted} PB"
+msgstr ""
+
+msgctxt "yii"
+msgid "{nFormatted} PiB"
+msgstr ""
+
+msgctxt "yii"
+msgid "{nFormatted} TB"
+msgstr ""
+
+msgctxt "yii"
+msgid "{nFormatted} TiB"
+msgstr ""
+
+msgctxt "yii"
+msgid "{nFormatted} kB"
+msgstr ""
+
+msgctxt "yii"
+msgid "{nFormatted} {n, plural, =1{byte} other{bytes}}"
+msgstr ""
+
+msgctxt "yii"
+msgid "{nFormatted} {n, plural, =1{gibibyte} other{gibibytes}}"
+msgstr ""
+
+msgctxt "yii"
+msgid "{nFormatted} {n, plural, =1{gigabyte} other{gigabytes}}"
+msgstr ""
+
+msgctxt "yii"
+msgid "{nFormatted} {n, plural, =1{kibibyte} other{kibibytes}}"
+msgstr ""
+
+msgctxt "yii"
+msgid "{nFormatted} {n, plural, =1{kilobyte} other{kilobytes}}"
+msgstr ""
+
+msgctxt "yii"
+msgid "{nFormatted} {n, plural, =1{mebibyte} other{mebibytes}}"
+msgstr ""
+
+msgctxt "yii"
+msgid "{nFormatted} {n, plural, =1{megabyte} other{megabytes}}"
+msgstr ""
+
+msgctxt "yii"
+msgid "{nFormatted} {n, plural, =1{pebibyte} other{pebibytes}}"
+msgstr ""
+
+msgctxt "yii"
+msgid "{nFormatted} {n, plural, =1{petabyte} other{petabytes}}"
+msgstr ""
+
+msgctxt "yii"
+msgid "{nFormatted} {n, plural, =1{tebibyte} other{tebibytes}}"
+msgstr ""
+
+msgctxt "yii"
+msgid "{nFormatted} {n, plural, =1{terabyte} other{terabytes}}"
+msgstr ""
+
+msgctxt "yii"
+msgid "{percent}% Complete"
+msgstr ""
+

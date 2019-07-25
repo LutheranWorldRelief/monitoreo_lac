@@ -4,7 +4,9 @@ extract($data);
 
 use app\components\excel\import\ImportFileWidget;
 use app\components\UExcelBeneficiario;
-use yii\helpers\Url; ?>
+use yii\helpers\Url;
+
+?>
 <div class="row">
     <div class="col-lg-10 col-lg-offset-1">
         <h3 class="text-info pull-left">Paso 1: Cargar el Archivo</h3>

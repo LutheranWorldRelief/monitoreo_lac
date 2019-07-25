@@ -2,8 +2,6 @@
 
 namespace app\controllers;
 
-use Exception;
-use Yii;
 use yii\web\Controller;
 
 class ControladorController extends Controller
@@ -13,7 +11,7 @@ class ControladorController extends Controller
 
     public function validacionPost()
     {
-        if (!Yii::$app->request->isPost)
-            throw new Exception('Acceso No Autorizado a API');
+//        if (!Yii::$app->request->isPost)
+//            throw new Exception('Acceso No Autorizado a API');
     }
 }

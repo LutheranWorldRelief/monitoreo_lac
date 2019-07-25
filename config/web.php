@@ -7,8 +7,9 @@ $config = [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'name' => 'Monitoreo',
-    'language' => 'es',
     'charset' => 'utf-8',
+    'language' => 'en',
+    'sourceLanguage' => 'es-ES',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm' => '@vendor/npm-asset',
@@ -125,13 +126,18 @@ $config = [
         ],
         'i18n' => [
             'translations' => [
-                '*' => [
-                    'class' => 'yii\i18n\PhpMessageSource',
+                'app' => [
+                    'class' => 'yii\i18n\GettextMessageSource',
                     'basePath' => '@app/messages', // if advanced application, set @frontend/messages
-                    'sourceLanguage' => 'es',
-                    'fileMap' => [
-                        // 'main' => 'main.php',
-                    ],
+                    'forceTranslation' => true,
+                    'useMoFile' => false,
+                    'sourceLanguage' => 'es-ES',
+                ],
+                '*' => [
+                    'class' => 'yii\i18n\GettextMessageSource',
+                    'basePath' => '@app/messages', // if advanced application, set @frontend/messages
+                    'useMoFile' => false,
+                    'sourceLanguage' => 'es-ES',
                 ],
             ],
         ],

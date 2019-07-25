@@ -413,7 +413,7 @@ class ImportController extends Controller
 
     public function actionBeneficiariosPaso4($archivo)
     {
-        try {
+        #try {
             $pathImportJson = Yii::getAlias('@ImportJson/beneficiarios/');
             $resultados = Json::decode(file_get_contents($pathImportJson . $archivo));
 
@@ -431,17 +431,17 @@ class ImportController extends Controller
             $queryContact = (new Query());
             $queryContact->select(['contact_id', 'trim(upper(contact_name)) as contact_name', 'contact_sex', 'contact_document', 'contact_organization'])
                 ->from('sql_full_report_project_contact')
-                ->orWhere(['in', 'trim( REPLACE ( REPLACE (contact_document, "-", "" ), " ", "" ) )', $documentos])
-                ->orWhere(['in', 'trim(upper(replace(replace(replace(contact_name," ","<>"),"><",""),"<>"," ")))', $nombres])
+                ->orWhere(['in', "trim( REPLACE ( REPLACE (contact_document, '-', '' ), ' ', '' ) )", $documentos])
+                ->orWhere(['in', "trim(upper(replace(replace(replace(contact_name,' ','<>'),'><',''),'<>',' ')))", $nombres])
                 ->andWhere(['in', 'event_id', $resultados])
                 ->andWhere('contact_document is not null')
-                ->groupBy('contact_id');
+                ->groupBy(['contact_name',  "contact_sex", "contact_document", "contact_organization", 'contact_id']);
             $personas = $queryContact->all();
             $data = ['data' => $personas];
             return $this->render('beneficiarios/wizard', ['data' => $data, 'view' => 'step-4', 'stepActive' => 'step4']);
-        } catch (Exception $exception) {
-            $this->redirect(['import/beneficiarios-paso3', 'archivo' => $archivo]);
-        }
+        #} catch (Exception $exception) {
+        #    $this->redirect(['import/beneficiarios-paso3', 'archivo' => $archivo]);
+        #}
 
     }
 

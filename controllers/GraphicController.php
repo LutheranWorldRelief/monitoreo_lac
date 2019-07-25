@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\components\UBool;
+use app\components\ULog;
 use app\components\UString;
 use app\models\Project;
 use Yii;
@@ -33,7 +34,7 @@ class GraphicController extends ControladorController
         $this->validacionPost();
         Yii::$app->response->format = Response::FORMAT_JSON;
         $idProject = Yii::$app->request->post('proyecto');
-        $proyecto = Project::findOne($idProject);
+        $proyecto = Project::find()->where(['id' => $idProject])->one();
         return ['proyecto' => $proyecto ? $proyecto->ToArrayString(['colores']) : null,];
     }
 
@@ -51,7 +52,7 @@ class GraphicController extends ControladorController
             ->from('event e')
             ->leftJoin('structure act', 'e.structure_id = act.id')
             ->leftJoin('project p', 'act.project_id = p.id')
-            ->leftJoin('sql_project_product pc', 'pc.project_id = p.id');
+            ->leftJoin(['pc' => $this->ProjectProductQuery()], 'pc.project_id = p.id');
 
         $this->AplicarFiltros($subquery);
         return $subquery->scalar();
@@ -203,7 +204,7 @@ class GraphicController extends ControladorController
             ->from('event e')
             ->leftJoin('structure act', 'e.structure_id = act.id')
             ->leftJoin('project p', 'act.project_id = p.id')
-            ->leftJoin('sql_project_product pc', 'pc.project_id = p.id');
+            ->leftJoin(['pc' => $this->ProjectProductQuery()], 'pc.project_id = p.id');
         $this->AplicarFiltros($subquery);
         return $subquery->one();
 
@@ -221,7 +222,7 @@ class GraphicController extends ControladorController
         $subquery = (new Query());
         $subquery->select([
             'e.structure_id as activity_id',
-            'if(p.id >0, concat(act.description, " / ", p.name),act.description) as name',
+            "case when p.id >0 then concat(act.description,  ' / ', p.name) else act.description end as name",
             'c.id',
             'c.sex'
         ])->from('attendance a')
@@ -230,23 +231,23 @@ class GraphicController extends ControladorController
             ->leftJoin('data_list pa', 'e.country_id= pa.id')
             ->leftJoin('structure act', 'e.structure_id = act.id')
             ->leftJoin('project p', 'act.project_id = p.id')
-            ->leftJoin('sql_project_product pc', 'pc.project_id = p.id');
+            ->leftJoin(['pc' => $this->ProjectProductQuery()], 'pc.project_id = p.id');
 
         $this->AplicarFiltros($subquery);
 
-        $subquery->groupBy(['act.id', 'c.id']);
+        $subquery->groupBy(['act.id', 'c.id', 'e.structure_id', 'p.id', 'act.description', 'p.name']);
 
         $query = (new Query());
         $query
             ->select([
                 'activity_id',
                 'name',
-                "COUNT(IF(sex = 'F', 1, NULL)) AS f",
-                "COUNT(IF(sex = 'M', 1, NULL)) AS m",
+                "COUNT(case when sex = 'F' then 1 else NULL end) AS f",
+                "COUNT(case when sex = 'M' then 1 else NULL end) AS m",
                 "count(sex) as total",
             ])
             ->from(['q' => $subquery])
-            ->groupBy(['activity_id'])
+            ->groupBy(['activity_id', 'name'])
             ->orderBy(['total' => SORT_DESC]);
         return $query->all();
     }
@@ -288,13 +289,13 @@ class GraphicController extends ControladorController
             $request = Yii::$app->request;
             $subquery = (new Query());
             $subquery->select([
-                "ifnull(t.value, 'N/E') as country, ifnull(t.id,0) as id, 'true' as active",
+                "COALESCE(t.value, 'N/E') as country, COALESCE(t.id,0) as id, 'true' as active",
             ])->from('event e')
                 ->leftJoin('data_list t', 'e.country_id = t.id')
                 ->leftJoin('structure act', 'e.structure_id = act.id')
                 ->leftJoin('project p', 'act.project_id = p.id')
                 ->where('t.value is not null')
-                ->groupBy(["ifnull(t.value, 'N/E')"]);
+                ->groupBy(["COALESCE(t.value, 'N/E')", 't.id']);
             $desde = $request->post('desde');
             $hasta = $request->post('hasta');
             if ($desde && $hasta)
@@ -346,10 +347,10 @@ class GraphicController extends ControladorController
             $request = Yii::$app->request;
             $subquery = (new Query());
             $subquery->select([
-                "ifnull(product, 'N/E') as rubro, ifnull(product,0) as id, 'true' as active",
+                "COALESCE(product, 'N/E') as rubro, COALESCE(product,'0') as id, 'true' as active",
             ])->from('project_contact')
                 ->where('product is not null')
-                ->groupBy(["ifnull(product, 'N/E')"]);
+                ->groupBy(["COALESCE(product, 'N/E')", 'product']);
             $proyecto = $request->post('proyecto');
             if ($proyecto)
                 $subquery->andFilterWhere(['project_id' => $proyecto]);
@@ -389,36 +390,46 @@ class GraphicController extends ControladorController
     {
         $subquery = (new Query());
         $subquery
-            ->select(["distinct o.id, IFNULL(o.name,'NE') as name, IFNULL(t.id,'ne') parent",])
+            ->select(["distinct o.id, COALESCE(o.name,'NE') as name, COALESCE(cast( t.id as varchar),'ne') parent",])
             ->from('event e')
             ->leftJoin('organization o', 'e.implementing_organization_id = o.id')
             ->leftJoin('data_list pa', 'e.country_id= pa.id')
             ->leftJoin('organization_type t', 'o.organization_type_id = t.id')
             ->leftJoin('structure act', 'e.structure_id = act.id')
             ->leftJoin('project p', 'act.project_id = p.id')
-            ->leftJoin('sql_project_product pc', 'pc.project_id = p.id');
+            ->leftJoin(['pc' => $this->ProjectProductQuery()], 'pc.project_id = p.id');
         $this->AplicarFiltros($subquery);
         $subquery->andWhere('o.organization_id is null');
         return $subquery->all();
+    }
+
+    private function ProjectProductQuery()
+    {
+        $subquery = (new Query());
+        $subquery->select(['project_id' => 'p.id', 'product' => 'pc.product'])
+            ->from(['p' => 'project'])
+            ->leftJoin(['pc' => 'project_contact'], 'pc.project_id = p.id')
+            ->groupBy(['p.id', 'pc.product']);
+        return $subquery;
     }
 
     private function OrganizacionesTipo()
     {
         $subquery = (new Query());
         $subquery
-            ->select(["distinct t.id as id, ifnull( t.name,'Sin Tipo') as name"])
+            ->select(["distinct t.id as id, COALESCE( t.name,'Sin Tipo') as name"])
             ->from('event e')
             ->leftJoin('organization o', 'e.implementing_organization_id = o.id')
             ->leftJoin('data_list pa', 'e.country_id= pa.id')
             ->leftJoin('organization_type t', 'o.organization_type_id = t.id')
             ->leftJoin('structure act', 'e.structure_id = act.id')
             ->leftJoin('project p', 'act.project_id = p.id')
-            ->leftJoin('sql_project_product pc', 'pc.project_id = p.id');
+            ->leftJoin(['pc' => $this->ProjectProductQuery()], 'pc.project_id = p.id');
         $this->AplicarFiltros($subquery);
         $subquery->andWhere('o.organization_id is null');
 
         $query = (new Query());
-        $query->select(["ifnull(id,'ne') as id, name "])->from(['q' => $subquery]);
+        $query->select(["COALESCE(cast( id as varchar),'ne') as id, name "])->from(['q' => $subquery]);
         return $query->all();
     }
 
@@ -484,24 +495,14 @@ class GraphicController extends ControladorController
             $serieMetaH['data'][] = (int)$p['goal_men'];
             $subquery = (new Query());
             $subquery
-                ->select(['c.sex'])
-                ->from('attendance a')
-                ->leftJoin('contact c', 'a.contact_id = c.id')
-                ->leftJoin('organization o', 'c.organization_id = o.id')
-                ->leftJoin('data_list t', 'c.type_id = t.id')
-                ->leftJoin('event e', 'a.event_id = e.id')
-                ->leftJoin('structure act', 'e.structure_id = act.id')
-                ->leftJoin('project p', 'act.project_id = p.id')
-                ->leftJoin('sql_project_product pc', 'pc.project_id = p.id')
-                ->groupBy('a.contact_id');
-
-            $this->AplicarFiltros($subquery);
+                ->select(['sex'])
+                ->from(['sq'=>$this->ConcactQuery()]);
 
             $queryTotal = (new Query());
             $queryTotal
                 ->select([
-                    "COUNT(IF(sex = 'F', 1, NULL)) AS f",
-                    "COUNT(IF(sex = 'M', 1, NULL)) AS m",
+                    "COUNT(case when sex = 'F' then 1 else NULL end) AS f",
+                    "COUNT(case when sex = 'M' then 1 else NULL end) AS m",
                     "count(sex) as total",
                 ])
                 ->from(['q' => $subquery]);
@@ -528,7 +529,7 @@ class GraphicController extends ControladorController
         $request = Yii::$app->request;
         $subquery = (new Query());
         $subquery->select([
-            "ifnull(pa.value,'') as country",
+            "COALESCE(ca.pais_en_espaniol,'N/E') as country",
             'ca.*',
             'e.id as eventos',
             "c.sex",
@@ -538,27 +539,27 @@ class GraphicController extends ControladorController
             ->leftJoin('data_list pa', 'e.country_id= pa.id')
             ->leftJoin('structure act', 'e.structure_id = act.id')
             ->leftJoin('project p', 'act.project_id = p.id')
-            ->leftJoin('sql_project_product pc', 'pc.project_id = p.id')
+            ->leftJoin(['pc' => $this->ProjectProductQuery()], 'pc.project_id = p.id')
             ->leftJoin('country_aux ca', 'pa.value = ca.alfa2');
 
         $this->AplicarFiltros($subquery);
 
-        $subquery->groupBy(["e.id", 'c.id']);
+        $subquery->groupBy(['c.id', 'e.id', 'ca.alfa2']);
         $query = (new Query());
         $query
             ->select([
                 'pais_en_ingles',
                 "count(sex) as total",
-                "COUNT(IF(sex = 'F', 1, NULL)) AS f",
-                "COUNT(IF(sex = 'M', 1, NULL)) AS m",
+                "COUNT(case when sex = 'F' then 1 else NULL end) AS f",
+                "COUNT(case when sex = 'M' then 1 else NULL end) AS m",
                 'pais_en_espaniol',
                 'coordenada_x',
                 'coordenada_y',
                 'country',
-                'count(distinct (eventos)) as eventos'
+                'count(distinct(eventos)) as eventos'
             ])
             ->from(['q' => $subquery])
-            ->groupBy(['country'])
+            ->groupBy(['country', 'pais_en_ingles', 'pais_en_espaniol', 'coordenada_x', 'coordenada_y'])
             ->orderBy(['country' => SORT_ASC]);
         $paises = $query->all();
         $paisesArray = [];
@@ -593,7 +594,7 @@ class GraphicController extends ControladorController
         $result = [];
         $subquery = (new Query());
         $subquery->select([
-            "ifnull(c.country,'') as country",
+            "COALESCE(ca.pais_en_espaniol,'N/E') as country",
             'ca.*',
             "c.sex",
         ])->from('attendance a')
@@ -602,26 +603,26 @@ class GraphicController extends ControladorController
             ->leftJoin('data_list pa', 'e.country_id= pa.id')
             ->leftJoin('structure act', 'e.structure_id = act.id')
             ->leftJoin('project p', 'act.project_id = p.id')
-            ->leftJoin('sql_project_product pc', 'pc.project_id = p.id')
+            ->leftJoin(['pc' => $this->ProjectProductQuery()], 'pc.project_id = p.id')
             ->leftJoin('country_aux ca', 'c.country = ca.alfa2');
 
         $this->AplicarFiltros($subquery);
 
-        $subquery->groupBy(["c.id"]);
+        $subquery->groupBy(["c.id", 'ca.alfa2']);
         $query = (new Query());
         $query
             ->select([
                 'pais_en_ingles',
                 "count(sex) as total",
-                "COUNT(IF(sex = 'F', 1, NULL)) AS f",
-                "COUNT(IF(sex = 'M', 1, NULL)) AS m",
+                "COUNT(case when sex = 'F' then 1 else NULL end) AS f",
+                "COUNT(case when sex = 'M' then 1 else NULL end) AS m",
                 'pais_en_espaniol',
                 'coordenada_x',
                 'coordenada_y',
                 'country',
             ])
             ->from(['q' => $subquery])
-            ->groupBy(['country'])
+            ->groupBy(['country', 'pais_en_espaniol', 'pais_en_ingles', 'coordenada_x', 'coordenada_y'])
             ->orderBy(['country' => SORT_ASC]);
         $paises = $query->all();
         $paisesArray = [];
@@ -643,6 +644,21 @@ class GraphicController extends ControladorController
         return $result;
     }
 
+    private function ConcactQuery()
+    {
+        $query = (new Query());
+        $query->select('c.id, min(e.start) as start, c.sex, c.birthdate, education_id')->from('attendance a')
+            ->leftJoin('contact c', 'a.contact_id = c.id')
+            ->leftJoin('event e', 'a.event_id = e.id')
+            ->leftJoin('data_list pa', 'e.country_id= pa.id')
+            ->leftJoin('structure act', 'e.structure_id = act.id')
+            ->leftJoin('project p', 'act.project_id = p.id')
+            ->leftJoin(['pc' => $this->ProjectProductQuery()], 'pc.project_id = p.id')
+            ->groupBy('c.id');
+        $this->AplicarFiltros($query);
+        return $query;
+    }
+
     public function actionGraficoAnioFiscal()
     {
         $this->validacionPost();
@@ -650,11 +666,14 @@ class GraphicController extends ControladorController
         return $this->ParticipantesFiscalData();
     }
 
+
     private function ParticipantesFiscalData()
     {
         $result = [];
         $request = Yii::$app->request;
         $mes = (int)$request->post('mes_fiscal', 10);
+
+
         $subquery = (new Query());
         /*
           Gráfico de año fiscal de modo que
@@ -663,35 +682,33 @@ class GraphicController extends ControladorController
             Si el mes de inicio es del segundo semestre se moverá al año siguiente,
                     siempre y cuando el mes de inicio sea mayor que el mes que se está validando
         */
+
         $subquery->select([
-            "IF($mes<=6," .
-            "	IF($mes<=month(e.start)," .
-            "		year(e.start)," .
-            "		year(e.start)-1" .
-            "	)," .
-            "	IF($mes > month(e.start)," .
-            "		year(e.start)," .
-            "		year(e.start)+1" .
-            "	)" .
-            "  ) as type",
-            "c.sex",
-        ])->from('attendance a')
-            ->leftJoin('contact c', 'a.contact_id = c.id')
-            ->leftJoin('event e', 'a.event_id = e.id')
-            ->leftJoin('data_list pa', 'e.country_id= pa.id')
-            ->leftJoin('structure act', 'e.structure_id = act.id')
-            ->leftJoin('project p', 'act.project_id = p.id')
-            ->leftJoin('sql_project_product pc', 'pc.project_id = p.id');
 
-        $this->AplicarFiltros($subquery);
+            'id',
+            "CASE WHEN $mes<=6 THEN" .
+            "	CASE WHEN $mes<= date_part( 'month', start) THEN" .
+            "		date_part( 'year',start) " .
+            "   ELSE" .
+            "		date_part( 'year',start)-1 " .
+            "   END " .
+            "ELSE" .
+            "	CASE WHEN $mes > date_part( 'month', start) THEN" .
+            "		date_part( 'year',start) " .
+            "   ELSE" .
+            "		date_part( 'year',start)+1 " .
+            "   END " .
+            "END  as type",
+            "sex",
+        ])->from(['sq' => $this->ConcactQuery()]);
 
-        $subquery->groupBy(["c.id"]);
+
         $query = (new Query());
         $query
             ->select([
                 'type',
-                "COUNT(IF(sex = 'F', 1, NULL)) AS f",
-                "COUNT(IF(sex = 'M', 1, NULL)) AS m",
+                "COUNT(case when sex = 'F' then 1 else NULL end) AS f",
+                "COUNT(case when sex = 'M' then 1 else NULL end) AS m",
                 "count(sex) as total",
             ])
             ->from(['q' => $subquery])
@@ -713,26 +730,18 @@ class GraphicController extends ControladorController
         $result = [];
         $subquery = (new Query());
         $subquery->select([
-            "IFNULL( f.name, 'N/E' ) as type",
-            "c.sex",
-        ])->from('attendance a')
-            ->leftJoin('contact c', 'a.contact_id = c.id')
-            ->leftJoin('filter f', 'f.slug = "age" and f.filter_id is not null and TIMESTAMPDIFF( YEAR, birthdate, CURDATE( ) ) between f.start and f.end')
-            ->leftJoin('event e', 'a.event_id = e.id')
-            ->leftJoin('data_list pa', 'e.country_id= pa.id')
-            ->leftJoin('structure act', 'e.structure_id = act.id')
-            ->leftJoin('project p', 'act.project_id = p.id')
-            ->leftJoin('sql_project_product pc', 'pc.project_id = p.id');
+            "COALESCE( f.name, 'N/E' ) as type",
+            "sex",
+        ])->from(['sq' => $this->ConcactQuery()])
+            ->leftJoin('filter f', "f.slug = 'age' and f.filter_id is not null and date_part('YEAR', age(birthdate)) BETWEEN cast( f.start as INTEGER) and CAST( f.end as INTEGER)");
 
-        $this->AplicarFiltros($subquery);
 
-        $subquery->groupBy(["a.contact_id"]);
         $query = (new Query());
         $query
             ->select([
                 'type',
-                "COUNT(IF(sex = 'F', 1, NULL)) AS f",
-                "COUNT(IF(sex = 'M', 1, NULL)) AS m",
+                "COUNT(case when sex = 'F' then 1 else NULL end) AS f",
+                "COUNT(case when sex = 'M' then 1 else NULL end) AS m",
                 "count(sex) as total",
             ])
             ->from(['q' => $subquery])
@@ -755,26 +764,18 @@ class GraphicController extends ControladorController
 
         $subquery = (new Query());
         $subquery->select([
-            "IFNULL( edu.name, 'N/E' ) as type",
-            "c.sex",
-        ])->from('attendance a')
-            ->leftJoin('contact c', 'a.contact_id = c.id')
-            ->leftJoin('event e', 'a.event_id = e.id')
-            ->leftJoin('data_list edu', 'c.education_id = edu.id')
-            ->leftJoin('data_list pa', 'e.country_id= pa.id')
-            ->leftJoin('structure act', 'e.structure_id = act.id')
-            ->leftJoin('project p', 'act.project_id = p.id')
-            ->leftJoin('sql_project_product pc', 'pc.project_id = p.id');
+            "COALESCE( edu.name, 'N/E' ) as type",
+            "sex",
+        ])->from(['sq' => $this->ConcactQuery()])
+            ->leftJoin('data_list edu', 'sq.education_id = edu.id');
 
-        $this->AplicarFiltros($subquery);
 
-        $subquery->groupBy(["a.contact_id"]);
         $query = (new Query());
         $query
             ->select([
                 'type',
-                "COUNT(IF(sex = 'F', 1, NULL)) AS f",
-                "COUNT(IF(sex = 'M', 1, NULL)) AS m",
+                "COUNT(case when sex = 'F' then 1 else NULL end) AS f",
+                "COUNT(case when sex = 'M' then 1 else NULL end) AS m",
                 "count(sex) as total",
             ])
             ->from(['q' => $subquery])
@@ -807,11 +808,11 @@ class GraphicController extends ControladorController
             ->leftJoin('data_list pa', 'e.country_id= pa.id')
             ->leftJoin('structure act', 'e.structure_id = act.id')
             ->leftJoin('project p', 'act.project_id = p.id')
-            ->leftJoin('sql_project_product pc', 'pc.project_id = p.id');
+            ->leftJoin(['pc' => $this->ProjectProductQuery()], 'pc.project_id = p.id');
 
         $this->AplicarFiltros($subquery);
 
-        $subquery->groupBy(['e.id', 'c.id']);
+        $subquery->groupBy(['e.id', 'c.id', 'act.description']);
 
         $query = (new Query());
         $query->select([
@@ -819,12 +820,12 @@ class GraphicController extends ControladorController
             'name',
             'activity_id',
             'activity',
-            "COUNT(IF(sex = 'F', 1, NULL)) AS f",
-            "COUNT(IF(sex = 'M', 1, NULL)) AS m",
+            "COUNT(case when sex = 'F' then 1 else NULL end) AS f",
+            "COUNT(case when sex = 'M' then 1 else NULL end) AS m",
             "count(sex) as total",
         ])
             ->from(['q' => $subquery])
-            ->groupBy(['id'])
+            ->groupBy(['id', 'name', 'activity_id', 'activity',])
             ->orderBy(['total' => SORT_DESC]);
 
         $data = $query->all();
@@ -849,8 +850,8 @@ class GraphicController extends ControladorController
         $query
             ->select([
                 'type',
-                "COUNT(IF(sex = 'F', 1, NULL)) AS f",
-                "COUNT(IF(sex = 'M', 1, NULL)) AS m",
+                "COUNT(case when sex = 'F' then 1 else NULL end) AS f",
+                "COUNT(case when sex = 'M' then 1 else NULL end) AS m",
                 "count(sex) as total",
             ])
             ->from(['q' => $subquery])
@@ -864,9 +865,8 @@ class GraphicController extends ControladorController
         $subquery = (new Query());
         $subquery->select([
             'c.type_id',
-            'IFNULL(t.name,"NE") as type',
+            "COALESCE(t.name,'NE') as type",
             'c.sex',
-            'e.start'
         ])->from('attendance a')
             ->leftJoin('contact c', 'a.contact_id = c.id')
             ->leftJoin('data_list t', 'c.type_id = t.id')
@@ -874,10 +874,10 @@ class GraphicController extends ControladorController
             ->leftJoin('data_list pa', 'e.country_id= pa.id')
             ->leftJoin('structure act', 'e.structure_id = act.id')
             ->leftJoin('project p', 'act.project_id = p.id')
-            ->leftJoin('sql_project_product pc', 'pc.project_id = p.id');
+            ->leftJoin(['pc' => $this->ProjectProductQuery()], 'pc.project_id = p.id');
 
         $this->AplicarFiltros($subquery);
-        $subquery->groupBy(['c.type_id', 'c.id']);
+        $subquery->groupBy(['c.type_id', 'c.id', 't.name']);
         return $subquery;
     }
 
@@ -894,8 +894,8 @@ class GraphicController extends ControladorController
         $queryTotal = (new Query());
         $queryTotal
             ->select([
-                "COUNT(IF(sex = 'F', 1, NULL)) AS f",
-                "COUNT(IF(sex = 'M', 1, NULL)) AS m",
+                "COUNT(case when sex = 'F' then 1 else NULL end) AS f",
+                "COUNT(case when sex = 'M' then 1 else NULL end) AS m",
                 "count(sex) as total",
             ])
             ->from(['q' => $subquery]);
