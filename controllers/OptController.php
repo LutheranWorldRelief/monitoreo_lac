@@ -223,12 +223,11 @@ class OptController extends Controller
         //ULog::l($query->createCommand()->query());
 
         $query->select([
-            'sql_contact.id as id',
             'TRIM(sql_contact.name) as name',
             'count(DISTINCT sql_contact.id) as cuenta',
         ])
             ->andWhere("TRIM(sql_contact.name) <> ''")
-            ->groupBy(['sql_contact.name', 'sql_contact.id'])
+            ->groupBy(['sql_contact.name'])
             ->having('count(DISTINCT sql_contact.id) > 1');
 
         return $query->all();
@@ -261,13 +260,12 @@ class OptController extends Controller
 
         $query
             ->select([
-                'sql_contact.id as id',
                 "STRING_AGG(DISTINCT  sql_contact.name, '<br>') as name",
                 "TRIM( REPLACE( REPLACE(sql_contact.document, '-', '' ), ' ', '' ) ) as document",
                 'count(DISTINCT sql_contact.id) as cuenta',
             ])
             ->andWhere("TRIM(COALESCE(sql_contact.document, '')) <> ''")
-            ->groupBy(['sql_contact.document', "sql_contact.id"])
+            ->groupBy(['sql_contact.document'])
             ->having('count(DISTINCT sql_contact.id) > 1');
 
         return $query->all();
