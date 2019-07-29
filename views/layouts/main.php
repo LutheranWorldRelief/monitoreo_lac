@@ -9,7 +9,7 @@ use yii\web\View;
 /* @var $this View */
 /* @var $content string */
 
-JSLoggingAsset::register($this);
+#JSLoggingAsset::register($this);
 
 if (Yii::$app->controller->action->id === 'login') {
     /**

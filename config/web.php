@@ -25,21 +25,6 @@ $config = [
             // 'downloadAction' => 'gridview/export/download',
             // 'i18n' => []
         ],
-        'audit' => [
-            'class' => 'bedezign\yii2\audit\Audit',
-            // the layout that should be applied for views within this module
-            'layout' => '@app/views/layouts/audit',
-            // Name of the component to use for database access
-            'ignoreActions' => ['audit/*', 'debug/*', 'gii/*', 'import/*'],
-            // Role or list of roles with access to the viewer, null for everyone (if the user matches)
-            'accessRoles' => ['Administrador', 'Administrador(a)'],
-            // Maximum age (in days) of the audit entries before they are truncated
-            'maxAge' => 10, // 30 days
-            // Compress extra data generated or just keep in text? For people who don't like binary data in the DB
-            'compressData' => true,
-            // The callback to use to convert a user id into an identifier (username, email, ...). Can also be html.
-            'userIdentifierCallback' => ['app\models\AuthUser', 'userIdentifierCallback'],
-        ],
         'seguridad' => [
             'class' => 'app\modules\seguridad\Module',
             'controllerMap' => [
