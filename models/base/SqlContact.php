@@ -15,7 +15,7 @@ use app\components\ActiveRecord;
  * @property string $sex
  * @property int    $org_id
  * @property string $org_name
- * @property string $country
+ * @property string $country_id
  * @property string $community
  * @property int    $type_id
  * @property string $type_name
@@ -42,7 +42,7 @@ abstract class SqlContact extends ActiveRecord
             [['name'], 'string', 'max' => 510],
             [['document', 'community'], 'string', 'max' => 40],
             [['sex'], 'string', 'max' => 1],
-            [['country'], 'string', 'max' => 2],
+            [['country_id'], 'string', 'max' => 2],
             [['phone_personal'], 'string', 'max' => 20],
         ];
     }
@@ -59,7 +59,7 @@ abstract class SqlContact extends ActiveRecord
             'sex' => 'Sex',
             'org_id' => 'Org ID',
             'org_name' => 'Org Name',
-            'country' => 'Country',
+            'country_id' => 'Country',
             'community' => 'Community',
             'type_id' => 'Type ID',
             'type_name' => 'Type Name',

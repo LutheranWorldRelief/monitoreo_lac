@@ -110,8 +110,8 @@ class DataListController extends Controller
             ])
             ->orWhere([
                 'and',
-                ['!=', 'country', ''],
-                ['country' => $model->value],
+                ['!=', 'country_id', ''],
+                ['country_id' => $model->value],
             ])
             ->orderBy('name')
             ->all();
@@ -186,8 +186,8 @@ class DataListController extends Controller
             ])
             ->orWhere([
                 'and',
-                ['!=', 'country', ''],
-                ['country' => $model->value],
+                ['!=', 'country_id', ''],
+                ['country_id' => $model->value],
             ])
             ->count();
         if ($contactsCount > 0)

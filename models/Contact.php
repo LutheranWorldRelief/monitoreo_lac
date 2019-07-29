@@ -74,7 +74,7 @@ class Contact extends base\Contact
                 'educationName' => 'Education',
                 'monitor_id' => 'Monitor',
                 'monitorName' => 'Monitor',
-                'country' => 'Country',
+                'country_id' => 'Country',
                 'countryName' => 'Country',
                 'type_id' => 'Type',
                 'typeName' => 'Type',
@@ -95,8 +95,8 @@ class Contact extends base\Contact
     public function getCountryName()
     {
         $countries = UCatalogo::listCountries();
-        if ($this->country && isset($countries[$this->country]))
-            return $countries[$this->country];
+        if ($this->country_id && isset($countries[$this->country_id]))
+            return $countries[$this->country_id];
         return "";
     }
 

@@ -21,7 +21,7 @@ use yii\db\ActiveQuery;
  * @property string                       $community
  * @property string                       $municipality
  * @property string                       $city
- * @property string                       $country
+ * @property string                       $country_id
  * @property int                          $education_id
  * @property string                       $phone_personal
  * @property string                       $phone_work
@@ -62,7 +62,7 @@ abstract class Contact extends ActiveRecord
             [['document', 'community', 'municipality', 'city'], 'string', 'max' => 40],
             [['title'], 'string', 'max' => 100],
             [['sex'], 'string', 'max' => 1],
-            [['country'], 'string', 'max' => 2],
+            [['country_id'], 'string', 'max' => 2],
             [['phone_personal', 'phone_work'], 'string', 'max' => 20],
             [['education_id'], 'exist', 'skipOnError' => true, 'targetClass' => DataList::className(), 'targetAttribute' => ['education_id' => 'id']],
             [['organization_id'], 'exist', 'skipOnError' => true, 'targetClass' => Organization::className(), 'targetAttribute' => ['organization_id' => 'id']],
@@ -87,7 +87,7 @@ abstract class Contact extends ActiveRecord
             'community' => 'Community',
             'municipality' => 'Municipality',
             'city' => 'City',
-            'country' => 'Country',
+            'country_id' => 'Country',
             'education_id' => 'Education ID',
             'phone_personal' => 'Phone Personal',
             'phone_work' => 'Phone Work',

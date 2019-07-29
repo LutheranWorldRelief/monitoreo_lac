@@ -91,7 +91,7 @@ class ContactController extends Controller
                 $attribute = $request->post('editableAttribute');
                 if ($attribute == 'type_id')
                     $value = $model->getAttendeeTypeName();
-                if ($attribute == 'country')
+                if ($attribute == 'country_id')
                     $value = $model->getCountryName();
                 //                \app\components\ULog::Log($model);
                 $model->save();

@@ -19,7 +19,7 @@ class Contact extends ContactModel
     {
         return [
             [['id', 'organization_id', 'education_id', 'men_home', 'women_home', 'type_id'], 'integer'],
-            [['name', 'last_name', 'first_name', 'document', 'title', 'sex', 'community', 'municipality', 'city', 'country', 'phone_personal', 'phone_work', 'created', 'modified'], 'safe'],
+            [['name', 'last_name', 'first_name', 'document', 'title', 'sex', 'community', 'municipality', 'city', 'country_id', 'phone_personal', 'phone_work', 'created', 'modified'], 'safe'],
         ];
     }
 
@@ -87,7 +87,7 @@ class Contact extends ContactModel
             ->andFilterWhere(['like', 'community', $this->community])
             ->andFilterWhere(['like', 'municipality', $this->municipality])
             ->andFilterWhere(['like', 'city', $this->city])
-            ->andFilterWhere(['like', 'country', $this->country])
+            ->andFilterWhere(['like', 'country_id', $this->country_id])
             ->andFilterWhere(['like', 'phone_personal', $this->phone_personal])
             ->andFilterWhere(['like', 'phone_work', $this->phone_work]);
 

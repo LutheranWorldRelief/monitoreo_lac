@@ -31,7 +31,7 @@ $gridColumns = [
     ],
     [
         'class' => 'kartik\grid\EditableColumn',
-        'attribute' => 'country',
+        'attribute' => 'country_id',
         'value' => function ($model) { return $model->countryName; },
         'filter' => [null => 'Todos'] + UCatalogo::listCountries(),
         'filterType' => GridView::FILTER_SELECT2,
