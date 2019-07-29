@@ -42,7 +42,7 @@ class DataListController extends Controller
         $searchModel = new DataListSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        $dataProvider->query->andWhere('COALESCE(list_id, 0) = 0');
+        $dataProvider->query->andWhere('COALESCE(data_list_id, 0) = 0');
 
         return $this->render('index', [
             'searchModel' => $searchModel,

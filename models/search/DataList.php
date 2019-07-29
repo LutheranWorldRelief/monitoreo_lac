@@ -17,7 +17,7 @@ class DataList extends DataListModel
     public function rules()
     {
         return [
-            [['id', 'list_id'], 'integer'],
+            [['id', 'data_list_id'], 'integer'],
             [['name', 'tag', 'value', 'notes', 'slug'], 'safe'],
         ];
     }
@@ -59,7 +59,7 @@ class DataList extends DataListModel
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'list_id' => $this->list_id,
+            'data_list_id' => $this->data_list_id,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])

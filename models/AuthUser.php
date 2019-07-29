@@ -255,7 +255,7 @@ class AuthUser extends BaseUser implements IdentityInterface
             $parent = DataList::findOne(['slug' => 'countries']);
             if ($parent)
                 return DataList::find()
-                    ->where(['list_id' => $parent->id])
+                    ->where(['data_list_id' => $parent->id])
                     ->orderBy('name')
                     ->all();
         } else {

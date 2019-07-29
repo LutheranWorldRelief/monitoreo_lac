@@ -14,7 +14,7 @@ use yii\db\ActiveQuery;
  * @property string                     $name
  * @property string                     $tag
  * @property string                     $value
- * @property int                        $list_id
+ * @property int                        $data_list_id
  * @property string                     $notes
  * @property string                     $slug
  * @property int                        $order
@@ -43,10 +43,10 @@ abstract class DataList extends ActiveRecord
     {
         return [
             [['name', 'notes'], 'string'],
-            [['list_id', 'order'], 'integer'],
+            [['data_list_id', 'order'], 'integer'],
             [['tag', 'slug'], 'string', 'max' => 255],
             [['value'], 'string', 'max' => 45],
-            [['list_id'], 'exist', 'skipOnError' => true, 'targetClass' => DataList::className(), 'targetAttribute' => ['list_id' => 'id']],
+            [['data_list_id'], 'exist', 'skipOnError' => true, 'targetClass' => DataList::className(), 'targetAttribute' => ['data_list_id' => 'id']],
         ];
     }
 
@@ -60,7 +60,7 @@ abstract class DataList extends ActiveRecord
             'name' => 'Name',
             'tag' => 'Tag',
             'value' => 'Value',
-            'list_id' => 'List ID',
+            'data_list_id' => 'List ID',
             'notes' => 'Notes',
             'slug' => 'Slug',
             'order' => 'Order',
@@ -88,7 +88,7 @@ abstract class DataList extends ActiveRecord
      */
     public function getList()
     {
-        return $this->hasOne(\app\models\DataList::className(), ['id' => 'list_id']);
+        return $this->hasOne(\app\models\DataList::className(), ['id' => 'data_list_id']);
     }
 
     /**
@@ -96,7 +96,7 @@ abstract class DataList extends ActiveRecord
      */
     public function getDataLists()
     {
-        return $this->hasMany(\app\models\DataList::className(), ['list_id' => 'id']);
+        return $this->hasMany(\app\models\DataList::className(), ['data_list_id' => 'id']);
     }
 
     /**
