@@ -289,13 +289,13 @@ class GraphicController extends ControladorController
             $request = Yii::$app->request;
             $subquery = (new Query());
             $subquery->select([
-                "COALESCE(t.value, 'N/E') as country, COALESCE(t.id,0) as id, 'true' as active",
+                "COALESCE(t.id, '') as country, COALESCE(t.id,'') as id, 'true' as active",
             ])->from('event e')
                 ->leftJoin('country t', 'e.country_id = t.id')
                 ->leftJoin('structure act', 'e.structure_id = act.id')
                 ->leftJoin('project p', 'act.project_id = p.id')
-                ->where('t.value is not null')
-                ->groupBy(["COALESCE(t.value, 'N/E')", 't.id']);
+                ->where('t.id is not null')
+                ->groupBy(["COALESCE(t.id, '')", 't.id']);
             $desde = $request->post('desde');
             $hasta = $request->post('hasta');
             if ($desde && $hasta)
@@ -536,11 +536,11 @@ class GraphicController extends ControladorController
         ])->from('attendance a')
             ->leftJoin('contact c', 'a.contact_id = c.id')
             ->leftJoin('event e', 'a.event_id = e.id')
-            ->leftJoin('counrty pa', 'e.country_id= pa.id')
+            ->leftJoin('country pa', 'e.country_id= pa.id')
             ->leftJoin('structure act', 'e.structure_id = act.id')
             ->leftJoin('project p', 'act.project_id = p.id')
             ->leftJoin(['pc' => $this->ProjectProductQuery()], 'pc.project_id = p.id')
-            ->leftJoin('country ca', 'pa.value = ca.id');
+            ->leftJoin('country ca', 'pa.id = ca.id');
 
         $this->AplicarFiltros($subquery);
 
