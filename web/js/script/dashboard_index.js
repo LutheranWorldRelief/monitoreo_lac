@@ -641,6 +641,7 @@
             var data = [];
             //País en ingles, total, mujeres, hombres, coordenada x, cooredenada y, pais en español, alfa2
             Highcharts.each(paises, function (row) {
+                console.log(row);
                 data.push(row);
             });
 
@@ -684,8 +685,8 @@
                     showInLegend: false,
                     joinBy: ['name', 'id'],
                     keys: [
-                        'id', 'total', 'mujeres', 'hombres',
-                        'lat', 'lon', 'pais', 'alfa2', 'eventos'
+                        'name', 'total', 'mujeres', 'hombres',
+                        'lat', 'lon', 'pais', 'id', 'eventos'
                     ],
                     tooltip: {
                         headerFormat: '',

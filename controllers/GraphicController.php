@@ -275,7 +275,7 @@ class GraphicController extends ControladorController
             }
             if (!$estado)
                 foreach ($paises as $p)
-                    if (isset($data[$p]['country']))
+                    if (isset($data[$p]['country_id']))
                         $data[(int)$p]['active'] = (bool)true;
             return array_values($data);
         }
@@ -529,7 +529,7 @@ class GraphicController extends ControladorController
         $request = Yii::$app->request;
         $subquery = (new Query());
         $subquery->select([
-            "COALESCE(ca.pais_en_espaniol,'N/E') as country",
+            "COALESCE(ca.name_es,'N/E') as country",
             'ca.*',
             'e.id as eventos',
             "c.sex",
@@ -540,40 +540,40 @@ class GraphicController extends ControladorController
             ->leftJoin('structure act', 'e.structure_id = act.id')
             ->leftJoin('project p', 'act.project_id = p.id')
             ->leftJoin(['pc' => $this->ProjectProductQuery()], 'pc.project_id = p.id')
-            ->leftJoin('country_aux ca', 'pa.value = ca.alfa2');
+            ->leftJoin('country ca', 'pa.value = ca.id');
 
         $this->AplicarFiltros($subquery);
 
-        $subquery->groupBy(['c.id', 'e.id', 'ca.alfa2']);
+        $subquery->groupBy(['c.id', 'e.id', 'ca.id']);
         $query = (new Query());
         $query
             ->select([
-                'pais_en_ingles',
-                "count(sex) as total",
+                'name',
+                "COUNT(sex) as total",
                 "COUNT(case when sex = 'F' then 1 else NULL end) AS f",
                 "COUNT(case when sex = 'M' then 1 else NULL end) AS m",
-                'pais_en_espaniol',
-                'coordenada_x',
-                'coordenada_y',
-                'country',
+                'name_es',
+                'x',
+                'y',
+                'id',
                 'count(distinct(eventos)) as eventos'
             ])
             ->from(['q' => $subquery])
-            ->groupBy(['country', 'pais_en_ingles', 'pais_en_espaniol', 'coordenada_x', 'coordenada_y'])
-            ->orderBy(['country' => SORT_ASC]);
+            ->groupBy(['name', 'name_es', 'x', 'y', 'id'])
+            ->orderBy(['name' => SORT_ASC]);
         $paises = $query->all();
         $paisesArray = [];
         foreach ($paises as $p)
-            if (!empty($p['country']))
+            if (!empty($p['id']))
                 $paisesArray[] = [
-                    $p['pais_en_ingles'],
+                    $p['name'],
                     (int)$p['total'],
                     (int)$p['f'],
                     (int)$p['m'],
-                    (double)$p['coordenada_x'],
-                    (double)$p['coordenada_y'],
-                    $p['pais_en_espaniol'],
-                    UString::lowerCase($p['country']),
+                    (double)$p['x'],
+                    (double)$p['y'],
+                    $p['name_es'],
+                    UString::lowerCase($p['id']),
                     (int)$p['eventos']
                 ];
 
@@ -594,7 +594,7 @@ class GraphicController extends ControladorController
         $result = [];
         $subquery = (new Query());
         $subquery->select([
-            "COALESCE(ca.pais_en_espaniol,'N/E') as country",
+            "COALESCE(ca.name_es,'N/E') as country",
             'ca.*',
             "c.sex",
         ])->from('attendance a')
@@ -604,38 +604,38 @@ class GraphicController extends ControladorController
             ->leftJoin('structure act', 'e.structure_id = act.id')
             ->leftJoin('project p', 'act.project_id = p.id')
             ->leftJoin(['pc' => $this->ProjectProductQuery()], 'pc.project_id = p.id')
-            ->leftJoin('country_aux ca', 'c.country = ca.alfa2');
+            ->leftJoin('country ca', 'c.country_id = ca.id');
 
         $this->AplicarFiltros($subquery);
 
-        $subquery->groupBy(["c.id", 'ca.alfa2']);
+        $subquery->groupBy(["c.id", 'ca.id']);
         $query = (new Query());
         $query
             ->select([
-                'pais_en_ingles',
+                'name',
                 "count(sex) as total",
                 "COUNT(case when sex = 'F' then 1 else NULL end) AS f",
                 "COUNT(case when sex = 'M' then 1 else NULL end) AS m",
-                'pais_en_espaniol',
-                'coordenada_x',
-                'coordenada_y',
+                'name_es',
+                'x',
+                'y',
                 'country',
             ])
             ->from(['q' => $subquery])
-            ->groupBy(['country', 'pais_en_espaniol', 'pais_en_ingles', 'coordenada_x', 'coordenada_y'])
+            ->groupBy(['country', 'name_es', 'name', 'x', 'y'])
             ->orderBy(['country' => SORT_ASC]);
         $paises = $query->all();
         $paisesArray = [];
         foreach ($paises as $p)
             if (!empty($p['country']))
                 $paisesArray[] = [
-                    $p['pais_en_ingles'],
+                    $p['name'],
                     (int)$p['total'],
                     (int)$p['f'],
                     (int)$p['m'],
-                    (double)$p['coordenada_x'],
-                    (double)$p['coordenada_y'],
-                    $p['pais_en_espaniol'],
+                    (double)$p['x'],
+                    (double)$p['y'],
+                    $p['name_es'],
                     UString::lowerCase($p['country'])
                 ];
 
