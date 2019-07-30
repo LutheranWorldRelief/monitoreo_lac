@@ -61,7 +61,7 @@ $form = ActiveForm::begin();
                 <div class="col-lg-2"><?= $form->field($model, 'city')->textInput(['maxlength' => true]) ?></div>
 
                 <div class="col-lg-2">
-                    <?= $form->field($model, 'country')->widget(Select2::classname(), [
+                    <?= $form->field($model, 'country_id')->widget(Select2::classname(), [
                         'data' => UCatalogo::listCountries(),
                         'language' => 'es',
                         'options' => ['placeholder' => '...'],
