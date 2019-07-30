@@ -11,7 +11,7 @@ $this->title .= ' / Contacto / Event - Contact';
 $gridColumns = [
     'contact_id',
     'name',
-    'country',
+    'country_id',
     'org_name',
     'type_name',
     'event',
@@ -38,7 +38,6 @@ $gridColumns = [
                 '{toggleData}',
             ],
         ]);
-        ?>
         ?>
     </div>
 </div>

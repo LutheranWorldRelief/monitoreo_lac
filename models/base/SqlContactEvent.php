@@ -11,7 +11,7 @@ use app\components\ActiveRecord;
  *
  * @property int    $contact_id
  * @property string $name
- * @property string $country
+ * @property string $country_id
  * @property string $org_name
  * @property string $type_name
  * @property string $event
@@ -42,7 +42,7 @@ abstract class SqlContactEvent extends ActiveRecord
             [['event'], 'required'],
             [['start', 'end'], 'safe'],
             [['name'], 'string', 'max' => 510],
-            [['country'], 'string', 'max' => 2],
+            [['country_id'], 'string', 'max' => 2],
             [['event'], 'string', 'max' => 455],
             [['organizer', 'place'], 'string', 'max' => 200],
         ];
@@ -56,7 +56,7 @@ abstract class SqlContactEvent extends ActiveRecord
         return [
             'contact_id' => 'Contact ID',
             'name' => 'Name',
-            'country' => 'Country',
+            'country_id' => 'Country',
             'org_name' => 'Org Name',
             'type_name' => 'Type Name',
             'event' => 'Event',

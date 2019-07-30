@@ -18,7 +18,7 @@ class SqlContactEvent extends SqlContactEventModel
     {
         return [
             [['contact_id', 'event_id'], 'integer'],
-            [['name', 'country', 'org_name', 'type_name', 'event', 'organizer', 'start', 'end', 'place'], 'safe'],
+            [['name', 'country_id', 'org_name', 'type_name', 'event', 'organizer', 'start', 'end', 'place'], 'safe'],
         ];
     }
 
@@ -65,7 +65,7 @@ class SqlContactEvent extends SqlContactEventModel
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'country', $this->country])
+            ->andFilterWhere(['like', 'country_id', $this->country_id])
             ->andFilterWhere(['like', 'org_name', $this->org_name])
             ->andFilterWhere(['like', 'type_name', $this->type_name])
             ->andFilterWhere(['like', 'event', $this->event])
