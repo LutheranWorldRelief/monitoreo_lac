@@ -21,7 +21,7 @@ use yii\db\ActiveQuery;
  * @property string                   $end
  * @property string                   $place
  * @property string                   $notes
- * @property int                      $country_id
+ * @property string                   $country_id
  *
  * @property \app\models\Attendance[] $attendances
  * @property \app\models\DataList     $country

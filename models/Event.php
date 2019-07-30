@@ -100,8 +100,8 @@ class Event extends base\Event
 
     public function getCountryName()
     {
-        if ($this->country)
-            return $this->country->name;
+        if ($this->country_id)
+            return $this->country_id;
         return '';
     }
 

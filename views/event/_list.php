@@ -48,7 +48,7 @@ use yii\grid\GridView;
                     ],
                     [
                         'header' => 'Country',
-                        'attribute' => 'country'
+                        'attribute' => 'country_id'
                     ],
                     [
                         'header' => 'Community',

@@ -15,7 +15,7 @@ use yii\db\ActiveQuery;
  * @property int                 $contact_id
  * @property string              $document
  * @property string              $sex
- * @property string              $country
+ * @property string              $country_id
  * @property string              $community
  * @property int                 $org_id
  * @property string              $phone_personal
@@ -41,7 +41,7 @@ abstract class Attendance extends ActiveRecord
     {
         return [
             [['event_id', 'contact_id', 'org_id', 'type_id'], 'integer'],
-            [['document', 'country', 'phone_personal'], 'string', 'max' => 45],
+            [['document', 'country_id', 'phone_personal'], 'string', 'max' => 45],
             [['sex'], 'string', 'max' => 1],
             [['community'], 'string', 'max' => 255],
             [['contact_id'], 'exist', 'skipOnError' => true, 'targetClass' => Contact::className(), 'targetAttribute' => ['contact_id' => 'id']],
@@ -60,7 +60,7 @@ abstract class Attendance extends ActiveRecord
             'contact_id' => 'Contact ID',
             'document' => 'Document',
             'sex' => 'Sex',
-            'country' => 'Country',
+            'country_id' => 'Country',
             'community' => 'Community',
             'org_id' => 'Org ID',
             'phone_personal' => 'Phone Personal',
