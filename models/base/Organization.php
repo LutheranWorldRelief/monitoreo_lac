@@ -44,10 +44,10 @@ abstract class Organization extends ActiveRecord
         return [
             [['name'], 'required'],
             [['name'], 'string'],
-            [['organization_type_id', 'organization_id', 'country_id', 'is_implementer'], 'integer'],
-            [['country'], 'string', 'max' => 2],
+            [['organization_type_id', 'organization_id', 'country_number', 'is_implementer'], 'integer'],
+            [['country_id'], 'string', 'max' => 2],
             [['description'], 'string', 'max' => 255],
-            [['country_id'], 'exist', 'skipOnError' => true, 'targetClass' => DataList::className(), 'targetAttribute' => ['country_id' => 'id']],
+            [['country_id'], 'exist', 'skipOnError' => true, 'targetClass' => DataList::className(), 'targetAttribute' => ['country_id' => 'value']],
             [['organization_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => OrganizationType::className(), 'targetAttribute' => ['organization_type_id' => 'id']],
             [['organization_id'], 'exist', 'skipOnError' => true, 'targetClass' => Organization::className(), 'targetAttribute' => ['organization_id' => 'id']],
         ];
@@ -61,7 +61,7 @@ abstract class Organization extends ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Name',
-            'country' => 'Country',
+            'country_number' => 'Country Number',
             'organization_type_id' => 'Organization Type ID',
             'organization_id' => 'Organization ID',
             'description' => 'Description',
