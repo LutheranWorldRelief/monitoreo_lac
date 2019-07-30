@@ -25,6 +25,16 @@ $config = [
             // 'downloadAction' => 'gridview/export/download',
             // 'i18n' => []
         ],
+        'audit' => [
+            'class' => 'bedezign\yii2\audit\Audit',
+            'layout' => '@app/views/layouts/audit',
+            'trackActions' => [],
+            'ignoreActions' => ['audit/*', 'debug/*', 'gii/*','estaciones/davis/leer-datos'],
+            'accessRoles' => ['Administrador', 'Administrador(a)'],
+            'maxAge' => 1,
+            'compressData' => true,
+            'userIdentifierCallback' => ['app\models\AuthUser', 'userIdentifierCallback'],
+        ],
         'seguridad' => [
             'class' => 'app\modules\seguridad\Module',
             'controllerMap' => [
