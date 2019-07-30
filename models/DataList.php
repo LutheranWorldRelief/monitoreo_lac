@@ -17,7 +17,7 @@ use yii\helpers\ArrayHelper;
 class DataList extends base\DataList
 {
 
-    public static function itemsBySlug($slug, $label = 'name', $id = 'id', $order = "order DESC")
+    public static function itemsBySlug($slug, $label = 'name', $id = 'value', $order = "order DESC")
     {
         $model = DataList::find()->where(['slug' => $slug])->one();
         if (!$model)
