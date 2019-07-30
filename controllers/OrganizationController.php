@@ -70,7 +70,7 @@ class OrganizationController extends Controller
                 if ($attribute == 'description')
                     $value = $model->description;
                 if ($attribute == 'country_id')
-                    $value = $model->CountryNameText;
+                    $value = $model->CountryName;
                 if ($attribute == 'is_implementer')
                     $value = $model->Implementer;
                 $model->save();

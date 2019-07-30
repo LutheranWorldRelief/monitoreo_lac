@@ -32,7 +32,7 @@ $gridColumns = [
         'class' => 'kartik\grid\EditableColumn',
         'attribute' => 'country_id',
         'label' => 'Country',
-        'content' => function ($model) { return $model->CountryNameText; },
+        'content' => function ($model) { return $model->CountryName; },
         'filter' => [null => 'Todos'] + DataList::itemsBySlug('countries'),
         'filterType' => GridView::FILTER_SELECT2,
         'filterWidgetOptions' => ['size' => Select2::MEDIUM,],

@@ -25,7 +25,7 @@ $this->title = 'Organization / ' . $model->name . ' - ' . $model->padre;
     <?= $this->render('_view', ['model' => $model, 'attrib' => 'id', 'class' => 'col-lg-1']) ?>
     <?= $this->render('_view', ['model' => $model, 'attrib' => 'name', 'class' => 'col-lg-3']) ?>
     <?= $this->render('_view', ['model' => $model, 'attrib' => 'description', 'class' => 'col-lg-3']) ?>
-    <?= $this->render('_view', ['model' => $model, 'attrib' => 'countryNameText', 'class' => 'col-lg-3']) ?>
+    <?= $this->render('_view', ['model' => $model, 'attrib' => 'countryName', 'class' => 'col-lg-3']) ?>
     <?= $this->render('_view', ['model' => $model, 'attrib' => 'padre', 'class' => 'col-lg-3']) ?>
     <?= $this->render('_view', ['model' => $model, 'attrib' => 'Implementer', 'class' => 'col-lg-3']) ?>
 </div>
