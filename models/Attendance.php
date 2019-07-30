@@ -97,13 +97,13 @@ class Attendance extends base\Attendance
             [
                 [['event_id', 'type_id', 'contact_id', 'org_id'], 'integer'],
                 [['date'], 'safe'],
-                [['document', 'country', 'phone_personal'], 'string', 'max' => 45],
+                [['document', 'country_id', 'phone_personal'], 'string', 'max' => 45],
                 [['sex'], 'string', 'max' => 1],
                 [['community'], 'string', 'max' => 255],
             ],
             [
                 [['fullname'], 'required'],
-                [['contact_id', 'org_id', 'org_name', 'document', 'sex', 'country', 'community', 'phone_personal', 'event_id', 'type_id'], 'safe'],
+                [['contact_id', 'org_id', 'org_name', 'document', 'sex', 'country_id', 'community', 'phone_personal', 'event_id', 'type_id'], 'safe'],
             ]
         );
     }
@@ -141,7 +141,7 @@ class Attendance extends base\Attendance
             $this->fullname = $this->contact->fullname;
             if (!$this->document) $this->document = $this->contact->document;
             if (!$this->sex) $this->sex = $this->contact->sex;
-            if (!$this->country) $this->country = $this->contact->country;
+            if (!$this->country_id) $this->country_id = $this->contact->country_id;
             if (!$this->community) $this->community = $this->contact->community;
             if (!$this->phone_personal) $this->phone_personal = $this->contact->phone_personal;
             if (!$this->org_name) {
