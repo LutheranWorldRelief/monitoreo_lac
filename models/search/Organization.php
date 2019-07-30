@@ -18,7 +18,7 @@ class Organization extends OrganizationModel
     {
         return [
             [['id', 'organization_type_id', 'organization_id', 'country_id', 'is_implementer'], 'integer'],
-            [['name', 'country', 'description'], 'safe'],
+            [['name', 'description'], 'safe'],
         ];
     }
 
@@ -66,7 +66,7 @@ class Organization extends OrganizationModel
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'country', $this->country])
+            ->andFilterWhere(['like', 'country_id', $this->country_id])
             ->andFilterWhere(['like', 'description', $this->description]);
 
         return $dataProvider;
