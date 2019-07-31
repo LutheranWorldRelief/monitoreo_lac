@@ -60,8 +60,9 @@ class DataListController extends Controller
     public function actionView($id)
     {
         $model = $this->findModel($id);
-        if ($model->list_id)
-            $this->redirect(['view', 'id' => $model->list_id]);
+//        var_dump($model);
+        if ($model->data_list_id)
+            $this->redirect(['view', 'id' => $model->data_list_id]);
 
         return $this->render('view', [
             'model' => $model,
@@ -172,7 +173,7 @@ class DataListController extends Controller
     public function actionDelete($id)
     {
         $model = $this->findModel($id);
-        $padre = (int)$model->list_id;
+        $padre = (int)$model->data_list_id;
         $contactsCount = Contact::find()
             ->orWhere([
                 'and',
@@ -203,7 +204,7 @@ class DataListController extends Controller
         $request = Yii::$app->getRequest();
         $response = Yii::$app->response;
         if ($request->isPost && $model->load($request->post())) {
-            $model->list_id = $id;
+            $model->data_list_id = $id;
             $response->format = Response::FORMAT_JSON;
             $model->validate();
             return ['success' => $model->save(), 'errors' => $model->getFirstErrors()];
