@@ -733,7 +733,7 @@ class GraphicController extends ControladorController
             "COALESCE( f.name, 'N/E' ) as type",
             "sex",
         ])->from(['sq' => $this->ConcactQuery()])
-            ->leftJoin('filter f', "f.slug = 'age' and f.filter_id is not null and date_part('YEAR', age(birthdate)) BETWEEN cast( f.start as INTEGER) and CAST( f.end as INTEGER)");
+            ->leftJoin('filter f', "f.slug = 'age' and date_part('YEAR', age(birthdate)) BETWEEN cast( f.start as INTEGER) and CAST( f.end as INTEGER)");
 
 
         $query = (new Query());
