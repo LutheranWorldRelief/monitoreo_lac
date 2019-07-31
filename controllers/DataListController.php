@@ -101,12 +101,12 @@ class DataListController extends Controller
         $contacts = Contact::find()
             ->orWhere([
                 'and',
-                ['!=', 'education_id', ''],
+                ['!=', 'education_id', null],
                 ['education_id' => $id],
             ])
             ->orWhere([
                 'and',
-                ['!=', 'type_id', ''],
+                ['!=', 'type_id', null],
                 ['type_id' => $id],
             ])
             ->orWhere([
@@ -218,11 +218,11 @@ class DataListController extends Controller
     public function actionUpdateDetail($id)
     {
         $model = $this->findModel($id);
-        $list_id = $model->list_id;
+        $list_id = $model->data_list_id;
         $request = Yii::$app->getRequest();
         $response = Yii::$app->response;
         if ($request->isPost && $model->load($request->post())) {
-            $model->list_id = $list_id;
+            $model->data_list_id = $list_id;
             $response->format = Response::FORMAT_JSON;
             $model->validate();
             return ['success' => $model->save(), 'errors' => $model->getFirstErrors()];
