@@ -685,8 +685,8 @@
                     showInLegend: false,
                     joinBy: ['name', 'id'],
                     keys: [
-                        'name', 'total', 'mujeres', 'hombres',
-                        'lat', 'lon', 'pais', 'id', 'eventos'
+                        'id', 'total', 'mujeres', 'hombres',
+                        'lat', 'lon', 'pais', 'country'
                     ],
                     tooltip: {
                         headerFormat: '',
