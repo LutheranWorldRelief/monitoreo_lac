@@ -767,7 +767,7 @@ class GraphicController extends ControladorController
             "COALESCE( edu.name, 'N/E' ) as type",
             "sex",
         ])->from(['sq' => $this->ConcactQuery()])
-            ->leftJoin('data_list edu', 'sq.education_id = edu.id');
+            ->leftJoin('monitoring_education edu', 'sq.education_id = edu.id');
 
 
         $query = (new Query());
