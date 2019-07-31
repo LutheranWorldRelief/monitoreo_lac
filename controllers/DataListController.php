@@ -60,7 +60,7 @@ class DataListController extends Controller
     public function actionView($id)
     {
         $model = $this->findModel($id);
-//        var_dump($model);
+
         if ($model->data_list_id)
             $this->redirect(['view', 'id' => $model->data_list_id]);
 
