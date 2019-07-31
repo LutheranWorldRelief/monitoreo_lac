@@ -42,7 +42,7 @@ echo $this->render('_navbar', [
     <?= $this->render('_view', ['model' => $model, 'attrib' => 'name', 'class' => 'col-lg-3']) ?>
     <?= $this->render('_view', ['model' => $model, 'attrib' => 'slug', 'class' => 'col-lg-2']) ?>
     <?= $this->render('_view', ['model' => $model, 'attrib' => 'value', 'class' => 'col-lg-2']) ?>
-    <?= $this->render('_view', ['model' => $model, 'attrib' => 'list_id', 'class' => 'col-lg-2']) ?>
+    <?= $this->render('_view', ['model' => $model, 'attrib' => 'data_list_id', 'class' => 'col-lg-2']) ?>
     <?= $this->render('_view', ['model' => $model, 'attrib' => 'tag', 'class' => 'col-lg-2']) ?>
 </div>
 <div class="row">
