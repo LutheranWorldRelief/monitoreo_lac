@@ -145,7 +145,7 @@ class Attendance extends base\Attendance
             if (!$this->community) $this->community = $this->contact->community;
             if (!$this->phone_personal) $this->phone_personal = $this->contact->phone_personal;
             if (!$this->org_name) {
-                $this->org_id = $this->contact->organization_id;
+                $this->organization_id = $this->contact->organization_id;
                 $this->org_name = $this->contact->organizationName;
             }
         }
