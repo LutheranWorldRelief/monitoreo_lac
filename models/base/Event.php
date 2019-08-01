@@ -14,7 +14,7 @@ use yii\db\ActiveQuery;
  * @property int                      $structure_id
  * @property string                   $name
  * @property string                   $title
- * @property int                      $implementing_organization_id
+ * @property int                      $organization_id
  * @property string                   $organizer
  * @property string                   $text
  * @property string                   $start
@@ -44,14 +44,14 @@ abstract class Event extends ActiveRecord
     public function rules()
     {
         return [
-            [['structure_id', 'implementing_organization_id'], 'integer'],
-            [['name', 'implementing_organization_id'], 'required'],
+            [['structure_id', 'organization_id'], 'integer'],
+            [['name', 'organization_id'], 'required'],
             [['title', 'text', 'notes', 'country_id'], 'string'],
             [['start', 'end'], 'safe'],
             [['name'], 'string', 'max' => 455],
             [['organizer', 'place'], 'string', 'max' => 200],
             [['country_id'], 'exist', 'skipOnError' => true, 'targetClass' => DataList::className(), 'targetAttribute' => ['country_id' => 'value']],
-            [['implementing_organization_id'], 'exist', 'skipOnError' => true, 'targetClass' => Organization::className(), 'targetAttribute' => ['implementing_organization_id' => 'id']],
+            [['organization_id'], 'exist', 'skipOnError' => true, 'targetClass' => Organization::className(), 'targetAttribute' => ['organization_id' => 'id']],
             [['structure_id'], 'exist', 'skipOnError' => true, 'targetClass' => Structure::className(), 'targetAttribute' => ['structure_id' => 'id']],
         ];
     }
@@ -66,7 +66,7 @@ abstract class Event extends ActiveRecord
             'structure_id' => 'Structure ID',
             'name' => 'Name',
             'title' => 'Title',
-            'implementing_organization_id' => 'Implementing Organization ID',
+            'organization_id' => 'Implementing Organization ID',
             'organizer' => 'Organizer',
             'text' => 'Text',
             'start' => 'Start',
@@ -98,7 +98,7 @@ abstract class Event extends ActiveRecord
      */
     public function getImplementingOrganization()
     {
-        return $this->hasOne(\app\models\Organization::className(), ['id' => 'implementing_organization_id']);
+        return $this->hasOne(\app\models\Organization::className(), ['id' => 'organization_id']);
     }
 
     /**
