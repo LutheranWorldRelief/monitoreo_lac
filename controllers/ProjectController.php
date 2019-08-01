@@ -13,7 +13,6 @@ use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii\web\UploadedFile;
-use yii\db\Direction;
 use function count;
 use const SORT_ASC;
 
