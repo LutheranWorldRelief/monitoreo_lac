@@ -17,7 +17,7 @@ class Event extends EventModel
     public function rules()
     {
         return [
-            [['id', 'structure_id', 'country_id', 'implementing_organization_id'], 'integer'],
+            [['id', 'structure_id', 'country_id', 'organization_id'], 'integer'],
             [['name', 'title', 'organizer', 'text', 'start', 'end', 'place', 'notes'], 'safe'],
         ];
     }
@@ -66,7 +66,7 @@ class Event extends EventModel
             'id' => $this->id,
             'structure_id' => $this->structure_id,
             'country_id' => $this->country_id,
-            'implementing_organization_id' => $this->implementing_organization_id,
+            'organization_id' => $this->organization_id,
             'start' => $this->start,
             'end' => $this->end,
         ]);

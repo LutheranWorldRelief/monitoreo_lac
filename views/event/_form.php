@@ -62,7 +62,7 @@ $form = ActiveForm::begin();
         <div class="row">
             <div class="col-md-4">
                 <?php
-                echo $form->field($model, 'implementing_organization_id')->widget(Select2::classname(), [
+                echo $form->field($model, 'organization_id')->widget(Select2::classname(), [
                     'data' => Organization::listData('name', 'id'),
                     'language' => 'es',
                     'options' => ['placeholder' => 'Seleccione una Organización'],

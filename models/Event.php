@@ -48,7 +48,7 @@ class Event extends base\Event
         $evento->end = $fechaIngreso;
 
         $evento->name = 'IMPORTACIÓN DESDE EXCEL POR ' . Yii::$app->getUser()->getIdentity()->first_name . ' ' . Yii::$app->getUser()->getIdentity()->last_name . ' El ' . date('Y-m-d H:i:s') . ' Con datos correspondientes al ' . $fechaIngreso . ' de la Organización ' . $organizacionImplementadora['name'] . ' del País ' . $paisNombre;
-        $evento->implementing_organization_id = (int)$evento->implementing_organization_id;
+        $evento->organization_id = (int)$evento->organization_id;
 
         if ($proyectoNuevo) {
             $result = Project::CreateFromImport($proyecto);
@@ -74,7 +74,7 @@ class Event extends base\Event
                 $model->attributes = $organizacionImplementadora;
                 $model->is_implementer = 1;
             }
-            if ($model->save()) $evento->implementing_organization_id = $model->id; else return false;
+            if ($model->save()) $evento->organization_id = $model->id; else return false;
         }
 
         $detallesValidos = true;
