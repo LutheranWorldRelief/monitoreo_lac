@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Throwable;
+use app\components\UCatalogo;
 use Yii;
 use yii\db\ActiveQuery;
 use yii\db\Exception;
@@ -100,8 +101,9 @@ class Event extends base\Event
 
     public function getCountryName()
     {
-        if ($this->country_id)
-            return $this->country_id;
+        $countries = UCatalogo::listCountries();
+        if ($this->country_id && isset($countries[$this->country_id]))
+            return $countries[$this->country_id];
         return '';
     }
 
