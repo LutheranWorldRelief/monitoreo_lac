@@ -345,15 +345,21 @@ class GraphicController extends ControladorController
     {
         if ($this->_rubros_db === null) {
             $request = Yii::$app->request;
+
             $subquery = (new Query());
             $subquery->select([
-                "COALESCE(UPPER(product), 'N/E') as rubro, COALESCE(UPPER(product),'0') as id, 'true' as active",
-            ])->from('project_contact')
-                ->where('product is not null')
-                ->groupBy(["COALESCE(UPPER(product), 'N/E')", 'UPPER(product)']);
+                "COALESCE(pc.product_id,'0') as id",
+                "COALESCE(UPPER(mp.name), 'N/E') as rubro",
+            ])->from('project_contact pc')
+                ->leftJoin('monitoring_product as mp', 'pc.product_id = mp.id')
+                ->where('mp.name is not null')
+                ->groupBy(['pc.product_id', "mp.name"]);
+
             $proyecto = $request->post('proyecto');
+
             if ($proyecto)
-                $subquery->andFilterWhere(['project_id' => $proyecto]);
+                $subquery->andFilterWhere(['pc.project_id' => $proyecto]);
+
             $this->_rubros_db = $subquery->all();
         }
         return $this->_rubros_db;
@@ -390,8 +396,10 @@ class GraphicController extends ControladorController
     {
         $subquery = (new Query());
         $subquery
-            ->select(["distinct o.id, COALESCE(o.name,'NE') as name, COALESCE(cast( t.id as varchar),'ne') parent",])
-            ->from('event e')
+            ->select(["distinct o.id ,".
+                "COALESCE(o.name,'NE') as name,".
+                "COALESCE(cast( t.id as varchar),'ne') parent",
+            ])->from('event e')
             ->leftJoin('organization o', 'e.implementing_organization_id = o.id')
             ->leftJoin('country pa', 'e.country_id= pa.id')
             ->leftJoin('organization_type t', 'o.organization_type_id = t.id')
@@ -406,10 +414,11 @@ class GraphicController extends ControladorController
     private function ProjectProductQuery()
     {
         $subquery = (new Query());
-        $subquery->select(['project_id' => 'p.id', 'product' => 'pc.product'])
+        $subquery->select(['project_id' => 'p.id', 'product' => 'mp.name'])
             ->from(['p' => 'project'])
             ->leftJoin(['pc' => 'project_contact'], 'pc.project_id = p.id')
-            ->groupBy(['p.id', 'pc.product']);
+            ->leftJoin(['mp' => 'monitoring_product'], 'pc.product_id = mp.id')
+            ->groupBy(['p.id', 'mp.name']);
         return $subquery;
     }
 
@@ -496,7 +505,7 @@ class GraphicController extends ControladorController
             $subquery = (new Query());
             $subquery
                 ->select(['sex'])
-                ->from(['sq'=>$this->ConcactQuery()]);
+                ->from(['sq' => $this->ConcactQuery()]);
 
             $queryTotal = (new Query());
             $queryTotal
