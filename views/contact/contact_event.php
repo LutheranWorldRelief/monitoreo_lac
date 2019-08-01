@@ -36,6 +36,7 @@ $gridColumns = [
             'toolbar' => [
                 WMenuExport::widget(['dataProvider' => $dataProvider, 'filename' => 'Contactos por evento', 'columns' => $gridColumns]),
                 '{toggleData}',
+                '{export}',
             ],
         ]);
         ?>

@@ -16,7 +16,7 @@ class WMenuExport extends Widget
 
     public $dataProvider;
     public $columns;
-    public $filename = 'Cafenica';
+    public $filename = 'LWR';
     private $opciones = [];
 
     /**
@@ -40,7 +40,7 @@ class WMenuExport extends Widget
     {
         $this->opciones = [
             'dataProvider' => $this->dataProvider,
-            'columns' => $this->columns,
+            //'columns' => $this->columns,
             'target' => ExportMenu::TARGET_BLANK,
             'fontAwesome' => true,
             'filename' => $this->filename . '_' . date('Ymd_Hi'),
