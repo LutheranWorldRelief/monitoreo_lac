@@ -61,6 +61,10 @@ class WGridView extends Widget
             'columns' => $this->columns,
             'toolbar' => $this->toolbar,
             'pjax' => $this->pjax,
+            'export' => [ 
+                'label' => 'Exportar',
+                'showConfirmAlert' => false,
+                ],
             'panel' => [
                 'type' => $this->type,
                 'heading' => $this->heading,
