@@ -13,6 +13,7 @@ use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii\web\UploadedFile;
+use yii\db\Direction;
 use function count;
 use const SORT_ASC;
 
@@ -141,7 +142,7 @@ class ProjectController extends ControladorController
             ->from('structure e')
             ->leftJoin('project p', 'e.project_id = p.id')
             ->andFilterWhere(['project_id' => $request->get('proyecto')])
-            ->orderBy(['structure_id' => SORT_ASC, 'code' => SORT_ASC, 'description' => SORT_ASC]);
+            ->orderBy([new \yii\db\Expression('structure_id ASC NULLS FIRST'), 'code' => SORT_ASC, 'description' => SORT_ASC]);
 
         Yii::$app->response->format = Response::FORMAT_JSON;
         return $query->all();
