@@ -44,13 +44,13 @@ abstract class Event extends ActiveRecord
     public function rules()
     {
         return [
-            [['structure_id', 'implementing_organization_id', 'country_id'], 'integer'],
+            [['structure_id', 'implementing_organization_id'], 'integer'],
             [['name', 'implementing_organization_id'], 'required'],
-            [['title', 'text', 'notes'], 'string'],
+            [['title', 'text', 'notes', 'country_id'], 'string'],
             [['start', 'end'], 'safe'],
             [['name'], 'string', 'max' => 455],
             [['organizer', 'place'], 'string', 'max' => 200],
-            [['country_id'], 'exist', 'skipOnError' => true, 'targetClass' => DataList::className(), 'targetAttribute' => ['country_id' => 'id']],
+            [['country_id'], 'exist', 'skipOnError' => true, 'targetClass' => DataList::className(), 'targetAttribute' => ['country_id' => 'value']],
             [['implementing_organization_id'], 'exist', 'skipOnError' => true, 'targetClass' => Organization::className(), 'targetAttribute' => ['implementing_organization_id' => 'id']],
             [['structure_id'], 'exist', 'skipOnError' => true, 'targetClass' => Structure::className(), 'targetAttribute' => ['structure_id' => 'id']],
         ];
@@ -90,7 +90,7 @@ abstract class Event extends ActiveRecord
      */
     public function getCountry()
     {
-        return $this->hasOne(\app\models\DataList::className(), ['id' => 'country_id']);
+        return $this->hasOne(\app\models\DataList::className(), ['value' => 'country_id']);
     }
 
     /**
