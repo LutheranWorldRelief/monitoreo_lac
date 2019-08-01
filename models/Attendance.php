@@ -31,9 +31,9 @@ class Attendance extends base\Attendance
 
     public function save($runValidation = true, $attributeNames = null)
     {
-        $org = Organization::find()->where(['id'=>(int)$this->org_id])->one();
+        $org = Organization::find()->where(['id'=>(int)$this->organization_id])->one();
 
-        if (!$org && $this->org_name && !$this->org_id) {
+        if (!$org && $this->org_name && !$this->organization_id) {
             $org = Organization::find()->where(['name' => $this->org_name])->one();
             if (!$org) {
                 $org = new Organization;
@@ -55,7 +55,7 @@ class Attendance extends base\Attendance
         try {
             if ($org && $org->isNewRecord) {
                 if ($return &= $org->save())
-                    $this->org_id = $org->id;
+                    $this->organization_id = $org->id;
                 else {
                     Ulog::l([$org->errors]);
                     throw new Exception("No se logró guardar el registro de organización");
@@ -95,7 +95,7 @@ class Attendance extends base\Attendance
         $rules = parent::rules();
         return array_merge(
             [
-                [['event_id', 'type_id', 'contact_id', 'org_id'], 'integer'],
+                [['event_id', 'type_id', 'contact_id', 'organization_id'], 'integer'],
                 [['date'], 'safe'],
                 [['document', 'country_id', 'phone_personal'], 'string', 'max' => 45],
                 [['sex'], 'string', 'max' => 1],
@@ -103,7 +103,7 @@ class Attendance extends base\Attendance
             ],
             [
                 [['fullname'], 'required'],
-                [['contact_id', 'org_id', 'org_name', 'document', 'sex', 'country_id', 'community', 'phone_personal', 'event_id', 'type_id'], 'safe'],
+                [['contact_id', 'organization_id', 'org_name', 'document', 'sex', 'country_id', 'community', 'phone_personal', 'event_id', 'type_id'], 'safe'],
             ]
         );
     }
@@ -175,7 +175,7 @@ class Attendance extends base\Attendance
 
     public function getOrg()
     {
-        return $this->hasOne(Organization::className(), ['id' => 'org_id']);
+        return $this->hasOne(Organization::className(), ['id' => 'organization_id']);
     }
 
     public function getType()
