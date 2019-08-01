@@ -17,7 +17,7 @@ use yii\db\ActiveQuery;
  * @property string              $sex
  * @property string              $country_id
  * @property string              $community
- * @property int                 $org_id
+ * @property int                 $organization_id
  * @property string              $phone_personal
  * @property int                 $type_id
  *
@@ -40,7 +40,7 @@ abstract class Attendance extends ActiveRecord
     public function rules()
     {
         return [
-            [['event_id', 'contact_id', 'org_id', 'type_id'], 'integer'],
+            [['event_id', 'contact_id', 'organization_id', 'type_id'], 'integer'],
             [['document', 'country_id', 'phone_personal'], 'string', 'max' => 45],
             [['sex'], 'string', 'max' => 1],
             [['community'], 'string', 'max' => 255],
@@ -62,7 +62,7 @@ abstract class Attendance extends ActiveRecord
             'sex' => 'Sex',
             'country_id' => 'Country',
             'community' => 'Community',
-            'org_id' => 'Org ID',
+            'organization_id' => 'Org ID',
             'phone_personal' => 'Phone Personal',
             'type_id' => 'Type ID',
         ];
