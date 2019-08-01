@@ -114,6 +114,7 @@ $config = [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
                 [
+                    'logVars' => ['_POST'],
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
                 ],
