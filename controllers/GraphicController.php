@@ -400,7 +400,7 @@ class GraphicController extends ControladorController
                 "COALESCE(o.name,'NE') as name,".
                 "COALESCE(cast( t.id as varchar),'ne') parent",
             ])->from('event e')
-            ->leftJoin('organization o', 'e.implementing_organization_id = o.id')
+            ->leftJoin('organization o', 'e.organization_id = o.id')
             ->leftJoin('country pa', 'e.country_id= pa.id')
             ->leftJoin('organization_type t', 'o.organization_type_id = t.id')
             ->leftJoin('structure act', 'e.structure_id = act.id')
@@ -428,7 +428,7 @@ class GraphicController extends ControladorController
         $subquery
             ->select(["distinct t.id as id, COALESCE( t.name,'Sin Tipo') as name"])
             ->from('event e')
-            ->leftJoin('organization o', 'e.implementing_organization_id = o.id')
+            ->leftJoin('organization o', 'e.organization_id = o.id')
             ->leftJoin('country pa', 'e.country_id= pa.id')
             ->leftJoin('organization_type t', 'o.organization_type_id = t.id')
             ->leftJoin('structure act', 'e.structure_id = act.id')
@@ -441,7 +441,6 @@ class GraphicController extends ControladorController
         $query->select(["COALESCE(cast( id as varchar),'ne') as id, name "])->from(['q' => $subquery]);
         return $query->all();
     }
-
     /*FIN DE DATA PARA DASHBOARD*/
 
 

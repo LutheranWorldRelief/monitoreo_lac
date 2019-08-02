@@ -96,7 +96,7 @@ class OptController extends Controller
         $query
             ->andFilterWhere(['project.id' => $projectId])
             ->andFilterWhere(['sql_contact.country' => $countryCode])
-            ->andFilterWhere(['event.implementing_organization_id' => $organizationId]);
+            ->andFilterWhere(['event.organization_id' => $organizationId]);
 
 
         if (!empty($nameSearch))
