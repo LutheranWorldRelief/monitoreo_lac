@@ -81,10 +81,6 @@ $gridColumns = [
                 ]
             ),
             'heading' => '<i class="wi wi-rain-mix wi-flip-horizontal"></i> Eventos',
-            'toolbar' => [
-                WMenuExport::widget(['dataProvider' => $provider, 'filename' => 'Eventos', 'columns' => $gridColumns]),
-                '{toggleData}',
-            ],
         ]);
         ?>
     </div>

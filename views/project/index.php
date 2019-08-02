@@ -61,10 +61,6 @@ $gridColumns = [
             'filterModel' => $searchModel,
             'columns' => $gridColumns,
             'heading' => '<i class="wi wi-rain-mix wi-flip-horizontal"></i> Proyectos',
-            'toolbar' => [
-                WMenuExport::widget(['dataProvider' => $dataProvider, 'filename' => 'Proyectos', 'columns' => $gridColumns]),
-                '{toggleData}',
-            ],
         ]);
         ?>
     </div>

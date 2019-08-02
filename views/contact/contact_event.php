@@ -33,10 +33,6 @@ $gridColumns = [
             'filterModel' => $searchModel,
             'columns' => $gridColumns,
             'heading' => '<i class="wi wi-rain-mix wi-flip-horizontal"></i> Contactos por evento',
-            'toolbar' => [
-                '{toggleData}',
-                '{export}',
-            ],
         ]);
         ?>
     </div>
