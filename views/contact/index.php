@@ -92,10 +92,10 @@ unset($gridColumnsExcel[8]);
             'filterModel' => $searchModel,
             'columns' => $gridColumns,
             'heading' => '<i class="wi wi-rain-mix wi-flip-horizontal"></i> Contactos',
-            'toolbar' => [
+            /*'toolbar' => [
                 WMenuExport::widget(['dataProvider' => $dataProvider, 'filename' => 'Contactos', 'columns' => $gridColumnsExcel]),
                 '{toggleData}',
-            ],
+            ],*/
         ]);
         ?>
     </div>

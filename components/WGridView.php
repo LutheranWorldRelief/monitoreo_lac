@@ -20,6 +20,7 @@ class WGridView extends Widget
     public $dataProvider;
     public $filterModel;
     public $columns;
+    public $filename = null;
     public $opciones = [];
     public $type = GridView::TYPE_INFO;
     public $heading = null;
@@ -42,12 +43,14 @@ class WGridView extends Widget
      */
     public function run()
     {
+       $this->getNameFile();
         $this->setOpciones();
         return GridView::widget($this->opciones);
     }
 
     private function setOpciones()
     {
+
         $this->opciones = [
             'dataProvider' => $this->dataProvider,
             'filterModel' => $this->filterModel,
@@ -65,6 +68,12 @@ class WGridView extends Widget
                 'label' => 'Exportar',
                 'showConfirmAlert' => false,
                 ],
+            'exportConfig' => [
+                GridView::PDF => ['filename' => $this->filename],
+                GridView::EXCEL => ['filename' => $this->filename],
+                GridView::TEXT => ['filename' => $this->filename],
+                GridView::CSV => ['filename' => $this->filename],
+            ],
             'panel' => [
                 'type' => $this->type,
                 'heading' => $this->heading,
@@ -73,9 +82,18 @@ class WGridView extends Widget
                 ],
                 'before' => $this->beforeShow ? Html::a('<i class="fa fa-refresh"></i> Recargar Grid', Url::current(), ['class' => 'btn btn-info']) . $this->before : null,
                 'after' => $this->after,
-            ],
+            ]
 
         ];
+    }
+
+    private function getNameFile()
+    {
+        if(strpos(Url::current(), '-')!==false)
+            $this->filename = 'LWR_'.explode( '-', Url::current())[1].'_' . date('Ymd_Hi');
+        else if(strpos(Url::current(), '/')!==false)
+            $this->filename = 'LWR_'.explode( '/', Url::current())[1].'_' . date('Ymd_Hi');
+
     }
 
 

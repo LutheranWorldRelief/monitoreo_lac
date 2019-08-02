@@ -31,10 +31,6 @@ $gridColumns = [
                 'filterModel' => $searchModel,
                 'columns' => $gridColumns,
                 'heading' => '<i class="wi wi-rain-mix wi-flip-horizontal"></i> Tipos de organizaciones',
-                'toolbar' => [
-                    WMenuExport::widget(['dataProvider' => $dataProvider, 'filename' => 'Tipos de organizaciones', 'columns' => $gridColumns]),
-                    '{toggleData}',
-                ],
             ]);
             ?>
         </div>
