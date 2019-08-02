@@ -13,6 +13,7 @@ use yii\db\ActiveQuery;
  * @property int                 $id
  * @property int                 $project_id
  * @property int                 $contact_id
+ * @property int                 $product_id
  * @property string              $product
  * @property string              $area
  * @property string              $development_area

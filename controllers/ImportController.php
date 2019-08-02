@@ -17,7 +17,7 @@ use Yii;
 use yii\db\Query;
 use yii\helpers\Json;
 use yii2mod\query\ArrayQuery;
-
+use yii\helpers\ArrayHelper;
 /**
  * ContactController implements the CRUD actions for Contact model.
  */
@@ -275,7 +275,7 @@ class ImportController extends Controller
     private function BeneficiariosPaso2ConstruirEventos(&$eventos, $resultados)
     {
         $eventos = [];
-        $pais = DataList::find()->where(['id' => (int)$_POST['pais']])->one();
+        $pais = DataList::find()->where(['value' => $_POST['pais']])->one();
         $paisNombre = $pais ? $pais->name : '-';
         foreach ($resultados['Guardar'] as $r) {
             if (isset($_POST['organizacion']))
@@ -324,7 +324,7 @@ class ImportController extends Controller
                 }
             }
         } catch (Exception $exception) {
-
+//            var_dump($exception);
             $transaction->rollBack();
             //            ULog::l($exception);
             return false;

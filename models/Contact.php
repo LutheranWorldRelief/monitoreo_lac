@@ -3,9 +3,11 @@
 namespace app\models;
 
 use app\components\UCatalogo;
+use bedezign\yii2\audit\components\panels\RendersSummaryChartTrait;
 use Yii;
 use yii\db\ActiveQuery;
 use yii\db\Exception;
+use yii\db\Query;
 
 /**
  * This is the model class for table "{{%contact}}".
@@ -25,7 +27,6 @@ class Contact extends base\Contact
             $model = new self();
         $model->attributes = $data;
 
-
         if (!$model->education_id && !empty($data['education_name'])) {
             $education = DataList::idItemBySlug('education', $data['education_name']);
             if ($education == null)
@@ -42,13 +43,30 @@ class Contact extends base\Contact
             }
             $model->organization_id = $org->id;
         }
+
+
         if ($model->save()) {
             $proyecto = ProjectContact::find()->andFilterWhere(['project_id' => $project_id, 'contact_id' => $model->id])->one();
             if (!$proyecto)
                 $proyecto = new ProjectContact();
-            $proyecto->attributes = $data;
+
+            $product = (new Query())->select(['id'])
+                ->from('monitoring_product')
+                ->where(['name' => $data['product']])
+                ->all();
+            $product_id = (int)$product[0]['id'];
+
             $proyecto->project_id = $project_id;
             $proyecto->contact_id = $model->id;
+            $proyecto->product_id = $product_id;
+            $proyecto->area = $data['area'];
+            $proyecto->development_area = $data['development_area'];
+            $proyecto->productive_area = $data['productive_area'];
+            $proyecto->yield = $data['yield'];
+            $proyecto->age_development_plantation = $data['age_development_plantation'];
+            $proyecto->age_productive_plantation = $data['age_productive_plantation'];
+            $proyecto->date_entry_project = $data['date_entry_project'];
+
             if ($proyecto->save())
                 return $model->id;
         }
