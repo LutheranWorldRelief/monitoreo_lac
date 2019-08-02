@@ -441,7 +441,6 @@ class GraphicController extends ControladorController
         $query->select(["COALESCE(cast( id as varchar),'ne') as id, name "])->from(['q' => $subquery]);
         return $query->all();
     }
-
     /*FIN DE DATA PARA DASHBOARD*/
 
 
