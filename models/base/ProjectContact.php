@@ -14,10 +14,9 @@ use yii\db\ActiveQuery;
  * @property int                 $project_id
  * @property int                 $contact_id
  * @property int                 $product_id
- * @property string              $product
- * @property string              $area
- * @property string              $development_area
- * @property string              $productive_area
+ * @property double              $area
+ * @property double              $development_area
+ * @property double              $productive_area
  * @property int                 $age_development_plantation
  * @property int                 $age_productive_plantation
  * @property double              $yield
@@ -44,10 +43,9 @@ abstract class ProjectContact extends ActiveRecord
     {
         return [
             [['project_id', 'contact_id'], 'required'],
-            [['project_id', 'contact_id', 'age_development_plantation', 'age_productive_plantation'], 'integer'],
+            [['project_id','product_id', 'contact_id', 'age_development_plantation', 'age_productive_plantation'], 'integer'],
             [['area', 'development_area', 'productive_area', 'yield'], 'number'],
             [['date_entry_project', 'date_end_project'], 'safe'],
-            [['product'], 'string', 'max' => 255],
             [['contact_id'], 'exist', 'skipOnError' => true, 'targetClass' => Contact::className(), 'targetAttribute' => ['contact_id' => 'id']],
             [['project_id'], 'exist', 'skipOnError' => true, 'targetClass' => Project::className(), 'targetAttribute' => ['project_id' => 'id']],
         ];
@@ -62,7 +60,7 @@ abstract class ProjectContact extends ActiveRecord
             'id' => 'ID',
             'project_id' => 'Project ID',
             'contact_id' => 'Contact ID',
-            'product' => 'Product',
+            'product_id' => 'Product ID',
             'area' => 'Area',
             'development_area' => 'Development Area',
             'productive_area' => 'Productive Area',

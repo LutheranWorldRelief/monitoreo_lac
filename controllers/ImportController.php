@@ -240,6 +240,7 @@ class ImportController extends Controller
 
             $errores = $this->BeneficiariosPaso2Guardar($resultados);
             $this->BeneficiariosPaso2DatosCrearEnBD($resultados, $proyectosRegistrar, $organizacionRegistrar, $paisesRegistrar, $educacionRegistrar);
+
             $data = [
                 'data' => $resultados,
                 'errores' => $errores,
@@ -251,7 +252,8 @@ class ImportController extends Controller
 
             return $this->render('beneficiarios/wizard', ['data' => $data, 'view' => 'step-2', 'stepActive' => 'step2']);
         } catch (Exception $exception) {
-            $this->redirect('beneficiarios-paso1');
+            var_dump($exception);
+//            $this->redirect('beneficiarios-paso1');
         }
 
     }
@@ -263,6 +265,7 @@ class ImportController extends Controller
         if (isset($_POST['guardar'])) {
             if (!empty($_POST['pais']) && !is_null($_POST['pais'])) {
                 $this->BeneficiariosPaso2ConstruirEventos($eventos, $resultados);
+
                 if ($this->BeneficiariosPaso2GuardarEventos($eventos, $archivo))
                     $this->redirect(['import/beneficiarios-paso3', 'archivo' => $archivo]);
             } else {
@@ -280,6 +283,7 @@ class ImportController extends Controller
         foreach ($resultados['Guardar'] as $r) {
             if (isset($_POST['organizacion']))
                 foreach ($_POST['organizacion'] as $org) {
+
                     if (!empty($org['vincular_con']) && $org['nombre'] == $r['implementing_organization_name'])
                         $r['implementing_organization_id'] = $org['vincular_con'];
 
@@ -292,7 +296,7 @@ class ImportController extends Controller
                         $r['education_id'] = $edu['vincular_con'];
 
             $key = $r['project_code'] . '-' . UString::sustituirEspacios($r['implementing_organization_name']) . '-' . $r['date_entry_project'];
-            $eventos[$key]['cabecera'] = ['implementing_organization_id' => $r['implementing_organization_id'], 'country_id' => (int)$_POST['pais']];
+            $eventos[$key]['cabecera'] = ['implementing_organization_id' => $r['implementing_organization_id'], 'country_id' => $_POST['pais']];
             $eventos[$key]['proyectoNuevo'] = (int)$r['project_id'] > 0 ? false : true;
             $eventos[$key]['proyectoId'] = (int)$r['project_id'];
             $eventos[$key]['fechaIngreso'] = $r['date_entry_project'];
@@ -324,9 +328,7 @@ class ImportController extends Controller
                 }
             }
         } catch (Exception $exception) {
-//            var_dump($exception);
             $transaction->rollBack();
-            //            ULog::l($exception);
             return false;
         }
 
@@ -406,7 +408,8 @@ class ImportController extends Controller
             $data = ['data' => $eventos,];
             return $this->render('beneficiarios/wizard', ['data' => $data, 'view' => 'step-3', 'stepActive' => 'step3']);
         } catch (Exception $exception) {
-            $this->redirect('beneficiarios-paso1');
+            var_dump($exception);
+//            $this->redirect('beneficiarios-paso1');
         }
 
     }

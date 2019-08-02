@@ -32,9 +32,9 @@ class MonitoringProduct extends ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Product Name',
-            'name_es' => 'Nombre del Producto',
-            'name_fr' => 'Nom du Produit',
+            'name' => 'Product',
+            'name_es' => 'Producto',
+            'name_fr' => 'Produit',
         ];
     }
 

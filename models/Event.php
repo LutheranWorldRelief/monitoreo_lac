@@ -50,36 +50,47 @@ class Event extends base\Event
         $evento->name = 'IMPORTACIÓN DESDE EXCEL POR ' . Yii::$app->getUser()->getIdentity()->first_name . ' ' . Yii::$app->getUser()->getIdentity()->last_name . ' El ' . date('Y-m-d H:i:s') . ' Con datos correspondientes al ' . $fechaIngreso . ' de la Organización ' . $organizacionImplementadora['name'] . ' del País ' . $paisNombre;
         $evento->organization_id = (int)$evento->organization_id;
 
+
         if ($proyectoNuevo) {
             $result = Project::CreateFromImport($proyecto);
             if (!is_null($result)) $evento->structure_id = $result['estructura']; else return false;
             $proyectoId = $result['proyecto'];
         } else {
-
             $estructura = Structure::find()->where(['project_id' => $proyectoId, 'description' => 'IMPORTACIÓN DESDE EXCEL'])->one();
-            if (!$estructura) {
+            $id_estructura = null;
+            if (is_null($estructura)) {
                 $estructura = new Structure();
                 $estructura->project_id = $proyectoId;
                 $estructura->description = 'IMPORTACIÓN DESDE EXCEL';
                 $estructura->save();
+                $id_estructura = $estructura->id;
+            } else {
+                $id_estructura = $estructura->id;
             }
-            $evento->structure_id = $estructura->id;
+            $evento->structure_id = $id_estructura;
         }
 
-        if ($organizacionNueva) {
+        if (!$organizacionNueva) {
             $nombreOrg = $organizacionImplementadora['name'];
-            $model = Organization::find()->where(['name' => $nombreOrg])->one();
-            if (!$model) {
-                $model = new Organization();
-                $model->attributes = $organizacionImplementadora;
-                $model->is_implementer = 1;
+            $organization = Organization::find()->where(['name' => $nombreOrg])->one();
+            $id_organization = null;
+            if (is_null($organization)) {
+                $organization = new Organization();
+                $organization->name = $nombreOrg;
+                $organization->is_implementer = 1;
+
+                $organization->save();
+                $id_organization = $organization->id;
+            } else {
+                $id_organization = $organization->id;
             }
-            if ($model->save()) $evento->organization_id = $model->id; else return false;
+            $evento->organization_id =  $id_organization;
         }
 
         $detallesValidos = true;
         $evento->validate();
         if ($evento->saveImport()) {
+
             foreach ($detalles as $d)
                 $detallesValidos &= Attendance::CreateFromImport($d, $evento->id, $proyectoId);
             $id = $evento->id;

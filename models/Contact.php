@@ -3,7 +3,6 @@
 namespace app\models;
 
 use app\components\UCatalogo;
-use bedezign\yii2\audit\components\panels\RendersSummaryChartTrait;
 use Yii;
 use yii\db\ActiveQuery;
 use yii\db\Exception;
@@ -19,58 +18,88 @@ class Contact extends base\Contact
 {
     public static function CreateFromImport($data, $project_id)
     {
-        $model = null;
+
+        $contact = null;
         if (!empty(trim($data['document']))) {
-            $model = self::find()->andFilterWhere(['document' => trim($data['document'])])->one();
+            $contact = self::find()->andFilterWhere(['document' => trim($data['document'])])->one();
         }
-        if (!$model)
-            $model = new self();
-        $model->attributes = $data;
+        if (is_null($contact)) {
+            $contact = new self();
+            $contact->created = date('Y-m-d');
+        } else {
+            $contact->modified = date('Y-m-d');
+        }
+        $contact->name = trim($data['name']);
+        $contact->first_name = trim($data['first_name']);
+        $contact->last_name = trim($data['last_name']);
+        $contact->document = trim($data['document']);
+        $contact->sex = trim($data['sex']);
+        $contact->community = trim($data['community']);
+        $contact->municipality = trim($data['municipality']);
+        $contact->country_id = $data['country'];
+        $contact->phone_personal = trim($data['phone_personal']);
+        $contact->men_home = (int)$data['men_home'];
+        $contact->birthdate = $data['birthdate'];
 
-        if (!$model->education_id && !empty($data['education_name'])) {
-            $education = DataList::idItemBySlug('education', $data['education_name']);
-            if ($education == null)
-                $education = DataList::CreateItem('education', $data['education_name']);
-            $model->education_id = $education;
+
+        if (!$contact->education_id && !empty($data['education_name'])) {
+
+            $education = MonitoringEducation::getSpecificEducation($data['education_name']);
+            if (!is_null($education)) {
+                $contact->education_id = $education->id;
+            }
         }
 
-        if (!$model->organization_id && !empty($data['organization_name'])) {
+        if (!$contact->organization_id && !empty($data['organization_name'])) {
             $org = Organization::find()->where(['name' => $data['organization_name']])->one();
-            if (!$org) {
+            if (is_null($org)) {
                 $org = new Organization();
                 $org->name = $data['organization_name'];
                 $org->save();
             }
-            $model->organization_id = $org->id;
+            $contact->organization_id = $org->id;
         }
+        $contact->save();
+//        var_dump();
+//        if ($contact->save()) {
+        try {
 
 
-        if ($model->save()) {
-            $proyecto = ProjectContact::find()->andFilterWhere(['project_id' => $project_id, 'contact_id' => $model->id])->one();
-            if (!$proyecto)
-                $proyecto = new ProjectContact();
+            $idContact = $contact->id;
+            $projectContact = ProjectContact::find()->andFilterWhere(['project_id' => $project_id, 'contact_id' => $idContacts])->one();
 
-            $product = (new Query())->select(['id'])
-                ->from('monitoring_product')
-                ->where(['name' => $data['product']])
-                ->all();
-            $product_id = (int)$product[0]['id'];
+            if (is_null($projectContact)) {
+                $projectContact = new ProjectContact();
+            }
 
-            $proyecto->project_id = $project_id;
-            $proyecto->contact_id = $model->id;
-            $proyecto->product_id = $product_id;
-            $proyecto->area = $data['area'];
-            $proyecto->development_area = $data['development_area'];
-            $proyecto->productive_area = $data['productive_area'];
-            $proyecto->yield = $data['yield'];
-            $proyecto->age_development_plantation = $data['age_development_plantation'];
-            $proyecto->age_productive_plantation = $data['age_productive_plantation'];
-            $proyecto->date_entry_project = $data['date_entry_project'];
+            $product = MonitoringProduct::getSpecificProduct($data['product']);
+            $product_id = (int)$product->id;
 
-            if ($proyecto->save())
-                return $model->id;
+            $projectContact->project_id = 48;
+            $projectContact->contact_id = 2867;
+            $projectContact->product_id = null;
+            $projectContact->area = 1;
+            $projectContact->development_area = 2;
+            $projectContact->productive_area = 3;
+            $projectContact->age_development_plantation = 4;
+            $projectContact->age_productive_plantation = 5;
+            $projectContact->yield = 6;
+            $projectContact->date_entry_project = '2019-10-10';
+            $projectContact->date_end_project = null;
+
+            var_dump("aasdfsdf");
+            var_dump("aasdfsdf");
+            var_dump("aasdfsdf"); exit();
+
+
+        } catch (\Error $error) {
+            var_dump($error);
         }
-        return $model->id;
+//            if ($proyecto->save())
+//                return $idContact;
+//        }
+
+        return $idContact;
     }
 
     public function rules()

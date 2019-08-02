@@ -3,17 +3,13 @@
 
 namespace app\models;
 
-use app\components\UCatalogo;
-use bedezign\yii2\audit\components\panels\RendersSummaryChartTrait;
-use Yii;
-use yii\db\ActiveQuery;
-use yii\db\Exception;
+
 use yii\db\Query;
 
 class MonitoringProduct extends base\MonitoringProduct
 {
 
-    public static function allProduct()
+    public static function allProducts()
     {
         $data = MonitoringProduct::find()->orderBy('id')->all();
 
@@ -21,6 +17,21 @@ class MonitoringProduct extends base\MonitoringProduct
             return $data;
 
         return [];
+    }
 
+    public static function allProductNames($columNameIdiom='name')
+    {
+        $data = (new Query())->select([$columNameIdiom])->from('monitoring_product')->all();
+
+        if (count($data) > 0)
+            return $data;
+
+        return [];
+    }
+
+    public static function getSpecificProduct($name){
+        $datum = MonitoringProduct::find()->orwhere(['name' => $name])
+            ->orWhere(['name_es' => $name])->orWhere(['name_fr' => $name])->one();
+        return $datum;
     }
 }

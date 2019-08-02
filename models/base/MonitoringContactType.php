@@ -1,10 +1,12 @@
 <?php
 
+
 namespace app\models\base;
+
 
 use app\components\ActiveRecord;
 
-class MonitoringEducation extends ActiveRecord
+class MonitoringContactType extends ActiveRecord
 {
 
     /**
@@ -12,7 +14,7 @@ class MonitoringEducation extends ActiveRecord
      */
     public static function tableName()
     {
-        return 'monitoring_education';
+        return 'monitoring_contacttype';
     }
 
     /**
@@ -41,8 +43,7 @@ class MonitoringEducation extends ActiveRecord
 
     public function getContract()
     {
-        return $this->hasOne(\app\models\Contact::className(), ['education_id' => 'id']);
+        return $this->hasOne(\app\models\Contact::className(), ['type_id' => 'id']);
     }
-
 
 }
