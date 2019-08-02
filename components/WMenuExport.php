@@ -16,7 +16,7 @@ class WMenuExport extends Widget
 
     public $dataProvider;
     public $columns;
-    public $filename = 'Cafenica';
+    public $filename = 'LWR';
     private $opciones = [];
 
     /**
