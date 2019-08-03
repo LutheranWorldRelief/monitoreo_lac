@@ -324,11 +324,14 @@ class ImportController extends Controller
             foreach ($eventos as $evento) {
                 $id = null;
                 if (!Event::CreateFromImport($evento, $id)) {
-                    $transaction->commit();
+                   // $transaction->commit();
                 } else {
                     $eventosCreados[] = $id;
                 }
             }
+
+            $transaction->commit();
+
         } catch (Exception $exception) {
             $transaction->rollBack();
         }
