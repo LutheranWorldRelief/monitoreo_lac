@@ -49,8 +49,7 @@ class ProjectContact extends base\ProjectContact
                         return false;
                     return true;
                 },
-            ],
-            [['product'], 'string', 'max' => 255],
+            ]
         ];
     }
 }

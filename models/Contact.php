@@ -75,18 +75,20 @@ class Contact extends base\Contact
             $product = MonitoringProduct::getSpecificProduct($data['product']);
             $product_id = (int)$product->id;
 
-            $projectContact->project_id = 48;
-            $projectContact->contact_id = 2867;
-            $projectContact->product_id = null;
-            $projectContact->area = 1;
-            $projectContact->development_area = 2;
-            $projectContact->productive_area = 3;
-            $projectContact->age_development_plantation = 4;
-            $projectContact->age_productive_plantation = 5;
-            $projectContact->yield = 6;
-            $projectContact->date_entry_project = '2019-10-10';
-            $projectContact->date_end_project = null;
 
+
+            $projectContact->project_id = $project_id;
+            $projectContact->contact_id = $idContact;
+            $projectContact->product_id = $product_id;
+            $projectContact->area = (int)$data['area'];
+            $projectContact->development_area = (int)$data['development_area'];
+            $projectContact->productive_area = (int)$data['productive_area'];
+            $projectContact->age_development_plantation = (int)$data['age_development_plantation'];
+            $projectContact->age_productive_plantation = (int)$data['age_productive_plantation'];
+            $projectContact->date_entry_project = $data['date_entry_project'];
+            $projectContact->yield = (int)$data['yield'];
+            $projectContact->date_end_project = null;
+            $projectContact->save();
 
         } catch (\Error $error) {
             var_dump($error);
