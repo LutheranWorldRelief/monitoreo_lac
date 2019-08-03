@@ -27,7 +27,6 @@ class Attendance extends base\Attendance
         $model->country_id = $data['country'];
         $id = Contact::CreateFromImport($data, $project_id);
         $model->contact_id = (int)$id;
-//        $model->fullname = $data['first_name'];
         return $model->save(false);
     }
 
