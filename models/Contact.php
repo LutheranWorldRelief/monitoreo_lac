@@ -66,7 +66,7 @@ class Contact extends base\Contact
 
 
             $idContact = $contact->id;
-            $projectContact = ProjectContact::find()->andFilterWhere(['project_id' => $project_id, 'contact_id' => $idContacts])->one();
+            $projectContact = ProjectContact::find()->andFilterWhere(['project_id' => $project_id, 'contact_id' => $idContact])->one();
 
             if (is_null($projectContact)) {
                 $projectContact = new ProjectContact();
@@ -86,10 +86,6 @@ class Contact extends base\Contact
             $projectContact->yield = 6;
             $projectContact->date_entry_project = '2019-10-10';
             $projectContact->date_end_project = null;
-
-            var_dump("aasdfsdf");
-            var_dump("aasdfsdf");
-            var_dump("aasdfsdf"); exit();
 
 
         } catch (\Error $error) {

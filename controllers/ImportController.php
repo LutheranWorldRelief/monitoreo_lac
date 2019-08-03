@@ -233,12 +233,13 @@ class ImportController extends Controller
 
     public function actionBeneficiariosPaso2($archivo)
     {
-        try {
+       // try {
             $pathImportJson = Yii::getAlias('@ImportJson/beneficiarios/');
 
             $resultados = Json::decode(file_get_contents($pathImportJson . $archivo));
 
             $errores = $this->BeneficiariosPaso2Guardar($resultados);
+
             $this->BeneficiariosPaso2DatosCrearEnBD($resultados, $proyectosRegistrar, $organizacionRegistrar, $paisesRegistrar, $educacionRegistrar);
 
             $data = [
@@ -251,10 +252,10 @@ class ImportController extends Controller
             ];
 
             return $this->render('beneficiarios/wizard', ['data' => $data, 'view' => 'step-2', 'stepActive' => 'step2']);
-        } catch (Exception $exception) {
+      //  } catch (Exception $exception) {
             var_dump($exception);
 //            $this->redirect('beneficiarios-paso1');
-        }
+      //  }
 
     }
 
@@ -267,11 +268,14 @@ class ImportController extends Controller
                 $this->BeneficiariosPaso2ConstruirEventos($eventos, $resultados);
 
                 if ($this->BeneficiariosPaso2GuardarEventos($eventos, $archivo))
+                {
+                    echo "Bene";
                     $this->redirect(['import/beneficiarios-paso3', 'archivo' => $archivo]);
+                }
             } else {
                 $errores = 'Debe seleccionar el país de la importación.';
             }
-        }
+        } //exit();
         return $errores;
     }
 
@@ -313,25 +317,25 @@ class ImportController extends Controller
 
     private function BeneficiariosPaso2GuardarEventos($eventos, &$archivo)
     {
-        set_time_limit(-1);
+        $bandera = true;
+            set_time_limit(-1);
         ini_set('memory_limit', -1);
         $eventosCreados = [];
-        $transaction = Yii::$app->db->beginTransaction();
-        try {
+        //$transaction = Yii::$app->db->beginTransaction();
+       // try {
             foreach ($eventos as $evento) {
                 $id = null;
                 if (!Event::CreateFromImport($evento, $id)) {
-                    $transaction->rollBack();
-                    return false;
+          //          $transaction->rollBack();
+                    $bandera = false;
                 } else {
                     $eventosCreados[] = $id;
                 }
             }
-        } catch (Exception $exception) {
-            $transaction->rollBack();
-            return false;
-        }
-
+        //} catch (Exception $exception) {
+          //  $transaction->rollBack();
+        $bandera =  false;
+        //}
 
         if (isset($_GET['archivo'])) {
             $pathImportJson = Yii::getAlias('@ImportJson/beneficiarios/');
@@ -341,7 +345,7 @@ class ImportController extends Controller
         $pathImportJson = Yii::getAlias('@ImportJson/beneficiarios/');
         $archivo = date('Ymd-His_') . Yii::$app->user->id . '_eventos.json';
         file_put_contents($pathImportJson . $archivo, Json::encode($eventosCreados));
-        $transaction->commit();
+        //$transaction->commit();
         return true;
     }
 
@@ -358,6 +362,7 @@ class ImportController extends Controller
                 'project_code' => $model['project_code'],
                 'project_name' => $model['project_name']
             ];
+
         }
 
         $paises = clone $query;
