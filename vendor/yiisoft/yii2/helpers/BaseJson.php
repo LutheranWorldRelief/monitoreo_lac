@@ -99,7 +99,7 @@ class BaseJson
     public static function decode($json, $asArray = true)
     {
         if (is_array($json)) {
-            throw new InvalidArgumentException('Invalid JSON data.');
+            //throw new InvalidArgumentException('Invalid JSON data.');
         } elseif ($json === null || $json === '') {
             return null;
         }

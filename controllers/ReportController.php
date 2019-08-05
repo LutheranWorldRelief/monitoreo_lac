@@ -5,6 +5,8 @@ namespace app\controllers;
 use app\models\AuthUser;
 use app\models\DataList;
 use app\models\form\ReportForm;
+use app\models\MonitoringEducation;
+use app\models\MonitoringProduct;
 use app\models\Organization;
 use app\models\Project;
 use app\models\SqlFullReportProjectContact;
@@ -16,6 +18,7 @@ use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use Yii;
+use yii\db\Query;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -26,6 +29,7 @@ class ReportController extends ControladorController
 
     public function actionIndex()
     {
+
         $user = Yii::$app->user;
 
         /* @var AuthUser $auth */
@@ -34,6 +38,7 @@ class ReportController extends ControladorController
 
         $projects = $auth->projectsList();
         $countries = $auth->countriesList();
+
         $organizations = ArrayHelper::map(Organization::find()
             ->select(['id', 'name'])
             ->where(['is_implementer' => true])
@@ -102,7 +107,10 @@ class ReportController extends ControladorController
                 'contact_project_date_entry',
                 'contact_project_product',
                 'contact_project_area_farm',
-                "contact_project_dev_area", "contact_project_age_dev_plantation", "contact_project_productive_area", "contact_project_age_prod_plantation", "contact_project_yield",
+                "contact_project_dev_area", "contact_project_age_dev_plantation",
+                "contact_project_productive_area",
+                "contact_project_age_prod_plantation",
+                "contact_project_yield",
                 'organization_implementing_id',
                 'contact_id',
             ]);
@@ -189,21 +197,27 @@ class ReportController extends ControladorController
                 ->asArray()
                 ->all();
 
-
             $countries = DataList::itemsBySlug('countries', 'name', 'id', 'name asc');
+
+            $products = MonitoringProduct::allProductNames('name_es');
+
+            $education = MonitoringEducation::allEducationNames('name_es');
 
             $department = [];
 
             $sheetCatalogues->fromArray($projects, null, 'A3');
             $sheetCatalogues->fromArray($organizations, null, 'B3');
+            $sheetCatalogues->fromArray($education, null, 'D3');
             $sheetCatalogues->fromArray(array_chunk($countries, 1), null, 'E3');
             $sheetCatalogues->fromArray(array_chunk($department, 1), null, 'F3');
+            $sheetCatalogues->fromArray($products, null, 'Q3');
 
             $AddValidationToRange($sheetData, 1, 3, 1, 2000, 'catalogos!$A$2:$A$1000', null); //validate projects
             $AddValidationToRange($sheetData, 2, 3, 2, 2000, 'catalogos!$B$2:$B$1000', null); //validate orgs
             $AddValidationToRange($sheetData, 6, 3, 6, 2000, 'catalogos!$C$2:$C$1000', null); //validate sex
             $AddValidationToRange($sheetData, 8, 3, 8, 2000, 'catalogos!$D$2:$D$1000', null); //validate education
             $AddValidationToRange($sheetData, 13, 3, 13, 2000, 'catalogos!$E$2:$E$1000', null); //validate country
+            $AddValidationToRange($sheetData, 17, 3, 17, 2000, 'catalogos!$Q$2:$Q$1000', null); //validate products
 
         }
         $spreadsheet->setActiveSheetIndex(0);
@@ -270,6 +284,5 @@ class ReportController extends ControladorController
 
         $this->sendExcel($spreadsheet, $fileName . Yii::$app->language . date('_Ymj_His'));
     }
-
 
 }

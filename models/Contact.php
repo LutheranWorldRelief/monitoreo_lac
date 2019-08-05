@@ -6,6 +6,7 @@ use app\components\UCatalogo;
 use Yii;
 use yii\db\ActiveQuery;
 use yii\db\Exception;
+use yii\db\Query;
 
 /**
  * This is the model class for table "{{%contact}}".
@@ -17,42 +18,75 @@ class Contact extends base\Contact
 {
     public static function CreateFromImport($data, $project_id)
     {
-        $model = null;
+
+        $contact = null;
         if (!empty(trim($data['document']))) {
-            $model = self::find()->andFilterWhere(['document' => trim($data['document'])])->one();
+            $contact = self::find()->andFilterWhere(['document' => trim($data['document'])])->one();
         }
-        if (!$model)
-            $model = new self();
-        $model->attributes = $data;
+        if (is_null($contact)) {
+            $contact = new self();
+            $contact->created = date('Y-m-d');
+        } else {
+            $contact->modified = date('Y-m-d');
+        }
+        $contact->name = trim($data['name']);
+        $contact->first_name = trim($data['first_name']);
+        $contact->last_name = trim($data['last_name']);
+        $contact->document = trim($data['document']);
+        $contact->sex = trim($data['sex']);
+        $contact->community = trim($data['community']);
+        $contact->municipality = trim($data['municipality']);
+        $contact->country_id = $data['country'];
+        $contact->phone_personal = trim($data['phone_personal']);
+        $contact->men_home = (int)$data['men_home'];
+        $contact->birthdate = $data['birthdate'];
 
 
-        if (!$model->education_id && !empty($data['education_name'])) {
-            $education = DataList::idItemBySlug('education', $data['education_name']);
-            if ($education == null)
-                $education = DataList::CreateItem('education', $data['education_name']);
-            $model->education_id = $education;
+        if (!$contact->education_id && !empty($data['education_name'])) {
+
+            $education = MonitoringEducation::getSpecificEducation($data['education_name']);
+            if (!is_null($education)) {
+                $contact->education_id = $education->id;
+            }
         }
 
-        if (!$model->organization_id && !empty($data['organization_name'])) {
+        if (!$contact->organization_id && !empty($data['organization_name'])) {
             $org = Organization::find()->where(['name' => $data['organization_name']])->one();
-            if (!$org) {
+            if (is_null($org)) {
                 $org = new Organization();
                 $org->name = $data['organization_name'];
                 $org->save();
             }
-            $model->organization_id = $org->id;
+            $contact->organization_id = $org->id;
         }
-        if ($model->save()) {
-            $proyecto = ProjectContact::find()->andFilterWhere(['project_id' => $project_id, 'contact_id' => $model->id])->one();
-            if (!$proyecto)
-                $proyecto = new ProjectContact();
-            $proyecto->attributes = $data;
-            $proyecto->project_id = $project_id;
-            $proyecto->contact_id = $model->id;
-            if ($proyecto->save())
-                return $model->id;
+
+        $contact->save();
+
+        $idContact = $contact->id;
+        $projectContact = ProjectContact::find()->andFilterWhere(['project_id' => $project_id, 'contact_id' => $idContact])->one();
+
+        if (is_null($projectContact)) {
+            $projectContact = new ProjectContact();
         }
-        return $model->id;
+
+        $product = MonitoringProduct::getSpecificProduct($data['product']);
+        $product_id = (int)$product->id;
+
+
+        $projectContact->project_id = $project_id;
+        $projectContact->contact_id = $idContact;
+        $projectContact->product_id = $product_id;
+        $projectContact->area = (int)$data['area'];
+        $projectContact->development_area = (int)$data['development_area'];
+        $projectContact->productive_area = (int)$data['productive_area'];
+        $projectContact->age_development_plantation = (int)$data['age_development_plantation'];
+        $projectContact->age_productive_plantation = (int)$data['age_productive_plantation'];
+        $projectContact->date_entry_project = $data['date_entry_project'];
+        $projectContact->yield = (int)$data['yield'];
+        $projectContact->date_end_project = null;
+        $projectContact->save();
+
+        return $idContact;
     }
 
     public function rules()

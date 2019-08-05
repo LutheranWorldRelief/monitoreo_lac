@@ -24,24 +24,25 @@ class Attendance extends base\Attendance
     {
         $model = new  self();
         $model->event_id = $event_id;
-        $model->contact_id = Contact::CreateFromImport($data, $project_id);
-        $model->fullname = $data['first_name'];
+        $model->country_id = $data['country'];
+        $id = Contact::CreateFromImport($data, $project_id);
+        $model->contact_id = (int)$id;
         return $model->save(false);
     }
 
     public function save($runValidation = true, $attributeNames = null)
     {
-        $org = Organization::find()->where(['id'=>(int)$this->organization_id])->one();
+        $org = Organization::find()->where(['id' => (int)$this->organization_id])->one();
 
         if (!$org && $this->org_name && !$this->organization_id) {
             $org = Organization::find()->where(['name' => $this->org_name])->one();
             if (!$org) {
                 $org = new Organization;
-               $org->is_implementer = 0;
+                $org->is_implementer = 0;
                 $org->name = $this->org_name;
             }
         }
-        $contact = Contact::find()->where(['id'=>(int)$this->contact_id])->one();
+        $contact = Contact::find()->where(['id' => (int)$this->contact_id])->one();
         if (!$contact) {
             if ($this->fullname) {
                 $contact = new Contact;
