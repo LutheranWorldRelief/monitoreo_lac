@@ -83,7 +83,7 @@ abstract class Organization extends ActiveRecord
      */
     public function getEvents()
     {
-        return $this->hasMany(\app\models\Event::className(), ['implementing_organization_id' => 'id']);
+        return $this->hasMany(\app\models\Event::className(), ['organization_id' => 'id']);
     }
 
     /**

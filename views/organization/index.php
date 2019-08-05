@@ -89,10 +89,6 @@ $gridColumns = [
                 'filterModel' => $searchModel,
                 'columns' => $gridColumns,
                 'heading' => '<i class="wi wi-rain-mix wi-flip-horizontal"></i> Organizaciones',
-                'toolbar' => [
-                    WMenuExport::widget(['dataProvider' => $dataProvider, 'filename' => 'Organizaciones', 'columns' => $gridColumns]),
-                    '{toggleData}',
-                ],
             ]);
             ?>
         </div>

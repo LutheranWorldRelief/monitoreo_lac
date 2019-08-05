@@ -288,7 +288,7 @@ class ImportController extends Controller
                 foreach ($_POST['organizacion'] as $org) {
 
                     if (!empty($org['vincular_con']) && $org['nombre'] == $r['implementing_organization_name'])
-                        $r['implementing_organization_id'] = $org['vincular_con'];
+                        $r['organization_id'] = $org['vincular_con'];
 
                     if (!empty($org['vincular_con']) && $org['nombre'] == $r['organization_name'])
                         $r['organization_id'] = $org['vincular_con'];
@@ -305,7 +305,7 @@ class ImportController extends Controller
             $eventos[$key]['fechaIngreso'] = $r['date_entry_project'];
             $eventos[$key]['paisNombre'] = $paisNombre;
             $eventos[$key]['proyecto'] = ['code' => $r['project_code'], 'name' => $r['project_name']];
-            $eventos[$key]['organizacionNueva'] = (int)$r['implementing_organization_id'] > 0 ? false : true;
+            $eventos[$key]['organizacionNueva'] = (int)$r['organization_id'] > 0 ? false : true;
             $eventos[$key]['organizacionImplementadora'] = ['name' => $r['implementing_organization_name']];
             if (!isset($eventos[$key]['detalles']))
                 $eventos[$key]['detalles'] = [];
