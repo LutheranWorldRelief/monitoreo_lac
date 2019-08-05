@@ -76,11 +76,10 @@ class Attendance extends base\Attendance
             }
 
             $return &= parent::save();
-
-            if (!$return) {
-                throw new Exception("No se logró guardar el registro de participante");
-            }
-
+            
+              if (!$return) {
+                  throw new Exception("No se logró guardar el registro de participante");
+              }
             $transaction->commit();
         } catch (Exception $e) {
             $transaction->rollBack();
@@ -103,7 +102,7 @@ class Attendance extends base\Attendance
                 [['community'], 'string', 'max' => 255],
             ],
             [
-                [['fullname'], 'required'],
+                /*  [['fullname'], 'required'],*/
                 [['contact_id', 'organization_id', 'org_name', 'document', 'sex', 'country_id', 'community', 'phone_personal', 'event_id', 'type_id'], 'safe'],
             ]
         );
