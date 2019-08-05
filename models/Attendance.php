@@ -75,16 +75,11 @@ class Attendance extends base\Attendance
                 }
             }
 
-            if(!parent::save())
-            {
-                print_r(parent::getAttributes());
-                print_r(parent::getErrors());
-                exit();
-            }
-
-            /*  if (!$return) {
+            $return &= parent::save();
+            
+              if (!$return) {
                   throw new Exception("No se logró guardar el registro de participante");
-              }*/
+              }
             $transaction->commit();
         } catch (Exception $e) {
             $transaction->rollBack();
