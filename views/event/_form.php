@@ -1,6 +1,8 @@
 <?php
 
 use app\models\Attendeetype;
+use app\models\Country;
+use app\models\MonitoringContactType;
 use app\models\DataList;
 use app\models\Organization;
 use kartik\date\DatePicker;
@@ -73,7 +75,7 @@ $form = ActiveForm::begin();
             <div class="col-md-4">
                 <?php
                 echo $form->field($model, 'country_id')->widget(Select2::classname(), [
-                    'data' => DataList::itemsBySlug('countries'),
+                    'data' => Country::allCountries(),
                     'language' => 'es',
                     'options' => ['placeholder' => 'Seleccione un país'],
                     'pluginOptions' => ['allowClear' => true],
@@ -210,10 +212,10 @@ $form = ActiveForm::begin();
                             </td>
                             <td>
                                 <?=
-                                Html::dropDownList('country', '', DataList::itemsBySlug('countries', 'name', 'value'), [
+                                Html::dropDownList('country', '', Country::allCountries(), [
                                         'class' => 'form-control',
-                                        ':name' => "'Event[attendancesArray]['+index+'][country]'",
-                                        'v-model' => 'att.country'
+                                        ':name' => "'Event[attendancesArray]['+index+'][country_id]'",
+                                        'v-model' => 'att.country_id'
                                     ]
                                 )
                                 ?>
@@ -226,7 +228,7 @@ $form = ActiveForm::begin();
                             </td>
                             <td>
                                 <?=
-                                Html::dropDownList('type_id', '', DataList::itemsBySlug('participantes'), [
+                                Html::dropDownList('type_id', '', MonitoringContactType::allTypeContact(), [
                                     'class' => 'form-control',
                                     ':name' => "'Event[attendancesArray]['+index+'][type_id]'",
                                     'v-model' => 'att.type_id'
