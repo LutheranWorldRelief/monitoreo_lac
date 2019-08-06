@@ -2,6 +2,7 @@
 
 use app\components\UString;
 use app\models\MonitoringEducation;
+use app\models\Country;
 use app\models\DataList;
 use app\models\Organization;
 use kartik\select2\Select2;
@@ -64,7 +65,7 @@ if (count($data['Guardar']) < 1):
         <?=
         Select2::widget([
             'name' => "pais",
-            'data' => DataList::itemsBySlug('countries'),
+            'data' => Country::allCountries(),
             'language' => 'es',
             'options' => ['placeholder' => '...'],
             'pluginOptions' => [
