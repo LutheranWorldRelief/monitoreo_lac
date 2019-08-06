@@ -21,7 +21,7 @@ use yii\db\ActiveQuery;
  *
  * @property \app\models\Contact[]        $contacts
  * @property \app\models\Event[]          $events
- * @property \app\models\DataList         $country0
+ * @property \app\models\Country         $country0
  * @property \app\models\OrganizationType $organizationType
  * @property \app\models\Organization     $organization
  * @property \app\models\Organization[]   $organizations
@@ -47,7 +47,7 @@ abstract class Organization extends ActiveRecord
             [['organization_type_id', 'organization_id', 'country_number', 'is_implementer'], 'integer'],
             [['country_id'], 'string', 'max' => 2],
             [['description'], 'string', 'max' => 255],
-//            [['country_id'], 'exist', 'skipOnError' => true, 'targetClass' => DataList::className(), 'targetAttribute' => ['country_id' => 'value']],
+           [['country_id'], 'exist', 'skipOnError' => true, 'targetClass' => Country::className(), 'targetAttribute' => ['country_id' => 'id']],
             [['organization_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => OrganizationType::className(), 'targetAttribute' => ['organization_type_id' => 'id']],
             [['organization_id'], 'exist', 'skipOnError' => true, 'targetClass' => Organization::className(), 'targetAttribute' => ['organization_id' => 'id']],
         ];

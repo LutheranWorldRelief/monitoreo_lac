@@ -24,7 +24,7 @@ use yii\db\ActiveQuery;
  * @property string                   $country_id
  *
  * @property \app\models\Attendance[] $attendances
- * @property \app\models\DataList     $country
+ * @property \app\models\Country     $country
  * @property \app\models\Organization $implementingOrganization
  * @property \app\models\Structure    $structure
  */
@@ -50,7 +50,7 @@ abstract class Event extends ActiveRecord
             [['start', 'end'], 'safe'],
             [['name'], 'string', 'max' => 455],
             [['organizer', 'place'], 'string', 'max' => 200],
-            [['country_id'], 'exist', 'skipOnError' => true, 'targetClass' => DataList::className(), 'targetAttribute' => ['country_id' => 'value']],
+            [['country_id'], 'exist', 'skipOnError' => true, 'targetClass' => Country::className(), 'targetAttribute' => ['country_id' => 'id']],
             [['organization_id'], 'exist', 'skipOnError' => true, 'targetClass' => Organization::className(), 'targetAttribute' => ['organization_id' => 'id']],
             [['structure_id'], 'exist', 'skipOnError' => true, 'targetClass' => Structure::className(), 'targetAttribute' => ['structure_id' => 'id']],
         ];
