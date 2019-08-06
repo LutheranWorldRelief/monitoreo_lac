@@ -80,7 +80,6 @@ class DataList extends base\DataList
             ->from('country');
 
         return ArrayHelper::map($countries, 'id', 'name');
-
     }
 
     public function rules()

@@ -24,7 +24,7 @@ class UCatalogo extends Component
 
     public static function listCountries()
     {
-        return DataList::CountriesCode();
+        return DataList::itemsBySlug('countries');
     }
 
     public static function listVariedadesCafe()
