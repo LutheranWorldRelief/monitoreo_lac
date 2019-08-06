@@ -10,6 +10,7 @@ use app\components\UString;
 use app\models\Contact;
 use app\models\DataList;
 use app\models\Event;
+use app\models\MonitoringEducation;
 use app\models\Organization;
 use app\models\Project;
 use Exception;
@@ -115,7 +116,8 @@ class ImportController extends Controller
             $organizationId = Organization::getIdFromName($row[$key['organizacion']]);
             $implementingOrganizationId = Organization::getIdFromName($row[$key['organizacion_implementadora']]);
             $countryCode = DataList::CountryCode($row[$key['pais']]);
-            $educationId = DataList::idItemBySlug('education', $row[$key['educacion']]);
+
+            $educationId = MonitoringEducation::getSpecificEducation($row[$key['educacion']])->id;
 
             /*Busca el proyecto en la base de datos y si lo encuentra proyectoId regresa con valor*/
             $proyectoId = null;
@@ -324,7 +326,7 @@ class ImportController extends Controller
             foreach ($eventos as $evento) {
                 $id = null;
                 if (!Event::CreateFromImport($evento, $id)) {
-                   // $transaction->commit();
+                    // $transaction->commit();
                 } else {
                     $eventosCreados[] = $id;
                 }
