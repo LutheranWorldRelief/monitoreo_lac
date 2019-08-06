@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use Mpdf\Tag\Q;
 use Throwable;
 use Yii;
 use yii\data\ActiveDataProvider;
@@ -18,12 +19,15 @@ use yii\helpers\ArrayHelper;
 class DataList extends base\DataList
 {
 
-    public static function itemsBySlug($slug, $label = 'name', $id = 'value', $order = "order DESC")
+    public static function itemsBySlug($slug, $label = 'name', $id = 'value', $order = " DESC")
     {
-        $model = DataList::find()->where(['slug' => $slug])->one();
-        if (!$model)
-            return [];
-        return ArrayHelper::map($model->getDataLists()->orderBy($order)->all(), $id, $label);
+        $countries = (new Query())->select(['id', $label])
+            ->from('country')
+            ->orderBy($label . $order)
+            ->orderBy([$label => SORT_ASC,])
+            ->all();
+
+        return ArrayHelper::map($countries, 'id', $label);
     }
 
     public static function idItemBySlug($slug, $name)
@@ -64,7 +68,7 @@ class DataList extends base\DataList
             ->orWhere(['name_es' => $name])
             ->one();
 
-        if (!$country)
+        if (is_array($country))
             return $country['id'];
 
         return null;
