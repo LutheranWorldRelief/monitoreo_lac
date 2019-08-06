@@ -71,6 +71,19 @@ class DataList extends base\DataList
         return null;
     }
 
+    public static function CountryName($id)
+    {
+        $country = (new Query())->select('name')
+            ->from('country')
+            ->orwhere(['id' => $id])
+            ->one();
+
+        if (is_array($country))
+            return $country['name'];
+
+        return null;
+    }
+
     public static function CountryCode($name)
     {
         $country = (new Query())->select('id')
