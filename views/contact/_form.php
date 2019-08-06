@@ -3,6 +3,7 @@
 use app\components\UCatalogo;
 use app\models\MonitoringEducation;
 use app\models\MonitoringContactType;
+use app\models\Country;
 use app\models\Monitor;
 use app\models\Organization;
 use app\models\Profession;
@@ -63,7 +64,7 @@ $form = ActiveForm::begin();
 
                 <div class="col-lg-2">
                     <?= $form->field($model, 'country_id')->widget(Select2::classname(), [
-                        'data' => UCatalogo::listCountries(),
+                        'data' => Country::allCountries(),
                         'language' => 'es',
                         'options' => ['placeholder' => '...'],
                         'pluginOptions' => [
