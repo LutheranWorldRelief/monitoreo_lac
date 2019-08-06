@@ -68,7 +68,7 @@ class DataList extends base\DataList
             ->orWhere(['name_es' => $name])
             ->one();
 
-        if (!$country)
+        if (is_array($country))
             return $country['id'];
 
         return null;
