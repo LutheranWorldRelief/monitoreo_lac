@@ -116,7 +116,7 @@ class ImportController extends Controller
             $organizationId = Organization::getIdFromName($row[$key['organizacion']]);
             $implementingOrganizationId = Organization::getIdFromName($row[$key['organizacion_implementadora']]);
             $countryCode = DataList::CountryCode($row[$key['pais']]);
-            $educationId = MonitoringEducation::getIdFromName($row[$key['educacion']]);
+            $educationId = MonitoringEducation::getSpecificEducation($row[$key['educacion']])->id;
 
             /*Busca el proyecto en la base de datos y si lo encuentra proyectoId regresa con valor*/
             $proyectoId = null;
