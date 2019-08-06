@@ -6,6 +6,7 @@ use Throwable;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\db\Exception;
+use yii\db\Query;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -57,14 +58,15 @@ class DataList extends base\DataList
 
     public static function CountryCode($name)
     {
-        $model = DataList::find()->where(['slug' => 'countries'])->one();
-        if (!$model)
-            return null;
+        $country = (new Query())->select('id')
+            ->from('country')
+            ->orwhere(['name' => $name])
+            ->orWhere(['name_es' => $name])
+            ->one();
 
-        $list = ArrayHelper::map($model->getDataLists()->all(), 'value', 'name');
-        $keys = array_keys($list, trim($name));
-        if (count($keys) > 0)
-            return $keys[0];
+        if (!$country)
+            return $country['id'];
+
         return null;
     }
 
