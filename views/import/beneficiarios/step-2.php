@@ -1,6 +1,7 @@
 <?php
 
 use app\components\UString;
+use app\models\MonitoringEducation;
 use app\models\DataList;
 use app\models\Organization;
 use kartik\select2\Select2;
@@ -184,7 +185,7 @@ if (count($data['Guardar']) < 1):
                                         <?=
                                         Select2::widget([
                                             'name' => "educacion[$key][vincular_con]",
-                                            'data' => DataList::itemsBySlug('education'),
+                                            'data' => MonitoringEducation::allEducations(),
                                             'language' => 'es',
                                             'options' => ['placeholder' => '...'],
                                             'pluginOptions' => [
