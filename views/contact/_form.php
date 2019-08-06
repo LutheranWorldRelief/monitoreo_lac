@@ -1,7 +1,8 @@
 <?php
 
 use app\components\UCatalogo;
-use app\models\DataList;
+use app\models\MonitoringEducation;
+use app\models\MonitoringContactType;
 use app\models\Monitor;
 use app\models\Organization;
 use app\models\Profession;
@@ -47,7 +48,7 @@ $form = ActiveForm::begin();
             <div class="row">
                 <div class="col-lg-2">
                     <?= $form->field($model, 'type_id')->widget(Select2::classname(), [
-                        'data' => app\models\DataList::itemsBySlug('participantes'),
+                        'data' => MonitoringContactType::allTypeContact(),
                         'language' => 'es',
                         'options' => ['placeholder' => '...'],
                         'pluginOptions' => [
@@ -73,7 +74,7 @@ $form = ActiveForm::begin();
                 </div>
                 <div class="col-lg-4">
                     <?= $form->field($model, 'education_id')->widget(Select2::classname(), [
-                        'data' => DataList::itemsBySlug('education'),
+                        'data' => MonitoringEducation::allEducations(),
                         'language' => 'es',
                         'options' => ['placeholder' => '...'],
                         'pluginOptions' => [

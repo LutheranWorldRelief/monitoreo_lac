@@ -70,12 +70,14 @@ class ContactController extends Controller
      */
     public function actionIndex()
     {
+
         $searchModel = new ContactSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         // Check if there is an Editable ajax request
         if (isset($_POST['hasEditable'])) {
             // use Yii's response format to encode output as JSON
+
             Yii::$app->response->format = Response::FORMAT_JSON;
 
             $request = Yii::$app->request;
@@ -105,7 +107,7 @@ class ContactController extends Controller
                 return ['output' => '', 'message' => ''];
             }
         }
-
+       //var_dump($dataProvider); exit('hey');
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,

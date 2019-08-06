@@ -4,6 +4,7 @@
 namespace app\models;
 
 use yii\db\Query;
+use yii\helpers\ArrayHelper;
 
 class MonitoringContactType extends base\MonitoringContactType
 {
@@ -12,7 +13,7 @@ class MonitoringContactType extends base\MonitoringContactType
         $data = MonitoringContactType::find()->select(['id', $columnNameIdiom])->orderBy('id')->all();
 
         if (count($data) > 0)
-            return $data;
+            return ArrayHelper::map($data, 'id', $columnNameIdiom);
 
         return [];
 
@@ -33,6 +34,13 @@ class MonitoringContactType extends base\MonitoringContactType
     {
         $datum = MonitoringContactType::find()->orwhere(['name' => $name])
             ->orWhere(['name_es' => $name])->orWhere(['name_fr' => $name])->one();
+        return $datum;
+    }
+
+    public static function getSpecificTypeById($id)
+    {
+        $datum = MonitoringContactType::findOne($id);
+
         return $datum;
     }
 }

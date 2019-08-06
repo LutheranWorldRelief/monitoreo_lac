@@ -169,11 +169,13 @@ class Contact extends base\Contact
 
     public function getAttendeeTypeName()
     {
-        if ($this->type)
-            return $this->type->name;
-        if ($this->type)
-            return $this->type->name;
-        return "";
+        if($this->type_id)
+        {
+            $type = MonitoringContactType::getSpecificTypeById($this->type_id);
+            return $type->name;
+        }
+       
+        return $this->type_id;
     }
 
     public function getFullname()

@@ -53,7 +53,7 @@ $gridColumns = [
     [
         'class' => 'kartik\grid\EditableColumn',
         'attribute' => 'type_id',
-        'filter' => [null => 'Todos'] + DataList::itemsBySlug('participantes'),
+        'filter' => [null => 'Todos'] + DataList::itemsBySlugParticipante('participantes'),
         'filterType' => GridView::FILTER_SELECT2,
         'filterWidgetOptions' => ['size' => Select2::MEDIUM],
         'value' => function ($model) { return $model->attendeeTypeName; },
@@ -61,7 +61,7 @@ $gridColumns = [
             'header' => 'Tipo',
             'asPopover' => false,
             'inputType' => Editable::INPUT_DROPDOWN_LIST,
-            'data' => Datalist::itemsBySlug('participantes'),
+            'data' => Datalist::itemsBySlugParticipante('participantes'),
             'options' => ['pluginOptions' => []]
         ]],
     [

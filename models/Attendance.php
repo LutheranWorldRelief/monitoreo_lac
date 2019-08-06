@@ -134,8 +134,8 @@ class Attendance extends base\Attendance
         if ($this->type)
             $this->type_name = $this->type->name;
 
-        if (!$this->type_name && $this->attendanceType)
-            $this->type_name = $this->attendanceType->name;
+        /*if (!$this->type_name && $this->attendanceType)
+            $this->type_name = $this->attendanceType->name; */
 
         if ($this->contact) {
             $this->fullname = $this->contact->fullname;
@@ -180,7 +180,7 @@ class Attendance extends base\Attendance
 
     public function getType()
     {
-        return $this->hasOne(DataList::className(), ['id' => 'type_id']);
+        return $this->hasOne(MonitoringContactType::className(), ['id' => 'type_id']);
     }
 
     public function getAttendanceType()

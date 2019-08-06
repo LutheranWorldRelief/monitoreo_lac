@@ -24,6 +24,7 @@ class UCatalogo extends Component
 
     public static function listCountries()
     {
+
         return DataList::itemsBySlug('countries');
     }
 

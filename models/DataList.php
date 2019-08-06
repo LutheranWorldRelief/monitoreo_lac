@@ -30,6 +30,17 @@ class DataList extends base\DataList
         return ArrayHelper::map($countries, 'id', $label);
     }
 
+    public static function itemsBySlugParticipante($slug, $label = 'name', $id = 'value', $order = " DESC")
+    {
+        $participantes = (new Query())->select(['id', $label])
+            ->from('monitoring_contacttype')
+            ->orderBy($label . $order)
+            ->orderBy([$label => SORT_ASC,])
+            ->all();
+
+        return ArrayHelper::map($participantes, 'id', $label);
+    }
+
     public static function idItemBySlug($slug, $name)
     {
         $model = DataList::find()->where(['slug' => $slug])->one();
