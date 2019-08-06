@@ -62,7 +62,7 @@ class OptController extends Controller
 
         $name2 = preg_replace('/\s+/', " ", TRIM($name));
         if ($name2)
-            $query->andWhere("REGEXP_REPLACE(TRIM(sql_contact.name), '( ){2,}', ' ') = $name2");
+            $query->andWhere("REGEXP_REPLACE(TRIM(sql_contact.name), '( ){2,}', ' ') = '".$name2."'");
 
         $query->andWhere("NOT TRIM(sql_contact.name) = ''");
 
