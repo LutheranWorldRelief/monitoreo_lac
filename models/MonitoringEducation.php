@@ -37,13 +37,4 @@ class MonitoringEducation extends base\MonitoringEducation
         return $datum;
     }
 
-
-    public static function getIdFromName($name)
-    {
-        $model = self::find()->where(['name' => $name])->one();
-        if ($model)
-            return $model->id;
-        return null;
-    }
-
 }
