@@ -76,8 +76,10 @@ class DataList extends base\DataList
 
     public static function CountriesCode()
     {
-        $model = DataList::find()->where(['slug' => 'countries'])->one();
-        return ArrayHelper::map($model->getDataLists()->all(), 'value', 'name');
+        $countries = (new Query())->select('id', 'name')
+            ->from('country');
+
+        return ArrayHelper::map($countries, 'id', 'name');
 
     }
 
