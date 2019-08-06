@@ -4,6 +4,7 @@
 namespace app\models;
 
 use yii\db\Query;
+use yii\helpers\ArrayHelper;
 
 class MonitoringEducation extends base\MonitoringEducation
 {
@@ -12,7 +13,7 @@ class MonitoringEducation extends base\MonitoringEducation
         $data = MonitoringEducation::find()->select(['id', $columnNameIdiom])->orderBy('id')->all();
 
         if (count($data) > 0)
-            return $data;
+            return ArrayHelper::map($data, 'id', $columnNameIdiom);
 
         return [];
 
