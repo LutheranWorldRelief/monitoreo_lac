@@ -1,8 +1,8 @@
 <?php
 
+use app\models\Country;
 use app\components\UCatalogo;
 use app\components\WGridView;
-use app\components\WMenuExport;
 use app\models\DataList;
 use app\models\Organization;
 use kartik\editable\Editable;
@@ -24,7 +24,9 @@ $gridColumns = [
     [
         'attribute' => 'name',
         'format' => 'raw',
-        'value' => function ($model) { return Html::a($model->name, ['contact/view', 'id' => $model->id]); },
+        'value' => function ($model) {
+            return Html::a($model->name, ['contact/view', 'id' => $model->id]);
+        },
     ],
     [
         'attribute' => 'document',
@@ -32,8 +34,10 @@ $gridColumns = [
     [
         'class' => 'kartik\grid\EditableColumn',
         'attribute' => 'country_id',
-        'value' => function ($model) { return $model->countryName; },
-        'filter' => [null => 'Todos'] + UCatalogo::listCountries(),
+        'value' => function ($model) {
+            return $model->countryName;
+        },
+        'filter' => [null => 'Todos'] + Country::allCountries(),
         'filterType' => GridView::FILTER_SELECT2,
         'filterWidgetOptions' => ['size' => Select2::MEDIUM],
         'editableOptions' => [
@@ -47,7 +51,9 @@ $gridColumns = [
         'filter' => [null => 'Todos'] + Organization::listData('name', 'id'),
         'filterType' => GridView::FILTER_SELECT2,
         'filterWidgetOptions' => ['size' => Select2::MEDIUM],
-        'value' => function ($model) { return $model->organizationName; },
+        'value' => function ($model) {
+            return $model->organizationName;
+        },
         'headerOptions' => ['style' => 'width:250px']
     ],
     [
@@ -56,7 +62,9 @@ $gridColumns = [
         'filter' => [null => 'Todos'] + DataList::itemsBySlugParticipante('participantes'),
         'filterType' => GridView::FILTER_SELECT2,
         'filterWidgetOptions' => ['size' => Select2::MEDIUM],
-        'value' => function ($model) { return $model->attendeeTypeName; },
+        'value' => function ($model) {
+            return $model->attendeeTypeName;
+        },
         'editableOptions' => [
             'header' => 'Tipo',
             'asPopover' => false,
@@ -83,6 +91,7 @@ $gridColumnsExcel[2] = ['attribute' => 'name',];
 unset($gridColumnsExcel[0]);
 unset($gridColumnsExcel[8]);
 ?>
+
 <?= $this->render('_navbar') ?>
 <div class="box">
     <div class="box-body">
