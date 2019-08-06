@@ -11,6 +11,7 @@ use app\models\Contact;
 use app\models\DataList;
 use app\models\Event;
 use app\models\Organization;
+use app\models\MonitoringEducation;
 use app\models\Project;
 use Exception;
 use Yii;
@@ -115,7 +116,7 @@ class ImportController extends Controller
             $organizationId = Organization::getIdFromName($row[$key['organizacion']]);
             $implementingOrganizationId = Organization::getIdFromName($row[$key['organizacion_implementadora']]);
             $countryCode = DataList::CountryCode($row[$key['pais']]);
-            $educationId = DataList::idItemBySlug('education', $row[$key['educacion']]);
+            $educationId = MonitoringEducation::getIdFromName($row[$key['educacion']]);
 
             /*Busca el proyecto en la base de datos y si lo encuentra proyectoId regresa con valor*/
             $proyectoId = null;

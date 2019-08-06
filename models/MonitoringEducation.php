@@ -36,4 +36,14 @@ class MonitoringEducation extends base\MonitoringEducation
             ->orWhere(['name_es' => $name])->orWhere(['name_fr' => $name])->one();
         return $datum;
     }
+
+
+    public static function getIdFromName($name)
+    {
+        $model = self::find()->where(['name' => $name])->one();
+        if ($model)
+            return $model->id;
+        return null;
+    }
+
 }
