@@ -877,7 +877,7 @@ class GraphicController extends ControladorController
             'c.sex',
         ])->from('attendance a')
             ->leftJoin('contact c', 'a.contact_id = c.id')
-            ->leftJoin('data_list t', 'c.type_id = t.id')
+            ->leftJoin('monitoring_contacttype t', 'c.type_id = t.id')
             ->leftJoin('event e', 'a.event_id = e.id')
             ->leftJoin('country pa', 'e.country_id= pa.id')
             ->leftJoin('structure act', 'e.structure_id = act.id')
