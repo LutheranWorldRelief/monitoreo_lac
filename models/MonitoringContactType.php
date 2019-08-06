@@ -35,4 +35,11 @@ class MonitoringContactType extends base\MonitoringContactType
             ->orWhere(['name_es' => $name])->orWhere(['name_fr' => $name])->one();
         return $datum;
     }
+
+    public static function getSpecificTypeById($id)
+    {
+        $datum = MonitoringContactType::findOne($id);
+
+        return $datum;
+    }
 }

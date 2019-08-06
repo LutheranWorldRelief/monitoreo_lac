@@ -33,9 +33,9 @@ use yii\db\ActiveQuery;
  * @property string                       $birthdate
  *
  * @property \app\models\Attendance[]     $attendances
- * @property \app\models\DataList         $education
+ * @property \app\models\MonitoringEducation $education
  * @property \app\models\Organization     $organization
- * @property \app\models\DataList         $type
+ * @property \app\models\MonitoringContactType $type
  * @property \app\models\ProjectContact[] $projectContacts
  */
 abstract class Contact extends ActiveRecord
@@ -64,9 +64,9 @@ abstract class Contact extends ActiveRecord
             [['sex'], 'string', 'max' => 1],
             [['country_id'], 'string', 'max' => 2],
             [['phone_personal', 'phone_work'], 'string', 'max' => 20],
-            [['education_id'], 'exist', 'skipOnError' => true, 'targetClass' => DataList::className(), 'targetAttribute' => ['education_id' => 'id']],
+            [['education_id'], 'exist', 'skipOnError' => true, 'targetClass' => MonitoringEducation::className(), 'targetAttribute' => ['education_id' => 'id']],
             [['organization_id'], 'exist', 'skipOnError' => true, 'targetClass' => Organization::className(), 'targetAttribute' => ['organization_id' => 'id']],
-            [['type_id'], 'exist', 'skipOnError' => true, 'targetClass' => DataList::className(), 'targetAttribute' => ['type_id' => 'id']],
+            [['type_id'], 'exist', 'skipOnError' => true, 'targetClass' => MonitoringContactType::className(), 'targetAttribute' => ['type_id' => 'id']],
         ];
     }
 
@@ -113,7 +113,7 @@ abstract class Contact extends ActiveRecord
      */
     public function getEducation()
     {
-        return $this->hasOne(\app\models\DataList::className(), ['id' => 'education_id']);
+        return $this->hasOne(\app\models\MonitoringEducation::className(), ['id' => 'education_id']);
     }
 
     /**
@@ -129,7 +129,7 @@ abstract class Contact extends ActiveRecord
      */
     public function getType()
     {
-        return $this->hasOne(\app\models\DataList::className(), ['id' => 'type_id']);
+        return $this->hasOne(\app\models\MonitoringContactType::className(), ['id' => 'type_id']);
     }
 
     /**
