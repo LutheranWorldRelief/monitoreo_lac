@@ -39,7 +39,7 @@ class Event extends base\Event
         $fechaIngreso = date('Y-m-d');
         $organizacionImplementadora = [];
         $proyectoId = null;
-        $paisNombre = null;
+
         /*Extracción de las variables*/
         extract($data, null);
         $evento = new self();
@@ -70,21 +70,20 @@ class Event extends base\Event
             $evento->structure_id = $id_estructura;
         }
 
-        if (!$organizacionNueva) {
-            $nombreOrg = $organizacionImplementadora['name'];
-            $organization = Organization::find()->where(['name' => $nombreOrg])->one();
-            $id_organization = null;
-            if (is_null($organization)) {
+        if ($organizacionNueva)
+        {
                 $organization = new Organization();
-                $organization->name = $nombreOrg;
+                $organization->name = $organizacionImplementadora['name'];
                 $organization->is_implementer = 1;
 
                 $organization->save();
-                $id_organization = $organization->id;
-            } else {
-                $id_organization = $organization->id;
-            }
-            $evento->organization_id =  $id_organization;
+                 $evento->organization_id = $organization->id;
+        }else
+            {
+            $nombreOrg = $organizacionImplementadora['name'];
+            $organization = Organization::find()->where(['name' => $nombreOrg])->one();
+            $id_organization = null;
+            $evento->organization_id =  $organization->id;
         }
 
         $detallesValidos = true;
