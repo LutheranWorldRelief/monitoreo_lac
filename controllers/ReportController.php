@@ -3,7 +3,7 @@
 namespace app\controllers;
 
 use app\models\AuthUser;
-use app\models\DataList;
+use app\models\Country;
 use app\models\form\ReportForm;
 use app\models\MonitoringEducation;
 use app\models\MonitoringProduct;
@@ -18,7 +18,6 @@ use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use Yii;
-use yii\db\Query;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -197,7 +196,7 @@ class ReportController extends ControladorController
                 ->asArray()
                 ->all();
 
-            $countries = DataList::itemsBySlug('countries', 'name', 'id', 'name asc');
+            $countries = Country::allCountries();
 
             $products = MonitoringProduct::allProductNames('name_es');
 
