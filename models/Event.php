@@ -39,6 +39,7 @@ class Event extends base\Event
         $fechaIngreso = date('Y-m-d');
         $organizacionImplementadora = [];
         $proyectoId = null;
+        $paisNombre = null;
 
         /*Extracción de las variables*/
         extract($data, null);
