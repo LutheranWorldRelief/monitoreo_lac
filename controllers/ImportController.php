@@ -112,11 +112,19 @@ class ImportController extends Controller
                 if (!empty($date) && ($date !== ' ')) $ingresoProyecto = date('Y-m-d', strtotime($date));
                 else $ingresoProyecto = null;
             }
-
+            //obtener el id la organizacion en busqueda
             $organizationId = Organization::getIdFromName($row[$key['organizacion']]);
+            //obtener el id de la organizacion que implemento
             $implementingOrganizationId = Organization::getIdFromName($row[$key['organizacion_implementadora']]);
+            //obtener el id del pais
             $countryCode = DataList::CountryCode($row[$key['pais']]);
-            $educationId = MonitoringEducation::getSpecificEducation($row[$key['educacion']])->id;
+
+            $education = MonitoringEducation::getSpecificEducation('1');
+
+            $educationId = null;
+            if (!is_null($education)){
+                $educationId = $education->id;
+            }
 
             /*Busca el proyecto en la base de datos y si lo encuentra proyectoId regresa con valor*/
             $proyectoId = null;
