@@ -39,6 +39,7 @@ class Contact extends base\Contact
         $contact->country_id = $data['country'];
         $contact->phone_personal = trim($data['phone_personal']);
         $contact->men_home = (int)$data['men_home'];
+        $contact->women_home = (int)$data['women_home'];
         $contact->birthdate = $data['birthdate'];
 
 
