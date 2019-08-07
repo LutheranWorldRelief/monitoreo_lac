@@ -1,9 +1,8 @@
 <?php
 
 use app\models\Country;
-use app\components\UCatalogo;
+use app\models\MonitoringContactType;
 use app\components\WGridView;
-use app\models\DataList;
 use app\models\Organization;
 use kartik\editable\Editable;
 use kartik\grid\GridView;
@@ -44,7 +43,7 @@ $gridColumns = [
             'header' => 'Country',
             'asPopover' => false,
             'inputType' => Editable::INPUT_DROPDOWN_LIST,
-            'data' => UCatalogo::listCountries(),
+            'data' => Country::allCountries(),
         ]],
     [
         'attribute' => 'organization_id',
@@ -59,7 +58,7 @@ $gridColumns = [
     [
         'class' => 'kartik\grid\EditableColumn',
         'attribute' => 'type_id',
-        'filter' => [null => 'Todos'] + DataList::itemsBySlugParticipante('participantes'),
+        'filter' => [null => 'Todos'] + MonitoringContactType::allTypeContact(),
         'filterType' => GridView::FILTER_SELECT2,
         'filterWidgetOptions' => ['size' => Select2::MEDIUM],
         'value' => function ($model) {
@@ -69,7 +68,7 @@ $gridColumns = [
             'header' => 'Tipo',
             'asPopover' => false,
             'inputType' => Editable::INPUT_DROPDOWN_LIST,
-            'data' => Datalist::itemsBySlugParticipante('participantes'),
+            'data' => MonitoringContactType::allTypeContact(),
             'options' => ['pluginOptions' => []]
         ]],
     [
