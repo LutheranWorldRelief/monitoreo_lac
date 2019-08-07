@@ -256,8 +256,9 @@ class AuthUser extends BaseUser implements IdentityInterface
             if (count($parent) > 0)
                 return $parent;
         } else {
-            return DataList::find()
-                ->where(['id' => $this->countriesArray()])
+
+            return Country::find()
+                ->where(['in','id',$this->countriesArray()])
                 ->orderBy('name')
                 ->all();
         }
