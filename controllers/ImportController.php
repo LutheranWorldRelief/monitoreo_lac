@@ -119,7 +119,7 @@ class ImportController extends Controller
             //obtener el id del pais
             $countryCode = DataList::CountryCode($row[$key['pais']]);
 
-            $education = MonitoringEducation::getSpecificEducation('1');
+            $education = MonitoringEducation::getSpecificEducation($row[$key['educacion']]);
 
             $educationId = null;
             if (!is_null($education)){
