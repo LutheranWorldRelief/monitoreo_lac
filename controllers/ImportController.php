@@ -112,11 +112,29 @@ class ImportController extends Controller
                 if (!empty($date) && ($date !== ' ')) $ingresoProyecto = date('Y-m-d', strtotime($date));
                 else $ingresoProyecto = null;
             }
-
+            //obtener el id la organizacion en busqueda
             $organizationId = Organization::getIdFromName($row[$key['organizacion']]);
+            //obtener el id de la organizacion que implemento
             $implementingOrganizationId = Organization::getIdFromName($row[$key['organizacion_implementadora']]);
+            //obtener el id del pais
             $countryCode = DataList::CountryCode($row[$key['pais']]);
-            $educationId = MonitoringEducation::getSpecificEducation($row[$key['educacion']])->id;
+
+            $education = MonitoringEducation::getSpecificEducation($row[$key['educacion']]);
+
+            $educationId = null;
+            if (!is_null($education)) {
+                $educationId = $education->id;
+            }
+
+            $mujeres = (int)$row[$key['mujeres']];
+            if (gettype($row[$key['mujeres']]) === 'string') {
+                $mujeres = null;
+            }
+
+            $hombres = (int)$row[$key['hombres']];
+            if (gettype($row[$key['hombres']]) === 'string') {
+                $hombres = null;
+            }
 
             /*Busca el proyecto en la base de datos y si lo encuentra proyectoId regresa con valor*/
             $proyectoId = null;
@@ -137,8 +155,8 @@ class ImportController extends Controller
                 'education_id' => $educationId,
                 'education_name' => $row[$key['educacion']],
                 'phone_personal' => (string)$row[$key['telefono']],
-                'men_home' => $row[$key['hombres']],
-                'women_home' => $row[$key['mujeres']],
+                'men_home' => $hombres,
+                'women_home' => $mujeres,
                 'organization_id' => $organizationId,
                 'organization_name' => $row[$key['organizacion']],
                 'country' => $countryCode,
@@ -244,7 +262,6 @@ class ImportController extends Controller
         $this->BeneficiariosPaso2DatosCrearEnBD($resultados, $proyectosRegistrar, $organizacionRegistrar, $paisesRegistrar, $educacionRegistrar);
 
 
-
         $data = [
             'data' => $resultados,
             'errores' => $errores,
@@ -327,7 +344,7 @@ class ImportController extends Controller
             foreach ($eventos as $evento) {
                 $id = null;
                 if (!Event::CreateFromImport($evento, $id)) {
-                   // $transaction->commit();
+                    // $transaction->commit();
                 } else {
                     $eventosCreados[] = $id;
                 }
