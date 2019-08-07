@@ -243,6 +243,8 @@ class ImportController extends Controller
 
         $this->BeneficiariosPaso2DatosCrearEnBD($resultados, $proyectosRegistrar, $organizacionRegistrar, $paisesRegistrar, $educacionRegistrar);
 
+
+
         $data = [
             'data' => $resultados,
             'errores' => $errores,
@@ -330,7 +332,6 @@ class ImportController extends Controller
                     $eventosCreados[] = $id;
                 }
             }
-
             $transaction->commit();
 
         } catch (Exception $exception) {
@@ -362,7 +363,6 @@ class ImportController extends Controller
                 'project_code' => $model['project_code'],
                 'project_name' => $model['project_name']
             ];
-
         }
 
         $paises = clone $query;
@@ -389,6 +389,7 @@ class ImportController extends Controller
         $organizacion->andFilterWhere(['or', 'organization_id', null]);
         $organizacion->andFilterWhere(['or', 'implementing_organization_id', null]);
         $organizacionRegistrar = [];
+
         foreach ($organizacion->all() as $model) {
             if (is_null($model['implementing_organization_id']))
                 if (!empty($model['implementing_organization_name']))

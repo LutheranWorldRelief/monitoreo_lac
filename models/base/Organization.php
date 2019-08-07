@@ -91,7 +91,7 @@ abstract class Organization extends ActiveRecord
      */
     public function getCountry0()
     {
-        return $this->hasOne(\app\models\DataList::className(), ['id' => 'country_id']);
+        return $this->hasOne(\app\models\Country::className(), ['id' => 'country_id']);
     }
 
     /**
