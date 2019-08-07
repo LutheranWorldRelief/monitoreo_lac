@@ -246,21 +246,19 @@ class AuthUser extends BaseUser implements IdentityInterface
 
     public function countriesList()
     {
-        return ArrayHelper::map($this->countriesModels(), "value", "name");
+        return ArrayHelper::map($this->countriesModels(), "id", "name");
     }
 
     public function countriesModels()
     {
         if ($this->is_superuser) {
-            $parent = DataList::findOne(['slug' => 'countries']);
-            if ($parent)
-                return DataList::find()
-                    ->where(['data_list_id' => $parent->id])
-                    ->orderBy('name')
-                    ->all();
+            $parent = Country::find()->orderBy('name')->all();
+            if (count($parent) > 0)
+                return $parent;
         } else {
-            return DataList::find()
-                ->where(['id' => $this->countriesArray()])
+
+            return Country::find()
+                ->where(['in','id',$this->countriesArray()])
                 ->orderBy('name')
                 ->all();
         }
