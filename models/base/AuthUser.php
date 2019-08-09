@@ -42,7 +42,7 @@ abstract class AuthUser extends ActiveRecord
         return [
             [['password', 'username', 'first_name', 'is_staff', 'is_active', 'date_joined'], 'required'],
             [['last_login', 'date_joined', 'countries', 'projects'], 'safe'],
-            [['is_superuser', 'is_staff', 'is_active'], 'integer'],
+            [['is_superuser', 'is_staff', 'is_active'], 'boolean'],
             [['access_token'], 'string'],
             [['password'], 'string', 'max' => 128],
             [['username', 'first_name', 'last_name'], 'string', 'max' => 30],

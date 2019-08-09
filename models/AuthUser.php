@@ -160,7 +160,7 @@ class AuthUser extends BaseUser implements IdentityInterface
         else
             $this->hashClave();
 
-        return $this->save(false);
+        return $this->save(true);
     }
 
     public function tienePermiso($ruta)
