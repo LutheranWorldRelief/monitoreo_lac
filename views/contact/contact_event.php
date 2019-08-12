@@ -32,7 +32,7 @@ $gridColumns = [
             'dataProvider' => $dataProvider,
             'filterModel' => $searchModel,
             'columns' => $gridColumns,
-            'heading' => '<i class="wi wi-rain-mix wi-flip-horizontal"></i> Yii::t('app', 'Contactos por evento'),
+            'heading' => '<i class="wi wi-rain-mix wi-flip-horizontal"></i>'. Yii::t('app', "Contactos por evento"),
         ]);
         ?>
     </div>

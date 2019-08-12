@@ -11,12 +11,92 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 msgctxt "app"
+msgid ""
+msgstr ""
+
+msgctxt "app"
+msgid "\"No encontrado\""
+msgstr ""
+
+msgctxt "app"
+msgid "403, "
+msgstr ""
+
+msgctxt "app"
+msgid "500, \"No se cargaron los modelos necesarios para la fusión\""
+msgstr ""
+
+msgctxt "app"
+msgid "500, \"No se logró guardar el modelo principal con los cambios\""
+msgstr ""
+
+msgctxt "app"
+msgid "500, \"No se logró identificar al modelo principal de la fusión\""
+msgstr ""
+
+msgctxt "app"
+msgid "Activities"
+msgstr ""
+
+msgctxt "app"
+msgid "Actualizar"
+msgstr ""
+
+msgctxt "app"
+msgid "Cancelar"
+msgstr ""
+
+msgctxt "app"
 msgid "Choose file for import!"
+msgstr ""
+
+msgctxt "app"
+msgid "Contactos"
+msgstr ""
+
+msgctxt "app"
+msgid "Contactos por evento"
+msgstr ""
+
+msgctxt "app"
+msgid "Events"
+msgstr ""
+
+msgctxt "app"
+msgid "Guardar"
+msgstr ""
+
+msgctxt "app"
+msgid "Lista"
+msgstr ""
+
+msgctxt "app"
+msgid "Nuevo Contacto"
+msgstr ""
+
+msgctxt "app"
+msgid "Projects"
 msgstr ""
 
 msgctxt "app"
 msgid "Sistema de Monitoreo de Proyectos"
 msgstr "Project Monitoring System"
+
+msgctxt "app"
+msgid "The requested page does not exist."
+msgstr ""
+
+msgctxt "app"
+msgid "Usuarios"
+msgstr ""
+
+msgctxt "app"
+msgid "danger"
+msgstr ""
+
+msgctxt "app"
+msgid "success"
+msgstr ""
 
 msgctxt "audit"
 msgid "<b>{message}</b><br />in <i>{file}</i> on line <i>{line}</i>.<br/>-- {link}"

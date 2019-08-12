@@ -15,7 +15,7 @@ $this->title = 'Contacto / ' . $model->id . ' / ' . $model->fullname;
     'url' => null,
     'options' => [
         [
-            'label' => '<i class="fa fa-pencil"></i> Yii::t('app', Actualizar)',
+            'label' => '<i class="fa fa-pencil"></i>'. Yii::t('app', "Actualizar"),
             'url' => ['update', 'id' => $model->id],
             'linkOptions' => [],
             'encode' => false
@@ -49,9 +49,9 @@ $this->title = 'Contacto / ' . $model->id . ' / ' . $model->fullname;
     <div class="nav-tabs-custom" style="cursor: move;">
         <!-- Tabs within a box -->
         <ul class="nav nav-tabs pull-right ui-sortable-handle">
-            <li class=""><a href="#events" data-toggle="tab" aria-expanded="false">Events</a></li>
-            <li class=""><a href="#activities" data-toggle="tab" aria-expanded="false">Activities</a></li>
-            <li class="active"><a href="#projects" data-toggle="tab" aria-expanded="true">Projects</a></li>
+	<li class=""><a href="#events" data-toggle="tab" aria-expanded="false"><?= \Yii::t('app', "Events") ?></a></li>
+	    <li class=""><a href="#activities" data-toggle="tab" aria-expanded="false"><?= \Yii::t('app',"Activities") ?></a></li>
+	    <li class="active"><a href="#projects" data-toggle="tab" aria-expanded="true"><?= \Yii::t('app', "Projects") ?></a></li>
             <li class="pull-left header"><i class="fa fa-inbox"></i> Log</li>
         </ul>
         <div class="tab-content no-padding">
