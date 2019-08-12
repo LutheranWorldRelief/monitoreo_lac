@@ -15,7 +15,7 @@ $this->title = 'Contacto / ' . $model->id . ' / ' . $model->fullname;
     'url' => null,
     'options' => [
         [
-            'label' => '<i class="fa fa-pencil"></i> Actualizar',
+            'label' => '<i class="fa fa-pencil"></i> Yii::t('app', Actualizar)',
             'url' => ['update', 'id' => $model->id],
             'linkOptions' => [],
             'encode' => false

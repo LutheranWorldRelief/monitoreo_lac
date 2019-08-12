@@ -99,7 +99,7 @@ unset($gridColumnsExcel[8]);
             'dataProvider' => $dataProvider,
             'filterModel' => $searchModel,
             'columns' => $gridColumns,
-            'heading' => '<i class="wi wi-rain-mix wi-flip-horizontal"></i> Contactos',
+            'heading' => '<i class="wi wi-rain-mix wi-flip-horizontal"></i> Yii::t('app', Contactos)',
             /*'toolbar' => [
                 WMenuExport::widget(['dataProvider' => $dataProvider, 'filename' => 'Contactos', 'columns' => $gridColumnsExcel]),
                 '{toggleData}',

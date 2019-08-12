@@ -89,11 +89,11 @@ $form = ActiveForm::begin();
             <div class="col-lg-12 form-group">
                 <?php
                 if (!$model->isNewRecord)
-                    echo Html::a('<i class="fa fa-reply"></i> Cancelar', ['view', 'id' => $model->id], ['class' => 'btn btn-danger']);
+                    echo Html::a('<i class="fa fa-reply"></i> Yii::t('app', Cancelar)', ['view', 'id' => $model->id], ['class' => 'btn btn-danger']);
                 else
-                    echo Html::a('<i class="fa fa-reply"></i> Cancelar', ['index'], ['class' => 'btn btn-danger']);
+                    echo Html::a('<i class="fa fa-reply"></i> Yii::t('app', Cancelar)', ['index'], ['class' => 'btn btn-danger']);
                 ?>
-                <?= Html::submitButton('<i class="fa fa-floppy-o"></i> Guardar', ['class' => 'btn btn-primary']) ?>
+                <?= Html::submitButton('<i class="fa fa-floppy-o"></i> Yii::t('app', Guardar)', ['class' => 'btn btn-primary']) ?>
             </div>
         </div>
     </div>
