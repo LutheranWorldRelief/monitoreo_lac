@@ -73,7 +73,7 @@ use yii\helpers\Html;
             </div>
             <div class="col-md-2">
                 <br>
-		<button class="btn btn-primary" ng-click="cargarDatos()"><i class="fa fa-area-chart"></i><?= Yii::t('app', "Graficar"?>
+		<button class="btn btn-primary" ng-click="cargarDatos()"><i class="fa fa-area-chart"></i><?= \Yii::t('app', "Graficar")?>
                 </button>
             </div>
         </div>
