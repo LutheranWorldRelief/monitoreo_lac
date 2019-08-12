@@ -25,21 +25,21 @@ $gridColumns = [
     ],
     [
         'attribute' => 'project',
-        'label' => 'Project',
+        'label' => Yii::t('app', 'Project'),
         'options' => ['style' => 'width: 170px;'],
     ],
     [
         'attribute' => 'structure',
-        'label' => 'Estructure',
+        'label' => Yii::t('app', 'Estructure'),
         'options' => ['style' => 'width: 170px;'],
     ], [
         'attribute' => 'country',
-        'label' => 'Country',
+        'label' => Yii::t('app', 'Country'),
         'options' => ['style' => 'width: 130px;'],
     ],
     [
         'attribute' => 'organization',
-        'label' => 'Implementing Organization',
+        'label' => Yii::t('app', 'Implementing Organization'),
         'options' => ['style' => 'width: 130px;'],
     ],
     [
@@ -80,7 +80,7 @@ $gridColumns = [
                     ],
                 ]
             ),
-            'heading' => '<i class="wi wi-rain-mix wi-flip-horizontal"></i> Eventos',
+            'heading' => '<i class="wi wi-rain-mix wi-flip-horizontal"></i>'. Yii::t('app',  "Eventos"),
         ]);
         ?>
     </div>

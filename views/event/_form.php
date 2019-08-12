@@ -33,7 +33,7 @@ $form = ActiveForm::begin();
                 echo $form->field($model, 'structure_id')->widget(Select2::classname(), [
                     'data' => app\models\Structure::listDataBlank('description'),
                     'language' => 'es',
-                    'options' => ['placeholder' => 'Seleccione una actividad'],
+                    'options' => ['placeholder' => Yii::t('app','Seleccione una actividad')],
                     'pluginOptions' => ['allowClear' => true],
                 ])->label('Structure');
                 ?>
@@ -67,7 +67,7 @@ $form = ActiveForm::begin();
                 echo $form->field($model, 'organization_id')->widget(Select2::classname(), [
                     'data' => Organization::listData('name', 'id'),
                     'language' => 'es',
-                    'options' => ['placeholder' => 'Seleccione una Organización'],
+                    'options' => ['placeholder' => Yii::t('app','Seleccione una Organización')],
                     'pluginOptions' => ['allowClear' => true],
                 ])->label('Implementing Organization');
                 ?>
@@ -77,7 +77,7 @@ $form = ActiveForm::begin();
                 echo $form->field($model, 'country_id')->widget(Select2::classname(), [
                     'data' => Country::allCountries(),
                     'language' => 'es',
-                    'options' => ['placeholder' => 'Seleccione un país'],
+                    'options' => ['placeholder' => Yii::('app','Seleccione un país')],
                     'pluginOptions' => ['allowClear' => true],
                 ])->label('Country');
                 ?>
@@ -117,15 +117,15 @@ $form = ActiveForm::begin();
                     <table class="table table-condensed table-stripped table-bordered">
                         <thead>
                         <tr>
-                            <th>Participante</th>
+			<th><?= \Yii::t('app', "Participante")?></th>
                             <th style="max-width: 64px;"></th>
-                            <th>Documento</th>
-                            <th style="width:70px">Sexo</th>
-                            <th style="width:130px">Organizacion</th>
-                            <th>País</th>
-                            <th>Comunidad</th>
-                            <th>Tipo</th>
-                            <th style="width:100px">Cell</th>
+			    <th><?= \Yii::t('app', "Documento")?></th>
+			    <th style="width:70px"><?= \Yii::t('app', "Sexo")?></th>
+			    <th style="width:130px"><?= \Yii::t('app', "Organizacion")?></th>
+			    <th><?= \Yii::t('app', "País")?></th>
+			    <th><?= \Yii::t('app', "Comunidad")?></th>
+			    <th><?= \Yii::t('app', "Tipo")?></th>
+			    <th style="width:100px"><?= \Yii::t('app', "Cell"?></th>
                             <th></th>
                         </tr>
                         </thead>
@@ -258,7 +258,7 @@ $form = ActiveForm::begin();
                         </tbody>
                     </table>
                     <div class="col-lg-12">
-                        <?= Html::button('<i class="fa fa-plus"></i> Agregar Participante', ['class' => 'btn btn-primary pull-right', '@click' => 'newAttendance']) ?>
+                        <?= Html::button('<i class="fa fa-plus"></i>'. Yii::t('app',  "Agregar Participante"), ['class' => 'btn btn-primary pull-right', '@click' => 'newAttendance']) ?>
                     </div>
                 </div>
             </div>

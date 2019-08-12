@@ -11,7 +11,7 @@ $this->title = 'Event';
 <?= $this->render('_navbar', [
     'options' => [
         [
-            'label' => '<i class="fa fa-pencil"></i> Actualizar',
+            'label' => '<i class="fa fa-pencil"></i>'. Yii::t('app', "Actualizar"),
             'url' => ['update', 'id' => $model->id],
             'linkOptions' => [
             ],
