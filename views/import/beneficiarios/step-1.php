@@ -9,15 +9,15 @@ use yii\helpers\Url;
 ?>
 <div class="row">
     <div class="col-lg-10 col-lg-offset-1">
-        <h3 class="text-info pull-left">Paso 1: Cargar el Archivo</h3>
+    <h3 class="text-info pull-left"><?= \Yii::t('app', "Paso 1: Cargar el Archivo")?></h3>
         <a href="<?= Url::to(['report/template-clean/']) ?>"
-           class="btn btn-info pull-right"><i class="fa fa-download"></i> Descargar Plantilla</a>
+	class="btn btn-info pull-right"><i class="fa fa-download"></i><?= \Yii::t('app', "Descargar Plantilla")?></a>
     </div>
 </div>
 <?php if (!$valido): ?>
     <div class="row">
         <div class="col-lg-10 col-lg-offset-1">
-            <h5 class="alert alert-danger">El Archivo no cumple con el formato esperado</h5>
+	<h5 class="alert alert-danger"><?= \Yii::t('app', "El Archivo no cumple con el formato esperado")?></h5>
 
         </div>
 
@@ -35,9 +35,9 @@ use yii\helpers\Url;
     <?php endforeach; endif; ?>
     <div class="row">
         <div class="col-lg-10 col-lg-offset-1">
-            El archivo debe tener las siguientes columnas en el siguiente orden
+	<?= \Yii::t('app', "El archivo debe tener las siguientes columnas en el siguiente orden")?>
             <a href="<?= Url::to(['report/template-clean/']) ?>"
-               class="btn btn-info"><i class="fa fa-download"></i> Descargar Plantilla</a>
+	    class="btn btn-info"><i class="fa fa-download"></i><?= \Yii::t('app', "Descargar Plantilla")?></a>
         </div>
     </div>
 
@@ -65,7 +65,7 @@ use yii\helpers\Url;
     <div class="col-lg-10 col-lg-offset-1 well">
         <label for="excel_file" class="control-label">
             <span class="glyphicon glyphicon-cloud-upload"></span>&nbsp;
-                                                                  Archivo de beneficiarios
+			<?= \Yii::t('app', 'Archivo de beneficiarios')?>
         </label>
         <?= ImportFileWidget::widget() ?>
 
@@ -76,7 +76,7 @@ use yii\helpers\Url;
 <ul class="list-inline pull-right">
     <li>
         <button type="submit" class="btn btn-success btn-block"><i class="fa fa-upload fa-w-16"></i>
-            Importar y continuar
+		<?= \Yii::t('app', 'Importar y continuar')?>
         </button>
     </li>
 </ul>
