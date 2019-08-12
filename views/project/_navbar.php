@@ -22,12 +22,12 @@ echo Nav::widget([
     'items' => array_merge(
         $options, [
             [
-                'label' => '<i class="fa fa-plus"></i> Nuevo Proyecto',
+                'label' => '<i class="fa fa-plus"></i>'. Yii::t('app', 'Nuevo Proyecto'),
                 'url' => ['project/create'],
                 'encode' => false
             ],
             [
-                'label' => '<i class="fa fa-database"></i> Lista',
+                'label' => '<i class="fa fa-database"></i>'. Yii::t('app', 'Lista'),
                 'url' => ['project/'],
                 'encode' => false
             ],

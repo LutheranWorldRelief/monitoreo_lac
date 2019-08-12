@@ -54,7 +54,7 @@ $this->registerJsFile("@web/js/vue/project.contact.js", ['depends' => $depends])
                 <h4 class="text-center text-primary">Cargando...</h4>
             </div>
             <div v-if="!loading">
-                <h4>Total Beneficiarios {{count.contacts}}</h4>
+	    <h4><?= \Yii::t('app', 'Total Beneficiarios'){{count.contacts}} ?></h4>
                 <table class="table table-condensed" style="font-size: 12px;">
                     <thead>
                     <tr>
