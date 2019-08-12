@@ -2,7 +2,7 @@
     <div class="col-lg-6 col-md-6 col-sm-6">
         <div class="box">
             <div class="box-header with-border">
-                <h3 class="box-title">Paises</h3>
+	    <h3 class="box-title"><?= Yii::t('app', "Paises"?></h3>
                 <div class="box-tools pull-right">
                     <button type="button" class="btn" ng-class="{'btn-success':formulario.paises_todos}"
                             ng-click="PaisesTodos()">Todos

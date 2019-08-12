@@ -1,7 +1,7 @@
 <section class="row">
     <div class="box">
         <div class="box-header with-border">
-            <h3 class="box-title">Tarjetas Resumen</h3>
+	<h3 class="box-title"><?= Yii::t('app', "Tarjetas Resumen"?></h3>
             <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse">
                     <i class="fa fa-minus"></i>
@@ -16,7 +16,7 @@
                                                                    aria-hidden="true"></i></span>
                         <div class="info-box-content">
                             <br>
-                            <span class="info-box-text">Proyectos</span>
+			    <span class="info-box-text"><?= Yii::t('app', "Proyectos"?></span>
                             <span class="info-box-number">{{proyectos}}</span>
                         </div>
                         <!-- /.info-box-content -->
@@ -28,7 +28,7 @@
                                                                 aria-hidden="true"></i></span>
                         <div class="info-box-content">
                             <br>
-                            <span class="info-box-text">Actividades</span>
+			    <span class="info-box-text"><?= Yii::t('app', "Actividades"?></span>
                             <span class="info-box-number">{{eventos.actividades}}</span>
                         </div>
                         <!-- /.info-box-content -->
@@ -40,7 +40,7 @@
                                                                    aria-hidden="true"></i></span>
                         <div class="info-box-content">
                             <br>
-                            <span class="info-box-text">Eventos</span>
+			    <span class="info-box-text"><?= Yii::t('app', "Eventos"?></span>
                             <span class="info-box-number">{{eventos.eventos}}</span>
                         </div>
                         <!-- /.info-box-content -->
@@ -53,7 +53,7 @@
                         <span class="info-box-icon bg-green"><i class="fa fa-list" aria-hidden="true"></i></span>
                         <div class="info-box-content">
                             <br>
-                            <span class="info-box-text">Rubros</span>
+			    <span class="info-box-text"><?= Yii::t('app', "Rubros"?></span>
                             <span class="info-box-number">{{CantidadRubros()}}</span>
                         </div>
                         <!-- /.info-box-content -->
