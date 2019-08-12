@@ -125,7 +125,7 @@ $form = ActiveForm::begin();
 			    <th><?= \Yii::t('app', "País")?></th>
 			    <th><?= \Yii::t('app', "Comunidad")?></th>
 			    <th><?= \Yii::t('app', "Tipo")?></th>
-			    <th style="width:100px"><?= \Yii::t('app', "Cell"?></th>
+			    <th style="width:100px"><?= \Yii::t('app', "Cell")?></th>
                             <th></th>
                         </tr>
                         </thead>
@@ -258,7 +258,7 @@ $form = ActiveForm::begin();
                         </tbody>
                     </table>
                     <div class="col-lg-12">
-                        <?= Html::button('<i class="fa fa-plus"></i>'. Yii::t('app',  "Agregar Participante"), ['class' => 'btn btn-primary pull-right', '@click' => 'newAttendance']) ?>
+                        <?= Html::button('<i class="fa fa-plus"></i>'. \Yii::t('app', 'Agregar Participante'), ['class' => 'btn btn-primary pull-right', '@click' => 'newAttendance']) ?>
                     </div>
                 </div>
             </div>
