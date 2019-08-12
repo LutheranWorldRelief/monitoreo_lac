@@ -79,7 +79,7 @@ class UsuariosController extends AssignmentController
         if (($user = AuthUser::findIdentity($id)) !== null) {
             return new Assignment($id, $user);
         } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
+            throw new NotFoundHttpException(Yii::t('app','The requested page does not exist.'));
         }
     }
 
@@ -123,10 +123,10 @@ class UsuariosController extends AssignmentController
     public function actionDelete($id)
     {
         if ($id == Yii::$app->user->getId()) {
-            Yii::$app->getSession()->setFlash('danger', 'No puedes eliminar tu propia cuenta');
+            Yii::$app->getSession()->setFlash(Yii::t('app', 'danger', 'No puedes eliminar tu propia cuenta'));
         } else {
             AuthUser::findOne($id)->delete();
-            Yii::$app->getSession()->setFlash('success', 'Usuario Eliminado');
+            Yii::$app->getSession()->setFlash(Yii::t('app', 'success', 'Usuario Eliminado'));
         }
 
         return $this->redirect(['index']);

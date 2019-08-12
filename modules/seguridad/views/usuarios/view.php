@@ -26,25 +26,25 @@ $this->registerCssFile('@web/css/multiselect.listbox.custom.css', [
         <?php
         $items = [
             [
-                'label' => '<i class="fa fa-user"></i> Usuario',
+                'label' => '<i class="fa fa-user"></i> Yii::t('app', Usuario)',
                 'content' => $this->render('view_user', ['model' => $model]),
                 'bordered' => true,
                 'active' => $activeUser
             ],
             [
-                'label' => '<i class="fa fa-lock"></i> Roles',
+                'label' => '<i class="fa fa-lock"></i> Yii::t('app', Roles)',
                 'content' => $this->render('view_permisos', ['model' => $model]),
                 'bordered' => true,
                 'active' => false
             ],
             [
-                'label' => '<i class="fa fa-lock"></i> Paises',
+                'label' => '<i class="fa fa-lock"></i> Yii::t('app', Paises)',
                 'content' => $this->render('view_multiselect', ['model' => $usuario, 'attribute' => 'countries', 'data' => DataList::itemsBySlug('countries')]),
                 'bordered' => true,
                 'active' => $activePais
             ],
             [
-                'label' => '<i class="fa fa-lock"></i> Proyectos',
+                'label' => '<i class="fa fa-lock"></i> Yii::t('app', Proyectos)',
                 'content' => $this->render('view_multiselect', ['model' => $usuario, 'attribute' => 'projects', 'data' => Project::listDataModel('nameCode')]),
                 'bordered' => true,
                 'active' => $activeProject

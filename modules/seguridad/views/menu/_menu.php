@@ -20,32 +20,32 @@ echo Nav::widget([
         $options,
         [
             [
-                'label' => '<i class="fa fa-plus"></i> Nuevo Usuario',
+                'label' => '<i class="fa fa-plus"></i> Yii::t('app', Nuevo Usuario)',
                 'url' => ['usuarios/create'],
                 'encode' => false
             ],
             [
-                'label' => '<i class="fa fa-plus"></i> Nuevo Rol',
+                'label' => '<i class="fa fa-plus"></i> Yii::t('app', Nuevo Rol)',
                 'url' => ['roles/create'],
                 'encode' => false
             ],
             [
-                'label' => '<i class="fa fa-database"></i> Usuarios',
+                'label' => '<i class="fa fa-database"></i> Yii::t('app', Usuarios)',
                 'url' => ['usuarios/'],
                 'encode' => false
             ],
             [
-                'label' => '<i class="fa fa-database"></i> Roles',
+                'label' => '<i class="fa fa-database"></i> Yii::t('app', Roles)',
                 'url' => ['roles/'],
                 'encode' => false
             ],
             [
-                'label' => '<i class="fa fa-database"></i> Rutas',
+                'label' => '<i class="fa fa-database"></i> Yii::('app', Rutas)',
                 'url' => ['rutas/'],
                 'encode' => false
             ],
             [
-                'label' => '<i class="fa fa-database"></i> Bitácora',
+                'label' => '<i class="fa fa-database"></i> Yii::t('app', Bitácora)',
                 'url' => ['/audit/'],
                 'encode' => false
             ],
