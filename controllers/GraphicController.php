@@ -71,9 +71,9 @@ class GraphicController extends ControladorController
 
         /*Rubros*/
         if ($this->getRubrosAlgunoSeleccionado())
-            $query->andFilterWhere(['in', 'pc.product', $this->getRubros()]);
+            $query->andFilterWhere(['in', 'pc.product_id', $this->getRubros()]);
         if ($this->getRubrosNingunoSeleccionado())
-            $query->andWhere('pc.product is null');
+            $query->andWhere('pc.product_id is null');
 
         /*Proyecto*/
         $proyecto = $request->post('proyecto');
@@ -414,11 +414,11 @@ class GraphicController extends ControladorController
     private function ProjectProductQuery()
     {
         $subquery = (new Query());
-        $subquery->select(['project_id' => 'p.id', 'product' => 'mp.name'])
+        $subquery->select(['project_id' => 'p.id', 'product_id' => 'mp.id'])
             ->from(['p' => 'project'])
             ->leftJoin(['pc' => 'project_contact'], 'pc.project_id = p.id')
             ->leftJoin(['mp' => 'monitoring_product'], 'pc.product_id = mp.id')
-            ->groupBy(['p.id', 'mp.name']);
+            ->groupBy(['p.id', 'mp.id']);
         return $subquery;
     }
 
