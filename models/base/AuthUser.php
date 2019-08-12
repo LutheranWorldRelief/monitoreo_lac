@@ -56,20 +56,20 @@ abstract class AuthUser extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'password' => 'Password',
-            'last_login' => 'Last Login',
-            'is_superuser' => 'Is Superuser',
-            'username' => 'Username',
-            'first_name' => 'First Name',
-            'last_name' => 'Last Name',
-            'email' => 'Email',
-            'is_staff' => 'Is Staff',
-            'is_active' => 'Is Active',
-            'date_joined' => 'Date Joined',
-            'access_token' => 'Access Token',
-            'countries' => 'Countries',
-            'projects' => 'Projects',
+            'id' => Yii::t('app', 'ID'),
+            'password' => Yii::t('app', 'Password'),
+            'last_login' => Yii::t('app', 'Last Login'),
+            'is_superuser' => Yii::t('app', 'Is Superuser'),
+            'username' => Yii::t('app', 'Username'),
+            'first_name' => Yii::t('app', 'First Name'),
+            'last_name' => Yii::t('app', 'Last Name'),
+            'email' => Yii::t('app', 'Email'),
+            'is_staff' => Yii::t('app', 'Is Staff'),
+            'is_active' => Yii::t('app', 'Is Active'),
+            'date_joined' => Yii::t('app', 'Date Joined'),
+            'access_token' => Yii::t('app', 'Access Token'),
+            'countries' => Yii::t('app', 'Countries'),
+            'projects' => Yii::t('app', 'Projects'),
         ];
     }
 }

@@ -53,17 +53,17 @@ abstract class SqlContact extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'name' => 'Name',
-            'document' => 'Document',
-            'sex' => 'Sex',
-            'org_id' => 'Org ID',
-            'org_name' => 'Org Name',
-            'country_id' => 'Country',
-            'community' => 'Community',
-            'type_id' => 'Type ID',
-            'type_name' => 'Type Name',
-            'phone_personal' => 'Phone Personal',
+            'id' => Yii::t('app', 'ID'),
+            'name' => Yii::t('app', 'Name'),
+            'document' => Yii::t('app', 'Document'),
+            'sex' => Yii::t('app', 'Sex'),
+            'org_id' => Yii::t('app', 'Org ID'),
+            'org_name' => Yii::t('app', 'Org Name'),
+            'country_id' => Yii::t('app', 'Country'),
+            'community' => Yii::t('app', 'Community'),
+            'type_id' => Yii::t('app', 'Type ID'),
+            'type_name' => Yii::t('app', 'Type Name'),
+            'phone_personal' => Yii::t('app', 'Phone Personal'),
         ];
     }
 }

@@ -54,20 +54,20 @@ abstract class SqlProject extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'name' => 'Name',
-            'code' => 'Code',
-            'logo' => 'Logo',
-            'colors' => 'Colors',
-            'url' => 'Url',
-            'start' => 'Start',
-            'end' => 'End',
-            'goal_men' => 'Goal Men',
-            'goal_women' => 'Goal Women',
-            'countries' => 'Countries',
-            'h' => 'H',
-            'm' => 'M',
-            't' => 'T',
+            'id' => Yii::t('app', 'ID'),
+            'name' => Yii::t('app', 'Name'),
+            'code' => Yii::t('app', 'Code'),
+            'logo' => Yii::t('app', 'Logo'),
+            'colors' => Yii::t('app', 'Colors'),
+            'url' => Yii::t('app', 'Url'),
+            'start' => Yii::t('app', 'Start'),
+            'end' => Yii::t('app', 'End'),
+            'goal_men' => Yii::t('app', 'Goal Men'),
+            'goal_women' => Yii::t('app', 'Goal Women'),
+            'countries' => Yii::t('app', 'Countries'),
+            'h' => Yii::t('app', 'H'),
+            'm' => Yii::t('app', 'M'),
+            't' => Yii::t('app', 'T'),
         ];
     }
 }

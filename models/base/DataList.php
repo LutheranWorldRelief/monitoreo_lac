@@ -56,14 +56,14 @@ abstract class DataList extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'name' => 'Name',
-            'tag' => 'Tag',
-            'value' => 'Value',
-            'data_list_id' => 'List ID',
-            'notes' => 'Notes',
-            'slug' => 'Slug',
-            'order' => 'Order',
+            'id' => Yii::t('app', 'ID'),
+            'name' => Yii::t('app', 'Name'),
+            'tag' => Yii::t('app', 'Tag'),
+            'value' => Yii::t('app', 'Value'),
+            'data_list_id' => Yii::t('app', 'List ID'),
+            'notes' => Yii::t('app', 'Notes'),
+            'slug' => Yii::t('app', 'Slug'),
+            'order' => Yii::t('app', 'Order'),
         ];
     }
 

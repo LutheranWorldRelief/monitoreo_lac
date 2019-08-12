@@ -39,8 +39,8 @@ abstract class SqlDebugContactName extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'name' => 'Name',
-            'cuenta' => 'Cuenta',
+            'name' => Yii::t('app', 'Name'),
+            'cuenta' => Yii::t('app', 'Cuenta'),
         ];
     }
 }

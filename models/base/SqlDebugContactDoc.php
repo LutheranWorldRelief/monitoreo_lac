@@ -39,8 +39,8 @@ abstract class SqlDebugContactDoc extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'doc_id' => 'Doc ID',
-            'cuenta' => 'Cuenta',
+            'doc_id' => Yii::t('app', 'Doc ID'),
+            'cuenta' => Yii::t('app', 'Cuenta'),
         ];
     }
 }

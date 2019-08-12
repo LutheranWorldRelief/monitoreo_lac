@@ -40,9 +40,9 @@ abstract class SqlContactListPhonesGroup extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'contact_id' => 'Contact ID',
-            'cuenta' => 'Cuenta',
-            'phone_personal' => 'Phone Personal',
+            'contact_id' => Yii::t('app', 'Contact ID'),
+            'cuenta' => Yii::t('app', 'Cuenta'),
+            'phone_personal' => Yii::t('app', 'Phone Personal'),
         ];
     }
 }

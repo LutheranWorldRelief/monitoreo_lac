@@ -46,10 +46,10 @@ abstract class OrganizationType extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'abbreviation' => 'Abbreviation',
-            'name' => 'Name',
-            'description' => 'Description',
+            'id' => Yii::t('app', 'ID'),
+            'abbreviation' => Yii::t('app', 'Abbreviation'),
+            'name' => Yii::t('app', 'Name'),
+            'description' => Yii::t('app', 'Description',
         ];
     }
 

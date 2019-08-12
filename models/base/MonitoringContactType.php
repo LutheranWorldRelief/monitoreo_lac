@@ -34,10 +34,10 @@ class MonitoringContactType extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'name' => 'Education Name',
-            'name_es' => 'Educacion',
-            'name_fr' => 'éducation',
+            'id' => Yii::t('app', 'ID'),
+            'name' => Yii::t('app', 'Education Name'),
+            'name_es' => Yii::t('app', 'Educacion'),
+            'name_fr' => Yii::t('app', 'éducation'),
         ];
     }
 

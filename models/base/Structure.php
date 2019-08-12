@@ -53,12 +53,12 @@ abstract class Structure extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'code' => 'Code',
-            'description' => 'Description',
-            'structure_id' => 'Structure ID',
-            'notes' => 'Notes',
-            'project_id' => 'Project ID',
+            'id' => Yii::t('app', 'ID'),
+            'code' => Yii::t('app', 'Code'),
+            'description' => Yii::t('app', 'Description'),
+            'structure_id' => Yii::t('app', 'Structure ID'),
+            'notes' => Yii::t('app', 'Notes'),
+            'project_id' => Yii::t('app', 'Project ID'),
         ];
     }
 
