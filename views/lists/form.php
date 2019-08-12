@@ -60,7 +60,7 @@ if (!$model->isNewRecord)
         <?= Html::a('Cancelar', $urlCancel, [
             'class' => 'btn btn-danger']);
         ?>
-        <?= Html::button('Guardar', [
+        <?= Html::button(\Yii::t('app', 'Guardar'), [
             'type' => 'submit',
             'class' => 'btn btn-primary'
         ]); ?>
