@@ -39,9 +39,9 @@ $this->registerJsFile("@web/js/vue/contact.merge.document.js", ['depends' => [Al
                         <table class="table table-bordered table-striped table-condensed">
                             <thead>
                             <tr>
-                                <th>Caso N°</th>
-                                <th>Documento</th>
-                                <th>Nombres</th>
+				<th><?= \Yii::t('app', 'Caso N°')?></th>
+				<th><?= \Yii::t('app', 'Documento')?></th>
+				<th><?= \Yii::t('app', 'Nombres')?></th>
                                 <th></th>
                             </tr>
                             </thead>
@@ -71,9 +71,9 @@ $this->registerJsFile("@web/js/vue/contact.merge.document.js", ['depends' => [Al
                         <table class="table table-bordered table-striped table-condensed">
                             <thead>
                             <tr>
-                                <th>Caso N°</th>
-                                <th>Documento</th>
-                                <th>Nombres</th>
+				<th><?= \Yii::t('app', 'Caso N°')?></th>
+				<th><?= \Yii::t('app', 'Documento')?></th>
+				<th><?= \Yii::t('app', 'Nombres')?></th>
                                 <th></th>
                             </tr>
                             </thead>

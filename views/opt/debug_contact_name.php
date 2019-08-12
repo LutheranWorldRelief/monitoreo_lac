@@ -44,8 +44,8 @@ $this->registerJsFile("@web/js/vue/contact.merge.js", ['depends' => [Vue2Asset::
                         <table class="table table-bordered table-striped table-condensed">
                             <thead>
                             <tr>
-                                <th>Caso N°</th>
-                                <th>Nombre</th>
+				<th><?= \Yii::t('app', 'Caso N°')?></th>
+				<th><?= \Yii::t('app', 'Nombre')?></th>
                                 <th></th>
                             </tr>
                             </thead>
@@ -72,8 +72,8 @@ $this->registerJsFile("@web/js/vue/contact.merge.js", ['depends' => [Vue2Asset::
                         <table class="table table-bordered table-striped table-condensed">
                             <thead>
                             <tr>
-                                <th>Caso N°</th>
-                                <th>Nombre</th>
+				<th><?= \Yii::t('app', 'Caso N°')?></th>
+				<th><?= \Yii::t('app', 'Nombre')?></th>
                                 <th></th>
                             </tr>
                             </thead>
