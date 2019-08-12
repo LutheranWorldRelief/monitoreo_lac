@@ -34,7 +34,7 @@ use kartik\helpers\Html;
     <div class="col-lg-4">
         <div class="box box-primary">
             <div class="box-header">
-                <h4>Cambiar Contraseña</h4>
+	    <h4><?= \Yii::t('app', 'Cambiar Contraseña')?></h4>
             </div>
             <?php $form = ActiveForm::begin([
                 'id' => 'profile-form-password',
@@ -42,20 +42,20 @@ use kartik\helpers\Html;
             ]) ?>
             <div class="box-body">
                 <div class="form-group">
-                    <label class="control-label" for="password_current">Contraseña Actual</label>
+		<label class="control-label" for="password_current"><?= \Yii::t('app', 'Contraseña Actual')?></label>
                     <?= Html::passwordInput('Password[current]', null, ['class' => 'form-control']) ?>
                 </div>
                 <div class="form-group">
-                    <label class="control-label" for="password_current">Contraseña Nueva</label>
+		    <label class="control-label" for="password_current"><?= \Yii::t('app', 'Contraseña Nueva')?></label>
                     <?= Html::passwordInput('Password[new]', null, ['class' => 'form-control']) ?>
                 </div>
                 <div class="form-group">
-                    <label class="control-label" for="password_current">Contraseña Confirmación</label>
+		    <label class="control-label" for="password_current"><?= \Yii::t('app', 'Contraseña Confirmación')?></label>
                     <?= Html::passwordInput('Password[confirm]', null, ['class' => 'form-control']) ?>
                 </div>
             </div>
             <div class="box-footer">
-                <button type="submit" class="btn btn-primary">Cambiar</button>
+		<button type="submit" class="btn btn-primary"><?= \Yii::t('app', 'Cambiar')?></button>
             </div>
             <?php ActiveForm::end() ?>
         </div>
