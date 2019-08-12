@@ -47,7 +47,7 @@ class WMenuExport extends Widget
             'showColumnSelector' => false,
             'showConfirmAlert' => false,
             'pjaxContainerId' => 'kv-pjax-container',
-            'dropdownOptions' => ['label' => 'Exportar Todo', 'style' => 'color:white', 'class' => 'btn btn-primary  waves-effect waves-light', 'itemsBefore' => ['<li class="dropdown-header">Exportar Todo</li>'],],
+            'dropdownOptions' => ['label' => Yii::t('app', 'Exportar Todo'), 'style' => 'color:white', 'class' => 'btn btn-primary  waves-effect waves-light', 'itemsBefore' => ['<li class="dropdown-header">'. Yii::t('app', 'Exportar Todo')'</li>'],],
         ];
     }
 

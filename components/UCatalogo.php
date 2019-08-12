@@ -110,18 +110,18 @@ class UCatalogo extends Component
     {
 
         return [
-            1 => "Enero",
-            2 => "Febrero",
-            3 => "Marzo",
-            4 => "Abril",
-            5 => "Mayo",
-            6 => "Junio",
-            7 => "Julio",
-            8 => "Agosto",
-            9 => "Septiembre",
-            10 => "Octubre",
-            11 => "Noviembre",
-            12 => "Diciembre"
+            1 => Yii::t('app', "Enero"),
+            2 => Yii::t('app', "Febrero"),
+            3 => Yii::t('app', "Marzo"),
+            4 => Yii::t('app', "Abril"),
+            5 => Yii::t('app', "Mayo"),
+            6 => Yii::t('app', "Junio"),
+            7 => Yii::t('app', "Julio"),
+            8 => Yii::t('app', "Agosto"),
+            9 => Yii::t('app', "Septiembre"),
+            10 => Yii::t('app', "Octubre"),
+            11 => Yii::t('app', "Noviembre"),
+            12 => Yii::t('app', "Diciembre")
         ];
     }
 
