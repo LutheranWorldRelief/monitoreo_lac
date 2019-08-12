@@ -55,7 +55,7 @@ NavBar::end();
             <?= $form->field($model, 'project_id')->widget(Select2::classname(), [
                 'data' => $projects,
                 'language' => 'es',
-                'options' => ['placeholder' => 'Seleccionar...'],
+                'options' => ['placeholder' => Yii::t('app', 'Seleccionar...')],
                 'pluginOptions' => [
                     'allowClear' => true
                 ],
@@ -68,7 +68,7 @@ NavBar::end();
             <?= $form->field($model, 'org_implementing_id')->widget(Select2::classname(), [
                 'data' => $organizations,
                 'language' => 'es',
-                'options' => ['placeholder' => 'Seleccionar...'],
+                'options' => ['placeholder' => Yii::t('app', 'Seleccionar...')],
                 'pluginOptions' => [
                     'allowClear' => true
                 ],
@@ -79,7 +79,7 @@ NavBar::end();
             <?= $form->field($model, 'country_code')->widget(Select2::classname(), [
                 'data' => $countries,
                 'language' => 'es',
-                'options' => ['placeholder' => 'Seleccionar...'],
+                'options' => ['placeholder' => Yii::t('app', 'Seleccionar...')],
                 'pluginOptions' => [
                     'allowClear' => true
                 ],
@@ -92,10 +92,10 @@ NavBar::end();
             <a class="btn btn-success"
                target="_blank"
                href="<?= Url::to(['report/template-clean']) ?>">
-                <i class="fa fa-file"></i> Plantilla en Limpio
+	       <i class="fa fa-file"></i><?= \Yii::t('app', 'Plantilla en Limpio')?>
             </a>
             <button class="btn btn-primary pull-right" type="submit">
-                <i class="fa fa-file"></i> Exportar
+	    <i class="fa fa-file"></i><?= \Yii::t('app', 'Exportar')?>
             </button>
         </div>
     </div>
