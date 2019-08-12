@@ -19,7 +19,7 @@ $this->title .= ' / DataList / ' . $model->name;
 echo $this->render('_navbar', [
     'options' => [
         [
-            'label' => '<i class="fa fa-plus"></i> Nuevo Item',
+            'label' => '<i class="fa fa-plus"></i>'. Yii::t('app', "Nuevo Item"),
             'url' => ['data-list/update', 'id' => $model->id],
             'linkOptions' => [
                 'data-toggle' => 'modal',
@@ -28,7 +28,7 @@ echo $this->render('_navbar', [
             'encode' => false
         ],
         [
-            'label' => '<i class="fa fa-pencil"></i> Actualizar',
+            'label' => '<i class="fa fa-pencil"></i>'. Yii::t('app', "Actualizar"),
             'url' => ['data-list/update', 'id' => $model->id],
             'linkOptions' => [
             ],
