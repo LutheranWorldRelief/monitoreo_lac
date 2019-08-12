@@ -27,7 +27,7 @@ use yii\bootstrap\Html;
                         ]
                     ],
                     [
-                        'header' => 'Attendance',
+                        'header' => Yii::t('app', 'Attendance'),
                         'attribute' => 'fullname',
                         'format' => 'raw',
                         'value' => function ($model) {
@@ -35,27 +35,27 @@ use yii\bootstrap\Html;
                         },
                     ],
                     [
-                        'header' => 'Document',
+                        'header' => Yii::t('app', 'Document'),
                         'attribute' => 'document'
                     ],
                     [
-                        'header' => 'Sex',
+                        'header' => Yii::t('app', 'Sex'),
                         'attribute' => 'sex'
                     ],
                     [
-                        'header' => 'Country',
+                        'header' => Yii::t('app', 'Country'),
                         'attribute' => 'countryName'
                     ],
                     [
-                        'header' => 'Community',
+                        'header' => Yii::t('app', 'Community'),
                         'attribute' => 'community'
                     ],
                     [
-                        'header' => 'Tipo',
+                        'header' => Yii::t('app', 'Tipo'),
                         'attribute' => 'attendeeTypeName'
                     ],
                     [
-                        'header' => 'Phone',
+                        'header' => Yii::t('app', 'Phone'),
                         'attribute' => 'phone_personal',
                     ],
                 ],
