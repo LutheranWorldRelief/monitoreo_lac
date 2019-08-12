@@ -345,7 +345,7 @@ class OptController extends Controller
         $models = Contact::findAll($ids);
 
         if (count($models) < 2)
-            throw new HttpException(500, "No se cargaron los modelos necesarios para la fusión");
+            throw new HttpException(Yii::t('app', '500, "No se cargaron los modelos necesarios para la fusión"'));
 
         foreach ($models as $key => $m) {
             if ($m->id == $id) {
@@ -356,7 +356,7 @@ class OptController extends Controller
         }
 
         if (!$model)
-            throw new HttpException(500, "No se logró identificar al modelo principal de la fusión");
+            throw new HttpException(Yii::t('app', '500, "No se logró identificar al modelo principal de la fusión"'));
 
         foreach ($values as $key => $value) {
             if ($key == 'id')
@@ -391,7 +391,7 @@ class OptController extends Controller
             $saved = $model->save();
 
             if (!$saved)
-                throw new HttpException(500, "No se logró guardar el modelo principal con los cambios");
+                throw new HttpException(Yii::t('app', '500, "No se logró guardar el modelo principal con los cambios"'));
             else {
                 foreach ($models as $key => $m) {
                     $mid = $m->id;

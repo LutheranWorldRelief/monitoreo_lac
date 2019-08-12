@@ -80,7 +80,7 @@ class FilterController extends Controller
         if (($model = Filter::findOne($id)) !== null) {
             return $model;
         } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
+            throw new NotFoundHttpException(YII::t('app','The requested page does not exist.'));
         }
     }
 

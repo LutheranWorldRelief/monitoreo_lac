@@ -69,7 +69,7 @@ class CrudangularController extends ControladorController
             Yii::$app->response->format = Response::FORMAT_JSON;
             return $result;
         } else {
-            throw new Exception("No encontrado", 500);
+            throw new Exception(Yii::t('app','"No encontrado"', 500));
         }
     }
 
@@ -79,7 +79,7 @@ class CrudangularController extends ControladorController
         if (($model = $clase::findOne($id)) !== null)
             return $model;
         else
-            throw new NotFoundHttpException('The requested page does not exist.');
+            throw new NotFoundHttpException(Yii::t('app','The requested page does not exist.'));
     }
 
     public function actionEliminar()

@@ -83,7 +83,7 @@ class DataListController extends Controller
         if (($model = DataList::findOne($id)) !== null) {
             return $model;
         } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
+            throw new NotFoundHttpException(Yii::t('app','The requested page does not exist.'));
         }
     }
 
@@ -192,7 +192,7 @@ class DataListController extends Controller
             ])
             ->count();
         if ($contactsCount > 0)
-            throw new HttpException(403, 'Aún hay registros relacionados con este item. No puede ser eliminado.');
+            throw new HttpException(Yii::t('app','403, 'Aún hay registros relacionados con este item. No puede ser eliminado.'');
 
         $model->delete();
         return $padre > 0 ? $this->redirect(['data-list/view', 'id' => $padre]) : $this->redirect(['data-list/index']);

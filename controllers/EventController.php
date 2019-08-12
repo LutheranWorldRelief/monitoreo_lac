@@ -68,7 +68,7 @@ class EventController extends Controller
         if (($model = Event::find()->where(['id' => $id])->with('attendances')->one()) !== null)
             return $model;
         else
-            throw new NotFoundHttpException('The requested page does not exist.');
+            throw new NotFoundHttpException(Yii::t('app','The requested page does not exist.'));
     }
 
     /**
