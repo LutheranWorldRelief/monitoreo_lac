@@ -181,9 +181,9 @@ class ActiveRecord extends \yii\db\ActiveRecord
         $isEmail = Yii::$app->params['isEmail'];
         if ($isEmail) {
             $subject = $subject . " (LWR)";
-            $message = "<p style='margin-bottom: 20px;'>". Yii::t('app', 'Estimado(s),') "</p>";
+            $message = "<p style='margin-bottom: 20px;'>". Yii::t('app', 'Estimado(s),')."</p>";
             $message .= "<p style='font-size: 16px;'>" . $body;
-            $message .= "<p style='margin-top: 40px;'>". Yii::t('app', 'Muchas gracias por tu atención.')"</p>";
+            $message .= "<p style='margin-top: 40px;'>". Yii::t('app', 'Muchas gracias por tu atención')."</p>";
             $mail = new \app\components\Mail;
             $mail->enviarCorreo($subject, $message, $recipients);
         }
