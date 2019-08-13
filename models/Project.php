@@ -41,12 +41,12 @@ class Project extends base\Project
 
         $model->save();
 
-        $estructura = Structure::find()->where(['project_id' => $model->id, 'description' => 'IMPORTACIÓN DESDE EXCEL'])->one();
+        $estructura = Structure::find()->where(['project_id' => $model->id, 'description' => Yii::t('app', 'IMPORTACIÓN DESDE EXCEL')])->one();
         if ($estructura)
             return ['proyecto' => $model->id, 'estructura' => $estructura->id];
         $estructura = new Structure();
         $estructura->project_id = $model->id;
-        $estructura->description = 'IMPORTACIÓN DESDE EXCEL';
+        $estructura->description = Yii::t('app', 'IMPORTACIÓN DESDE EXCEL');
         if ($estructura->save())
             return ['proyecto' => $model->id, 'estructura' => $estructura->id];
         return null;
@@ -67,15 +67,15 @@ class Project extends base\Project
         $rules = parent::rules();
         $rules[] = ['logo', 'file',
             'skipOnEmpty' => true,
-            'uploadRequired' => 'No has seleccionado ningún archivo', //Error
+            'uploadRequired' => Yii::t('app', 'No has seleccionado ningún archivo'), //Error
             'maxSize' => 1024 * 1024 * 3, //1 MB
-            'tooBig' => 'El tamaño máximo permitido es 3MB', //Error
+            'tooBig' => Yii::t('app', 'El tamaño máximo permitido es 3MB'), //Error
             'minSize' => 10, //10 Bytes
-            'tooSmall' => 'El tamaño mínimo permitido son 10 BYTES', //Error
+            'tooSmall' => Yii::t('app', 'El tamaño mínimo permitido son 10 BYTES'), //Error
             'extensions' => 'jpg,png,jpeg',
-            'wrongExtension' => 'El archivo {file} no contiene una extensión permitida {extensions}', //Error
+            'wrongExtension' => Yii::t('app', 'El archivo {file} no contiene una extensión permitida {extensions}'), //Error
             'maxFiles' => 1,
-            'tooMany' => 'El máximo de archivos permitidos es {limit}', //Error
+            'tooMany' => Yii::t('app', 'El máximo de archivos permitidos es {limit}'), //Error
             'checkExtensionByMimeType' => false,
         ];
         $rules[] = [['color1', 'color2', 'color3', 'color4', 'color5', 'color6', 'color7', 'color8', 'color9', 'colores'], 'safe'];

@@ -47,7 +47,7 @@ class LoginForm extends Model
             $user = $this->getUser();
 
             if (!$user || !$user->validatePassword($this->password))
-                $this->addError($attribute, 'Usuario o Clave incorrecta');
+                $this->addError($attribute, Yii::t('app', 'Usuario o Clave incorrecta'));
         }
     }
 
@@ -77,9 +77,9 @@ class LoginForm extends Model
     public function attributeLabels()
     {
         return [
-            'username' => 'Usuario',
-            'password' => 'clave',
-            'rememberMe' => 'Mantener'
+            'username' => Yii::t('app', 'Usuario'),
+            'password' => Yii::t('app', 'clave',)
+            'rememberMe' => Yii::t('app', 'Mantener')
         ];
     }
 
