@@ -12,26 +12,70 @@ msgstr ""
 
 msgctxt "app"
 msgid ""
-msgstr ""
+msgstr "@@@@"
 
 msgctxt "app"
 msgid "\"No encontrado\""
+msgstr "@@@@"
+
+msgctxt "app"
+msgid "---\" y se encontró campo \"---"
 msgstr ""
 
 msgctxt "app"
 msgid "403, "
+msgstr "@@@@"
+
+msgctxt "app"
+msgid "403, Aún hay registros relacionados con este item. No puede ser eliminado."
 msgstr ""
 
 msgctxt "app"
 msgid "500, \"No se cargaron los modelos necesarios para la fusión\""
-msgstr ""
+msgstr "@@@@"
 
 msgctxt "app"
 msgid "500, \"No se logró guardar el modelo principal con los cambios\""
-msgstr ""
+msgstr "@@@@"
 
 msgctxt "app"
 msgid "500, \"No se logró identificar al modelo principal de la fusión\""
+msgstr "@@@@"
+
+msgctxt "app"
+msgid "500, No se cargaron los modelos necesarios para la fusión"
+msgstr ""
+
+msgctxt "app"
+msgid "500, No se logró guardar el modelo principal con los cambios"
+msgstr ""
+
+msgctxt "app"
+msgid "500, No se logró identificar al modelo principal de la fusión"
+msgstr ""
+
+msgctxt "app"
+msgid "Abbreviation"
+msgstr ""
+
+msgctxt "app"
+msgid "Abr"
+msgstr ""
+
+msgctxt "app"
+msgid "Abril"
+msgstr ""
+
+msgctxt "app"
+msgid "Access Token"
+msgstr ""
+
+msgctxt "app"
+msgid "Actividad"
+msgstr ""
+
+msgctxt "app"
+msgid "Actividades"
 msgstr ""
 
 msgctxt "app"
@@ -39,7 +83,87 @@ msgid "Activities"
 msgstr ""
 
 msgctxt "app"
+msgid "Activo"
+msgstr ""
+
+msgctxt "app"
 msgid "Actualizar"
+msgstr ""
+
+msgctxt "app"
+msgid "Age Development Plantation"
+msgstr ""
+
+msgctxt "app"
+msgid "Age Productive Plantation"
+msgstr ""
+
+msgctxt "app"
+msgid "Ago"
+msgstr ""
+
+msgctxt "app"
+msgid "Agosto"
+msgstr ""
+
+msgctxt "app"
+msgid "Agregar Item"
+msgstr ""
+
+msgctxt "app"
+msgid "Agregar Participante"
+msgstr ""
+
+msgctxt "app"
+msgid "Alfa3"
+msgstr ""
+
+msgctxt "app"
+msgid "Apellidos"
+msgstr ""
+
+msgctxt "app"
+msgid "Archivo de beneficiarios"
+msgstr ""
+
+msgctxt "app"
+msgid "Are you sure you want to delete this item?"
+msgstr ""
+
+msgctxt "app"
+msgid "Area"
+msgstr ""
+
+msgctxt "app"
+msgid "Attendance"
+msgstr ""
+
+msgctxt "app"
+msgid "Attendance ID"
+msgstr ""
+
+msgctxt "app"
+msgid "Beneficiario/a:"
+msgstr ""
+
+msgctxt "app"
+msgid "Beneficiarios"
+msgstr ""
+
+msgctxt "app"
+msgid "Birthdate"
+msgstr ""
+
+msgctxt "app"
+msgid "Bitácora"
+msgstr ""
+
+msgctxt "app"
+msgid "Cambiar"
+msgstr ""
+
+msgctxt "app"
+msgid "Cambiar Contraseña"
 msgstr ""
 
 msgctxt "app"
@@ -47,7 +171,155 @@ msgid "Cancelar"
 msgstr ""
 
 msgctxt "app"
+msgid "Caso N°"
+msgstr ""
+
+msgctxt "app"
+msgid "Catálogos"
+msgstr ""
+
+msgctxt "app"
+msgid "Catálogos y Configuraciones"
+msgstr ""
+
+msgctxt "app"
+msgid "Cell"
+msgstr ""
+
+msgctxt "app"
+msgid "Cerrar"
+msgstr ""
+
+msgctxt "app"
 msgid "Choose file for import!"
+msgstr ""
+
+msgctxt "app"
+msgid "City"
+msgstr ""
+
+msgctxt "app"
+msgid "Code"
+msgstr ""
+
+msgctxt "app"
+msgid "Codigo Numerico"
+msgstr ""
+
+msgctxt "app"
+msgid "Colors"
+msgstr ""
+
+msgctxt "app"
+msgid "Community"
+msgstr ""
+
+msgctxt "app"
+msgid "Comunidad"
+msgstr ""
+
+msgctxt "app"
+msgid "Contact Birthdate"
+msgstr ""
+
+msgctxt "app"
+msgid "Contact City"
+msgstr ""
+
+msgctxt "app"
+msgid "Contact Community"
+msgstr ""
+
+msgctxt "app"
+msgid "Contact Country"
+msgstr ""
+
+msgctxt "app"
+msgid "Contact Country Code"
+msgstr ""
+
+msgctxt "app"
+msgid "Contact Document"
+msgstr ""
+
+msgctxt "app"
+msgid "Contact Education"
+msgstr ""
+
+msgctxt "app"
+msgid "Contact Education ID"
+msgstr ""
+
+msgctxt "app"
+msgid "Contact ID"
+msgstr ""
+
+msgctxt "app"
+msgid "Contact Lastname"
+msgstr ""
+
+msgctxt "app"
+msgid "Contact Men Home"
+msgstr ""
+
+msgctxt "app"
+msgid "Contact Municipality"
+msgstr ""
+
+msgctxt "app"
+msgid "Contact Name"
+msgstr ""
+
+msgctxt "app"
+msgid "Contact Organization"
+msgstr ""
+
+msgctxt "app"
+msgid "Contact Organization ID"
+msgstr ""
+
+msgctxt "app"
+msgid "Contact Phone Personal"
+msgstr ""
+
+msgctxt "app"
+msgid "Contact Project Age Dev Plantation"
+msgstr ""
+
+msgctxt "app"
+msgid "Contact Project Age Prod Plantation"
+msgstr ""
+
+msgctxt "app"
+msgid "Contact Project Area Farm"
+msgstr ""
+
+msgctxt "app"
+msgid "Contact Project Date Entry"
+msgstr ""
+
+msgctxt "app"
+msgid "Contact Project Dev Area"
+msgstr ""
+
+msgctxt "app"
+msgid "Contact Project Product"
+msgstr ""
+
+msgctxt "app"
+msgid "Contact Project Productive Area"
+msgstr ""
+
+msgctxt "app"
+msgid "Contact Project Yield"
+msgstr ""
+
+msgctxt "app"
+msgid "Contact Sex"
+msgstr ""
+
+msgctxt "app"
+msgid "Contact Women Home"
 msgstr ""
 
 msgctxt "app"
@@ -59,7 +331,323 @@ msgid "Contactos por evento"
 msgstr ""
 
 msgctxt "app"
+msgid "Contraseña Actual"
+msgstr ""
+
+msgctxt "app"
+msgid "Contraseña Confirmación"
+msgstr ""
+
+msgctxt "app"
+msgid "Contraseña Nueva"
+msgstr ""
+
+msgctxt "app"
+msgid "Cost must be between 4 and 31."
+msgstr ""
+
+msgctxt "app"
+msgid "Countries"
+msgstr ""
+
+msgctxt "app"
+msgid "Country"
+msgstr ""
+
+msgctxt "app"
+msgid "Country ID"
+msgstr ""
+
+msgctxt "app"
+msgid "Country Number"
+msgstr ""
+
+msgctxt "app"
+msgid "Created"
+msgstr ""
+
+msgctxt "app"
+msgid "Cuenta"
+msgstr ""
+
+msgctxt "app"
+msgid "Código"
+msgstr ""
+
+msgctxt "app"
+msgid "Date End Project"
+msgstr ""
+
+msgctxt "app"
+msgid "Date Entry Project"
+msgstr ""
+
+msgctxt "app"
+msgid "Date Joined"
+msgstr ""
+
+msgctxt "app"
+msgid "Datos\n\t\t\tque no se importarán"
+msgstr ""
+
+msgctxt "app"
+msgid "Debe establecer una fecha de ingreso válida"
+msgstr ""
+
+msgctxt "app"
+msgid "Debe establecer una organización implementadora que exista en la base de datos"
+msgstr ""
+
+msgctxt "app"
+msgid "Debe establecer una país válido"
+msgstr ""
+
+msgctxt "app"
+msgid "Debe seleccionar el país de la importación."
+msgstr ""
+
+msgctxt "app"
+msgid "Debe seleccionar una opción de los siguientes campos para establecerlo en el registro final"
+msgstr ""
+
+msgctxt "app"
+msgid "Departamento"
+msgstr ""
+
+msgctxt "app"
+msgid "Descargar Plantilla"
+msgstr ""
+
+msgctxt "app"
+msgid "Description"
+msgstr ""
+
+msgctxt "app"
+msgid "Development Area"
+msgstr ""
+
+msgctxt "app"
+msgid "Dic"
+msgstr ""
+
+msgctxt "app"
+msgid "Diciembre"
+msgstr ""
+
+msgctxt "app"
+msgid "Doc ID"
+msgstr ""
+
+msgctxt "app"
+msgid "Document"
+msgstr ""
+
+msgctxt "app"
+msgid "Documento"
+msgstr ""
+
+msgctxt "app"
+msgid "Duplicados"
+msgstr ""
+
+msgctxt "app"
+msgid "Edad de Plantación en Desarrollo (años)"
+msgstr ""
+
+msgctxt "app"
+msgid "Edad de Plantación en Producción (años)"
+msgstr ""
+
+msgctxt "app"
+msgid "Educacion"
+msgstr ""
+
+msgctxt "app"
+msgid "Educación"
+msgstr ""
+
+msgctxt "app"
+msgid "Education ID"
+msgstr ""
+
+msgctxt "app"
+msgid "Education Name"
+msgstr ""
+
+msgctxt "app"
+msgid "El Archivo no cumple con el formato esperado"
+msgstr ""
+
+msgctxt "app"
+msgid "El archivo debe tener las siguientes columnas en el siguiente orden"
+msgstr ""
+
+msgctxt "app"
+msgid "El proceso de fusión ha terminado pero con errores."
+msgstr ""
+
+msgctxt "app"
+msgid "El registro de participante no es válido"
+msgstr ""
+
+msgctxt "app"
+msgid "Email"
+msgstr ""
+
+msgctxt "app"
+msgid "End"
+msgstr ""
+
+msgctxt "app"
+msgid "Ene"
+msgstr ""
+
+msgctxt "app"
+msgid "Enero"
+msgstr ""
+
+msgctxt "app"
+msgid "Error Beneficiarios"
+msgstr ""
+
+msgctxt "app"
+msgid "Error en Organización Implementadora"
+msgstr ""
+
+msgctxt "app"
+msgid "Error en Sexo, se espera Hombre o Mujer"
+msgstr ""
+
+msgctxt "app"
+msgid "Error en proyecto, verifiqué que el proyecto exista"
+msgstr ""
+
+msgctxt "app"
+msgid "Estimado(s),"
+msgstr ""
+
+msgctxt "app"
+msgid "Estructure"
+msgstr ""
+
+msgctxt "app"
+msgid "Event"
+msgstr ""
+
+msgctxt "app"
+msgid "Event Country Code"
+msgstr ""
+
+msgctxt "app"
+msgid "Event Country ID"
+msgstr ""
+
+msgctxt "app"
+msgid "Event Country Name"
+msgstr ""
+
+msgctxt "app"
+msgid "Event Date End"
+msgstr ""
+
+msgctxt "app"
+msgid "Event Date End Day"
+msgstr ""
+
+msgctxt "app"
+msgid "Event Date End Month"
+msgstr ""
+
+msgctxt "app"
+msgid "Event Date End Year"
+msgstr ""
+
+msgctxt "app"
+msgid "Event Date Start"
+msgstr ""
+
+msgctxt "app"
+msgid "Event Date Start Day"
+msgstr ""
+
+msgctxt "app"
+msgid "Event Date Start Month"
+msgstr ""
+
+msgctxt "app"
+msgid "Event Date Start Year"
+msgstr ""
+
+msgctxt "app"
+msgid "Event ID"
+msgstr ""
+
+msgctxt "app"
+msgid "Event Title"
+msgstr ""
+
+msgctxt "app"
+msgid "Evento"
+msgstr ""
+
+msgctxt "app"
+msgid "Eventos"
+msgstr ""
+
+msgctxt "app"
 msgid "Events"
+msgstr ""
+
+msgctxt "app"
+msgid "Exportar"
+msgstr ""
+
+msgctxt "app"
+msgid "Exportar Todo"
+msgstr ""
+
+msgctxt "app"
+msgid "Feb"
+msgstr ""
+
+msgctxt "app"
+msgid "Febrero"
+msgstr ""
+
+msgctxt "app"
+msgid "Fecha de Nacimiento"
+msgstr ""
+
+msgctxt "app"
+msgid "Fecha de ingreso al proyecto"
+msgstr ""
+
+msgctxt "app"
+msgid "Filter ID"
+msgstr ""
+
+msgctxt "app"
+msgid "Finalizar y ver duplicados"
+msgstr ""
+
+msgctxt "app"
+msgid "First Name"
+msgstr ""
+
+msgctxt "app"
+msgid "Fusionando Registros de Contacto..."
+msgstr ""
+
+msgctxt "app"
+msgid "Goal Men"
+msgstr ""
+
+msgctxt "app"
+msgid "Goal Women"
+msgstr ""
+
+msgctxt "app"
+msgid "Gráficos"
 msgstr ""
 
 msgctxt "app"
@@ -67,7 +655,259 @@ msgid "Guardar"
 msgstr ""
 
 msgctxt "app"
+msgid "H"
+msgstr ""
+
+msgctxt "app"
+msgid "Hombres en su familia"
+msgstr ""
+
+msgctxt "app"
+msgid "ID"
+msgstr ""
+
+msgctxt "app"
+msgid "IMPORTACIÓN DESDE EXCEL"
+msgstr ""
+
+msgctxt "app"
+msgid "IMPORTACIÓN DESDE EXCEL POR {0} {1} El {2} Con datos correspondientes al {3} de la Organización {4} del País {5}"
+msgstr ""
+
+msgctxt "app"
+msgid "IMPORTACIÓN DESDE EXCEL POR {0}, {1}, El {2}, Con datos correspondientes al {3}, de la Organización {4}, del País {5}"
+msgstr "@@@@"
+
+msgctxt "app"
+msgid "IMPORTACIÓN DESDE EXCEL POR {Yii::$app->getUser()->getIdentity()->first_name} {Yii::$app->getUser()->getIdentity()->last_name} El {date(\"Y-m-d H:i:s\")} Con datos correspondientes al {$fechaIngreso} de la Organización {$organizacionImplementadora[\"name\"]} del País {$paisNombre}"
+msgstr "@@@@"
+
+msgctxt "app"
+msgid "Implementing Organization"
+msgstr ""
+
+msgctxt "app"
+msgid "Implementing Organization ID"
+msgstr ""
+
+msgctxt "app"
+msgid "Importar Beneficiarios"
+msgstr ""
+
+msgctxt "app"
+msgid "Importar y continuar"
+msgstr ""
+
+msgctxt "app"
+msgid "Is Active"
+msgstr ""
+
+msgctxt "app"
+msgid "Is Implementer"
+msgstr ""
+
+msgctxt "app"
+msgid "Is Staff"
+msgstr ""
+
+msgctxt "app"
+msgid "Is Superuser"
+msgstr ""
+
+msgctxt "app"
+msgid "Jul"
+msgstr ""
+
+msgctxt "app"
+msgid "Julio"
+msgstr ""
+
+msgctxt "app"
+msgid "Jun"
+msgstr ""
+
+msgctxt "app"
+msgid "Junio"
+msgstr ""
+
+msgctxt "app"
+msgid "La lista debe tener al menos un participante"
+msgstr ""
+
+msgctxt "app"
+msgid "Last Login"
+msgstr ""
+
+msgctxt "app"
+msgid "Last Name"
+msgstr ""
+
+msgctxt "app"
+msgid "List ID"
+msgstr ""
+
+msgctxt "app"
 msgid "Lista"
+msgstr ""
+
+msgctxt "app"
+msgid "Listado"
+msgstr ""
+
+msgctxt "app"
+msgid "Logo"
+msgstr ""
+
+msgctxt "app"
+msgid "M"
+msgstr ""
+
+msgctxt "app"
+msgid "Mapa"
+msgstr ""
+
+msgctxt "app"
+msgid "Mar"
+msgstr ""
+
+msgctxt "app"
+msgid "Marzo"
+msgstr ""
+
+msgctxt "app"
+msgid "May"
+msgstr ""
+
+msgctxt "app"
+msgid "Mayo"
+msgstr ""
+
+msgctxt "app"
+msgid "Men Home"
+msgstr ""
+
+msgctxt "app"
+msgid "Metas versus alcances"
+msgstr ""
+
+msgctxt "app"
+msgid "Modificar"
+msgstr ""
+
+msgctxt "app"
+msgid "Modified"
+msgstr ""
+
+msgctxt "app"
+msgid "Muchas gracias por tu atención"
+msgstr ""
+
+msgctxt "app"
+msgid "Muchas gracias por tu atención."
+msgstr "@@@@"
+
+msgctxt "app"
+msgid "Mujeres en su familia"
+msgstr ""
+
+msgctxt "app"
+msgid "Municipality"
+msgstr ""
+
+msgctxt "app"
+msgid "Nacionalidad de los participantes"
+msgstr ""
+
+msgctxt "app"
+msgid "Name"
+msgstr ""
+
+msgctxt "app"
+msgid "Name Es"
+msgstr ""
+
+msgctxt "app"
+msgid "No encontrado, 500"
+msgstr ""
+
+msgctxt "app"
+msgid "No es posible fusionar solo un registro"
+msgstr ""
+
+msgctxt "app"
+msgid "No fue posible fusionar el registro. Vuelva a Intentarlo"
+msgstr ""
+
+msgctxt "app"
+msgid "No hay datos que resolver. Por favor presione el botón \"Resuelto\" para pasar al siguiente paso."
+msgstr ""
+
+msgctxt "app"
+msgid "No se importará ningún registro"
+msgstr ""
+
+msgctxt "app"
+msgid "No se logró eliminar esta actividad"
+msgstr ""
+
+msgctxt "app"
+msgid "No se logró guardar el registro de organización"
+msgstr ""
+
+msgctxt "app"
+msgid "No se logró guardar el registro de participante"
+msgstr ""
+
+msgctxt "app"
+msgid "No se logró guardar el registro del contacto"
+msgstr ""
+
+msgctxt "app"
+msgid "No se logró guardar la actividad"
+msgstr ""
+
+msgctxt "app"
+msgid "Nombre"
+msgstr ""
+
+msgctxt "app"
+msgid "Nombre de Proyecto"
+msgstr ""
+
+msgctxt "app"
+msgid "Nombres"
+msgstr ""
+
+msgctxt "app"
+msgid "Nota"
+msgstr ""
+
+msgctxt "app"
+msgid "Notes"
+msgstr ""
+
+msgctxt "app"
+msgid "Nov"
+msgstr ""
+
+msgctxt "app"
+msgid "Noviembre"
+msgstr ""
+
+msgctxt "app"
+msgid "Nueva Estructura"
+msgstr ""
+
+msgctxt "app"
+msgid "Nueva Lista"
+msgstr ""
+
+msgctxt "app"
+msgid "Nueva Organización"
+msgstr ""
+
+msgctxt "app"
+msgid "Nuevo"
 msgstr ""
 
 msgctxt "app"
@@ -75,7 +915,335 @@ msgid "Nuevo Contacto"
 msgstr ""
 
 msgctxt "app"
+msgid "Nuevo Evento"
+msgstr ""
+
+msgctxt "app"
+msgid "Nuevo Item"
+msgstr ""
+
+msgctxt "app"
+msgid "Nuevo Proyecto"
+msgstr ""
+
+msgctxt "app"
+msgid "Nuevo Tipo de Organización"
+msgstr ""
+
+msgctxt "app"
+msgid "N°"
+msgstr ""
+
+msgctxt "app"
+msgid "Número de Identificación"
+msgstr ""
+
+msgctxt "app"
+msgid "Oct"
+msgstr ""
+
+msgctxt "app"
+msgid "Octubre"
+msgstr ""
+
+msgctxt "app"
+msgid "Order"
+msgstr ""
+
+msgctxt "app"
+msgid "Org ID"
+msgstr ""
+
+msgctxt "app"
+msgid "Org Name"
+msgstr ""
+
+msgctxt "app"
+msgid "Organizacion"
+msgstr ""
+
+msgctxt "app"
+msgid "Organizaciones"
+msgstr ""
+
+msgctxt "app"
+msgid "Organizaciones Implementadoras, Participantes por Sexo y por Año Fiscal"
+msgstr ""
+
+msgctxt "app"
+msgid "Organización"
+msgstr ""
+
+msgctxt "app"
+msgid "Organización Implementadora"
+msgstr ""
+
+msgctxt "app"
+msgid "Organización Perteneciente"
+msgstr ""
+
+msgctxt "app"
+msgid "Organization"
+msgstr ""
+
+msgctxt "app"
+msgid "Organization ID"
+msgstr ""
+
+msgctxt "app"
+msgid "Organization Implementing ID"
+msgstr ""
+
+msgctxt "app"
+msgid "Organization Implementing Name"
+msgstr ""
+
+msgctxt "app"
+msgid "Organization Type ID"
+msgstr ""
+
+msgctxt "app"
+msgid "Organization Types"
+msgstr ""
+
+msgctxt "app"
+msgid "Organizations"
+msgstr ""
+
+msgctxt "app"
+msgid "Organizer"
+msgstr ""
+
+msgctxt "app"
+msgid "Paises"
+msgstr ""
+
+msgctxt "app"
+msgid "Participante"
+msgstr ""
+
+msgctxt "app"
+msgid "Participantes"
+msgstr ""
+
+msgctxt "app"
+msgid "Participantes en eventos y Participantes por tipo de persona"
+msgstr ""
+
+msgctxt "app"
+msgid "Participantes por edad y educación"
+msgstr ""
+
+msgctxt "app"
+msgid "Participantes/Evento"
+msgstr ""
+
+msgctxt "app"
+msgid "Paso 1: Cargar el Archivo"
+msgstr ""
+
+msgctxt "app"
+msgid "Paso 2: Ajustar Datos"
+msgstr ""
+
+msgctxt "app"
+msgid "Password"
+msgstr ""
+
+msgctxt "app"
+msgid "Password must be a string and cannot be empty."
+msgstr ""
+
+msgctxt "app"
+msgid "País"
+msgstr ""
+
+msgctxt "app"
+msgid "País de la importación"
+msgstr ""
+
+msgctxt "app"
+msgid "Personas Posiblemente Duplicadas Respecto a Importados"
+msgstr ""
+
+msgctxt "app"
+msgid "Phone"
+msgstr ""
+
+msgctxt "app"
+msgid "Phone Personal"
+msgstr ""
+
+msgctxt "app"
+msgid "Phone Work"
+msgstr ""
+
+msgctxt "app"
+msgid "Place"
+msgstr ""
+
+msgctxt "app"
+msgid "Plantilla en Limpio"
+msgstr ""
+
+msgctxt "app"
+msgid "Por favor contacte al desarrollador del sistema e indique la siguiente información"
+msgstr ""
+
+msgctxt "app"
+msgid "Principal"
+msgstr ""
+
+msgctxt "app"
+msgid "Proceso Finalizado con éxito"
+msgstr ""
+
+msgctxt "app"
+msgid "Product"
+msgstr ""
+
+msgctxt "app"
+msgid "Product ID"
+msgstr ""
+
+msgctxt "app"
+msgid "Productive Area"
+msgstr ""
+
+msgctxt "app"
+msgid "Producto"
+msgstr ""
+
+msgctxt "app"
+msgid "Produit"
+msgstr ""
+
+msgctxt "app"
+msgid "Project"
+msgstr ""
+
+msgctxt "app"
+msgid "Project Code"
+msgstr ""
+
+msgctxt "app"
+msgid "Project ID"
+msgstr ""
+
+msgctxt "app"
+msgid "Project Name"
+msgstr ""
+
+msgctxt "app"
 msgid "Projects"
+msgstr ""
+
+msgctxt "app"
+msgid "Proyecto"
+msgstr ""
+
+msgctxt "app"
+msgid "Proyectos"
+msgstr ""
+
+msgctxt "app"
+msgid "Recargar Grid"
+msgstr ""
+
+msgctxt "app"
+msgid "Registros"
+msgstr ""
+
+msgctxt "app"
+msgid "Registros a Crear"
+msgstr ""
+
+msgctxt "app"
+msgid "Regresar"
+msgstr ""
+
+msgctxt "app"
+msgid "Rendimientos (qq)"
+msgstr ""
+
+msgctxt "app"
+msgid "Reportes"
+msgstr ""
+
+msgctxt "app"
+msgid "Reports"
+msgstr ""
+
+msgctxt "app"
+msgid "Roles"
+msgstr ""
+
+msgctxt "app"
+msgid "Rubro"
+msgstr ""
+
+msgctxt "app"
+msgid "Rubros"
+msgstr ""
+
+msgctxt "app"
+msgid "Rutas"
+msgstr ""
+
+msgctxt "app"
+msgid "Se comenzará el proceso al presionar el botón \"Fusionar\""
+msgstr ""
+
+msgctxt "app"
+msgid "Se esperaba campo \"---"
+msgstr ""
+
+msgctxt "app"
+msgid "Se ha finalizado el proceso de fusión. Presione Finalizar para recargar los datos de usuarios."
+msgstr ""
+
+msgctxt "app"
+msgid "Segmentación"
+msgstr ""
+
+msgctxt "app"
+msgid "Seguridad"
+msgstr ""
+
+msgctxt "app"
+msgid "Seleccionar..."
+msgstr ""
+
+msgctxt "app"
+msgid "Seleccione el registro que se usará como principal"
+msgstr ""
+
+msgctxt "app"
+msgid "Seleccione una Organización"
+msgstr ""
+
+msgctxt "app"
+msgid "Seleccione una actividad"
+msgstr ""
+
+msgctxt "app"
+msgid "Sep"
+msgstr ""
+
+msgctxt "app"
+msgid "Septiembre"
+msgstr ""
+
+msgctxt "app"
+msgid "Sex"
+msgstr ""
+
+msgctxt "app"
+msgid "Sexo"
+msgstr ""
+
+msgctxt "app"
+msgid "Si el problema persiste, contacte al desarrollador del sistema"
 msgstr ""
 
 msgctxt "app"
@@ -83,7 +1251,87 @@ msgid "Sistema de Monitoreo de Proyectos"
 msgstr "SISTEMA"
 
 msgctxt "app"
+msgid "Slug"
+msgstr ""
+
+msgctxt "app"
+msgid "Start"
+msgstr ""
+
+msgctxt "app"
+msgid "Structure"
+msgstr ""
+
+msgctxt "app"
+msgid "Structure Code"
+msgstr ""
+
+msgctxt "app"
+msgid "Structure Description"
+msgstr ""
+
+msgctxt "app"
+msgid "Structure ID"
+msgstr ""
+
+msgctxt "app"
+msgid "Structures"
+msgstr ""
+
+msgctxt "app"
+msgid "T"
+msgstr ""
+
+msgctxt "app"
+msgid "Tag"
+msgstr ""
+
+msgctxt "app"
+msgid "Tarjetas Resumen"
+msgstr ""
+
+msgctxt "app"
+msgid "Teléfono"
+msgstr ""
+
+msgctxt "app"
+msgid "Text"
+msgstr ""
+
+msgctxt "app"
 msgid "The requested page does not exist."
+msgstr ""
+
+msgctxt "app"
+msgid "Tipo"
+msgstr ""
+
+msgctxt "app"
+msgid "Tipos"
+msgstr ""
+
+msgctxt "app"
+msgid "Title"
+msgstr ""
+
+msgctxt "app"
+msgid "Total Beneficiarios"
+msgstr ""
+
+msgctxt "app"
+msgid "Type ID"
+msgstr ""
+
+msgctxt "app"
+msgid "Type Name"
+msgstr ""
+
+msgctxt "app"
+msgid "Url"
+msgstr ""
+
+msgctxt "app"
+msgid "Username"
 msgstr ""
 
 msgctxt "app"
@@ -91,11 +1339,83 @@ msgid "Usuarios"
 msgstr ""
 
 msgctxt "app"
+msgid "Value"
+msgstr ""
+
+msgctxt "app"
+msgid "Verifique datos de proyecto, organización implementadora y\n\t\t\t    beneficiario para:"
+msgstr ""
+
+msgctxt "app"
+msgid "Vincular con"
+msgstr ""
+
+msgctxt "app"
+msgid "Women Home"
+msgstr ""
+
+msgctxt "app"
+msgid "X"
+msgstr ""
+
+msgctxt "app"
+msgid "Y"
+msgstr ""
+
+msgctxt "app"
+msgid "Yield"
+msgstr ""
+
+msgctxt "app"
 msgid "danger"
 msgstr ""
 
 msgctxt "app"
+msgid "error"
+msgstr "@@@@"
+
+msgctxt "app"
+msgid "error, Contraseña actual inválida"
+msgstr ""
+
+msgctxt "app"
+msgid "error, Debe ingresar la contraseña actual y la nueva"
+msgstr ""
+
+msgctxt "app"
+msgid "error, La nueva clave no coincide con el campo de confirmación"
+msgstr ""
+
+msgctxt "app"
+msgid "error, No se logró actualizar su perfil"
+msgstr ""
+
+msgctxt "app"
 msgid "success"
+msgstr ""
+
+msgctxt "app"
+msgid "success, Contraseña cambiada con éxito"
+msgstr ""
+
+msgctxt "app"
+msgid "success, Perfil actualizado con éxito"
+msgstr ""
+
+msgctxt "app"
+msgid "Área de la finca (hectáreas)"
+msgstr ""
+
+msgctxt "app"
+msgid "Área en Desarrollo (hectáreas)"
+msgstr ""
+
+msgctxt "app"
+msgid "Área en Producción (hectáras)"
+msgstr ""
+
+msgctxt "app"
+msgid "éducation"
 msgstr ""
 
 msgctxt "audit"
