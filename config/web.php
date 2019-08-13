@@ -80,6 +80,8 @@ $config = [
             'parsers' => [
                 'application/json' => 'yii\web\JsonParser',
             ],
+            'enableCookieValidation' => false,
+           /* 'enableCsrfValidation'   => false,*/
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -138,6 +140,7 @@ $config = [
             ],
         ],
         'db' => require(__DIR__ . '/db.php'),
+        'db2' => require(__DIR__ . '/dbDjango.php'),
 
     ],
     'as access' => [
