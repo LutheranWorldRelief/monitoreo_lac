@@ -48,7 +48,7 @@ class Event extends base\Event
         $evento->start = $fechaIngreso;
         $evento->end = $fechaIngreso;
 
-        $evento->name = 'IMPORTACIÓN DESDE EXCEL POR ' . Yii::$app->getUser()->getIdentity()->first_name . ' ' . Yii::$app->getUser()->getIdentity()->last_name . ' El ' . date('Y-m-d H:i:s') . ' Con datos correspondientes al ' . $fechaIngreso . ' de la Organización ' . $organizacionImplementadora['name'] . ' del País ' . $paisNombre;
+        $evento->name = Yii::t('app', 'IMPORTACIÓN DESDE EXCEL POR {0} {1} El {2} Con datos correspondientes al {3} de la Organización {4} del País {5}',[$Yii::$app->getUser()->getIdentity()->first_name, Yii::$app->getUser()->getIdentity()->last_name, $date("Y-m-d H:i:s"), $fechaIngreso, $organizacionImplementadora["name"], $paisNombre);
         $evento->organization_id = (int)$evento->organization_id;
 
 
@@ -57,12 +57,12 @@ class Event extends base\Event
             if (!is_null($result)) $evento->structure_id = $result['estructura']; else return false;
             $proyectoId = $result['proyecto'];
         } else {
-            $estructura = Structure::find()->where(['project_id' => $proyectoId, 'description' => 'IMPORTACIÓN DESDE EXCEL'])->one();
+            $estructura = Structure::find()->where(['project_id' => $proyectoId, 'description' => Yii::t('app', 'IMPORTACIÓN DESDE EXCEL')])->one();
             $id_estructura = null;
             if (is_null($estructura)) {
                 $estructura = new Structure();
                 $estructura->project_id = $proyectoId;
-                $estructura->description = 'IMPORTACIÓN DESDE EXCEL';
+                $estructura->description = Yii::t('app', 'IMPORTACIÓN DESDE EXCEL');
                 $estructura->save();
                 $id_estructura = $estructura->id;
             } else {
@@ -159,12 +159,12 @@ class Event extends base\Event
             foreach ($models as $model) {
                 $model->event_id = $this->isNewRecord ? 1 : $this->id;
                 if (!$model->validate()) {
-                    $this->addError('attendancesArray', 'El registro de participante no es válido');
+                    $this->addError('attendancesArray', Yii::t('app', 'El registro de participante no es válido'));
                 }
                 $validated[] = $model;
             }
         } else {
-            $this->addError('attendancesArray', 'La lista debe tener al menos un participante');
+            $this->addError('attendancesArray', Yii::t('app', 'La lista debe tener al menos un participante'));
         }
         $this->attendancesModels = $validated;
     }
@@ -183,14 +183,14 @@ class Event extends base\Event
             }
 
             if (!$validAttendances) {
-                $this->addError('attendancesArray', 'No se logró guardar el registro de participante');
+                $this->addError('attendancesArray', Yii::t('app', 'No se logró guardar el registro de participante'));
             }
 
             foreach ($this->attendancesDelete as $m)
                 $m->delete();
 
             if (!($validEvent && $validAttendances))
-                throw new Exception("No se logró guardar la actividad");
+                throw new Exception(Yii::t('app', 'No se logró guardar la actividad'));
 
             $transaction->commit();
         } catch (Exception $e) {
@@ -216,7 +216,7 @@ class Event extends base\Event
             $deletedAll &= parent::delete();
 
             if (!$deletedAll)
-                throw new Exception("No se logró eliminar esta actividad");
+                throw new Exception(Yii::t('app', 'No se logró eliminar esta actividad'));
 
             $transaction->commit();
         } catch (Exception $e) {

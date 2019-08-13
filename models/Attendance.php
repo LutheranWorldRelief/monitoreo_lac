@@ -59,7 +59,7 @@ class Attendance extends base\Attendance
                     $this->organization_id = $org->id;
                 else {
                     Ulog::l([$org->errors]);
-                    throw new Exception("No se logró guardar el registro de organización");
+                    throw new Exception(Yii::t('app', 'No se logró guardar el registro de organización'));
                 }
             }
 
@@ -71,14 +71,14 @@ class Attendance extends base\Attendance
                     $this->contact_id = $contact->id;
                 else {
                     $this->addErrors($contact->errors);
-                    throw new Exception("No se logró guardar el registro del contacto");
+                    throw new Exception(Yii::t('app', 'No se logró guardar el registro del contacto'));
                 }
             }
 
             $return &= parent::save();
             
               if (!$return) {
-                  throw new Exception("No se logró guardar el registro de participante");
+                  throw new Exception(Yii::t('app', 'No se logró guardar el registro de participante'));
               }
             $transaction->commit();
         } catch (Exception $e) {
