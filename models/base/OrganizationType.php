@@ -4,6 +4,7 @@ namespace app\models\base;
 
 use app\components\ActiveRecord;
 use yii\db\ActiveQuery;
+use yii;
 
 /**
  * This is the model class for table "organization_type".
@@ -49,7 +50,7 @@ abstract class OrganizationType extends ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'abbreviation' => Yii::t('app', 'Abbreviation'),
             'name' => Yii::t('app', 'Name'),
-            'description' => Yii::t('app', 'Description',
+            'description' => Yii::t('app', 'Description'),
         ];
     }
 

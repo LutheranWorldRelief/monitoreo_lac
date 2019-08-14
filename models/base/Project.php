@@ -4,6 +4,7 @@ namespace app\models\base;
 
 use app\components\ActiveRecord;
 use yii\db\ActiveQuery;
+use yii;
 
 /**
  * This is the model class for table "project".

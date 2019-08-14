@@ -3,6 +3,7 @@
 namespace app\models\form;
 
 use yii\base\Model;
+use yii;
 
 class ReportForm extends Model
 {
