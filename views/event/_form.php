@@ -77,7 +77,7 @@ $form = ActiveForm::begin();
                 echo $form->field($model, 'country_id')->widget(Select2::classname(), [
                     'data' => Country::allCountries(),
                     'language' => 'es',
-                    'options' => ['placeholder' => Yii::('app','Seleccione un país')],
+                    'options' => ['placeholder' => Yii::t('app','Seleccione un país')],
                     'pluginOptions' => ['allowClear' => true],
                 ])->label('Country');
                 ?>
