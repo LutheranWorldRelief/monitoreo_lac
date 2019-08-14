@@ -167,7 +167,7 @@ class SiteController extends Controller
         $res = pg_query($db, "SELECT username, email FROM auth_user WHERE id = " . $userid );
         $username = pg_fetch_result($res, 0);
         $identity = \app\models\AuthUser::findByUsername($username);
-        if (Yii::$app->user->login($identity, 999)) {
+        if (Yii::$app->user->login($identity)) {
             return $this->goHome();
         } else {
             throw new NotFoundHttpException();
