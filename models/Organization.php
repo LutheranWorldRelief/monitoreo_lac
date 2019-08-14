@@ -3,6 +3,7 @@
 namespace app\models;
 
 use app\components\UCatalogo;
+use yii;
 
 /**
  * This is the model class for table "{{%organization}}".

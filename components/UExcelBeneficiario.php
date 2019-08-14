@@ -3,6 +3,7 @@
 namespace app\components;
 
 use yii\base\Component;
+use yii;
 
 class UExcelBeneficiario extends Component
 {

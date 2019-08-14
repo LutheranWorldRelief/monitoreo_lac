@@ -164,12 +164,12 @@ class DataList extends base\DataList
             }
 
             if (!$deleted)
-                throw new Exception(Yii:t('app', 'No se lograron eliminar los registros asociados'));
+                throw new Exception(Yii::t('app', 'No se lograron eliminar los registros asociados'));
 
             $deleted = parent::delete();
 
             if (!$deleted)
-                throw new Exception(Yii:t('app', 'No se logró eliminar el registro'));
+                throw new Exception(Yii::t('app', 'No se logró eliminar el registro'));
 
             $transaction->commit();
 
@@ -192,14 +192,14 @@ class DataList extends base\DataList
             $pais = self::find()->where(['id' => $this->data_list_id, 'slug' => 'countries'])->one();
             if ($pais) {
                 if (empty($this->value)) {
-                    $this->addError('value', Yii:t('app', 'Debe agregar el código corto de país de 2 letras en el campo value'));
+                    $this->addError('value', Yii::t('app', 'Debe agregar el código corto de país de 2 letras en el campo value'));
                     $valid = false;
 
                 }
 
                 if (!(strlen($this->value) == 2)) {
                     $tamanio = strlen($this->value);
-                    $this->addError('value', Yii:t('app', 'Debe agregar el código corto de país de 2 letras en el campo value, actualmente tiene $tamanio caracteres'));
+                    $this->addError('value', Yii::t('app', 'Debe agregar el código corto de país de 2 letras en el campo value, actualmente tiene $tamanio caracteres'));
                     $valid = false;
                 }
 
@@ -220,7 +220,7 @@ class DataList extends base\DataList
         $model = $model->one();
         if ($model) {
             $pais = $model->name;
-            $this->addError('value', Yii:t('app', 'Debe agregar el código corto único de país en el campo value, actualmente este código es del país $pais'));
+            $this->addError('value', Yii::t('app', 'Debe agregar el código corto único de país en el campo value, actualmente este código es del país $pais'));
             $valid = false;
         }
         return $valid;

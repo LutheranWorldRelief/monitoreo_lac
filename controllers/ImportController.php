@@ -191,17 +191,17 @@ class ImportController extends Controller
                 $errorText = "<h3>Fila $index de $totalRow </h3>";
 
                 if (!$countryCode)
-			$errorText .= '<br><b style="color:#dd4b39">'. Yii::t('app', 'Debe establecer una país válido')'</b>';
+			$errorText .= '<br><b style="color:#dd4b39">'. Yii::t('app', 'Debe establecer una país válido').'</b>';
                 if (!$fechaIngresoValida)
-		    $errorText .= '<br><b style="color:#dd4b39">'. Yii::t('app', 'Debe establecer una fecha de ingreso válida')'</b>';
+		    $errorText .= '<br><b style="color:#dd4b39">'. Yii::t('app', 'Debe establecer una fecha de ingreso válida').'</b>';
                 if (!$proyectoValido)
-		    $errorText .= '<br><b style="color:#dd4b39">'. Yii::t('app', 'Error en proyecto, verifiqué que el proyecto exista')'</b>';
+		    $errorText .= '<br><b style="color:#dd4b39">'. Yii::t('app', 'Error en proyecto, verifiqué que el proyecto exista').'</b>';
                 if (empty($row[$key['organizacion_implementadora']]))
-		    $errorText .= '<br><b style="color:#dd4b39">'. Yii::t('app', 'Error en Organización Implementadora')'</b>';
+		    $errorText .= '<br><b style="color:#dd4b39">'. Yii::t('app', 'Error en Organización Implementadora').'</b>';
                 if (!$implementingOrganizationValida)
-		    $errorText .= '<br><b style="color:#dd4b39">'. Yii::t('app', 'Debe establecer una organización implementadora que exista en la base de datos')'</b>';
+		    $errorText .= '<br><b style="color:#dd4b39">'. Yii::t('app', 'Debe establecer una organización implementadora que exista en la base de datos').'</b>';
                 if ($errorSexo)
-		    $errorText .= '<br><b style="color:#dd4b39">'. Yii::t('app', 'Error en Sexo, se espera Hombre o Mujer')'</b>';
+		    $errorText .= '<br><b style="color:#dd4b39">'. Yii::t('app', 'Error en Sexo, se espera Hombre o Mujer').'</b>';
                 if (!$beneficiario->validate())
 		    $errorText .= '<br><b style="color:#dd4b39">'. Yii::t('app', 'Error Beneficiarios') . implode(', ', $beneficiario->getFirstErrors()) . '</b>';
                 $errorText .= "<br>" . implode(', ', $row);

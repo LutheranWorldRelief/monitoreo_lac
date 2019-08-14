@@ -86,7 +86,7 @@ if (count($data['Guardar']) < 1):
             <?php if (count($data['Guardar']) > 0): ?>
                 <li role="presentation" class="">
                     <a href="#correcto" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile"
-		    aria-expanded="false"><?= \Yii::t('app' 'Datos
+		    aria-expanded="false"><?= \Yii::t('app', 'Datos
 		    a Importar')?></a>
                 </li>
             <?php endif; ?>

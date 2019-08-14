@@ -48,7 +48,7 @@ class Event extends base\Event
         $evento->start = $fechaIngreso;
         $evento->end = $fechaIngreso;
 
-        $evento->name = Yii::t('app', 'IMPORTACIÓN DESDE EXCEL POR {0} {1} El {2} Con datos correspondientes al {3} de la Organización {4} del País {5}',[$Yii::$app->getUser()->getIdentity()->first_name, Yii::$app->getUser()->getIdentity()->last_name, $date("Y-m-d H:i:s"), $fechaIngreso, $organizacionImplementadora["name"], $paisNombre);
+        $evento->name = Yii::t('app', 'IMPORTACIÓN DESDE EXCEL POR {0} {1} El {2} Con datos correspondientes al {3} de la Organización {4} del País {5}',[$Yii::$app->getUser()->getIdentity()->first_name, Yii::$app->getUser()->getIdentity()->last_name, $date("Y-m-d H:i:s"), $fechaIngreso, $organizacionImplementadora["name"], $paisNombre]);
         $evento->organization_id = (int)$evento->organization_id;
 
 

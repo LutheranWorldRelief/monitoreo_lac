@@ -40,7 +40,7 @@ echo Nav::widget([
                 'encode' => false
             ],
             [
-                'label' => '<i class="fa fa-database"></i>'. Yii::('app', 'Rutas'),
+                'label' => '<i class="fa fa-database"></i>'. Yii::t('app', 'Rutas'),
                 'url' => ['rutas/'],
                 'encode' => false
             ],

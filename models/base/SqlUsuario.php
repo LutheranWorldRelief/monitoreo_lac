@@ -3,6 +3,7 @@
 namespace app\models\base;
 
 use app\components\ActiveRecord;
+use yii;
 
 /**
  * This is the model class for table "sql_usuario".

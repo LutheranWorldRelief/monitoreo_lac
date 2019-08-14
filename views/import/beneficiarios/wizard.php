@@ -17,7 +17,7 @@ WizardAsset::register($this);
 
 <div class="box">
     <div class="box-body">
-	<h3 class=""><?= \Yii::t('app', 'Importar Beneficiarios desde excel'?></h3>
+	<h3 class=""><?= \Yii::t('app', 'Importar Beneficiarios desde excel')?></h3>
     </div>
 </div>
 <div class="wizard">

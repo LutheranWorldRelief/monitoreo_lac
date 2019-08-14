@@ -4,6 +4,7 @@ namespace app\components;
 
 use app\models\DataList;
 use yii\base\Component;
+use yii;
 
 class UCatalogo extends Component
 {
