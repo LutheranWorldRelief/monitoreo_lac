@@ -10,8 +10,10 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\db\Query;
 
+
 class SiteController extends Controller
 {
+    protected $cookies = Null;
     /**
      * @inheritdoc
      */
@@ -66,61 +68,71 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
-        //print_r($_POST);
-        $_POST=null;
-        $_POST['LoginForm'] = ['username' => 'admin', 'password' => 'agua123', 'rememberMe' => 1] ;
-        $_POST['login-button'] = null;
+        $model = new LoginForm();
 
+        /** Validar si existe session en Django **/
+        if (Yii::$app->getRequest()->getCookies()->has('sessionid'))
+            $this->setSessionWithDjango($model);
 
-        /** INICIO @var   $cookies */
-        $cookies = Yii::$app->request->cookies;
-        if(Yii::$app->getRequest()->getCookies()->has('sessionid'))
-        {
-            $sessionid = $cookies->get('sessionid'); //'zwr599hsf9n8efk0a2n6b3tfq4uj3vw8';
-
-          /*  $res = pg_query($db, "SELECT convert_from(decode(session_data, 'base64'), 'utf-8')
-            FROM django_session WHERE session_key='" . pg_escape_string($sessionid) . "'");*/
-
-       /*   Yii::$app->db2;
-            $query = (new Query());
-            $query
-                ->select(["convert_from(decode(session_data, 'base64'), 'utf-8')"])
-                ->from('django_session')
-                ->andWhere([
-                    'session_key' => pg_escape_string($sessionid)
-                ]);*/
-            $sessionDjango = Yii::$app->db2->createCommand(" SELECT convert_from(decode(session_data, 'base64'), 'utf-8') FROM 
-	                          django_session  WHERE session_key='".pg_escape_string($sessionid)."'"
-                              )->queryOne();
-
-            list($hash, $json) = preg_split("/:/", $sessionDjango['convert_from'], 2);
-            $data = json_decode($json, true);
-
-            $authUser = Yii::$app->db2->createCommand("SELECT username, email FROM auth_user WHERE id = " . $data['_auth_user_id'])->queryOne();
-
-            print_r($authUser['username']); exit();
-
-              /*  ->andFilterWhere(['project_id' => $request->get('proyecto')])
-                ->orderBy([new \yii\db\Expression('structure_id ASC NULLS FIRST'), 'code' => SORT_ASC, 'description' => SORT_ASC]);
-                */
-
-          /*  Yii::$app->response->format = Response::FORMAT_JSON;
-            return $query->all();*/
-
-        }
-
-         /* FIN */
-        
         $this->layout = 'login';
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
 
-        $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             return $this->goBack();
         }
+
         return $this->render('login', ['model' => $model,]);
+    }
+
+    /**
+     * Establecer session con datos de usuario logueado en django
+    **/
+    private function setSessionWithDjango($model)
+    {
+        $this->cookies = Yii::$app->request->cookies;
+
+        $sessionid =  $this->cookies->get('sessionid');
+
+        $query = (new Query());
+        $query
+            ->select(["convert_from(decode(session_data, 'base64'), 'utf-8')"])
+            ->from('django_session')
+            ->andWhere([
+                'session_key' => pg_escape_string($sessionid)
+            ]);
+
+        /*Si usuario viene de cerrar session, no loguear nuevamente*/
+        if (!$this->cookies->has('isLogout')) {
+
+            $sessionDjango = Yii::$app->db2->createCommand($query->createCommand()->getRawSql())->queryOne();
+
+            list($hash, $json) = preg_split("/:/", $sessionDjango['convert_from'], 2);
+            $data = json_decode($json, true);
+
+            $queryGetUser = (new Query());
+            $queryGetUser
+                ->select(["username", "email"])
+                ->from('auth_user')
+                ->andWhere([
+                    'id' => $data['_auth_user_id']
+                ]);
+
+            $authUser = Yii::$app->db2->createCommand($queryGetUser->createCommand()->getRawSql())->queryOne();
+
+            if ($model->login($authUser['username']))
+                return $this->goBack();
+
+        }
+        $this->removeIsLogout();
+
+    }
+
+    public function removeIsLogout()
+    {
+        $cookies = Yii::$app->response->cookies;
+        $cookies->remove('isLogout');
     }
 
     /**
@@ -130,6 +142,13 @@ class SiteController extends Controller
      */
     public function actionLogout()
     {
+        $cookies = Yii::$app->response->cookies;
+        $cookies->add(new \yii\web\Cookie([
+            'name' => 'isLogout',
+            'value' => 'true' /*,
+            'expire' => 0,*/
+        ]));
+
         Yii::$app->user->logout();
         return $this->goHome();
     }

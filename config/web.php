@@ -81,7 +81,7 @@ $config = [
                 'application/json' => 'yii\web\JsonParser',
             ],
             'enableCookieValidation' => false,
-           /* 'enableCsrfValidation'   => false,*/
+            'enableCsrfValidation'   => false,
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',

@@ -2,9 +2,9 @@
 
 return [
     'class' => 'yii\db\Connection',
-    'dsn' => 'pgsql:host=127.0.0.1;port=5433;dbname=hummus',
+    'dsn' => 'pgsql:host=127.0.0.1;port=5432;dbname=hummus',
     'username' => 'postgres',
-    'password' => 'guegue',
+    'password' => 'root',
     'charset' => 'utf8',
     'enableSchemaCache' => true,
     'schemaCacheDuration' => 3600,
