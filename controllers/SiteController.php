@@ -150,4 +150,28 @@ class SiteController extends Controller
         }
         return $this->render('profile', ['user' => $user]);
     }
+
+    public function actionAutologin()
+    {
+        if (!$_COOKIE['sessionid']) {
+            return $this->goHome();
+        }
+        $sessionid =  $_COOKIE['sessionid'];
+        $dbname = Yii::$app->components['db']['username'];
+        $db = pg_connect("dbname=$dbname user=$dbname");
+        $res = pg_query($db, "SELECT convert_from(decode(session_data, 'base64'), 'utf-8') FROM django_session WHERE session_key='" . pg_escape_string($sessionid) . "'");
+        $val = pg_fetch_result($res, 0);
+        list($hash, $json) = preg_split("/:/", $val, 2);
+        $data = json_decode($json, true);
+        $userid = $data['_auth_user_id'];
+        $res = pg_query($db, "SELECT username, email FROM auth_user WHERE id = " . $userid );
+        $username = pg_fetch_result($res, 0);
+        $identity = \app\models\AuthUser::findByUsername($username);
+        if (Yii::$app->user->login($identity, 999)) {
+            return $this->goHome();
+        } else {
+            throw new NotFoundHttpException();
+        }
+
+    }
 }

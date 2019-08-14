@@ -144,6 +144,7 @@ $config = [
         'class' => 'mdm\admin\components\AccessControl',
         'allowActions' => [
 //            '*',
+            'site/autologin',
             'site/login',
             'site/logout',
 //            'gii/*',
