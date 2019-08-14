@@ -60,7 +60,7 @@ $gridColumns = [
             'dataProvider' => $dataProvider,
             'filterModel' => $searchModel,
             'columns' => $gridColumns,
-            'heading' => '<i class="wi wi-rain-mix wi-flip-horizontal"></i> Proyectos',
+            'heading' => '<i class="wi wi-rain-mix wi-flip-horizontal"></i>'. Yii::t('app', 'Proyectos'),
         ]);
         ?>
     </div>

@@ -21,7 +21,7 @@ class UPasswords extends Component {
      */
     public static function validatePassword($password, $hash) {
         if (!is_string($password) || $password === '')
-            throw new InvalidParamException('Password must be a string and cannot be empty.');
+            throw new InvalidParamException(Yii::t('app', 'Password must be a string and cannot be empty.'));
 
 //        if (!preg_match('/^\$2[axy]\$(\d\d)\$[\.\/0-9A-Za-z]{22}/', $hash, $matches) || $matches[1] < 4 || $matches[1] > 30)
 //            throw new InvalidParamException('Hash is invalid.');
@@ -53,7 +53,7 @@ class UPasswords extends Component {
     public static function generateSalt($length = 8, $cost = 12) {
         $cost = (int) $cost;
         if ($cost < 4 || $cost > 31) {
-            throw new InvalidParamException('Cost must be between 4 and 31.');
+            throw new InvalidParamException(Yii::t('app', 'Cost must be between 4 and 31.'));
         }
 
         // Get a 20-byte random string

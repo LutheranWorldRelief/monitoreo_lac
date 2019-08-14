@@ -54,17 +54,17 @@ abstract class SqlContactEvent extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'contact_id' => 'Contact ID',
-            'name' => 'Name',
-            'country_id' => 'Country',
-            'org_name' => 'Org Name',
-            'type_name' => 'Type Name',
-            'event' => 'Event',
-            'event_id' => 'Event ID',
-            'organizer' => 'Organizer',
-            'start' => 'Start',
-            'end' => 'End',
-            'place' => 'Place',
+            'contact_id' => Yii::t('app', 'Contact ID'),
+            'name' => Yii::t('app', 'Name'),
+            'country_id' => Yii::t('app', 'Country'),
+            'org_name' => Yii::t('app', 'Org Name'),
+            'type_name' => Yii::t('app', 'Type Name'),
+            'event' => Yii::t('app', 'Event'),
+            'event_id' => Yii::t('app', 'Event ID'),
+            'organizer' => Yii::t('app', 'Organizer'),
+            'start' => Yii::t('app', 'Start'),
+            'end' => Yii::t('app', 'End'),
+            'place' => Yii::t('app', 'Place'),
         ];
     }
 }

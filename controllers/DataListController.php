@@ -192,7 +192,7 @@ class DataListController extends Controller
             ])
             ->count();
         if ($contactsCount > 0)
-            throw new HttpException(Yii::t('app','403, 'Aún hay registros relacionados con este item. No puede ser eliminado.'');
+            throw new HttpException(Yii::t('app','403, Aún hay registros relacionados con este item. No puede ser eliminado.');
 
         $model->delete();
         return $padre > 0 ? $this->redirect(['data-list/view', 'id' => $padre]) : $this->redirect(['data-list/index']);

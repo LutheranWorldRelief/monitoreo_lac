@@ -35,12 +35,12 @@ class ReportForm extends Model
     public function attributeLabels()
     {
         return [
-            'date_start' => 'Fecha Inicio',
-            'date_end' => 'Fecha Fin',
-            'project_id' => 'Proyecto',
-            'org_implementing_id' => 'Organización Implementadora',
-            'country_id' => 'País',
-            'country_code' => 'País',
+            'date_start' => Yii::t('app', 'Fecha Inicio'),
+            'date_end' => Yii::t('app', 'Fecha Fin'),
+            'project_id' => Yii::t('app', 'Proyecto'),
+            'org_implementing_id' => Yii::t('app', 'Organización Implementadora'),
+            'country_id' => Yii::t('app', 'País'),
+            'country_code' => Yii::t('app', 'País'),
         ];
     }
 }

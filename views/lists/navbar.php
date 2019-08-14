@@ -10,7 +10,7 @@ NavBar::begin([
 echo Nav::widget([
     'items' => [
         [
-            'label' => 'Nuevo',
+            'label' => Yii::t('app', 'Nuevo'),
             'url' => ['/lists/create']
         ],
     ],

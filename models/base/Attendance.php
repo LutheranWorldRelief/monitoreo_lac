@@ -55,16 +55,16 @@ abstract class Attendance extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'event_id' => 'Event ID',
-            'contact_id' => 'Contact ID',
-            'document' => 'Document',
-            'sex' => 'Sex',
-            'country_id' => 'Country',
-            'community' => 'Community',
-            'organization_id' => 'Org ID',
-            'phone_personal' => 'Phone Personal',
-            'type_id' => 'Type ID',
+            'id' => Yii::t('app', 'ID'),
+            'event_id' => Yii::t('app', 'Event ID'),
+            'contact_id' => Yii::t('app', 'Contact ID'),
+            'document' => Yii::t('app', 'Document'),
+            'sex' => Yii::t('app', 'Sex'),
+            'country_id' => Yii::t('app', 'Country'),
+            'community' => Yii::t('app', 'Community'),
+            'organization_id' => Yii::t('app', 'Org ID'),
+            'phone_personal' => Yii::t('app', 'Phone Personal'),
+            'type_id' => Yii::t('app', 'Type ID'),
         ];
     }
 

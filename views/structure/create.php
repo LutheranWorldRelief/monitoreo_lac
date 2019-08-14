@@ -7,7 +7,7 @@ use yii\helpers\Html;
 /* @var $model app\models\Structure */
 
 $this->title = 'Nueva Structure';
-$this->params['breadcrumbs'][] = ['label' => 'Structures', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Structures'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="structure-create">

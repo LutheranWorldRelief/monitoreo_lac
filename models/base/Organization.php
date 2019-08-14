@@ -59,14 +59,14 @@ abstract class Organization extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'name' => 'Name',
-            'country_number' => 'Country Number',
-            'organization_type_id' => 'Organization Type ID',
-            'organization_id' => 'Organization ID',
-            'description' => 'Description',
-            'country_id' => 'Country ID',
-            'is_implementer' => 'Is Implementer',
+            'id' => Yii::t('app', 'ID'),
+            'name' => Yii::t('app', 'Name'),
+            'country_number' => Yii::t('app', 'Country Number'),
+            'organization_type_id' => Yii::t('app', 'Organization Type ID'),
+            'organization_id' => Yii::t('app', 'Organization ID'),
+            'description' => Yii::t('app', 'Description'),
+            'country_id' => Yii::t('app', 'Country ID'),
+            'is_implementer' => Yii::t('app', 'Is Implementer'),
         ];
     }
 

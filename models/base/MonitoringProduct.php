@@ -31,10 +31,10 @@ class MonitoringProduct extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'name' => 'Product',
-            'name_es' => 'Producto',
-            'name_fr' => 'Produit',
+            'id' => Yii::t('app', 'ID'),
+            'name' => Yii::t('app', 'Product'),
+            'name_es' => Yii::t('app', 'Producto'),
+            'name_fr' => Yii::t('app', 'Produit'),
         ];
     }
 

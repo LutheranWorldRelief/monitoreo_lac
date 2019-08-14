@@ -11,9 +11,9 @@ extract($data);
 ?>
 <div class="row">
     <div class="col-lg-10 col-lg-offset-1">
-        <h3 class="text-info pull-left">Proceso Finalizado con éxito</h3>
+	<h3 class="text-info pull-left"><?= \Yii::t('app', 'Proceso Finalizado con éxito')?></h3>
         <a href="<?= Url::to(['import/beneficiarios-paso1']) ?>"
-           class="btn btn-primary"><i class="fa fa-reply"></i> Regresar</a>
+	   class="btn btn-primary"><i class="fa fa-reply"></i><?= \Yii::t('app', 'Regresar')?></a>
     </div>
 
 </div>
@@ -22,16 +22,16 @@ extract($data);
         <script type="application/javascript">
             var gModels = <?= Json::encode($data) ?>;
         </script>
-        <h3>{{ modelsNames.length }} Personas Posiblemente Duplicadas Respecto a Importados</h3>
+	<h3>{{ modelsNames.length }} <?= \Yii::t('app', 'Personas Posiblemente Duplicadas Respecto a Importados')?></h3>
         <table class="table table-bordered">
             <thead>
             <tr>
-                <th>N°</th>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Sexo</th>
-                <th>Documento</th>
-                <th>Organización</th>
+		<th><?= \Yii::t('app', 'N°')?></th>
+		<th><?= \Yii::t('app', 'ID')?></th>
+		<th><?= \Yii::t('app', 'Nombre')?></th>
+		<th><?= \Yii::t('app', 'Sexo')?></th>
+		<th><?= \Yii::t('app', 'Documento')?></th>
+		<th><?= \Yii::t('app', 'Organización')?></th>
                 <th></th>
             </tr>
             </thead>

@@ -123,10 +123,10 @@ class UsuariosController extends AssignmentController
     public function actionDelete($id)
     {
         if ($id == Yii::$app->user->getId()) {
-            Yii::$app->getSession()->setFlash(Yii::t('app', 'danger', 'No puedes eliminar tu propia cuenta'));
+            Yii::$app->getSession()->setFlash('danger', Yii::t('app', 'No puedes eliminar tu propia cuenta'));
         } else {
             AuthUser::findOne($id)->delete();
-            Yii::$app->getSession()->setFlash(Yii::t('app', 'success', 'Usuario Eliminado'));
+            Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Usuario Eliminado'));
         }
 
         return $this->redirect(['index']);

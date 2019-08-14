@@ -8,7 +8,7 @@ use yii\helpers\Html;
 <div class="row">
     <div class="box">
         <div class="box-header with-border">
-            <h3 class="box-title">Filtros</h3>
+	<h3 class="box-title"><?= Yii::t('app', "Filtros"?></h3>
 
             <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -26,7 +26,7 @@ use yii\helpers\Html;
                 echo '<label>Desde</label>';
                 echo DatePicker::widget([
                     'name' => 'desde',
-                    'options' => ['placeholder' => 'Selecciona desde ...', 'ng-model' => 'formulario.desde'],
+                    'options' => ['placeholder' => Yii::t('app', 'Selecciona desde ...'), 'ng-model' => 'formulario.desde'],
                     'pluginOptions' => [
                         'format' => 'yyyy-mm-dd',
                         'todayHighlight' => true,
@@ -40,7 +40,7 @@ use yii\helpers\Html;
                 echo '<label>Hasta</label>';
                 echo DatePicker::widget([
                     'name' => 'hasta',
-                    'options' => ['placeholder' => 'Selecciona hasta ...', 'ng-model' => 'formulario.hasta'],
+                    'options' => ['placeholder' => Yii::t('app', 'Selecciona hasta ...'), 'ng-model' => 'formulario.hasta'],
                     'pluginOptions' => [
                         'format' => 'yyyy-mm-dd',
                         'todayHighlight' => true,
@@ -62,7 +62,7 @@ use yii\helpers\Html;
                     ],
                     'options' => [
 
-                        'placeholder' => 'Seleccione un proyecto ...',
+                        'placeholder' => Yii::t('app', 'Seleccione un proyecto ...'),
                         'multiple' => false,
                         'ng-model' => 'formulario.proyecto'
                     ],
@@ -73,7 +73,7 @@ use yii\helpers\Html;
             </div>
             <div class="col-md-2">
                 <br>
-                <button class="btn btn-primary" ng-click="cargarDatos()"><i class="fa fa-area-chart"></i> Graficar
+		<button class="btn btn-primary" ng-click="cargarDatos()"><i class="fa fa-area-chart"></i><?= \Yii::t('app', "Graficar")?>
                 </button>
             </div>
         </div>

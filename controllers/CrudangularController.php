@@ -69,7 +69,7 @@ class CrudangularController extends ControladorController
             Yii::$app->response->format = Response::FORMAT_JSON;
             return $result;
         } else {
-            throw new Exception(Yii::t('app','"No encontrado"', 500));
+            throw new Exception(Yii::t('app','No encontrado, 500'));
         }
     }
 

@@ -80,7 +80,7 @@ class WGridView extends Widget
                 'footerOptions' => [
                     'style' => 'background:white'
                 ],
-                'before' => $this->beforeShow ? Html::a('<i class="fa fa-refresh"></i> Recargar Grid', Url::current(), ['class' => 'btn btn-info']) . $this->before : null,
+                'before' => $this->beforeShow ? Html::a('<i class="fa fa-refresh"></i>'. Yii::t('app',  'Recargar Grid'), Url::current(), ['class' => 'btn btn-info']) . $this->before : null,
                 'after' => $this->after,
             ]
 

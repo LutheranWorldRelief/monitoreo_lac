@@ -104,17 +104,17 @@ class Contact extends base\Contact
         $labels = parent::attributeLabels();
         return array_merge(
             $labels, [
-                'organization_id' => 'Organization',
-                'organizationName' => 'Organization',
-                'educationName' => 'Education',
-                'monitor_id' => 'Monitor',
-                'monitorName' => 'Monitor',
-                'country_id' => 'Country',
-                'countryName' => 'Country',
-                'type_id' => 'Type',
-                'typeName' => 'Type',
-                'attendeeTypeName' => 'Tipo de Participante',
-                'otherPhones' => 'Otros Teléfonos',
+                'organization_id' => Yii:t('app', 'Organization'),
+                'organizationName' => Yii:t('app', 'Organization'),
+                'educationName' => Yii:t('app', 'Education'),
+                'monitor_id' => Yii:t('app', 'Monitor'),
+                'monitorName' => Yii:t('app', 'Monitor'),
+                'country_id' => Yii:t('app', 'Country'),
+                'countryName' => Yii:t('app', 'Country'),
+                'type_id' => Yii:t('app', 'Type'),
+                'typeName' => Yii:t('app', 'Type'),
+                'attendeeTypeName' => Yii:t('app', 'Tipo de Participante'),
+                'otherPhones' => Yii:t('app', 'Otros Teléfonos'),
             ]
         );
     }

@@ -7,19 +7,19 @@ use yii\helpers\Url;
 /* @var $model app\models\Project */
 
 $this->title = 'Proyecto ' . $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Projects', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Projects'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <?=
 $this->render('_navbar', [
     'options' => [
         [
-            'label' => '<i class="fa fa-users"></i> Beneficiarios',
+            'label' => '<i class="fa fa-users"></i>'. Yii::t('app', 'Beneficiarios'),
             'url' => ['project/contacts', 'projectId' => $model->id],
             'encode' => false
         ],
         [
-            'label' => '<i class="fa fa-pencil"></i> Actualizar',
+            'label' => '<i class="fa fa-pencil"></i>'. Yii::t('app', 'Actualizar'),
             'url' => ['update', 'id' => $model->id],
             'linkOptions' => [
             ],
@@ -40,7 +40,7 @@ $this->render('_navbar', [
                 Html::a('Delete', ['delete', 'id' => $model->id], [
                     'class' => 'btn btn-danger',
                     'data' => [
-                        'confirm' => 'Are you sure you want to delete this item?',
+                        'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
                         'method' => 'post',
                     ],
                 ])
@@ -66,7 +66,7 @@ $this->render('_navbar', [
                 </div>
                 <div class="col-sm-4">
                     <a class="pull-right btn btn-success"
-                       href="<?= Url::toRoute(["structure/create", 'project' => $model->id]); ?>">Nueva Estructura</a>
+		    href="<?= Url::toRoute(["structure/create", 'project' => $model->id]); ?>"><?= \Yii::t('app', 'Nueva Estructura')?></a>
                 </div>
             </div>
             <button ng-click="my_tree.expand_all()" class="btn btn-primary btn-sm">Expand All</button>

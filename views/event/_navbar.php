@@ -20,12 +20,12 @@ echo Nav::widget([
         $options,
         [
             [
-                'label' => '<i class="fa fa-plus"></i> Nuevo Evento',
+                'label' => '<i class="fa fa-plus"></i>'. Yii::t('app', "Nuevo Evento"),
                 'url' => ['event/create'],
                 'encode' => false
             ],
             [
-                'label' => '<i class="fa fa-database"></i> Lista',
+                'label' => '<i class="fa fa-database"></i>'. Yii::t('app', "Lista"),
                 'url' => ['event/'],
                 'encode' => false
             ],

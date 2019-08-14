@@ -50,13 +50,13 @@ abstract class Filter extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'name' => 'Name',
-            'start' => 'Start',
-            'end' => 'End',
-            'slug' => 'Slug',
-            'order' => 'Order',
-            'filter_id' => 'Filter ID',
+            'id' => Yii::t('app', 'ID'),
+            'name' => Yii::t('app', 'Name'),
+            'start' => Yii::t('app', 'Start'),
+            'end' => Yii::t('app', 'End'),
+            'slug' => Yii::t('app', 'Slug'),
+            'order' => Yii::t('app', 'Order'),
+            'filter_id' => Yii::t('app', 'Filter ID'),
         ];
     }
 

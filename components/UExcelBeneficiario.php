@@ -38,29 +38,29 @@ class UExcelBeneficiario extends Component
     public static function getCamposNombre()
     {
         return [
-            'proyecto' => 'Nombre de Proyecto',
-            'organizacion_implementadora' => 'Organización Implementadora',
-            'identificacion' => 'Número de Identificación',
-            'nombres' => 'Nombres',
-            'apellidos' => 'Apellidos',
-            'sexo' => 'Sexo',
-            'nacimiento' => 'Fecha de Nacimiento',
-            'educacion' => 'Educación',
-            'telefono' => 'Teléfono',
-            'hombres' => 'Hombres en su familia',
-            'mujeres' => 'Mujeres en su familia',
-            'organizacion' => 'Organización Perteneciente',
-            'pais' => 'País',
-            'departamento' => 'Departamento',
-            'comunidad' => 'Comunidad',
-            'ingreso_proyecto' => 'Fecha de ingreso al proyecto',
-            'rubro' => 'Rubro',
-            'area' => 'Área de la finca (hectáreas)',
-            'area_desarrollo' => 'Área en Desarrollo (hectáreas)',
-            'edad_desarrollo' => 'Edad de Plantación en Desarrollo (años)',
-            'area_produccion' => 'Área en Producción (hectáras)',
-            'edad_produccion' => 'Edad de Plantación en Producción (años)',
-            'rendimiento' => 'Rendimientos (qq)',
+            'proyecto' => Yii::t('app', 'Nombre de Proyecto'),
+            'organizacion_implementadora' => Yii::t('app', 'Organización Implementadora'),
+            'identificacion' => Yii::t('app', 'Número de Identificación'),
+            'nombres' => Yii::t('app', 'Nombres'),
+            'apellidos' => Yii::t('app', 'Apellidos'),
+            'sexo' => Yii::t('app', 'Sexo'),
+            'nacimiento' => Yii::t('app', 'Fecha de Nacimiento'),
+            'educacion' => Yii::t('app', 'Educación'),
+            'telefono' => Yii::t('app', 'Teléfono'),
+            'hombres' => Yii::t('app', 'Hombres en su familia'),
+            'mujeres' => Yii::t('app', 'Mujeres en su familia'),
+            'organizacion' => Yii::t('app', 'Organización Perteneciente'),
+            'pais' => Yii::t('app', 'País'),
+            'departamento' => Yii::t('app', 'Departamento'),
+            'comunidad' => Yii::t('app', 'Comunidad'),
+            'ingreso_proyecto' => Yii::t('app', 'Fecha de ingreso al proyecto'),
+            'rubro' => Yii::t('app', 'Rubro'),
+            'area' => Yii::t('app', 'Área de la finca (hectáreas)'),
+            'area_desarrollo' => Yii::t('app', 'Área en Desarrollo (hectáreas)'),
+            'edad_desarrollo' => Yii::t('app', 'Edad de Plantación en Desarrollo (años)'),
+            'area_produccion' => Yii::t('app', 'Área en Producción (hectáras)'),
+            'edad_produccion' => Yii::t('app', 'Edad de Plantación en Producción (años)'),
+            'rendimiento' => Yii::t('app', 'Rendimientos (qq)'),
         ];
     }
 
@@ -81,7 +81,7 @@ class UExcelBeneficiario extends Component
                 return false;
             }
             if (!$valido) {
-                $errores[] = 'Se esperaba campo "---' . $campos[$key] . '---" y se encontró campo "---' . $arreglo[$value] . '---"';
+                $errores[] = Yii::t('app', 'Se esperaba campo "---') . $campos[$key] . Yii::t('app', '---" y se encontró campo "---') . $arreglo[$value] . '---"';
 //                return false;
             } else
                 $camposEncontrados++;

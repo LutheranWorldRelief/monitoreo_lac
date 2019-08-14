@@ -54,13 +54,13 @@ abstract class Country extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'name_es' => 'Name Es',
-            'name' => 'Name',
-            'codigo_numerico' => 'Codigo Numerico',
-            'id' => 'ID',
-            'alfa3' => 'Alfa3',
-            'x' => 'X',
-            'y' => 'Y',
+            'name_es' => Yii::t('app', 'Name Es'),
+            'name' => Yii::t('app', 'Name'),
+            'codigo_numerico' => Yii::t('app', 'Codigo Numerico'),
+            'id' => Yii::t('app', 'ID'),
+            'alfa3' => Yii::t('app', 'Alfa3'),
+            'x' => Yii::t('app', 'X'),
+            'y' => Yii::t('app', 'Y'),
         ];
     }
 

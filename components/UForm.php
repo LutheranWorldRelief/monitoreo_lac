@@ -11,7 +11,7 @@ class UForm extends Component {
             'hintType' => \kartik\form\ActiveField::HINT_SPECIAL,
             'hintSettings' => [
                 'placement' => 'right', 'onLabelClick' => true, 'onLabelHover' => false,
-                'title' => '<i class="glyphicon glyphicon-info-sign text-info"></i><span class="text-info"> Nota</span>'
+                'title' => '<i class="glyphicon glyphicon-info-sign text-info"></i><span class="text-info">'. Yii::t('app', 'Nota')'</span>'
             ],
             'feedbackIcon' => [
                 'default' => '',

@@ -6,9 +6,9 @@ use yii\helpers\Html;
 /* @var $model app\models\Structure */
 
 $this->title = 'Modificar Structure: ' . ' ' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Structures', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Structures'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Modificar';
+$this->params['breadcrumbs'][] = Yii::t('app', 'Modificar');
 ?>
 <div class="structure-update">
 

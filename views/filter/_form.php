@@ -18,7 +18,7 @@ $form = ActiveForm::begin([
 
     <div class="col-lg-12">
         <div class="form-group">
-            <?= Html::submitButton('Guardar', ['class' => 'btn btn-primary']) ?>
+            <?= Html::submitButton(Yii::t('app', 'Guardar'), ['class' => 'btn btn-primary']) ?>
         </div>
     </div>
 </div>

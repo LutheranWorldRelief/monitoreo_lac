@@ -7,7 +7,7 @@ use yii\helpers\Html;
 /* @var $model app\models\OrganizationType */
 
 $this->title = 'Create Organization Type';
-$this->params['breadcrumbs'][] = ['label' => 'Organization Types', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Organization Types'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <?= $this->render('_navbar') ?>

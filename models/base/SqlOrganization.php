@@ -41,9 +41,9 @@ abstract class SqlOrganization extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'name' => 'Name',
-            'country' => 'Country',
+            'id' => Yii::t('app', 'ID'),
+            'name' => Yii::t('app', 'Name'),
+            'country' => Yii::t('app', 'Country'),
         ];
     }
 }

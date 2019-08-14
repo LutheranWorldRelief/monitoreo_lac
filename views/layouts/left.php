@@ -76,47 +76,47 @@ use dmstr\widgets\Menu; ?>
                 'items' => [
                     ['label' => 'Menú', 'options' => ['class' => 'header']],
                     [
-                        'label' => 'Importar Beneficiarios',
+                        'label' => Yii::t('app', 'Importar Beneficiarios'),
                         'icon' => 'upload',
                         'url' => Yii::$app->urlManager->createAbsoluteUrl(['/import/beneficiarios-paso1']),
                         'visible' => $user->tienePermiso('import/beneficiarios-paso1')
                     ],
                     [
-                        'label' => 'Participantes',
+                        'label' => Yii::t('app', 'Participantes'),
                         'icon' => 'users',
                         'visible' => $visibleParticipantesMenu,
                         'items' => [
-                            ['icon' => 'users', 'label' => 'Participantes', 'url' => Yii::$app->urlManager->createAbsoluteUrl(['/contact/index']), 'visible' => $visibleParticipantes],
-                            ['icon' => 'users', 'label' => 'Participantes/Evento', 'url' => Yii::$app->urlManager->createAbsoluteUrl(['/contact/contact-event']), 'visible' => $visibleParticipantesEventos],
-                            ['label' => 'Duplicados', 'visible' => $visibleDuplicadosNombre || $visibleDuplicadosDocumento,
+                            ['icon' => 'users', 'label' => Yii::t('app', 'Participantes'), 'url' => Yii::$app->urlManager->createAbsoluteUrl(['/contact/index']), 'visible' => $visibleParticipantes],
+                            ['icon' => 'users', 'label' => Yii::t('app', 'Participantes/Evento'), 'url' => Yii::$app->urlManager->createAbsoluteUrl(['/contact/contact-event']), 'visible' => $visibleParticipantesEventos],
+                            ['label' => Yii::t('app', 'Duplicados'), 'visible' => $visibleDuplicadosNombre || $visibleDuplicadosDocumento,
                                 'items' => [
-                                    ['label' => 'Nombre', 'icon' => 'user', 'url' => Yii::$app->urlManager->createAbsoluteUrl(['/opt/debug-contact-name']), $visibleDuplicadosNombre],
-                                    ['label' => 'Documento', 'icon' => 'id-card', 'url' => Yii::$app->urlManager->createAbsoluteUrl(['/opt/debug-contact-doc']), $visibleDuplicadosDocumento],
+                                    ['label' => Yii::t('app', 'Nombre'), 'icon' => 'user', 'url' => Yii::$app->urlManager->createAbsoluteUrl(['/opt/debug-contact-name']), $visibleDuplicadosNombre],
+                                    ['label' => Yii::t('app', 'Documento'), 'icon' => 'id-card', 'url' => Yii::$app->urlManager->createAbsoluteUrl(['/opt/debug-contact-doc']), $visibleDuplicadosDocumento],
                                 ]
                             ],
                         ],
                     ],
                     [
-                        'label' => 'Eventos',
+                        'label' => Yii::t('app', 'Eventos'),
                         'icon' => 'calendar',
                         'url' => Yii::$app->urlManager->createAbsoluteUrl(['event/index']),
                         'visible' => $user->tienePermiso('event/index')
                     ],
-                    ['label' => 'Reportes', 'options' => ['class' => 'header'], 'visible' => $visibleReportes],
+                    ['label' => Yii::t('app', 'Reportes'), 'options' => ['class' => 'header'], 'visible' => $visibleReportes],
                     [
-                        'label' => 'Reports',
+                        'label' => Yii::t('app', 'Reports'),
                         'icon' => 'print',
                         'url' => '#',
                         'visible' => $visibleReportes,
                         'items' => [
                             [
-                                'label' => 'Principal',
+                                'label' => Yii::t('app', 'Principal'),
                                 'icon' => 'file-excel-o',
                                 'url' => Yii::$app->urlManager->createAbsoluteUrl(['report/index']),
                                 'visible' => $visibleExcel,
                             ],
                             [
-                                'label' => 'Plantilla en Limpio',
+                                'label' => Yii::t('app', 'Plantilla en Limpio'),
                                 'icon' => 'file-excel-o',
                                 'url' => Yii::$app->urlManager->createAbsoluteUrl(['report/template-clean']),
                                 'visible' => $visiblePlantilla,
@@ -124,12 +124,12 @@ use dmstr\widgets\Menu; ?>
                         ],
                     ],
                     [
-                        'label' => 'Gráficos',
+                        'label' => Yii::t('app', 'Gráficos'),
                         'icon' => 'bar-chart',
                         'url' => Yii::$app->urlManager->createAbsoluteUrl(['graphic/dashboard']),
                         'visible' => $user->tienePermiso('graphic/dashboard')
                     ],
-                    ['label' => 'Catálogos y Configuraciones', 'options' => ['class' => 'header']],
+                    ['label' => Yii::t('app', 'Catálogos y Configuraciones'), 'options' => ['class' => 'header']],
 
                     [
                         'visible' => $visibleConfig,
@@ -138,26 +138,26 @@ use dmstr\widgets\Menu; ?>
                         "icon" => "sitemap",
                         "items" => [
                             [
-                                'label' => 'Proyectos',
+                                'label' => Yii::t('app', 'Proyectos'),
                                 'icon' => 'folder-open-o',
                                 'url' => Yii::$app->urlManager->createAbsoluteUrl(['project/']),
                                 'visible' => $visibleProyectos
                             ],
 
                             [
-                                'label' => 'Organizaciones',
+                                'label' => Yii::t('app', 'Organizaciones'),
                                 'icon' => 'home',
                                 'url' => '#',
                                 'visible' => $visibleOrganizacion || $visibleTipoOrg,
                                 'items' => [
                                     [
-                                        'label' => 'Listado',
+                                        'label' => Yii::t('app', 'Listado'),
                                         'icon' => 'list',
                                         'url' => Yii::$app->urlManager->createAbsoluteUrl(['organization/']),
                                         'visible' => $visibleOrganizacion
                                     ],
                                     [
-                                        'label' => 'Tipos',
+                                        'label' => Yii::t('app', 'Tipos'),
                                         'icon' => 'list',
                                         'url' => Yii::$app->urlManager->createAbsoluteUrl(['organization-type/']),
                                         'visible' => $visibleTipoOrg
@@ -165,13 +165,13 @@ use dmstr\widgets\Menu; ?>
                                 ],
                             ],
                             [
-                                'label' => 'Catálogos',
+                                'label' => Yii::t('app', 'Catálogos'),
                                 'icon' => 'list',
                                 'url' => Yii::$app->urlManager->createAbsoluteUrl(['data-list/']),
                                 'visible' => $visibleCatalogo
                             ],
                             [
-                                'label' => 'Segmentación',
+                                'label' => Yii::t('app', 'Segmentación'),
                                 'icon' => 'filter',
                                 'url' => Yii::$app->urlManager->createAbsoluteUrl(['filter/']),
                                 'visible' => $visibleSegementacion
@@ -182,27 +182,27 @@ use dmstr\widgets\Menu; ?>
 
                     [
                         'visible' => $user->getIsSuperUser(),
-                        "label" => "Seguridad",
+                        "label" => Yii::t('app', "Seguridad"),
                         "url" => "#",
                         "icon" => "lock",
                         "items" => [
                             [
-                                "label" => "Usuarios",
+                                "label" => Yii::t('app', "Usuarios"),
                                 "url" => Yii::$app->urlManager->createAbsoluteUrl(['seguridad/usuarios/']),
                                 'visible' => $visibleSeUsuarios,
                             ],
                             [
-                                "label" => "Roles",
+                                "label" => Yii::t('app', "Roles"),
                                 "url" => Yii::$app->urlManager->createAbsoluteUrl(['seguridad/roles/']),
                                 'visible' => $visibleSeRoles,
                             ],
                             [
-                                "label" => "Rutas",
+                                "label" => Yii::t('app', "Rutas"),
                                 "url" => Yii::$app->urlManager->createAbsoluteUrl(['seguridad/rutas/']),
                                 'visible' => $visibleSeRutas,
                             ],
                             [
-                                "label" => "Bitácora",
+                                "label" => Yii::t('app', "Bitácora"),
                                 "url" => Yii::$app->urlManager->createAbsoluteUrl(['audit/']),
                                 'visible' => $visibleSeBitacora,
                             ],

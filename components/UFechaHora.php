@@ -154,18 +154,18 @@ class UFechaHora extends Component {
     public static function getNombreMesesArray() {
 
         return array(
-            1 => "Enero",
-            2 => "Febrero",
-            3 => "Marzo",
-            4 => "Abril",
-            5 => "Mayo",
-            6 => "Junio",
-            7 => "Julio",
-            8 => "Agosto",
-            9 => "Septiembre",
-            10 => "Octubre",
-            11 => "Noviembre",
-            12 => "Diciembre"
+            1 => Yii::t('app', "Enero"),
+            2 => Yii::t('app', "Febrero"),
+            3 => Yii::t('app', "Marzo"),
+            4 => Yii::t('app', "Abril"),
+            5 => Yii::t('app', "Mayo"),
+            6 => Yii::t('app', "Junio"),
+            7 => Yii::t('app', "Julio"),
+            8 => Yii::t('app', "Agosto"),
+            9 => Yii::t('app', "Septiembre"),
+            10 => Yii::t('app', "Octubre"),
+            11 => Yii::t('app', "Noviembre"),
+            12 => Yii::t('app', "Diciembre")
         );
     }
 
@@ -199,18 +199,18 @@ class UFechaHora extends Component {
         // date("M", mktime(0, 0, 0, $model->semana, 10));
 
         return array(
-            1 => "Ene",
-            2 => "Feb",
-            3 => "Mar",
-            4 => "Abr",
-            5 => "May",
-            6 => "Jun",
-            7 => "Jul",
-            8 => "Ago",
-            9 => "Sep",
-            10 => "Oct",
-            11 => "Nov",
-            12 => "Dic"
+            1 => Yii::t('app', "Ene"),
+            2 => Yii::t('app', "Feb"),
+            3 => Yii::t('app', "Mar"),
+            4 => Yii::t('app', "Abr"),
+            5 => Yii::t('app', "May"),
+            6 => Yii::t('app', "Jun"),
+            7 => Yii::t('app', "Jul"),
+            8 => Yii::t('app', "Ago"),
+            9 => Yii::t('app', "Sep"),
+            10 => Yii::t('app', "Oct"),
+            11 => Yii::t('app', "Nov"),
+            12 => Yii::t('app', "Dic")
         );
     }
 

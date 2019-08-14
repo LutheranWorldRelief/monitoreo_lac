@@ -27,17 +27,17 @@ Modal::begin([
     <div v-if="loading.modal">
         <img style="margin:0 auto; display: block" src="<?= Url::to('@web/img/loading.gif') ?>" alt="">
         <div class="callout callout-warning" v-if="loading.fusion">
-            <h4>Fusionando Registros de Contacto...</h4>
+	    <h4><?= \Yii::t('app', 'Fusionando Registros de Contacto...')?></h4>
         </div>
     </div>
     <div v-if="!loading.modal && models.length > 0">
         <!-- ---------------------------------------------------------------------------- SELECT -->
         <div v-if="modalState=='select'">
             <div class="callout callout-danger" v-cloak v-if="models.length <= 1">
-                <h4>No es posible fusionar solo un registro</h4>
+		<h4><?= \Yii::t('app', 'No es posible fusionar solo un registro')?></h4>
             </div>
             <div class="callout callout-info" v-cloak v-if="models.length > 1">
-                <h4>Seleccione el registro que se usará como principal</h4>
+		<h4><?= \Yii::t('app', 'Seleccione el registro que se usará como principal')?></h4>
             </div>
             <table class="table">
                 <tr v-for="(model, index) in models">
@@ -62,7 +62,7 @@ Modal::begin([
         <!-- ---------------------------------------------------------------------------- RESOLVE -->
         <div v-if="modalState=='resolve'">
             <div class="callout callout-info" v-if="Object.keys(modelsResolve).length > 0">
-                <h4>Debe seleccionar una opción de los siguientes campos para establecerlo en el registro final</h4>
+		<h4><?= \Yii::t('app', 'Debe seleccionar una opción de los siguientes campos para establecerlo en el registro final')?></h4>
             </div>
             <table class="table" style="display: block; overflow-y: scroll; max-height: 500px;">
                 <tr v-for="(values, key) in modelsResolve" v-if="showAttribute(key)">
@@ -87,30 +87,30 @@ Modal::begin([
                 </tr>
             </table>
             <div class="callout callout-info" v-if="modelsResolve.length == 0">
-                <h4>No hay datos que resolver. Por favor presione el botón "Resuelto" para pasar al siguiente paso.</h4>
+		<h4><?= \Yii::t('app', 'No hay datos que resolver. Por favor presione el botón "Resuelto" para pasar al siguiente paso.')?></h4>
             </div>
         </div>
 
         <!-- ---------------------------------------------------------------------------- FUSION -->
         <div v-if="modalState=='fusion'">
             <div class="callout callout-danger" v-if="errorFlags.fusion">
-                <h4>No fue posible fusionar el registro. Vuelva a Intentarlo</h4>
-                <h5>Si el problema persiste, contacte al desarrollador del sistema</h5>
+		<h4><?= \Yii::t('app', 'No fue posible fusionar el registro. Vuelva a Intentarlo')?></h4>
+		<h5><?= \Yii::t('app', 'Si el problema persiste, contacte al desarrollador del sistema')?></h5>
             </div>
             <div class="callout callout-info" v-if="!loading.fusion && !errorFlags.fusion">
-                <h4>Se comenzará el proceso al presionar el botón "Fusionar"</h4>
+		<h4><?= \Yii::t('app', 'Se comenzará el proceso al presionar el botón "Fusionar"')?></h4>
             </div>
         </div>
 
         <!-- ---------------------------------------------------------------------------- FINISH -->
         <div v-if="modalState=='finish'">
             <div class="callout callout-danger" v-if="errorFlags.finish">
-                <h4>El proceso de fusión ha terminado pero con errores.</h4>
-                <h5>Por favor contacte al desarrollador del sistema e indique la siguiente información </h5>
+		<h4><?= \Yii::t('app', 'El proceso de fusión ha terminado pero con errores.')?></h4>
+		<h5><?= \Yii::t('app', 'Por favor contacte al desarrollador del sistema e indique la siguiente información')?></h5>
                 <pre>{{errorMessage.finish}}</pre>
             </div>
             <div class="callout callout-info" v-if="!errorFlags.finish">
-                <h4>Se ha finalizado el proceso de fusión. Presione Finalizar para recargar los datos de usuarios.</h4>
+		<h4><?= \Yii::t('app', 'Se ha finalizado el proceso de fusión. Presione Finalizar para recargar los datos de usuarios.')?></h4>
             </div>
             <!--
             <button class="btn btn-sm btn-info" @click="fusionFlags.result = !fusionFlags.result">

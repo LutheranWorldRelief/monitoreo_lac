@@ -20,12 +20,12 @@ echo Nav::widget([
         $options,
         [
             [
-                'label' => '<i class="fa fa-plus"></i> Nuevo Tipo de Organización',
+                'label' => '<i class="fa fa-plus"></i>'. Yii::t('app', 'Nuevo Tipo de Organización'),
                 'url' => ['organization-type/create'],
                 'encode' => false
             ],
             [
-                'label' => '<i class="fa fa-database"></i> Lista',
+                'label' => '<i class="fa fa-database"></i>'. Yii::t('app', 'Lista'),
                 'url' => ['organization-type/'],
                 'encode' => false
             ],

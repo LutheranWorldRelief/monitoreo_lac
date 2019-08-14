@@ -62,18 +62,18 @@ abstract class Event extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'structure_id' => 'Structure ID',
-            'name' => 'Name',
-            'title' => 'Title',
-            'organization_id' => 'Implementing Organization ID',
-            'organizer' => 'Organizer',
-            'text' => 'Text',
-            'start' => 'Start',
-            'end' => 'End',
-            'place' => 'Place',
-            'notes' => 'Notes',
-            'country_id' => 'Country ID',
+            'id' => Yii::t('app', 'ID'),
+            'structure_id' => Yii::t('app', 'Structure ID'),
+            'name' => Yii::t('app', 'Name'),
+            'title' => Yii::t('app', 'Title'),
+            'organization_id' => Yii::t('app', 'Implementing Organization ID'),
+            'organizer' => Yii::t('app', 'Organizer'),
+            'text' => Yii::t('app', 'Text'),
+            'start' => Yii::t('app', 'Start'),
+            'end' => Yii::t('app', 'End'),
+            'place' => Yii::t('app', 'Place'),
+            'notes' => Yii::t('app', 'Notes'),
+            'country_id' => Yii::t('app', 'Country ID'),
         ];
     }
 

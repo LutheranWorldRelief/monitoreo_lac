@@ -47,12 +47,12 @@ abstract class SqlUsuario extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'username' => 'Username',
-            'name' => 'Name',
-            'email' => 'Email',
-            'is_active' => 'Is Active',
-            'is_superuser' => 'Is Superuser',
+            'id' => Yii::t('app', 'ID'),
+            'username' => Yii::t('app', 'Username'),
+            'name' => Yii::t('app', 'Name'),
+            'email' => Yii::t('app', 'Email'),
+            'is_active' => Yii::t('app', 'Is Active'),
+            'is_superuser' => Yii::t('app', 'Is Superuser'),
         ];
     }
 }

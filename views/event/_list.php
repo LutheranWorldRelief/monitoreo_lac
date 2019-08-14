@@ -27,7 +27,7 @@ use yii\grid\GridView;
                         ]
                     ],
                     [
-                        'header' => 'Attendance',
+                        'header' => Yii::t('app', 'Attendance'),
                         'attribute' => 'fullname',
                         'format' => 'raw',
                         'value' => function ($model) {
@@ -35,31 +35,31 @@ use yii\grid\GridView;
                         },
                     ],
                     [
-                        'header' => 'Document',
+                        'header' => Yii::t('app','Document'),
                         'attribute' => 'document'
                     ],
                     [
-                        'header' => 'Sex',
+                        'header' => Yii::t('app','Sex'),
                         'attribute' => 'sex'
                     ],
                     [
-                        'header' => 'Organization',
+                        'header' => Yii::t('app', 'Organization'),
                         'attribute' => 'org_name'
                     ],
                     [
-                        'header' => 'Country',
+                        'header' => Yii::t('app', 'Country'),
                         'attribute' => 'country_id'
                     ],
                     [
-                        'header' => 'Community',
+                        'header' => Yii::t('app', 'Community'),
                         'attribute' => 'community'
                     ],
                     [
-                        'header' => 'Tipo',
+                        'header' => Yii::t('app', 'Tipo'),
                         'attribute' => 'type_name'
                     ],
                     [
-                        'header' => 'Phone',
+                        'header' => Yii::t('app', 'Phone'),
                         'attribute' => 'phone_personal',
                     ],
                 ],

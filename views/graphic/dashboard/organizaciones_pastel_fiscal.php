@@ -1,7 +1,7 @@
 <section class="row">
     <div class="box">
         <div class="box-header with-border">
-            <h3 class="box-title">Organizaciones Implementadoras, Participantes por Sexo y por Año Fiscal</h3>
+	<h3 class="box-title"><?= \Yii::t('app', "Organizaciones Implementadoras, Participantes por Sexo y por Año Fiscal")?></h3>
             <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
                             class="fa fa-minus"></i>

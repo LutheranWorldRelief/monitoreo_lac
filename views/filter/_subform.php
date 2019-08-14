@@ -10,7 +10,7 @@ use yii\widgets\ActiveForm;
 
 Modal::begin([
     'id' => 'detail-modal',
-    'header' => '<h4>Agregar Item</h4>'
+    'header' => '<h4>'. Yii::t('app', "Agregar Item")'</h4>'
 ]);
 ?>
 <?php $form = ActiveForm::begin([
@@ -31,8 +31,8 @@ Modal::begin([
         <div class="col-md-6"><?= $form->field($newModel, 'end')->textInput(['v-model' => 'model.end']) ?></div>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary" @click="saveNewDetail($event)">Guardar</button>
+    <button type="button" class="btn btn-danger" data-dismiss="modal"><?= \Yii::t('app', "Cerrar")?></button>
+    <button type="button" class="btn btn-primary" @click="saveNewDetail($event)"><?= \Yii::t('app', "Guardar"?></button>
     </div>
 <?php ActiveForm::end(); ?>
 <?php Modal::end(); ?>
@@ -40,7 +40,7 @@ Modal::begin([
 <?php
 Modal::begin([
     'id' => 'detail-modal-edit',
-    'header' => '<h4>Editar Item</h4>',
+    'header' => '<h4>'. Yii::t('app', "Editar Item")'</h4>',
     'options' => [
     ]
 ]);
@@ -63,8 +63,8 @@ Modal::begin([
         <div class="col-md-6"><?= $form->field($newModel, 'end')->textInput(['v-model' => 'model.end  ']) ?></div>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary" @click.prevent="saveDetail($event)">Guardar</button>
+    <button type="button" class="btn btn-danger" data-dismiss="modal"><?= \Yii::t('app', "Cerrar"?></button>
+    <button type="button" class="btn btn-primary" @click.prevent="saveDetail($event)"><?= \Yii::t('app', "Guardar"?></button>
     </div>
 <?php ActiveForm::end(); ?>
 <?php Modal::end(); ?>

@@ -16,7 +16,7 @@ $modalId = 'modal-project-contact';
 
 Modal::begin([
     'id' => $modalId,
-    'header' => '<h4>Beneficiario/a: {{modal.contact.name}}</h4>',
+    'header' => '<h4>'. Yii::t('app', 'Beneficiario/a:') {{modal.contact.name}}'</h4>',
     //    'size' => 'modal-lg',
     'clientEvents' => [
         'shown.bs.modal' => 'function(e){ appVue.modalLoadDatepicker(e); }',

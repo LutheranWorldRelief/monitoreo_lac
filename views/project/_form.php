@@ -90,7 +90,7 @@ use yii\widgets\ActiveForm;
             </div>
             <div class="form-group">
                 <?php $url = $model->isNewRecord ? Url::to(['index']) : Url::to(['view', 'id' => $model->id]); ?>
-                <?= Html::a('<i class="fa fa-reply"></i> Cancelar', $url, ['class' => 'btn btn-danger']) ?>
+                <?= Html::a('<i class="fa fa-reply"></i>'. Yii::t('app', 'Cancelar'), $url, ['class' => 'btn btn-danger']) ?>
                 <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
             </div>
 

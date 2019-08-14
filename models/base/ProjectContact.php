@@ -57,18 +57,18 @@ abstract class ProjectContact extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'project_id' => 'Project ID',
-            'contact_id' => 'Contact ID',
-            'product_id' => 'Product ID',
-            'area' => 'Area',
-            'development_area' => 'Development Area',
-            'productive_area' => 'Productive Area',
-            'age_development_plantation' => 'Age Development Plantation',
-            'age_productive_plantation' => 'Age Productive Plantation',
-            'yield' => 'Yield',
-            'date_entry_project' => 'Date Entry Project',
-            'date_end_project' => 'Date End Project',
+            'id' => Yii::t('app', 'ID'),
+            'project_id' => Yii::t('app', 'Project ID'),
+            'contact_id' => Yii::t('app', 'Contact ID'),
+            'product_id' => Yii::t('app', 'Product ID'),
+            'area' => Yii::t('app', 'Area'),
+            'development_area' => Yii::t('app', 'Development Area'),
+            'productive_area' => Yii::t('app', 'Productive Area'),
+            'age_development_plantation' => Yii::t('app', 'Age Development Plantation'),
+            'age_productive_plantation' => Yii::t('app', 'Age Productive Plantation'),
+            'yield' => Yii::t('app', 'Yield'),
+            'date_entry_project' => Yii::t('app', 'Date Entry Project'),
+            'date_end_project' => Yii::t('app', 'Date End Project'),
         ];
     }
 
