@@ -483,11 +483,27 @@ msgid "El archivo debe tener las siguientes columnas en el siguiente orden"
 msgstr ""
 
 msgctxt "app"
+msgid "El archivo {file} no contiene una extensión permitida {extensions}"
+msgstr ""
+
+msgctxt "app"
+msgid "El máximo de archivos permitidos es {limit}"
+msgstr ""
+
+msgctxt "app"
 msgid "El proceso de fusión ha terminado pero con errores."
 msgstr ""
 
 msgctxt "app"
 msgid "El registro de participante no es válido"
+msgstr ""
+
+msgctxt "app"
+msgid "El tamaño máximo permitido es 3MB"
+msgstr ""
+
+msgctxt "app"
+msgid "El tamaño mínimo permitido son 10 BYTES"
 msgstr ""
 
 msgctxt "app"
@@ -612,6 +628,14 @@ msgstr ""
 
 msgctxt "app"
 msgid "Febrero"
+msgstr ""
+
+msgctxt "app"
+msgid "Fecha Fin"
+msgstr ""
+
+msgctxt "app"
+msgid "Fecha Inicio"
 msgstr ""
 
 msgctxt "app"
@@ -755,6 +779,10 @@ msgid "M"
 msgstr ""
 
 msgctxt "app"
+msgid "Mantener"
+msgstr ""
+
+msgctxt "app"
 msgid "Mapa"
 msgstr ""
 
@@ -831,7 +859,15 @@ msgid "No fue posible fusionar el registro. Vuelva a Intentarlo"
 msgstr ""
 
 msgctxt "app"
+msgid "No has seleccionado ningún archivo"
+msgstr ""
+
+msgctxt "app"
 msgid "No hay datos que resolver. Por favor presione el botón \"Resuelto\" para pasar al siguiente paso."
+msgstr ""
+
+msgctxt "app"
+msgid "No puedes eliminar tu propia cuenta"
 msgstr ""
 
 msgctxt "app"
@@ -919,7 +955,15 @@ msgid "Nuevo Proyecto"
 msgstr ""
 
 msgctxt "app"
+msgid "Nuevo Rol"
+msgstr ""
+
+msgctxt "app"
 msgid "Nuevo Tipo de Organización"
+msgstr ""
+
+msgctxt "app"
+msgid "Nuevo Usuario"
 msgstr ""
 
 msgctxt "app"
@@ -1008,6 +1052,10 @@ msgstr ""
 
 msgctxt "app"
 msgid "Paises"
+msgstr ""
+
+msgctxt "app"
+msgid "Parent Organization"
 msgstr ""
 
 msgctxt "app"
@@ -1327,6 +1375,18 @@ msgid "Username"
 msgstr ""
 
 msgctxt "app"
+msgid "Usuario"
+msgstr ""
+
+msgctxt "app"
+msgid "Usuario Eliminado"
+msgstr ""
+
+msgctxt "app"
+msgid "Usuario o Clave incorrecta"
+msgstr ""
+
+msgctxt "app"
 msgid "Usuarios"
 msgstr ""
 
@@ -1359,8 +1419,16 @@ msgid "Yield"
 msgstr ""
 
 msgctxt "app"
-msgid "danger"
+msgid "You are not allowed to perform this action."
 msgstr ""
+
+msgctxt "app"
+msgid "clave"
+msgstr ""
+
+msgctxt "app"
+msgid "danger"
+msgstr "@@@@"
 
 msgctxt "app"
 msgid "error"
@@ -1384,7 +1452,7 @@ msgstr ""
 
 msgctxt "app"
 msgid "success"
-msgstr ""
+msgstr "@@@@"
 
 msgctxt "app"
 msgid "success, Contraseña cambiada con éxito"
