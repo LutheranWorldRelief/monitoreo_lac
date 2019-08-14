@@ -153,7 +153,7 @@ class SiteController extends Controller
 
     public function actionAutologin()
     {
-        if (!$_COOKIE['sessionid']) {
+        if (!isset($_COOKIE['sessionid'])) {
             return $this->goHome();
         }
         $sessionid =  $_COOKIE['sessionid'];
