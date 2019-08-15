@@ -391,6 +391,22 @@ msgid "Datos\n\t\t\tque no se importarán"
 msgstr ""
 
 msgctxt "app"
+msgid "Datos\n\t\t    a Importar"
+msgstr ""
+
+msgctxt "app"
+msgid "Debe agregar el código corto de país de 2 letras en el campo value"
+msgstr ""
+
+msgctxt "app"
+msgid "Debe agregar el código corto de país de 2 letras en el campo value, actualmente tiene $tamanio caracteres"
+msgstr ""
+
+msgctxt "app"
+msgid "Debe agregar el código corto único de país en el campo value, actualmente este código es del país $pais"
+msgstr ""
+
+msgctxt "app"
 msgid "Debe establecer una fecha de ingreso válida"
 msgstr ""
 
@@ -459,11 +475,19 @@ msgid "Edad de Plantación en Producción (años)"
 msgstr ""
 
 msgctxt "app"
+msgid "Editar Item"
+msgstr ""
+
+msgctxt "app"
 msgid "Educacion"
 msgstr ""
 
 msgctxt "app"
 msgid "Educación"
+msgstr ""
+
+msgctxt "app"
+msgid "Education"
 msgstr ""
 
 msgctxt "app"
@@ -651,6 +675,10 @@ msgid "Filter ID"
 msgstr ""
 
 msgctxt "app"
+msgid "Filtros"
+msgstr ""
+
+msgctxt "app"
 msgid "Finalizar y ver duplicados"
 msgstr ""
 
@@ -668,6 +696,10 @@ msgstr ""
 
 msgctxt "app"
 msgid "Goal Women"
+msgstr ""
+
+msgctxt "app"
+msgid "Graficar"
 msgstr ""
 
 msgctxt "app"
@@ -708,6 +740,10 @@ msgstr ""
 
 msgctxt "app"
 msgid "Importar Beneficiarios"
+msgstr ""
+
+msgctxt "app"
+msgid "Importar Beneficiarios desde excel"
 msgstr ""
 
 msgctxt "app"
@@ -819,6 +855,10 @@ msgid "Modified"
 msgstr ""
 
 msgctxt "app"
+msgid "Monitor"
+msgstr ""
+
+msgctxt "app"
 msgid "Muchas gracias por tu atención"
 msgstr ""
 
@@ -872,6 +912,14 @@ msgstr ""
 
 msgctxt "app"
 msgid "No se importará ningún registro"
+msgstr ""
+
+msgctxt "app"
+msgid "No se lograron eliminar los registros asociados"
+msgstr ""
+
+msgctxt "app"
+msgid "No se logró eliminar el registro"
 msgstr ""
 
 msgctxt "app"
@@ -1048,6 +1096,10 @@ msgstr ""
 
 msgctxt "app"
 msgid "Organizer"
+msgstr ""
+
+msgctxt "app"
+msgid "Otros Teléfonos"
 msgstr ""
 
 msgctxt "app"
@@ -1251,11 +1303,27 @@ msgid "Seguridad"
 msgstr ""
 
 msgctxt "app"
+msgid "Selecciona desde ..."
+msgstr ""
+
+msgctxt "app"
+msgid "Selecciona hasta ..."
+msgstr ""
+
+msgctxt "app"
 msgid "Seleccionar..."
 msgstr ""
 
 msgctxt "app"
 msgid "Seleccione el registro que se usará como principal"
+msgstr ""
+
+msgctxt "app"
+msgid "Seleccione un país"
+msgstr ""
+
+msgctxt "app"
+msgid "Seleccione un proyecto ..."
 msgstr ""
 
 msgctxt "app"
@@ -1347,6 +1415,10 @@ msgid "Tipo"
 msgstr ""
 
 msgctxt "app"
+msgid "Tipo de Participante"
+msgstr ""
+
+msgctxt "app"
 msgid "Tipos"
 msgstr ""
 
@@ -1356,6 +1428,10 @@ msgstr ""
 
 msgctxt "app"
 msgid "Total Beneficiarios"
+msgstr ""
+
+msgctxt "app"
+msgid "Type"
 msgstr ""
 
 msgctxt "app"
