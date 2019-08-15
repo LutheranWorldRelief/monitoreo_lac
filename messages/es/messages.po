@@ -11,48 +11,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 msgctxt "app"
-msgid ""
-msgstr "@@@@"
-
-msgctxt "app"
-msgid "\"No encontrado\""
-msgstr "@@@@"
-
-msgctxt "app"
 msgid "---\" y se encontró campo \"---"
 msgstr ""
 
 msgctxt "app"
-msgid "403, "
-msgstr "@@@@"
-
-msgctxt "app"
 msgid "403, Aún hay registros relacionados con este item. No puede ser eliminado."
 msgstr ""
-
-msgctxt "app"
-msgid "500, \"No se cargaron los modelos necesarios para la fusión\""
-msgstr "@@@@"
-
-msgctxt "app"
-msgid "500, \"No se logró guardar el modelo principal con los cambios\""
-msgstr "@@@@"
-
-msgctxt "app"
-msgid "500, \"No se logró identificar al modelo principal de la fusión\""
-msgstr "@@@@"
-
-msgctxt "app"
-msgid "500, No se cargaron los modelos necesarios para la fusión"
-msgstr "@@@@"
-
-msgctxt "app"
-msgid "500, No se logró guardar el modelo principal con los cambios"
-msgstr "@@@@"
-
-msgctxt "app"
-msgid "500, No se logró identificar al modelo principal de la fusión"
-msgstr "@@@@"
 
 msgctxt "app"
 msgid "Abbreviation"
@@ -389,14 +353,6 @@ msgstr ""
 msgctxt "app"
 msgid "Date Joined"
 msgstr ""
-
-msgctxt "app"
-msgid "Datos\n\t\t\tque no se importarán"
-msgstr "@@@@"
-
-msgctxt "app"
-msgid "Datos\n\t\t    a Importar"
-msgstr "@@@@"
 
 msgctxt "app"
 msgid "Datos a Importar"
@@ -743,14 +699,6 @@ msgid "IMPORTACIÓN DESDE EXCEL POR {0} {1} El {2} Con datos correspondientes al
 msgstr ""
 
 msgctxt "app"
-msgid "IMPORTACIÓN DESDE EXCEL POR {0}, {1}, El {2}, Con datos correspondientes al {3}, de la Organización {4}, del País {5}"
-msgstr "@@@@"
-
-msgctxt "app"
-msgid "IMPORTACIÓN DESDE EXCEL POR {Yii::$app->getUser()->getIdentity()->first_name} {Yii::$app->getUser()->getIdentity()->last_name} El {date(\"Y-m-d H:i:s\")} Con datos correspondientes al {$fechaIngreso} de la Organización {$organizacionImplementadora[\"name\"]} del País {$paisNombre}"
-msgstr "@@@@"
-
-msgctxt "app"
 msgid "Implementing Organization"
 msgstr ""
 
@@ -887,10 +835,6 @@ msgid "Muchas gracias por tu atención"
 msgstr ""
 
 msgctxt "app"
-msgid "Muchas gracias por tu atención."
-msgstr "@@@@"
-
-msgctxt "app"
 msgid "Mujeres en su familia"
 msgstr ""
 
@@ -913,10 +857,6 @@ msgstr ""
 msgctxt "app"
 msgid "No encontrado"
 msgstr ""
-
-msgctxt "app"
-msgid "No encontrado, 500"
-msgstr "@@@@"
 
 msgctxt "app"
 msgid "No es posible fusionar solo un registro"
@@ -1291,10 +1231,6 @@ msgid "Recargar Grid"
 msgstr ""
 
 msgctxt "app"
-msgid "Registros"
-msgstr "@@@@"
-
-msgctxt "app"
 msgid "Registros a Crear"
 msgstr ""
 
@@ -1523,10 +1459,6 @@ msgid "Ver Registro Fusionado"
 msgstr ""
 
 msgctxt "app"
-msgid "Verifique datos de proyecto, organización implementadora y\n\t\t\t    beneficiario para:"
-msgstr "@@@@"
-
-msgctxt "app"
 msgid "Verifique datos de proyecto, organización implementadora y beneficiario para:"
 msgstr ""
 
@@ -1557,42 +1489,6 @@ msgstr ""
 msgctxt "app"
 msgid "clave"
 msgstr ""
-
-msgctxt "app"
-msgid "danger"
-msgstr "@@@@"
-
-msgctxt "app"
-msgid "error"
-msgstr "@@@@"
-
-msgctxt "app"
-msgid "error, Contraseña actual inválida"
-msgstr "@@@@"
-
-msgctxt "app"
-msgid "error, Debe ingresar la contraseña actual y la nueva"
-msgstr "@@@@"
-
-msgctxt "app"
-msgid "error, La nueva clave no coincide con el campo de confirmación"
-msgstr "@@@@"
-
-msgctxt "app"
-msgid "error, No se logró actualizar su perfil"
-msgstr "@@@@"
-
-msgctxt "app"
-msgid "success"
-msgstr "@@@@"
-
-msgctxt "app"
-msgid "success, Contraseña cambiada con éxito"
-msgstr "@@@@"
-
-msgctxt "app"
-msgid "success, Perfil actualizado con éxito"
-msgstr "@@@@"
 
 msgctxt "app"
 msgid "Área de la finca (hectáreas)"
