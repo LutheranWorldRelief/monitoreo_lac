@@ -80,22 +80,19 @@ if (count($data['Guardar']) < 1):
     <div class="col-lg-8 col-lg-offset-3">
         <ul class="nav nav-pills" id="myTabs" role="tablist">
             <li role="presentation" class="active">
-	    <a href="#crear" id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><?= \Yii::t('app', 'Registros')?>
-                                                                                                                      a Crear</a>
+	    <a href="#crear" id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><?= \Yii::t('app', 'Registros a Crear')?></a>
             </li>
             <?php if (count($data['Guardar']) > 0): ?>
                 <li role="presentation" class="">
                     <a href="#correcto" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile"
-		    aria-expanded="false"><?= \Yii::t('app', 'Datos
-		    a Importar')?></a>
+		    aria-expanded="false"><?= \Yii::t('app', 'Datos a Importar')?></a>
                 </li>
             <?php endif; ?>
             <?php if (count($data['Incorrecto']) > 0): ?>
                 <li role="presentation" class="">
                     <div class="alert alert-danger">
                         <a href="#errores" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile"
-			aria-expanded="false"><?= \Yii::t('app', 'Datos
-			que no se importarán')?></a>
+			aria-expanded="false"><?= \Yii::t('app', 'Datos que no se importarán')?></a>
                     </div>
                 </li>
             <?php endif; ?>
@@ -225,8 +222,7 @@ if (count($data['Guardar']) < 1):
                     <div class="row">
                         <div class="col-lg-12 table-responsive">
                             <h3>Datos Incorrectos</h3>
-			    <div class="alert alert-error"><?= \Yii::t('app', 'Verifique datos de proyecto, organización implementadora y
-			    beneficiario para:')?>
+			    <div class="alert alert-error"><?= \Yii::t('app', 'Verifique datos de proyecto, organización implementadora y beneficiario para:')?>
                             </div>
                             <table class="table table-bordered">
                                 <?php foreach ($data['Incorrecto'] as $d): ?>

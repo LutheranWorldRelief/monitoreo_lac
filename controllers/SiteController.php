@@ -190,22 +190,22 @@ class SiteController extends Controller
                     if (($passwordPost['new'] === $passwordPost['confirm'])) {
                         $user->password = $passwordPost['new'];
                         $user->modificar($pass);
-                        Yii::$app->session->setFlash(Yii::t('app', 'success, Contraseña cambiada con éxito'));
+                        Yii::$app->session->setFlash('success', Yii::t('app', 'Contraseña cambiada con éxito'));
                     } else
-                        Yii::$app->session->setFlash(Yii::t('app', 'error, La nueva clave no coincide con el campo de confirmación'));
+                        Yii::$app->session->setFlash('error', Yii::t('app', 'La nueva clave no coincide con el campo de confirmación'));
                 } else
-                    Yii::$app->session->setFlash(Yii::t('app', 'error, Contraseña actual inválida'));
+                    Yii::$app->session->setFlash('error', Yii::t('Contraseña actual inválida'));
             } else
-                Yii::$app->session->setFlash(Yii::t('app', 'error, Debe ingresar la contraseña actual y la nueva'));
+                Yii::$app->session->setFlash('error', Yii::t('Debe ingresar la contraseña actual y la nueva'));
 
         }
 
         if ($user->load(Yii::$app->request->post())) {
             $user->password = 'nestic';
             if ($user->modificar($pass))
-                Yii::$app->session->setFlash(Yii::t('app', 'success, Perfil actualizado con éxito'));
+                Yii::$app->session->setFlash('success', Yii::t('app', 'Perfil actualizado con éxito'));
             else
-                Yii::$app->session->setFlash(Yii::t('app', 'error, No se logró actualizar su perfil'));
+                Yii::$app->session->setFlash('error', Yii::t('app', 'No se logró actualizar su perfil'));
         }
         return $this->render('profile', ['user' => $user]);
     }

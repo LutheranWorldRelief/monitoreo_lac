@@ -161,8 +161,6 @@ Modal::begin([
         <a class="btn btn-large btn-primary pull-right"
            v-if="models.length > 1 && modalState == 'finish'"
            target="_blank"
-           :href="'<?= Url::to(['contact/view']) ?>?id=' + modelSelected">
-            Ver Registro Fusionado
-        </a>
+           :href="'<?= Url::to(['contact/view']) ?>?id=' + modelSelected"><?= \Yii::t('app', 'Ver Registro Fusionado')?></a>
     </div>
 <?php Modal::end(); ?>

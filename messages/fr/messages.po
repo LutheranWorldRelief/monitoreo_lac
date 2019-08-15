@@ -44,15 +44,15 @@ msgstr "@@@@"
 
 msgctxt "app"
 msgid "500, No se cargaron los modelos necesarios para la fusión"
-msgstr ""
+msgstr "@@@@"
 
 msgctxt "app"
 msgid "500, No se logró guardar el modelo principal con los cambios"
-msgstr ""
+msgstr "@@@@"
 
 msgctxt "app"
 msgid "500, No se logró identificar al modelo principal de la fusión"
-msgstr ""
+msgstr "@@@@"
 
 msgctxt "app"
 msgid "Abbreviation"
@@ -343,6 +343,10 @@ msgid "Contraseña Nueva"
 msgstr ""
 
 msgctxt "app"
+msgid "Contraseña cambiada con éxito"
+msgstr ""
+
+msgctxt "app"
 msgid "Cost must be between 4 and 31."
 msgstr ""
 
@@ -388,10 +392,18 @@ msgstr ""
 
 msgctxt "app"
 msgid "Datos\n\t\t\tque no se importarán"
-msgstr ""
+msgstr "@@@@"
 
 msgctxt "app"
 msgid "Datos\n\t\t    a Importar"
+msgstr "@@@@"
+
+msgctxt "app"
+msgid "Datos a Importar"
+msgstr ""
+
+msgctxt "app"
+msgid "Datos que no se importarán"
 msgstr ""
 
 msgctxt "app"
@@ -795,6 +807,10 @@ msgid "La lista debe tener al menos un participante"
 msgstr ""
 
 msgctxt "app"
+msgid "La nueva clave no coincide con el campo de confirmación"
+msgstr ""
+
+msgctxt "app"
 msgid "Last Login"
 msgstr ""
 
@@ -895,8 +911,12 @@ msgid "Name Es"
 msgstr ""
 
 msgctxt "app"
-msgid "No encontrado, 500"
+msgid "No encontrado"
 msgstr ""
+
+msgctxt "app"
+msgid "No encontrado, 500"
+msgstr "@@@@"
 
 msgctxt "app"
 msgid "No es posible fusionar solo un registro"
@@ -919,6 +939,10 @@ msgid "No puedes eliminar tu propia cuenta"
 msgstr ""
 
 msgctxt "app"
+msgid "No se cargaron los modelos necesarios para la fusión"
+msgstr ""
+
+msgctxt "app"
 msgid "No se importará ningún registro"
 msgstr ""
 
@@ -927,11 +951,19 @@ msgid "No se lograron eliminar los registros asociados"
 msgstr ""
 
 msgctxt "app"
+msgid "No se logró actualizar su perfil"
+msgstr ""
+
+msgctxt "app"
 msgid "No se logró eliminar el registro"
 msgstr ""
 
 msgctxt "app"
 msgid "No se logró eliminar esta actividad"
+msgstr ""
+
+msgctxt "app"
+msgid "No se logró guardar el modelo principal con los cambios"
 msgstr ""
 
 msgctxt "app"
@@ -948,6 +980,10 @@ msgstr ""
 
 msgctxt "app"
 msgid "No se logró guardar la actividad"
+msgstr ""
+
+msgctxt "app"
+msgid "No se logró identificar al modelo principal de la fusión"
 msgstr ""
 
 msgctxt "app"
@@ -1163,6 +1199,10 @@ msgid "País de la importación"
 msgstr ""
 
 msgctxt "app"
+msgid "Perfil actualizado con éxito"
+msgstr ""
+
+msgctxt "app"
 msgid "Personas Posiblemente Duplicadas Respecto a Importados"
 msgstr ""
 
@@ -1252,7 +1292,7 @@ msgstr ""
 
 msgctxt "app"
 msgid "Registros"
-msgstr ""
+msgstr "@@@@"
 
 msgctxt "app"
 msgid "Registros a Crear"
@@ -1479,7 +1519,15 @@ msgid "Value"
 msgstr ""
 
 msgctxt "app"
+msgid "Ver Registro Fusionado"
+msgstr ""
+
+msgctxt "app"
 msgid "Verifique datos de proyecto, organización implementadora y\n\t\t\t    beneficiario para:"
+msgstr "@@@@"
+
+msgctxt "app"
+msgid "Verifique datos de proyecto, organización implementadora y beneficiario para:"
 msgstr ""
 
 msgctxt "app"
@@ -1520,19 +1568,19 @@ msgstr "@@@@"
 
 msgctxt "app"
 msgid "error, Contraseña actual inválida"
-msgstr ""
+msgstr "@@@@"
 
 msgctxt "app"
 msgid "error, Debe ingresar la contraseña actual y la nueva"
-msgstr ""
+msgstr "@@@@"
 
 msgctxt "app"
 msgid "error, La nueva clave no coincide con el campo de confirmación"
-msgstr ""
+msgstr "@@@@"
 
 msgctxt "app"
 msgid "error, No se logró actualizar su perfil"
-msgstr ""
+msgstr "@@@@"
 
 msgctxt "app"
 msgid "success"
@@ -1540,11 +1588,11 @@ msgstr "@@@@"
 
 msgctxt "app"
 msgid "success, Contraseña cambiada con éxito"
-msgstr ""
+msgstr "@@@@"
 
 msgctxt "app"
 msgid "success, Perfil actualizado con éxito"
-msgstr ""
+msgstr "@@@@"
 
 msgctxt "app"
 msgid "Área de la finca (hectáreas)"
