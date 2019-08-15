@@ -1,6 +1,7 @@
 <?php
 
 $params = require(__DIR__ . '/params.php');
+$configPrivate = require(__DIR__ . '/secrets.php');
 
 $config = [
     'id' => 'basic',
@@ -76,7 +77,7 @@ $config = [
         ],
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
-            'cookieValidationKey' => '3Lmk$al1.11651ab4#!¿',
+            'cookieValidationKey' => $configPrivate['request']['validationKey'],
             'parsers' => [
                 'application/json' => 'yii\web\JsonParser',
             ],
@@ -166,7 +167,7 @@ if (YII_ENV_DEV) {
     $config['modules']['debug'] = [
         'class' => 'yii\debug\Module',
         // uncomment the following to add your IP if you are not connecting from localhost.
-        'allowedIPs' => ['127.0.0.1', '::1'],
+        'allowedIPs' => $configPrivate['allowedIPs']['IPs'],
     ];
 
     $config['bootstrap'][] = 'gii';
