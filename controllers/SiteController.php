@@ -71,7 +71,7 @@ class SiteController extends Controller
         $model = new LoginForm();
 
         /** Validar si existe session en Django **/
-        if (Yii::$app->getRequest()->getCookies()->has('sessionid'))
+        if (isset($_COOKIE['sessionid']))
             $this->setSessionWithDjango($model);
 
         $this->layout = 'login';
@@ -93,7 +93,7 @@ class SiteController extends Controller
     {
         $this->cookies = Yii::$app->request->cookies;
 
-        $sessionid =  $this->cookies->get('sessionid');
+        $sessionid =  $_COOKIE['sessionid'];
 
         $query = (new Query());
         $query
@@ -104,7 +104,7 @@ class SiteController extends Controller
             ]);
 
         /*Si usuario viene de cerrar session, no loguear nuevamente*/
-        if (!$this->cookies->has('isLogout')) {
+        if (!isset($_COOKIE['isLogout'])) {
 
             $sessionDjango = Yii::$app->db2->createCommand($query->createCommand()->getRawSql())->queryOne();
 
@@ -131,8 +131,7 @@ class SiteController extends Controller
 
     public function removeIsLogout()
     {
-        $cookies = Yii::$app->response->cookies;
-        $cookies->remove('isLogout');
+        setcookie("isLogout", null, time()-3700);
     }
 
     /**
@@ -142,12 +141,7 @@ class SiteController extends Controller
      */
     public function actionLogout()
     {
-        $cookies = Yii::$app->response->cookies;
-        $cookies->add(new \yii\web\Cookie([
-            'name' => 'isLogout',
-            'value' => 'true' /*,
-            'expire' => 0,*/
-        ]));
+        setcookie('isLogout', 1 );
 
         Yii::$app->user->logout();
         return $this->goHome();
