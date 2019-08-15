@@ -29,6 +29,7 @@ phpunit.phar
 tests/_output/*
 tests/_support/_generated
 config/db.php
+config/dbDjango.php
 import/*
 
 # Translations
