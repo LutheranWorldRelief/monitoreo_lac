@@ -13,7 +13,7 @@ use yii\db\Query;
 
 class SiteController extends Controller
 {
-    protected $cookies = Null;
+
     /**
      * @inheritdoc
      */
@@ -91,9 +91,7 @@ class SiteController extends Controller
     **/
     private function setSessionWithDjango($model)
     {
-        $this->cookies = Yii::$app->request->cookies;
-
-        $sessionid =  $_COOKIE['sessionid'];
+        $sessionid = $_COOKIE['sessionid'];
 
         $query = (new Query());
         $query
@@ -108,6 +106,9 @@ class SiteController extends Controller
 
             $sessionDjango = Yii::$app->db2->createCommand($query->createCommand()->getRawSql())->queryOne();
 
+           if(!$sessionDjango)
+            goto breakSearch;
+
             list($hash, $json) = preg_split("/:/", $sessionDjango['convert_from'], 2);
             $data = json_decode($json, true);
 
@@ -121,8 +122,13 @@ class SiteController extends Controller
 
             $authUser = Yii::$app->db2->createCommand($queryGetUser->createCommand()->getRawSql())->queryOne();
 
+            if(!$authUser)
+                goto breakSearch;
+
             if ($model->login($authUser['username']))
                 return $this->goBack();
+
+            breakSearch: return false;
 
         }
         $this->removeIsLogout();
