@@ -194,17 +194,10 @@ class AuthUser extends BaseUser implements IdentityInterface
         if (!is_array($paises))
             $paises = [];
 
-        $query = (new Query());
-        $query->select([
-            "value",
-        ])->from('data_list')
-            ->where(['in', 'id', $paises]);
-        $paisesCode = $query->column();
-
         $queryContact = (new Query());
         $queryContact->select('contact_id')
             ->from('sql_full_report_project_contact')
-            ->orWhere(['in', 'contact_country_code', $paisesCode])
+            ->orWhere(['in', 'contact_country_code', $paises])
             ->orWhere(['in', 'project_id', $proyectos])
             ->andWhere('contact_id is not null')
             ->groupBy('contact_id');
