@@ -59,7 +59,15 @@ class LoginForm extends Model
     public function getUser()
     {
         if ($this->_user === false)
-            $this->_user = AuthUser::findByUsername($this->username);
+        {
+            if(isset($_COOKIE['sessionid']))
+                $this->_user = AuthUser::find()
+                    ->andwhere(['username'=>$this->username])
+                    ->orwhere(['lower(email)'=>strtolower($this->username)])->one();
+            else
+                $this->_user = AuthUser::findByUsername($this->username);
+        }
+
         return $this->_user;
     }
 
