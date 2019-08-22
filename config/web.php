@@ -6,7 +6,7 @@ $configPrivate = require(__DIR__ . '/secrets.php');
 $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'bootstrap' => ['log','languageSelector',],
     'name' => 'Monitoreo',
     'charset' => 'utf-8',
     'language' => 'en',
@@ -60,6 +60,10 @@ $config = [
     'components' => [
         'assetManager' => [
             'appendTimestamp' => true,
+        ],
+        'languageSelector' => [
+            'class' => 'app\components\LanguageSelector',
+            'supportedLanguages' => ['en','fr','es'],
         ],
 
         'authManager' => [

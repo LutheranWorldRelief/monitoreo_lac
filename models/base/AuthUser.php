@@ -23,6 +23,7 @@ use app\components\ActiveRecord;
  * @property string $access_token
  * @property array  $countries
  * @property array  $projects
+ * @property string  $language
  */
 abstract class AuthUser extends ActiveRecord
 {
@@ -43,7 +44,7 @@ abstract class AuthUser extends ActiveRecord
             [['password', 'username', 'first_name', 'is_staff', 'is_active', 'date_joined'], 'required'],
             [['last_login', 'date_joined', 'countries', 'projects'], 'safe'],
             [['is_superuser', 'is_staff', 'is_active'], 'boolean'],
-            [['access_token'], 'string'],
+            [['access_token','language'], 'string'],
             [['password'], 'string', 'max' => 128],
             [['username', 'first_name', 'last_name'], 'string', 'max' => 30],
             [['email'], 'string', 'max' => 254],
@@ -70,6 +71,7 @@ abstract class AuthUser extends ActiveRecord
             'access_token' => Yii::t('app', 'Access Token'),
             'countries' => Yii::t('app', 'Countries'),
             'projects' => Yii::t('app', 'Projects'),
+            'language' => Yii::t('app', 'Language'),
         ];
     }
 }
