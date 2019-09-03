@@ -10,6 +10,8 @@
     DatosCtrl.$inject = ['$scope', 'UrlsAcciones', 'DatosService', 'highchartsOpciones', '$timeout'];
 
     function DatosCtrl($scope, UrlsAcciones, DatosService, highchartsOpciones, $timeout) {
+
+        loadTranslationString();
         $scope.cantidadConsultas = 0;
         $scope.cambioRubrosCantidad = 0;
         $scope.cambioPaisesCantidad = 0;
@@ -53,6 +55,8 @@
             $scope.cargando = !$scope.cargando;
             return $scope.cargando;
         };
+
+        $scope.StringToTranslate = [];
 
         function cargarDatosProyecto(data) {
             DatosService
@@ -1121,5 +1125,20 @@
         $scope.refrescar();
     }
 
+    function loadTranslationString() {
+        $.ajax({
+            url: '/translate-string-js/translate',
+            type: 'POST',
+            dataType: 'JSON',
+            data: {anio: 2019},
+            success: function (resp) {
+                $scope.StringToTranslate = resp;
+                console.log($scope.StringToTranslate)
+            },
+            error: function (error) { console.log(error)
+            }
+        });
+
+    }
 
 })();
