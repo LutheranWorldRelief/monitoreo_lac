@@ -11,7 +11,6 @@
 
     function DatosCtrl($scope, UrlsAcciones, DatosService, highchartsOpciones, $timeout) {
 
-        loadTranslationString();
         $scope.cantidadConsultas = 0;
         $scope.cambioRubrosCantidad = 0;
         $scope.cambioPaisesCantidad = 0;
@@ -57,6 +56,9 @@
         };
 
         $scope.StringToTranslate = [];
+
+        let greetingPromise = loadTranslationString();
+        greetingPromise.then(function(resolveOutput) {
 
         function cargarDatosProyecto(data) {
             DatosService
@@ -104,8 +106,8 @@
             DatosService
                 .Enviar(UrlsAcciones.UrlDatosGraficoActividades, data)
                 .then(function (result) {
-                    var hombres = {name: 'Hombres', data: []};
-                    var mujeres = {name: 'Mujeres', data: []};
+                    var hombres = {name: gettext('Men'), data: []};
+                    var mujeres = {name: gettext('Women'), data: []};
 
                     angular.forEach(result.data.actividades, function (value, key) {
                         hombres.data.push(objetoDataSerie(value, value.m));
@@ -373,10 +375,10 @@
                     chart: {marginTop: 80, zoomType: 'xy', type: 'bar'},
                     credits: highchartsOpciones.credits,
                     exporting: highchartsOpciones.exporting(UrlsAcciones.nombreGrafico),
-                    title: highchartsOpciones.title(UrlsAcciones.nombreGrafico),
-                    xAxis: {type: 'category', title: {text: 'Actividades'},},
+                    title: highchartsOpciones.title(gettext('PARTICIPANTS BY ACTIVITY')),
+                    xAxis: {type: 'category', title: {text:  gettext('Activities')},},
                     yAxis: {
-                        title: {text: 'Cantidad de Personas'},
+                        title: {text: gettext('Amount of people')},
                         stackLabels: {
                             enabled: true,
                             style: {
@@ -386,8 +388,8 @@
                         }
                     },
                     tooltip: {
-                        headerFormat: '<b>Participantes</b><br/>',
-                        pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+                        headerFormat: '<b>'+gettext('Participants')+'</b><br/>',
+                        pointFormat: '{series.name}: {point.y}<br/>'+gettext('Total:')+'{point.stackTotal}'
                     },
                     legend: {enabled: true},
                     plotOptions: {
@@ -419,13 +421,13 @@
                     chart: {marginTop: 80, zoomType: 'xy', type: 'bar'},
                     credits: highchartsOpciones.credits,
                     exporting: highchartsOpciones.exporting(UrlsAcciones.nombreGrafico),
-                    title: highchartsOpciones.title("PARTICIPANTES POR TIPO DE PERSONA"),
+                    title: highchartsOpciones.title(gettext("PARTICIPANTS BY TYPE OF PERSON")),
                     xAxis: {
                         categories: $scope.seriesType.categorias,
-                        title: {text: 'Tipos'},
+                        title: {text: gettext('Types')},
                     },
                     yAxis: {
-                        title: {text: 'Cantidad de Personas'},
+                        title: {text: gettext('Amount of people')},
                         stackLabels: {
                             enabled: true,
                             style: {
@@ -435,8 +437,8 @@
                         }
                     },
                     tooltip: {
-                        headerFormat: '<b>Participantes</b><br/>',
-                        pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+                        headerFormat: '<b>'+gettext('Participants')+'</b><br/>',
+                        pointFormat: '{series.name}: {point.y}<br/>'+gettext('Total:')+' {point.stackTotal}'
                     },
                     legend: {enabled: true},
                     plotOptions: {
@@ -462,13 +464,13 @@
                     chart: {marginTop: 80, zoomType: 'xy', type: 'column'},
                     credits: highchartsOpciones.credits,
                     exporting: highchartsOpciones.exporting(UrlsAcciones.nombreGrafico),
-                    title: highchartsOpciones.title("PARTICIPANTES POR EDAD"),
+                    title: highchartsOpciones.title(gettext("PARTICIPANTS BY AGE")),
                     xAxis: {
                         categories: $scope.seriesEdad.categorias,
-                        title: {text: 'Edades'},
+                        title: {text:  gettext('Ages')},
                     },
                     yAxis: {
-                        title: {text: 'Cantidad de Personas'},
+                        title: {text: gettext('Amount of people')},
                         stackLabels: {
                             enabled: true,
                             style: {
@@ -478,8 +480,8 @@
                         }
                     },
                     tooltip: {
-                        headerFormat: '<b>Participantes</b><br/>',
-                        pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+                        headerFormat: '<b>'+gettext('Participants')+'</b><br/>',
+                        pointFormat: '{series.name}: {point.y}<br/>'+gettext('Total:')+'{point.stackTotal}'
                     },
                     legend: {enabled: true},
                     plotOptions: {
@@ -505,14 +507,14 @@
                     chart: {marginTop: 80, zoomType: 'xy', type: 'column'},
                     credits: highchartsOpciones.credits,
                     exporting: highchartsOpciones.exporting(UrlsAcciones.nombreGrafico),
-                    title: highchartsOpciones.title("PARTICIPANTES POR AÑO FISCAL"),
+                    title: highchartsOpciones.title(gettext("PARTICIPANTS BY FISCAL YEAR")),
                     xAxis: {
                         categories: $scope.seriesFiscal.categorias,
-                        title: {text: 'AÑOS'},
+                        title: {text: gettext('Years')},
                     },
                     yAxis: {
                         title: {
-                            text: 'Cantidad de Personas'
+                            text: gettext('Amount of people')
                         },
                         stackLabels: {
                             enabled: true,
@@ -523,8 +525,8 @@
                         }
                     },
                     tooltip: {
-                        headerFormat: '<b>Participantes</b><br/>',
-                        pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+                        headerFormat: '<b>'+gettext('Participants')+'</b><br/>',
+                        pointFormat: '{series.name}: {point.y}<br/>'+gettext('Total:')+'{point.stackTotal}'
                     },
                     legend: {enabled: true},
                     plotOptions: {
@@ -550,13 +552,13 @@
                     chart: {marginTop: 80, zoomType: 'xy', type: 'bar'},
                     credits: highchartsOpciones.credits,
                     exporting: highchartsOpciones.exporting(UrlsAcciones.nombreGrafico),
-                    title: highchartsOpciones.title("PARTICIPANTES POR EDUCACIÓN"),
+                    title: highchartsOpciones.title(gettext("PARTICIPANTS BY EDUCATION")),
                     xAxis: {
                         categories: $scope.seriesEducacion.categorias,
-                        title: {text: 'Educación'},
+                        title: {text: gettext('Education')},
                     },
                     yAxis: {
-                        title: {text: 'Cantidad de Personas'},
+                        title: {text: gettext('Amount of people')},
                         stackLabels: {
                             enabled: true,
                             style: {
@@ -566,8 +568,8 @@
                         }
                     },
                     tooltip: {
-                        headerFormat: '<b>Participantes</b><br/>',
-                        pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+                        headerFormat: '<b>'+gettext('Participants')+'</b><br/>',
+                        pointFormat: '{series.name}: {point.y}<br/>'+gettext('Total:')+' {point.stackTotal}'
                     },
                     legend: {enabled: true},
                     plotOptions: {
@@ -589,13 +591,13 @@
 
         $scope.$watchCollection('nacionalidad', function () {
             $timeout(function () {
-                $scope.mapaPaises($scope.nacionalidad, 'participantes-nacionalidad', 'Participantes por Nacionalidad');
+                $scope.mapaPaises($scope.nacionalidad, 'participantes-nacionalidad', gettext('Participants by Nationality'));
             }, 10);
         });
 
         $scope.$watchCollection('paisEventos', function () {
             $timeout(function () {
-                $scope.mapaPaises($scope.paisEventos, 'pais-eventos', 'Ubicación geográfica de participantes');
+                $scope.mapaPaises($scope.paisEventos, 'pais-eventos', gettext('Geographic location of participants'));
             }, 10);
         });
 
@@ -684,7 +686,7 @@
                     mapData: Highcharts.maps['custom/world'],
                     nullColor: '#00AAA7',
                     data: data,
-                    name: 'Participantes por Nacionalidad',
+                    name: gettext('Participants by Nationality'),
                     borderColor: '#FFF',
                     showInLegend: false,
                     joinBy: ['name', 'id'],
@@ -696,10 +698,10 @@
                         headerFormat: '',
                         pointFormatter: function () {
                             var hoverVotes = this.hoverVotes; // Used by pie only
-                            var tooltip = '<b>Participantes ' + this.pais + '</b><br/>' +
+                            var tooltip = '<b>'+gettext('Participants') + this.pais + '</b><br/>' +
                                 Highcharts.map([
-                                                   ['Hombres', this.hombres, hombresColor],
-                                                   ['Mujeres', this.mujeres, mujeresColor]
+                                                   [gettext('Men'), this.hombres, hombresColor],
+                                                   [gettext('Women'), this.mujeres, mujeresColor]
                                                ].sort(function (a, b) {
                                     return b[1] - a[1]; // Sort tooltip by most votes
                                 }), function (line) {
@@ -713,10 +715,10 @@
                                         (line[0] === hoverVotes ? '</b>' : '') +
                                         '<br>';
                                 }).join('') +
-                                '<br/><b>Total Participantes: </b>' + Highcharts.numberFormat(this.total, 0);
+                                '<br/><b>'+gettext('Total Participants:')+'</b>' + Highcharts.numberFormat(this.total, 0);
 
                             if (this.eventos !== undefined) {
-                                tooltip = tooltip + '<br/><b>Eventos: </b>' + Highcharts.numberFormat(this.eventos, 0);
+                                tooltip = tooltip + '<br/><b>'+gettext('Events:')+ '</b>' + Highcharts.numberFormat(this.eventos, 0);
                             }
                             return tooltip;
                         }
@@ -772,11 +774,11 @@
                                     },
 
                                     data: [{
-                                        name: 'Hombres',
+                                        name: gettext('Men'),
                                         y: state.hombres,
                                         color: hombresColor
                                     }, {
-                                        name: 'Mujeres',
+                                        name: gettext('Women'),
                                         y: state.mujeres,
                                         color: mujeresColor
                                     }],
@@ -818,8 +820,8 @@
                         plotShadow: false,
                         type: 'pie'
                     },
-                    title: highchartsOpciones.title('Participantes alcanzados, por sexo'),
-                    subtitle: {text: 'Cantidad total ' + $scope.dataTotales.total},
+                    title: highchartsOpciones.title(gettext('Participants reached, by sex')),
+                    subtitle: {text: gettext('Total amount ') + $scope.dataTotales.total},
                     tooltip: {pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'},
                     plotOptions: {
                         pie: {
@@ -836,20 +838,20 @@
                     },
                     legend: {enabled: true},
                     series: [{
-                        name: 'Participantes',
+                        name: gettext('Participants'),
                         colorByPoint: true,
                         data: [{
-                            name: 'Hombres',
+                            name: gettext('Men'),
                             y: parseFloat($scope.dataTotales.m)
                         }, {
-                            name: 'Mujeres',
+                            name: gettext('Women'),
                             y: parseFloat($scope.dataTotales.f),
                             sliced: true,
                         }]
                     }],
 
                     credits: highchartsOpciones.credits,
-                    exporting: highchartsOpciones.exporting('Participantes'),
+                    exporting: highchartsOpciones.exporting(gettext('Participants')),
                 };
                 $scope.Graficar('pastel', opciones);
             }, 10);
@@ -859,8 +861,8 @@
             $timeout(function () {
                 var opciones = {
 
-                    title: highchartsOpciones.title('ORGANIZACIONES'),
-                    subtitle: {text: $scope.organizacionesObj.total + ' total, en ' + $scope.organizacionesObj.total_categorias + ' Categorías'},
+                    title: highchartsOpciones.title(gettext('ORGANIZATIONS')),
+                    subtitle: {text: $scope.organizacionesObj.total + gettext(' total, in ') + $scope.organizacionesObj.total_categorias + gettext(' Categories')},
 
                     series: [{
                         type: 'treemap',
@@ -881,7 +883,7 @@
                         data: $scope.organizacionesObj.data
                     }],
                     credits: highchartsOpciones.credits,
-                    exporting: highchartsOpciones.exporting('Organizaciones'),
+                    exporting: highchartsOpciones.exporting(gettext('Organizations')),
                 };
                 $scope.Graficar('organizaciones', opciones);
             }, 10);
@@ -899,14 +901,14 @@
                         plotShadow: false,
                     },
                     // title: highchartsOpciones.title('METAS POR PROYECTO'),
-                    title: highchartsOpciones.title('Total de participantes alcanzados versus metas, por sexo'),
+                    title: highchartsOpciones.title(gettext('Total participants achieved and goals, by sex')),
                     // subtitle: {text: $scope.organizacionesObj.total + ' total, en ' + $scope.organizacionesObj.total_categorias + ' Categorías'},
 
                     xAxis: {categories: $scope.dataMetas.categorias},
 
                     yAxis: [{
                         min: 0,
-                        title: {text: 'Personas'}
+                        title: {text: gettext('Persons')}
                     }],
                     legend: {shadow: false},
                     tooltip: {shared: true},
@@ -926,7 +928,7 @@
                     },
                     series: $scope.dataMetas.series,
                     credits: highchartsOpciones.credits,
-                    exporting: highchartsOpciones.exporting('Metas'),
+                    exporting: highchartsOpciones.exporting(gettext('Goals')),
                 };
                 $scope.Graficar('metas', opciones);
             }, 10);
@@ -1091,10 +1093,10 @@
             type.categorias = [];
             type.series = [];
             var typeHombres = {};
-            typeHombres.name = 'Hombres';
+            typeHombres.name = gettext('Men');
             typeHombres.data = [];
             var typeMujeres = {};
-            typeMujeres.name = 'Mujeres';
+            typeMujeres.name = gettext('Women');
             typeMujeres.data = [];
             angular.forEach(data, function (value, key) {
                 type.categorias.push(value.type);
@@ -1123,22 +1125,36 @@
         }
 
         $scope.refrescar();
-    }
 
-    function loadTranslationString() {
-        $.ajax({
-            url: '/translate-string-js/translate',
-            type: 'POST',
-            dataType: 'JSON',
-            data: {anio: 2019},
-            success: function (resp) {
-                $scope.StringToTranslate = resp;
-                console.log($scope.StringToTranslate)
-            },
-            error: function (error) { console.log(error)
-            }
+        }, function(rejectOutput) {
+            console.log(rejectOutput);
         });
 
+        function loadTranslationString() {
+
+            let promise =  new Promise(function(resolve, reject) {
+                $.ajax({
+                    url: '/translate-string-js/translate',
+                    type: 'POST',
+                    dataType: 'JSON',
+                    data: {},
+                    success: function (resp) {
+                        $scope.StringToTranslate = resp;
+                        resolve("Success");
+                    },
+                    error: function (error) {
+                        reject("Error: "+error);
+                    }
+                });
+
+            });//End promise
+
+            return promise;
+        }
+
+        function gettext(key){
+            return $scope.StringToTranslate[key];
+        }
     }
 
 })();
