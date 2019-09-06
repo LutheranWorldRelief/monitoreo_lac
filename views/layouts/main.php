@@ -36,7 +36,8 @@ if (Yii::$app->controller->action->id === 'login') {
     </head>
     <body class="hold-transition skin-blue sidebar-mini sidebar-collapse">
     <?php $this->beginBody() ?>
-    <div class="wrapper">
+    <div class="wrapper <?php $currentURL = Yii::$app->request->url;
+    if (strpos($currentURL, 'import') !== false or strpos($currentURL, 'report') !== false) { ?>hide-header-sidebar<?php } ?>">
         <?= $this->render('header.php') ?>
         <?= $this->render('left.php') ?>
         <?= $this->render('content.php', ['content' => $content]) ?>
@@ -50,15 +51,31 @@ if (Yii::$app->controller->action->id === 'login') {
 <style>
     .skin-blue .main-header .navbar {
         background-color: #00AAA7;
-        }
+    }
 
     .skin-blue .main-header .logo {
         background-color: #00AAA7;
-        color:            #fff;
-        border-bottom:    0 solid transparent;
-        }
+        color: #fff;
+        border-bottom: 0 solid transparent;
+    }
 
     .skin-blue .main-header li.user-header {
         background-color: #00AAA7;
-        }
+    }
+
+    .hide-header-sidebar header.main-header, .hide-header-sidebar aside.main-sidebar {
+        display: none;
+    }
+
 </style>
+
+<script>
+
+    let fatherClass = document.getElementsByClassName('hide-header-sidebar');
+
+    if (fatherClass.length > 0) {
+        let sonClass = document.querySelector('.content-wrapper');
+        sonClass.setAttribute('style', 'margin-left:0 !important');
+    }
+
+</script>

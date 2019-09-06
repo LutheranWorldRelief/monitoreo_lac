@@ -32,7 +32,7 @@ extract($data);
 		<th><?= \Yii::t('app', 'Proyecto')?></th>
 		<th><?= \Yii::t('app', 'Actividad')?></th>
 		<th><?= \Yii::t('app', 'Organización Implementadora')?></th>
-		<th><?= \Yii::t('app', 'Fecha'?></th>
+		<th><?= \Yii::t('app', 'Fecha') ?></th>
             </tr>
             </thead>
             <tbody>
