@@ -82,7 +82,7 @@ WizardAsset::register($this);
     </div>
 
     <div class="tab-content">
-        <div class="tab-pane active" role="tabpanel" id="step">
+        <div class="tab-pane active container-fluid" role="tabpanel" id="step">
             <?php $form = ActiveForm::begin(['options' => ['enctype' => "multipart/form-data"]]); ?>
             <?= $this->render($view, ['data' => $data]); ?>
             <?php ActiveForm::end(); ?>
