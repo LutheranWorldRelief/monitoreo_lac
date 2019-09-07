@@ -383,7 +383,7 @@ class GraphicController extends ControladorController
         foreach ($result as $key => $v) {
             $v['color'] = $colores[$colorNumero];
             $colorNumero += 1;
-            if ($colorNumero > 9) $colorNumero = 0;
+            if ($colorNumero >= 8) $colorNumero = 0;
             $v['value'] = 0;
             $data[$v['id']] = $v;
         }
@@ -396,8 +396,8 @@ class GraphicController extends ControladorController
     {
         $subquery = (new Query());
         $subquery
-            ->select(["distinct o.id ,".
-                "COALESCE(o.name,'NE') as name,".
+            ->select(["distinct o.id ," .
+                "COALESCE(o.name,'NE') as name," .
                 "COALESCE(cast( t.id as varchar),'ne') parent",
             ])->from('event e')
             ->leftJoin('organization o', 'e.organization_id = o.id')
