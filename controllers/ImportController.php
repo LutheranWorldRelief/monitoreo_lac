@@ -191,19 +191,19 @@ class ImportController extends Controller
                 $errorText = "<h3>Fila $index de $totalRow </h3>";
 
                 if (!$countryCode)
-			$errorText .= '<br><b style="color:#dd4b39">'. Yii::t('app', 'Debe establecer una país válido').'</b>';
+                    $errorText .= '<br><b style="color:#dd4b39">' . Yii::t('app', 'Debe establecer una país válido') . '</b>';
                 if (!$fechaIngresoValida)
-		    $errorText .= '<br><b style="color:#dd4b39">'. Yii::t('app', 'Debe establecer una fecha de ingreso válida').'</b>';
+                    $errorText .= '<br><b style="color:#dd4b39">' . Yii::t('app', 'Debe establecer una fecha de ingreso válida') . '</b>';
                 if (!$proyectoValido)
-		    $errorText .= '<br><b style="color:#dd4b39">'. Yii::t('app', 'Error en proyecto, verifiqué que el proyecto exista').'</b>';
+                    $errorText .= '<br><b style="color:#dd4b39">' . Yii::t('app', 'Error en proyecto, verifiqué que el proyecto exista') . '</b>';
                 if (empty($row[$key['organizacion_implementadora']]))
-		    $errorText .= '<br><b style="color:#dd4b39">'. Yii::t('app', 'Error en Organización Implementadora').'</b>';
+                    $errorText .= '<br><b style="color:#dd4b39">' . Yii::t('app', 'Error en Organización Implementadora') . '</b>';
                 if (!$implementingOrganizationValida)
-		    $errorText .= '<br><b style="color:#dd4b39">'. Yii::t('app', 'Debe establecer una organización implementadora que exista en la base de datos').'</b>';
+                    $errorText .= '<br><b style="color:#dd4b39">' . Yii::t('app', 'Debe establecer una organización implementadora que exista en la base de datos') . '</b>';
                 if ($errorSexo)
-		    $errorText .= '<br><b style="color:#dd4b39">'. Yii::t('app', 'Error en Sexo, se espera Hombre o Mujer').'</b>';
+                    $errorText .= '<br><b style="color:#dd4b39">' . Yii::t('app', 'Error en Sexo, se espera Hombre o Mujer') . '</b>';
                 if (!$beneficiario->validate())
-		    $errorText .= '<br><b style="color:#dd4b39">'. Yii::t('app', 'Error Beneficiarios') . implode(', ', $beneficiario->getFirstErrors()) . '</b>';
+                    $errorText .= '<br><b style="color:#dd4b39">' . Yii::t('app', 'Error Beneficiarios') . implode(', ', $beneficiario->getFirstErrors()) . '</b>';
                 $errorText .= "<br>" . implode(', ', $row);
                 $this->addErrorLog($errorText);
             }
@@ -252,7 +252,6 @@ class ImportController extends Controller
 
     public function actionBeneficiariosPaso2($archivo)
     {
-        // try {
         $pathImportJson = Yii::getAlias('@ImportJson/beneficiarios/');
 
         $resultados = Json::decode(file_get_contents($pathImportJson . $archivo));
@@ -272,11 +271,6 @@ class ImportController extends Controller
         ];
 
         return $this->render('beneficiarios/wizard', ['data' => $data, 'view' => 'step-2', 'stepActive' => 'step2']);
-        //  } catch (Exception $exception) {
-        var_dump($exception);
-//            $this->redirect('beneficiarios-paso1');
-        //  }
-
     }
 
     private function BeneficiariosPaso2Guardar($resultados)
@@ -288,11 +282,10 @@ class ImportController extends Controller
                 $this->BeneficiariosPaso2ConstruirEventos($eventos, $resultados);
 
                 if ($this->BeneficiariosPaso2GuardarEventos($eventos, $archivo)) {
-                    echo "Bene";
                     $this->redirect(['import/beneficiarios-paso3', 'archivo' => $archivo]);
                 }
             } else {
-                $errores = Yii::t('app','Debe seleccionar el país de la importación.');
+                $errores = Yii::t('app', 'Debe seleccionar el país de la importación.');
             }
         } //exit();
         return $errores;
@@ -344,10 +337,11 @@ class ImportController extends Controller
             foreach ($eventos as $evento) {
                 $id = null;
                 if (!Event::CreateFromImport($evento, $id)) {
-                    // $transaction->commit();
+
                 } else {
                     $eventosCreados[] = $id;
                 }
+
             }
             $transaction->commit();
 
