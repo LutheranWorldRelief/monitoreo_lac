@@ -10,8 +10,6 @@ $this->registerCssFile("@web/js/servicios_angular/ng-grid.css");
 $this->registerJsFile("@web/js/servicios_angular/highcharts.optiones.js");
 $this->registerJsFile("@web/js/script/dashboard_index.js");
 $logo = Yii::$app->urlManager->createAbsoluteUrl("img/logo/");
-print Yii::$app->language; 
-print Yii::$app->sourceLanguage; 
 ?>
 <div ng-app="App" ng-controller="AppCtrl" ng-cloak="">
     <!--    Encabezado-->
