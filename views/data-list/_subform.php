@@ -69,8 +69,8 @@ Modal::begin([
         <div class="col-md-6"><?= $form->field($newModel, 'notes')->textInput(['v-model' => 'model.notes']) ?></div>
     </div>
     <div class="modal-footer">
-    <button type="button" class="btn btn-danger" data-dismiss="modal"><?= \Yii::t('app', "Cerrar")</button>
-    <button type="button" class="btn btn-primary" @click.prevent="saveDetail($event)"><?= \Yii::t('app', "Guardar")</button>
+    <button type="button" class="btn btn-danger" data-dismiss="modal"><?= \Yii::t('app', "Cerrar") ?></button>
+    <button type="button" class="btn btn-primary" @click.prevent="saveDetail($event)"> <?= \Yii::t('app', "Guardar")?></button>
     </div>
 <?php ActiveForm::end(); ?>
 <?php Modal::end(); ?>
