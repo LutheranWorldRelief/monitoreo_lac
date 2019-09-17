@@ -184,6 +184,11 @@ class ReportController extends ControladorController
         };
 
         if ($sheetData && $sheetCatalogues) {
+            $languague = Yii::$app->language;
+            $nameColumn = 'name';
+            if ($languague !== 'en') {
+                $nameColumn .= '_'.$languague;
+            }
 
             $projects = Project::find()->select(["CONCAT(CASE WHEN code IS NULL or code = '' THEN '00-0000' ELSE code END, '=>', name) as name",])
                 ->orderBy('code, name')
@@ -198,9 +203,9 @@ class ReportController extends ControladorController
 
             $countries = Country::allCountries();
 
-            $products = MonitoringProduct::allProductNames('name_es');
+            $products = MonitoringProduct::allProductNames($nameColumn);
 
-            $education = MonitoringEducation::allEducationNames('name_es');
+            $education = MonitoringEducation::allEducationNames($nameColumn);
 
             $department = [];
 
