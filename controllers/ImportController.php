@@ -8,11 +8,14 @@ use app\components\excel\import\ImportBehavior;
 use app\components\UExcelBeneficiario;
 use app\components\UString;
 use app\models\Contact;
+use app\models\Country;
 use app\models\DataList;
 use app\models\Event;
+use app\models\MonitoringProduct;
 use app\models\Organization;
 use app\models\MonitoringEducation;
 use app\models\Project;
+use app\models\ProjectContact;
 use Exception;
 use Yii;
 use yii\db\Query;
@@ -279,9 +282,9 @@ class ImportController extends Controller
         $errores = null;
         if (isset($_POST['guardar'])) {
             if (!empty($_POST['pais']) && !is_null($_POST['pais'])) {
-                $this->BeneficiariosPaso2ConstruirEventos($eventos, $resultados);
 
-                if ($this->BeneficiariosPaso2GuardarEventos($eventos, $archivo)) {
+                $this->BeneficiariosPaso2VincularDatos($datosVincular, $resultados);
+                if ($this->crearOActualizarDatosProvenientesExcel($datosVincular, $archivo)) {
                     $this->redirect(['import/beneficiarios-paso3', 'archivo' => $archivo]);
                 }
             } else {
@@ -291,11 +294,11 @@ class ImportController extends Controller
         return $errores;
     }
 
-    private function BeneficiariosPaso2ConstruirEventos(&$eventos, $resultados)
+    private function BeneficiariosPaso2VincularDatos(&$datosVincular, $resultados)
     {
-        $eventos = [];
-        $pais = DataList::CountryName($_POST['pais']);
-        $paisNombre = $pais ? $pais : '-';
+        $datosVincular = [];
+        $pais = Country::getSpecificCountry($_POST['pais']);
+        $paisNombre = (!is_null($pais)) ? $pais->name : '-';
         foreach ($resultados['Guardar'] as $r) {
             if (isset($_POST['organizacion']))
                 foreach ($_POST['organizacion'] as $org) {
@@ -312,26 +315,109 @@ class ImportController extends Controller
                         $r['education_id'] = $edu['vincular_con'];
 
             $key = $r['project_code'] . '-' . UString::sustituirEspacios($r['implementing_organization_name']) . '-' . $r['date_entry_project'];
-            $eventos[$key]['cabecera'] = ['implementing_organization_id' => $r['implementing_organization_id'], 'country_id' => $_POST['pais']];
-            $eventos[$key]['proyectoNuevo'] = (int)$r['project_id'] > 0 ? false : true;
-            $eventos[$key]['proyectoId'] = (int)$r['project_id'];
-            $eventos[$key]['fechaIngreso'] = $r['date_entry_project'];
-            $eventos[$key]['paisNombre'] = $paisNombre;
-            $eventos[$key]['proyecto'] = ['code' => $r['project_code'], 'name' => $r['project_name']];
-            $eventos[$key]['organizacionNueva'] = (int)$r['organization_id'] > 0 ? false : true;
-            $eventos[$key]['organizacionImplementadora'] = ['name' => $r['implementing_organization_name']];
-            if (!isset($eventos[$key]['detalles']))
-                $eventos[$key]['detalles'] = [];
-            $eventos[$key]['detalles'][] = $r;
+//            $datosVincular[$key]['cabecera'] = ['implementing_organization_id' => $r['implementing_organization_id'], 'country_id' => $_POST['pais']];
+//            $datosVincular[$key]['proyectoNuevo'] = (int)$r['project_id'] > 0 ? false : true;
+//            $datosVincular[$key]['proyectoId'] = (int)$r['project_id'];
+            $datosVincular[$key]['fechaIngreso'] = $r['date_entry_project'];
+            $datosVincular[$key]['paisNombre'] = $paisNombre;
+            $datosVincular[$key]['proyecto'] = ['code' => $r['project_code'], 'name' => $r['project_name']];
+//            $datosVincular[$key]['organizacionNueva'] = (int)$r['organization_id'] > 0 ? false : true;
+            $datosVincular[$key]['organizacionImplementadora'] = ['name' => $r['implementing_organization_name']];
+            if (!isset($datosVincular[$key]['detalles']))
+                $datosVincular[$key]['detalles'] = [];
+            $datosVincular[$key]['detalles'][] = $r;
 
         }
     }
 
-    private function BeneficiariosPaso2GuardarEventos($eventos, &$archivo)
+    private function insertarDatosProvenientesExcel($data, &$archivo)
     {
         set_time_limit(-1);
         ini_set('memory_limit', -1);
-        $eventosCreados = [];
+        foreach ($data as $datum => $d) {
+            $organizationName = $d['organizacionImplementadora']['name'];
+            $organization = Organization::find()->andFilterWhere(['name' => trim($organizationName)])->one();
+            $organization_id = $organization->id;
+            $detalles = $d['detalles'];
+            foreach ($detalles as $detalle => $de) {
+                //guardando contactos
+                $contact = null;
+                $document = $d['detalles'][0]['document'];
+                if (!empty(trim($document))) {
+                    $contact = Contact::find()->andFilterWhere(['document' => trim($document)])->one();
+                }
+                if (is_null($contact)) {
+                    $contact = new Contact();
+                    $contact->created = date('Y-m-d');
+                } else {
+                    $contact->modified = date('Y-m-d');
+                }
+                $contact->name = trim($de['name']);
+                $contact->first_name = trim($de['first_name']);
+                $contact->last_name = trim($de['last_name']);
+                $contact->document = trim($de['document']);
+                $contact->sex = trim($de['sex']);
+                $contact->community = trim($de['community']);
+                $contact->municipality = trim($de['municipality']);
+                $contact->country_id = $de['country'];
+                $contact->phone_personal = trim($de['phone_personal']);
+                $contact->men_home = (int)$de['men_home'];
+                $contact->women_home = (int)$de['women_home'];
+                $contact->birthdate = $de['birthdate'];
+
+                if (!is_null($contact->education_id) && !empty(trim($de['education_name']))) {
+                    $education = MonitoringEducation::getSpecificEducation(trim($de['education_name']));
+                    if (!is_null($education)) {
+                        $contact->education_id = $education->id;
+                    }
+                }
+
+                if (!is_null($contact->organization_id) && !empty(trim($de['organization_name']))) {
+                    $org = Organization::find()->where(['name' => trim($de['organization_name'])])->one();
+                    if (is_null($org)) {
+                        $org = new Organization();
+                        $org->name = trim($de['organization_name']);
+                        $org->save();
+                    }
+                    $contact->organization_id = $org->id;
+                }
+                $contact->save();
+                $idContact = $contact->id;
+
+                //
+                $product = MonitoringProduct::getSpecificProduct($de['product']);
+                $product_id = $product->id;
+
+                //projecto
+                $project_id = $de['project_id'];
+                $projectContact = ProjectContact::find()->andFilterWhere(['project_id' => $project_id, 'contact_id' => $idContact])->one();
+                if (is_null($projectContact)) {
+                    $projectContact = new ProjectContact();
+                }
+
+                $projectContact->project_id = $project_id;
+                $projectContact->contact_id = $idContact;
+                $projectContact->product_id = $product_id;
+                $projectContact->area = (int)$de['area'];
+                $projectContact->development_area = (int)$de['development_area'];
+                $projectContact->productive_area = (int)$de['productive_area'];
+                $projectContact->age_development_plantation = (int)$de['age_development_plantation'];
+                $projectContact->age_productive_plantation = (int)$de['age_productive_plantation'];
+                $projectContact->date_entry_project = $de['date_entry_project'];
+                $projectContact->date_end_project = $de['date_entry_project'];
+                $projectContact->yield = (int)$de['yield'];
+                $projectContact->organization_id = $organization_id;
+                $projectContact->save();
+            }
+        }
+
+    }
+
+    private
+    function BeneficiariosPaso2GuardarContactos($data, &$archivo)
+    {
+        set_time_limit(-1);
+        ini_set('memory_limit', -1);
         $transaction = Yii::$app->db->beginTransaction();
         try {
             foreach ($eventos as $evento) {
@@ -361,7 +447,8 @@ class ImportController extends Controller
         return true;
     }
 
-    private function BeneficiariosPaso2DatosCrearEnBD($resultados, &$proyectosRegistrar, &$organizacionRegistrar, &$paisesRegistrar, &$educacionRegistrar)
+    private
+    function BeneficiariosPaso2DatosCrearEnBD($resultados, &$proyectosRegistrar, &$organizacionRegistrar, &$paisesRegistrar, &$educacionRegistrar)
     {
         $query = new ArrayQuery();
         $query->from($resultados['Guardar']);
@@ -416,7 +503,8 @@ class ImportController extends Controller
         }
     }
 
-    public function actionBeneficiariosPaso3($archivo)
+    public
+    function actionBeneficiariosPaso3($archivo)
     {
         try {
             $pathImportJson = Yii::getAlias('@ImportJson/beneficiarios/');
@@ -431,7 +519,8 @@ class ImportController extends Controller
 
     }
 
-    public function actionBeneficiariosPaso4($archivo)
+    public
+    function actionBeneficiariosPaso4($archivo)
     {
         #try {
         $pathImportJson = Yii::getAlias('@ImportJson/beneficiarios/');
