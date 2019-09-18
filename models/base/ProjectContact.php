@@ -44,7 +44,7 @@ abstract class ProjectContact extends ActiveRecord
     {
         return [
             [['project_id', 'contact_id'], 'required'],
-            [['project_id', 'product_id', 'contact_id', 'age_development_plantation', 'age_productive_plantation'], 'integer'],
+            [['project_id', 'product_id', 'contact_id', 'organization_id', 'age_development_plantation', 'age_productive_plantation'], 'integer'],
             [['area', 'development_area', 'productive_area', 'yield'], 'number'],
             [['date_entry_project', 'date_end_project'], 'safe'],
             [['contact_id'], 'exist', 'skipOnError' => true, 'targetClass' => Contact::className(), 'targetAttribute' => ['contact_id' => 'id']],
