@@ -284,7 +284,7 @@ class ImportController extends Controller
             if (!empty($_POST['pais']) && !is_null($_POST['pais'])) {
 
                 $this->BeneficiariosPaso2VincularDatos($datosVincular, $resultados);
-                if ($this->crearOActualizarDatosProvenientesExcel($datosVincular, $archivo)) {
+                if ($this->insertarDatosProvenientesExcel($datosVincular, $archivo)) {
                     $this->redirect(['import/beneficiarios-paso3', 'archivo' => $archivo]);
                 }
             } else {
@@ -334,81 +334,106 @@ class ImportController extends Controller
     {
         set_time_limit(-1);
         ini_set('memory_limit', -1);
-        foreach ($data as $datum => $d) {
-            $organizationName = $d['organizacionImplementadora']['name'];
-            $organization = Organization::find()->andFilterWhere(['name' => trim($organizationName)])->one();
-            $organization_id = $organization->id;
-            $detalles = $d['detalles'];
-            foreach ($detalles as $detalle => $de) {
-                //guardando contactos
-                $contact = null;
-                $document = $d['detalles'][0]['document'];
-                if (!empty(trim($document))) {
-                    $contact = Contact::find()->andFilterWhere(['document' => trim($document)])->one();
-                }
-                if (is_null($contact)) {
-                    $contact = new Contact();
-                    $contact->created = date('Y-m-d');
-                } else {
-                    $contact->modified = date('Y-m-d');
-                }
-                $contact->name = trim($de['name']);
-                $contact->first_name = trim($de['first_name']);
-                $contact->last_name = trim($de['last_name']);
-                $contact->document = trim($de['document']);
-                $contact->sex = trim($de['sex']);
-                $contact->community = trim($de['community']);
-                $contact->municipality = trim($de['municipality']);
-                $contact->country_id = $de['country'];
-                $contact->phone_personal = trim($de['phone_personal']);
-                $contact->men_home = (int)$de['men_home'];
-                $contact->women_home = (int)$de['women_home'];
-                $contact->birthdate = $de['birthdate'];
+        $nextStep = false;
+        try {
 
-                if (!is_null($contact->education_id) && !empty(trim($de['education_name']))) {
-                    $education = MonitoringEducation::getSpecificEducation(trim($de['education_name']));
-                    if (!is_null($education)) {
-                        $contact->education_id = $education->id;
+            foreach ($data as $datum => $d) {
+                $organizationName = $d['organizacionImplementadora']['name'];
+                $organization = Organization::find()->andFilterWhere(['name' => trim($organizationName)])->one();
+                $organization_id = $organization->id;
+                $detalles = $d['detalles'];
+                foreach ($detalles as $detalle => $de) {
+                    $contact = null;
+                    $document = trim($d['detalles'][0]['document']);
+                    //verificamos si existe un contacto registrado con el documento digitado el excel
+                    if (!empty($document)) {
+                        $contact = Contact::find()->andFilterWhere(['document' => $document])->one();
                     }
-                }
-
-                if (!is_null($contact->organization_id) && !empty(trim($de['organization_name']))) {
-                    $org = Organization::find()->where(['name' => trim($de['organization_name'])])->one();
-                    if (is_null($org)) {
-                        $org = new Organization();
-                        $org->name = trim($de['organization_name']);
-                        $org->save();
+                    /*
+                     * si no se encontro un contacto con ese documento, se instancia una
+                     * a la clase contact para crear un nuevo registro
+                    */
+                    if (is_null($contact)) {
+                        $contact = new Contact();
+                        $contact->created = date('Y-m-d');
+                    } else {
+                        $contact->modified = date('Y-m-d');
                     }
-                    $contact->organization_id = $org->id;
+                    $contact->name = trim($de['name']);
+                    $contact->first_name = trim($de['first_name']);
+                    $contact->last_name = trim($de['last_name']);
+                    $contact->document = trim($de['document']);
+                    $contact->sex = trim($de['sex']);
+                    $contact->community = trim($de['community']);
+                    $contact->municipality = trim($de['municipality']);
+                    $contact->country_id = $de['country'];
+                    $contact->phone_personal = trim($de['phone_personal']);
+                    $contact->men_home = (int)$de['men_home'];
+                    $contact->women_home = (int)$de['women_home'];
+                    $contact->birthdate = $de['birthdate'];
+
+                    /*
+                     * valido si el contacto no tiene una eduacion y el campo educacion
+                     * en el excel no este vacio para obtener el id de esa educacion en la bd
+                     * y indicar el id obtenido
+                    */
+                    if (!is_null($contact->education_id) && !empty(trim($de['education_name']))) {
+                        $education = MonitoringEducation::getSpecificEducation(trim($de['education_name']));
+                        if (!is_null($education)) {
+                            $contact->education_id = $education->id;
+                        }
+                    }
+
+                    /*
+                     * valido si el contacto no tiene una organizacion y el campo organizacion
+                     * en el excel no este vacio para obtener el id de esa organizacion en la bd
+                     * y indicar el id obtenido
+                    */
+                    if (!is_null($contact->organization_id) && !empty(trim($de['organization_name']))) {
+                        $org = Organization::find()->where(['name' => trim($de['organization_name'])])->one();
+                        if (is_null($org)) {
+                            $org = new Organization();
+                            $org->name = trim($de['organization_name']);
+                            $org->save();
+                        }
+                        $contact->organization_id = $org->id;
+                    }
+                    //guardamos el contacto
+                    $contact->save();
+                    //guardamos el id del contacto nuevo o actualizado
+                    $idContact = $contact->id;
+
+                    //obtenemos el id del producto seleccionado
+                    $product = MonitoringProduct::getSpecificProduct($de['product']);
+                    $product_id = $product->id;
+
+                    //guardamos el project contact
+                    $project_id = $de['project_id'];
+                    $projectContact = ProjectContact::find()->andFilterWhere(['project_id' => $project_id, 'contact_id' => $idContact])->one();
+                    if (is_null($projectContact)) {
+                        $projectContact = new ProjectContact();
+                    }
+
+                    $projectContact->project_id = $project_id;
+                    $projectContact->contact_id = $idContact;
+                    $projectContact->product_id = $product_id;
+                    $projectContact->area = (int)$de['area'];
+                    $projectContact->development_area = (int)$de['development_area'];
+                    $projectContact->productive_area = (int)$de['productive_area'];
+                    $projectContact->age_development_plantation = (int)$de['age_development_plantation'];
+                    $projectContact->age_productive_plantation = (int)$de['age_productive_plantation'];
+                    $projectContact->date_entry_project = $de['date_entry_project'];
+                    $projectContact->date_end_project = $de['date_entry_project'];
+                    $projectContact->yield = (int)$de['yield'];
+                    $projectContact->organization_id = $organization_id;
+                    $nextStep = $projectContact->save();
                 }
-                $contact->save();
-                $idContact = $contact->id;
 
-                //
-                $product = MonitoringProduct::getSpecificProduct($de['product']);
-                $product_id = $product->id;
-
-                //projecto
-                $project_id = $de['project_id'];
-                $projectContact = ProjectContact::find()->andFilterWhere(['project_id' => $project_id, 'contact_id' => $idContact])->one();
-                if (is_null($projectContact)) {
-                    $projectContact = new ProjectContact();
-                }
-
-                $projectContact->project_id = $project_id;
-                $projectContact->contact_id = $idContact;
-                $projectContact->product_id = $product_id;
-                $projectContact->area = (int)$de['area'];
-                $projectContact->development_area = (int)$de['development_area'];
-                $projectContact->productive_area = (int)$de['productive_area'];
-                $projectContact->age_development_plantation = (int)$de['age_development_plantation'];
-                $projectContact->age_productive_plantation = (int)$de['age_productive_plantation'];
-                $projectContact->date_entry_project = $de['date_entry_project'];
-                $projectContact->date_end_project = $de['date_entry_project'];
-                $projectContact->yield = (int)$de['yield'];
-                $projectContact->organization_id = $organization_id;
-                $projectContact->save();
             }
+            return $nextStep;
+
+        } catch (Exception $e) {
+            var_dump($e);
         }
 
     }
