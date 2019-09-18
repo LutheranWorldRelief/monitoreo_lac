@@ -284,8 +284,8 @@ class ImportController extends Controller
             if (!empty($_POST['pais']) && !is_null($_POST['pais'])) {
 
                 $this->BeneficiariosPaso2VincularDatos($datosVincular, $resultados);
-                if ($this->insertarDatosProvenientesExcel($datosVincular, $archivo)) {
-                    $this->redirect(['import/beneficiarios-paso3', 'archivo' => $archivo]);
+                if ($this->insertarDatosProvenientesExcel($datosVincular)) {
+                    $this->redirect(['import/beneficiarios-paso3']);
                 }
             } else {
                 $errores = Yii::t('app', 'Debe seleccionar el país de la importación.');
@@ -297,8 +297,6 @@ class ImportController extends Controller
     private function BeneficiariosPaso2VincularDatos(&$datosVincular, $resultados)
     {
         $datosVincular = [];
-        $pais = Country::getSpecificCountry($_POST['pais']);
-        $paisNombre = (!is_null($pais)) ? $pais->name : '-';
         foreach ($resultados['Guardar'] as $r) {
             if (isset($_POST['organizacion']))
                 foreach ($_POST['organizacion'] as $org) {
@@ -315,14 +313,9 @@ class ImportController extends Controller
                         $r['education_id'] = $edu['vincular_con'];
 
             $key = $r['project_code'] . '-' . UString::sustituirEspacios($r['implementing_organization_name']) . '-' . $r['date_entry_project'];
-//            $datosVincular[$key]['cabecera'] = ['implementing_organization_id' => $r['implementing_organization_id'], 'country_id' => $_POST['pais']];
-//            $datosVincular[$key]['proyectoNuevo'] = (int)$r['project_id'] > 0 ? false : true;
-//            $datosVincular[$key]['proyectoId'] = (int)$r['project_id'];
-            $datosVincular[$key]['fechaIngreso'] = $r['date_entry_project'];
-            $datosVincular[$key]['paisNombre'] = $paisNombre;
+            $datosVincular[$key]['proyectoId'] = (int)$r['project_id'];
             $datosVincular[$key]['proyecto'] = ['code' => $r['project_code'], 'name' => $r['project_name']];
-//            $datosVincular[$key]['organizacionNueva'] = (int)$r['organization_id'] > 0 ? false : true;
-            $datosVincular[$key]['organizacionImplementadora'] = ['name' => $r['implementing_organization_name']];
+            $datosVincular[$key]['organizacionImplementadora'] = $r['implementing_organization_name'];
             if (!isset($datosVincular[$key]['detalles']))
                 $datosVincular[$key]['detalles'] = [];
             $datosVincular[$key]['detalles'][] = $r;
@@ -330,7 +323,7 @@ class ImportController extends Controller
         }
     }
 
-    private function insertarDatosProvenientesExcel($data, &$archivo)
+    private function insertarDatosProvenientesExcel($data)
     {
         set_time_limit(-1);
         ini_set('memory_limit', -1);
@@ -338,10 +331,11 @@ class ImportController extends Controller
         try {
 
             foreach ($data as $datum => $d) {
-                $organizationName = $d['organizacionImplementadora']['name'];
+                $organizationName = $d['organizacionImplementadora'];
                 $organization = Organization::find()->andFilterWhere(['name' => trim($organizationName)])->one();
                 $organization_id = $organization->id;
                 $detalles = $d['detalles'];
+                $transaction = Yii::$app->db->beginTransaction();
                 foreach ($detalles as $detalle => $de) {
                     $contact = null;
                     $document = trim($d['detalles'][0]['document']);
@@ -394,6 +388,9 @@ class ImportController extends Controller
                         if (is_null($org)) {
                             $org = new Organization();
                             $org->name = trim($de['organization_name']);
+                            if (!is_null($de['organization_id'])) {
+                                $org->organization_id = (int)$de['organization_id'];
+                            }
                             $org->save();
                         }
                         $contact->organization_id = $org->id;
@@ -426,20 +423,23 @@ class ImportController extends Controller
                     $projectContact->date_end_project = $de['date_entry_project'];
                     $projectContact->yield = (int)$de['yield'];
                     $projectContact->organization_id = $organization_id;
-                    $nextStep = $projectContact->save();
+                    $projectContact->save();
+                    $nextStep = true;
                 }
 
             }
+            $transaction->commit();
             return $nextStep;
 
         } catch (Exception $e) {
             var_dump($e);
+            $transaction->rollBack();
+            return $nextStep;
         }
 
     }
 
-    private
-    function BeneficiariosPaso2GuardarContactos($data, &$archivo)
+    private function BeneficiariosPaso2GuardarContactos($data, &$archivo)
     {
         set_time_limit(-1);
         ini_set('memory_limit', -1);
@@ -529,7 +529,7 @@ class ImportController extends Controller
     }
 
     public
-    function actionBeneficiariosPaso3($archivo)
+    function actionBeneficiariosPaso3_($archivo)
     {
         try {
             $pathImportJson = Yii::getAlias('@ImportJson/beneficiarios/');
@@ -545,21 +545,30 @@ class ImportController extends Controller
     }
 
     public
-    function actionBeneficiariosPaso4($archivo)
+    function actionBeneficiariosPaso3()
     {
         #try {
         $pathImportJson = Yii::getAlias('@ImportJson/beneficiarios/');
-        $resultados = Json::decode(file_get_contents($pathImportJson . $archivo));
-
+        $resultados = Json::decode(file_get_contents($pathImportJson));
 
         $queryDocumentos = (new Query());
-        $queryDocumentos->select('doc_id')
-            ->from('sql_debug_contact_doc');
+        $queryDocumentos->select(['btrim(replace(replace(contact.document, \'-\' :: text, \'\' :: text), \' \' :: text, \'\' :: text)) AS doc_id'])
+            ->from('public.contact')
+            ->where(['<>', 'COALESCE(contact.document, \'\' :: text)', ''])
+            ->groupBy(['btrim(replace(replace(contact.document, \'-\' :: text, \'\' :: text), \' \' :: text, \'\' :: text))'])
+            ->having(['>', 'COUNT(contact.id)', 1]);
         $documentos = $queryDocumentos->column();
 
         $queryNombres = (new Query());
-        $queryNombres->select('name')
-            ->from('sql_debug_contact_name');
+        $queryNombres->select(['btrim(upper(COALESCE(
+        replace(replace(replace(contact.name::text, \' \'::text, \'<>\'::text), \'><\'::text, \'\'::text), \'<>\'::text,
+                \' \'::text), concat(btrim(concat(btrim(contact.first_name::text), \'\')), \' \',
+                                   btrim(COALESCE(contact.last_name::text, \'\'::text)))))) AS name'])
+            ->from('public.contact')
+            ->groupBy(['btrim(upper(COALESCE(replace(replace(replace(contact.name::text, \' \'::text, \'<>\'::text), \'><\'::text, \'\'::text), \'<>\'::text,
+                \' \'::text), concat(btrim(concat(btrim(contact.first_name::text), \'\')), \' \',
+                                   btrim(COALESCE(contact.last_name::text, \'\'::text))))))'])
+            ->having(['>', 'COUNT(contact.id)', 1]);
         $nombres = $queryNombres->column();
 
         $queryContact = (new Query());
@@ -572,7 +581,7 @@ class ImportController extends Controller
             ->groupBy(['contact_name', "contact_sex", "contact_document", "contact_organization", 'contact_id']);
         $personas = $queryContact->all();
         $data = ['data' => $personas];
-        return $this->render('beneficiarios/wizard', ['data' => $data, 'view' => 'step-4', 'stepActive' => 'step4']);
+        return $this->render('beneficiarios/wizard', ['data' => $data, 'view' => 'step-3', 'stepActive' => 'step3']);
         #} catch (Exception $exception) {
         #    $this->redirect(['import/beneficiarios-paso3', 'archivo' => $archivo]);
         #}
