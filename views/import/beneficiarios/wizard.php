@@ -17,7 +17,7 @@ WizardAsset::register($this);
 
 <div class="box">
     <div class="box-body">
-	<h3 class=""><?= \Yii::t('app', 'Importar Beneficiarios desde excel')?></h3>
+        <h3 class=""><?= \Yii::t('app', 'Importar Beneficiarios desde excel') ?></h3>
     </div>
 </div>
 <div class="wizard">
@@ -51,21 +51,8 @@ WizardAsset::register($this);
                             </span>
                 </a>
             </li>
-            <li role="presentation" class="<?= $stepActive == 'step3' ? 'active' : '' ?>">
-                <a href="#<?= $stepActive == 'step3' ? 'step' : '' ?>"
-                   data-toggle="tab"
-                   aria-controls=""
-                   role="tab"
-                   title=""
-                   data-original-title="Step 3"
-                   aria-expanded="false">
-                            <span class="round-tab">
-                                <i class="fa fa-database"></i>
-                            </span>
-                </a>
-            </li>
 
-            <li role="presentation" class="<?= $stepActive == 'step4' ? 'active' : '' ?>">
+            <li role="presentation" class="<?= $stepActive == 'step3' ? 'active' : '' ?>">
                 <a href="#<?= $stepActive == 'step4' ? 'step' : '' ?>"
                    data-toggle="tab"
                    aria-controls=""

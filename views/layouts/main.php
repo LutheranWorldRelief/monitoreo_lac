@@ -70,4 +70,8 @@ if (Yii::$app->controller->action->id === 'login') {
         background-color: transparent;
     }
 
+    .wizard .nav-tabs > li{
+        width: 33.3%;
+    }
+
 </style>

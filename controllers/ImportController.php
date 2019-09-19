@@ -8,11 +8,14 @@ use app\components\excel\import\ImportBehavior;
 use app\components\UExcelBeneficiario;
 use app\components\UString;
 use app\models\Contact;
+use app\models\Country;
 use app\models\DataList;
 use app\models\Event;
+use app\models\MonitoringProduct;
 use app\models\Organization;
 use app\models\MonitoringEducation;
 use app\models\Project;
+use app\models\ProjectContact;
 use Exception;
 use Yii;
 use yii\db\Query;
@@ -275,13 +278,19 @@ class ImportController extends Controller
 
     private function BeneficiariosPaso2Guardar($resultados)
     {
-        $archivo = null;
+        $projectContact = [];
         $errores = null;
         if (isset($_POST['guardar'])) {
             if (!empty($_POST['pais']) && !is_null($_POST['pais'])) {
-                $this->BeneficiariosPaso2ConstruirEventos($eventos, $resultados);
 
-                if ($this->BeneficiariosPaso2GuardarEventos($eventos, $archivo)) {
+                $this->BeneficiariosPaso2VincularDatos($datosVincular, $resultados);
+                if ($this->insertarDatosProvenientesExcel($datosVincular, $projectContact)) {
+                    $pathImportJson = Yii::getAlias('@ImportJson/beneficiarios/');
+                    if (!isset($_GET['archivo'])) {
+                        unlink($pathImportJson . $_GET['archivo']);
+                    }
+                    $archivo = date('Ymd-His_') . Yii::$app->user->id . '_projectsContactsId.json';
+                    file_put_contents($pathImportJson . $archivo, Json::encode($projectContact));
                     $this->redirect(['import/beneficiarios-paso3', 'archivo' => $archivo]);
                 }
             } else {
@@ -291,11 +300,9 @@ class ImportController extends Controller
         return $errores;
     }
 
-    private function BeneficiariosPaso2ConstruirEventos(&$eventos, $resultados)
+    private function BeneficiariosPaso2VincularDatos(&$datosVincular, $resultados)
     {
-        $eventos = [];
-        $pais = DataList::CountryName($_POST['pais']);
-        $paisNombre = $pais ? $pais : '-';
+        $datosVincular = [];
         foreach ($resultados['Guardar'] as $r) {
             if (isset($_POST['organizacion']))
                 foreach ($_POST['organizacion'] as $org) {
@@ -312,26 +319,135 @@ class ImportController extends Controller
                         $r['education_id'] = $edu['vincular_con'];
 
             $key = $r['project_code'] . '-' . UString::sustituirEspacios($r['implementing_organization_name']) . '-' . $r['date_entry_project'];
-            $eventos[$key]['cabecera'] = ['implementing_organization_id' => $r['implementing_organization_id'], 'country_id' => $_POST['pais']];
-            $eventos[$key]['proyectoNuevo'] = (int)$r['project_id'] > 0 ? false : true;
-            $eventos[$key]['proyectoId'] = (int)$r['project_id'];
-            $eventos[$key]['fechaIngreso'] = $r['date_entry_project'];
-            $eventos[$key]['paisNombre'] = $paisNombre;
-            $eventos[$key]['proyecto'] = ['code' => $r['project_code'], 'name' => $r['project_name']];
-            $eventos[$key]['organizacionNueva'] = (int)$r['organization_id'] > 0 ? false : true;
-            $eventos[$key]['organizacionImplementadora'] = ['name' => $r['implementing_organization_name']];
-            if (!isset($eventos[$key]['detalles']))
-                $eventos[$key]['detalles'] = [];
-            $eventos[$key]['detalles'][] = $r;
+            $datosVincular[$key]['proyectoId'] = (int)$r['project_id'];
+            $datosVincular[$key]['proyecto'] = ['code' => $r['project_code'], 'name' => $r['project_name']];
+            $datosVincular[$key]['organizacionImplementadora'] = $r['implementing_organization_name'];
+            if (!isset($datosVincular[$key]['detalles']))
+                $datosVincular[$key]['detalles'] = [];
+            $datosVincular[$key]['detalles'][] = $r;
 
         }
     }
 
-    private function BeneficiariosPaso2GuardarEventos($eventos, &$archivo)
+    private function insertarDatosProvenientesExcel($data, &$projectContacts)
     {
         set_time_limit(-1);
         ini_set('memory_limit', -1);
-        $eventosCreados = [];
+        $nextStep = false;
+        try {
+
+            foreach ($data as $datum => $d) {
+                $organizationName = $d['organizacionImplementadora'];
+                $organization = Organization::find()->andFilterWhere(['name' => trim($organizationName)])->one();
+                $organization_id = $organization->id;
+                $detalles = $d['detalles'];
+                foreach ($detalles as $detalle => $de) {
+                    $contact = null;
+                    $document = trim($d['detalles'][0]['document']);
+                    //verificamos si existe un contacto registrado con el documento digitado el excel
+                    if (!empty($document)) {
+                        $contact = Contact::find()->andFilterWhere(['document' => $document])->one();
+                    }
+                    /*
+                     * si no se encontro un contacto con ese documento, se instancia una
+                     * a la clase contact para crear un nuevo registro
+                    */
+                    if (is_null($contact)) {
+                        $contact = new Contact();
+                        $contact->created = date('Y-m-d');
+                    } else {
+                        $contact->modified = date('Y-m-d');
+                    }
+                    $contact->name = trim($de['name']);
+                    $contact->first_name = trim($de['first_name']);
+                    $contact->last_name = trim($de['last_name']);
+                    $contact->document = trim($de['document']);
+                    $contact->sex = trim($de['sex']);
+                    $contact->community = trim($de['community']);
+                    $contact->municipality = trim($de['municipality']);
+                    $contact->country_id = $de['country'];
+                    $contact->phone_personal = trim($de['phone_personal']);
+                    $contact->men_home = (int)$de['men_home'];
+                    $contact->women_home = (int)$de['women_home'];
+                    $contact->birthdate = $de['birthdate'];
+
+                    /*
+                     * valido si el contacto no tiene una eduacion y el campo educacion
+                     * en el excel no este vacio para obtener el id de esa educacion en la bd
+                     * y indicar el id obtenido
+                    */
+                    if (!is_null($contact->education_id) && !empty(trim($de['education_name']))) {
+                        $education = MonitoringEducation::getSpecificEducation(trim($de['education_name']));
+                        if (!is_null($education)) {
+                            $contact->education_id = $education->id;
+                        }
+                    }
+
+                    /*
+                     * valido si el contacto no tiene una organizacion y el campo organizacion
+                     * en el excel no este vacio para obtener el id de esa organizacion en la bd
+                     * y indicar el id obtenido
+                    */
+                    if (!is_null($contact->organization_id) && !empty(trim($de['organization_name']))) {
+                        $org = Organization::find()->where(['name' => trim($de['organization_name'])])->one();
+                        if (is_null($org)) {
+                            $org = new Organization();
+                            $org->name = trim($de['organization_name']);
+                            if (!is_null($de['organization_id'])) {
+                                $org->organization_id = (int)$de['organization_id'];
+                            }
+                            $org->save();
+                        }
+                        $contact->organization_id = $org->id;
+                    }
+                    //guardamos el contacto
+                    $contact->save();
+                    //guardamos el id del contacto nuevo o actualizado
+                    $idContact = $contact->id;
+
+                    //obtenemos el id del producto seleccionado
+                    $product = MonitoringProduct::getSpecificProduct($de['product']);
+                    $product_id = $product->id;
+
+                    //guardamos el project contact
+                    $project_id = $de['project_id'];
+                    $projectContact = ProjectContact::find()->andFilterWhere(['project_id' => $project_id, 'contact_id' => $idContact])->one();
+                    if (is_null($projectContact)) {
+                        $projectContact = new ProjectContact();
+                    }
+
+                    $projectContact->project_id = $project_id;
+                    $projectContact->contact_id = $idContact;
+                    $projectContact->product_id = $product_id;
+                    $projectContact->area = (int)$de['area'];
+                    $projectContact->development_area = (int)$de['development_area'];
+                    $projectContact->productive_area = (int)$de['productive_area'];
+                    $projectContact->age_development_plantation = (int)$de['age_development_plantation'];
+                    $projectContact->age_productive_plantation = (int)$de['age_productive_plantation'];
+                    $projectContact->date_entry_project = $de['date_entry_project'];
+                    $projectContact->date_end_project = $de['date_entry_project'];
+                    $projectContact->yield = (int)$de['yield'];
+                    $projectContact->organization_id = $organization_id;
+                    $projectContact->save();
+                    array_push($projectContacts, ['idprojectcontact' => $projectContact->id]);
+                    $nextStep = true;
+                }
+
+            }
+
+            return $nextStep;
+
+        } catch (Exception $e) {
+            var_dump($e);
+            return $nextStep;
+        }
+
+    }
+
+    private function BeneficiariosPaso2GuardarContactos($data, &$archivo)
+    {
+        set_time_limit(-1);
+        ini_set('memory_limit', -1);
         $transaction = Yii::$app->db->beginTransaction();
         try {
             foreach ($eventos as $evento) {
@@ -416,7 +532,7 @@ class ImportController extends Controller
         }
     }
 
-    public function actionBeneficiariosPaso3($archivo)
+    public function actionBeneficiariosPaso3_($archivo)
     {
         try {
             $pathImportJson = Yii::getAlias('@ImportJson/beneficiarios/');
@@ -431,37 +547,54 @@ class ImportController extends Controller
 
     }
 
-    public function actionBeneficiariosPaso4($archivo)
+    public function actionBeneficiariosPaso3($archivo)
     {
-        #try {
         $pathImportJson = Yii::getAlias('@ImportJson/beneficiarios/');
         $resultados = Json::decode(file_get_contents($pathImportJson . $archivo));
 
+        $idprojectcontact = [];
+        foreach ($resultados as $resultado) {
+            $idprojectcontact[] = $resultado['idprojectcontact'];
+        }
 
         $queryDocumentos = (new Query());
-        $queryDocumentos->select('doc_id')
-            ->from('sql_debug_contact_doc');
+        $queryDocumentos->select(['btrim(replace(replace(contact.document, \'-\' :: text, \'\' :: text), \' \' :: text, \'\' :: text)) AS doc_id'])
+            ->from('public.contact')
+            ->where(['<>', 'COALESCE(contact.document, \'\' :: text)', ''])
+            ->groupBy(['btrim(replace(replace(contact.document, \'-\' :: text, \'\' :: text), \' \' :: text, \'\' :: text))'])
+            ->having(['>', 'COUNT(contact.id)', 1]);
         $documentos = $queryDocumentos->column();
 
         $queryNombres = (new Query());
-        $queryNombres->select('name')
-            ->from('sql_debug_contact_name');
+        $queryNombres->select(['btrim(upper(COALESCE(
+        replace(replace(replace(contact.name::text, \' \'::text, \'<>\'::text), \'><\'::text, \'\'::text), \'<>\'::text,
+                \' \'::text), concat(btrim(concat(btrim(contact.first_name::text), \'\')), \' \',
+                                   btrim(COALESCE(contact.last_name::text, \'\'::text)))))) AS name'])
+            ->from('public.contact')
+            ->groupBy(['btrim(upper(COALESCE(replace(replace(replace(contact.name::text, \' \'::text, \'<>\'::text), \'><\'::text, \'\'::text), \'<>\'::text,
+                \' \'::text), concat(btrim(concat(btrim(contact.first_name::text), \'\')), \' \',
+                                   btrim(COALESCE(contact.last_name::text, \'\'::text))))))'])
+            ->having(['>', 'COUNT(contact.id)', 1]);
         $nombres = $queryNombres->column();
 
         $queryContact = (new Query());
-        $queryContact->select(['contact_id', 'trim(upper(contact_name)) as contact_name', 'contact_sex', 'contact_document', 'contact_organization'])
-            ->from('sql_full_report_project_contact')
-            ->orWhere(['in', "trim( REPLACE ( REPLACE (contact_document, '-', '' ), ' ', '' ) )", $documentos])
-            ->orWhere(['in', "trim(upper(replace(replace(replace(contact_name,' ','<>'),'><',''),'<>',' ')))", $nombres])
-            ->andWhere(['in', 'event_id', $resultados])
-            ->andWhere('contact_document is not null')
-            ->groupBy(['contact_name', "contact_sex", "contact_document", "contact_organization", 'contact_id']);
+        $queryContact->select(['c.id as contact_id',
+            'trim(upper(c.name)) as contact_name',
+            'c.sex as contact_sex',
+            'c.document as contact_document',
+            'o.name as contact_organization'])
+            ->from('project p')
+            ->leftJoin('project_contact pc', 'p.id = pc.project_id')
+            ->leftJoin('contact c', 'pc.contact_id = c.id')
+            ->leftJoin('organization o', 'c.organization_id = o.id')
+            ->orWhere(['in', "trim( REPLACE ( REPLACE (c.document, '-', '' ), ' ', '' ) )", $documentos])
+            ->orWhere(['in', "trim(upper(replace(replace(replace(c.name,' ','<>'),'><',''),'<>',' ')))", $nombres])
+            ->andWhere(['in', 'pc.id', $idprojectcontact])
+            ->andWhere('c.document is not null');
+//            ->groupBy(['contact_name', "contact_sex", "contact_document", "contact_organization", 'contact_id']);
         $personas = $queryContact->all();
         $data = ['data' => $personas];
-        return $this->render('beneficiarios/wizard', ['data' => $data, 'view' => 'step-4', 'stepActive' => 'step4']);
-        #} catch (Exception $exception) {
-        #    $this->redirect(['import/beneficiarios-paso3', 'archivo' => $archivo]);
-        #}
+        return $this->render('beneficiarios/wizard', ['data' => $data, 'view' => 'step-3', 'stepActive' => 'step3']);
 
     }
 

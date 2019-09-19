@@ -27,4 +27,11 @@ class Country extends base\Country
         return [];
     }
 
+    public static function getSpecificCountry($name)
+    {
+        $datum = Country::find()->orwhere(['name' => $name])
+            ->orWhere(['name_es' => $name])->orWhere(['name_fr' => $name])->one();
+        return $datum;
+    }
+
 }
