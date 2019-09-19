@@ -19,6 +19,7 @@ use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use yii;
 use yii\helpers\ArrayHelper;
+use yii\db\Query;
 
 /**
  * ReportController implements the CRUD actions for Project model.
@@ -47,39 +48,42 @@ class ReportController extends ControladorController
         //        if ($data && $model->load($data) && $model->validate()){
         if ($model->load(Yii::$app->request->post())) {
 
-            $query = SqlFullReportProjectContact::find();
-
+            $query = (new Query());
             $query
-                ->select([
-                    "CONCAT(CASE WHEN (project_code IS NULL OR project_code = '') THEN '00-0000' ELSE project_code END, '=>', project_name) AS project_name",
-                    'organization_implementing_name',
-                    'contact_document',
-                    'contact_name',
-                    "TRIM('') AS contact_lastname",
-                    "(CASE WHEN contact_sex='F' THEN 'Mujer' WHEN contact_sex='M' THEN 'Hombre' ELSE NULL END) AS sex",
-                    'contact_birthdate',
-                    'contact_education',
-                    'contact_phone_personal',
-                    'contact_men_home',
-                    'contact_women_home',
-                    'contact_organization',
-                    'contact_country',
-                    'contact_municipality',
-                    'contact_community',
-                    "(CASE WHEN contact_project_date_entry IS NOT NULL THEN contact_project_date_entry ELSE MIN(event_date_start) END) AS contact_project_date_entry",
-                    'contact_project_product',
-                    'contact_project_area_farm',
-                    'contact_project_dev_area',
-                    'contact_project_age_dev_plantation',
-                    'contact_project_productive_area',
-                    'contact_project_age_prod_plantation',
-                    'contact_project_yield',
-                ]);
-
-            $query
-                ->andFilterWhere(['project_id' => $model->project_id])
-                ->andFilterWhere(['event_country_code' => $model->country_code])
-                ->andFilterWhere(['organization_implementing_id' => $model->org_implementing_id]);
+                ->select(["CONCAT(p.code, '=>', p.name)  AS project_name,
+                           o2.name                       AS organization_implementing_name,
+                           c.document                    AS contact_document,
+                           c.name                        AS contact_name,
+                           c.last_name                   AS contact_lastname,
+                           c.sex                         AS contact_sex,
+                           c.birthdate                   AS contact_birthdate,
+                           me.name                       AS contact_education,
+                           c.phone_personal              AS contact_phone_personal,
+                           c.men_home                    AS contact_men_home,
+                           c.women_home                  AS contact_women_home,
+                           o.name                        AS contact_organization,
+                           c.city                        AS contact_country,
+                           c.municipality                AS contact_municipality,
+                           c.community                   AS contact_community,
+                           pc.date_entry_project         AS contact_project_date_entry,
+                           mp.name                       AS contact_project_product,
+                           pc.area                       AS contact_project_area_farm,
+                           pc.development_area           AS contact_project_dev_area,
+                           pc.age_development_plantation AS contact_project_age_dev_plantation,
+                           pc.productive_area            AS contact_project_productive_area,
+                           pc.age_productive_plantation  AS contact_project_age_prod_plantation,
+                           pc.yield                      AS contact_project_yield"])
+                ->from('project p')
+                ->leftJoin('project_contact pc', 'p.id = pc.project_id')
+                ->leftJoin('contact c', 'pc.contact_id = c.id')
+                ->leftJoin('country ctry', 'c.country_id = ctry.id')
+                ->leftJoin('organization o', 'o.id = pc.organization_id')
+                ->leftJoin('organization o2', 'c.organization_id = o.id')
+                ->leftJoin('monitoring_product mp', 'pc.product_id = mp.id')
+                ->leftJoin('monitoring_education me', 'c.education_id = me.id')
+                ->andWhere(['p.id' =>$model->project_id])
+                ->andWhere(['ctry.id' => $model->country_code])
+                ->andWhere(['o.id' => $model->org_implementing_id]);
 
             if (!$auth->is_superuser) {
                 $query
@@ -89,10 +93,10 @@ class ReportController extends ControladorController
 
             $query->groupBy([
                 'project_name',
-                'project_code',
                 'organization_implementing_name',
                 'contact_document',
                 'contact_name',
+                'contact_lastname',
                 'contact_sex',
                 'contact_birthdate',
                 'contact_education',
@@ -110,15 +114,17 @@ class ReportController extends ControladorController
                 "contact_project_productive_area",
                 "contact_project_age_prod_plantation",
                 "contact_project_yield",
-                'organization_implementing_id',
+                'organization_implementing_name',
                 'contact_id',
+                'pc.date_entry_project',
+                'pc.date_end_project'
             ]);
 
             $query
-                ->andFilterHaving(['>=', 'contact_project_date_entry', $model->date_start])
-                ->andFilterHaving(['<=', 'contact_project_date_entry', $model->date_end]);
+                ->andFilterHaving(['>=', 'pc.date_entry_project', $model->date_start])
+                ->andFilterHaving(['<=', 'pc.date_end_project', $model->date_end]);
 
-            $models = $query->asArray()->all();
+            $models = $query->all();
 
             $spreadsheet = $this->getTemplateClean();
             $sheetData = $spreadsheet->getSheetByName("datos");
@@ -226,37 +232,37 @@ class ReportController extends ControladorController
         }
         $spreadsheet->setActiveSheetIndex(0);
 
-        for ($i = 3; $i <= 10000; $i++) {
+        /*for ($i = 3; $i <= 10000; $i++) {
             $conditional = new Conditional();
             $conditional->setConditionType(Conditional::CONDITION_EXPRESSION);
             $conditional->addCondition('COUNTIF($C$3:$C$10000,C' . $i . ')>1');
-            $conditional->getStyle()->getFont()->getColor()->setARGB(Color::COLOR_WHITE);
+            $conditional->getStyle()->getFont()->getColor()->setARGB(Color::COLOR_BLACK);
 
             $styleArray = [
                 'font' => [
                     'bold' => true,
                 ],
                 'fill' => [
-                    'fillType' => Fill::FILL_SOLID,
+                    /*  'fillType' => Fill::FILL_SOLID,
                     'startColor' => [
-                        'argb' => Color::COLOR_RED,
-                    ],
-                    'endColor' => [
-                        'argb' => Color::COLOR_RED,
-                    ],
-                ],
-                'numberFormat' => [
-                    'formatCode' => NumberFormat::FORMAT_TEXT,
-                ]
-            ];
+                         'argb' => Color::COLOR_RED,
+                     ],
+                     'endColor' => [
+                         'argb' => Color::COLOR_RED,
+                     ],*/
+        /* ],
+       'numberFormat' => [
+            'formatCode' => NumberFormat::FORMAT_TEXT,
+        ]
+    ];
 
-            $conditional->getStyle()->applyFromArray($styleArray); //-->getFont()->applyFromArray($styleArray);
+    $conditional->getStyle()->applyFromArray($styleArray); //-->getFont()->applyFromArray($styleArray);
 
-            $conditionalStyles = $spreadsheet->getActiveSheet()->getStyle('C' . $i)->getConditionalStyles();
-            $conditionalStyles[] = $conditional;
+    $conditionalStyles = $spreadsheet->getActiveSheet()->getStyle('C' . $i)->getConditionalStyles();
+    $conditionalStyles[] = $conditional;
 
-            $spreadsheet->getActiveSheet()->getStyle('C' . $i)->setConditionalStyles($conditionalStyles);
-        }
+    $spreadsheet->getActiveSheet()->getStyle('C' . $i)->setConditionalStyles($conditionalStyles);
+}*/
     }
 
     private function sendExcel($spreadsheet, $fileName = 'file')
