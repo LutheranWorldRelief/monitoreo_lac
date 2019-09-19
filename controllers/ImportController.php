@@ -430,11 +430,8 @@ class ImportController extends Controller
                     $projectContact->save();
                     array_push($projectContacts, ['idprojectcontact' => $projectContact->id]);
                     $nextStep = true;
-//                    $i++;
                 }
-
             }
-//            exit();
 
             return $nextStep;
 
