@@ -341,7 +341,6 @@ class ImportController extends Controller
                 $organization = Organization::find()->andFilterWhere(['name' => trim($organizationName)])->one();
                 $organization_id = $organization->id;
                 $detalles = $d['detalles'];
-                $transaction = Yii::$app->db->beginTransaction();
                 foreach ($detalles as $detalle => $de) {
                     $contact = null;
                     $document = trim($d['detalles'][0]['document']);
@@ -435,12 +434,11 @@ class ImportController extends Controller
                 }
 
             }
-            $transaction->commit();
+
             return $nextStep;
 
         } catch (Exception $e) {
             var_dump($e);
-            $transaction->rollBack();
             return $nextStep;
         }
 
