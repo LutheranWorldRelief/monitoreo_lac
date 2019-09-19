@@ -80,10 +80,16 @@ class ReportController extends ControladorController
                 ->leftJoin('organization o', 'o.id = pc.organization_id')
                 ->leftJoin('organization o2', 'c.organization_id = o.id')
                 ->leftJoin('monitoring_product mp', 'pc.product_id = mp.id')
-                ->leftJoin('monitoring_education me', 'c.education_id = me.id')
-                ->andWhere(['p.id' =>$model->project_id])
-                ->andWhere(['ctry.id' => $model->country_code])
-                ->andWhere(['o.id' => $model->org_implementing_id]);
+                ->leftJoin('monitoring_education me', 'c.education_id = me.id');
+
+                if($model->project_id)
+                    $query->andWhere(['p.id' =>$model->project_id]);
+
+                if($model->country_code)
+                   $query->andWhere(['ctry.id' => $model->country_code]);
+
+                if($model->org_implementing_id)
+                    $query->andWhere(['o.id' => $model->org_implementing_id]);
 
             if (!$auth->is_superuser) {
                 $query
@@ -120,9 +126,10 @@ class ReportController extends ControladorController
                 'pc.date_end_project'
             ]);
 
-            $query
-                ->andFilterHaving(['>=', 'pc.date_entry_project', $model->date_start])
-                ->andFilterHaving(['<=', 'pc.date_end_project', $model->date_end]);
+            if($model->date_start)
+               $query
+                    ->andFilterHaving(['>=', 'pc.date_entry_project', $model->date_start])
+                    ->andFilterHaving(['<=', 'pc.date_entry_project', $model->date_end]);
 
             $models = $query->all();
 
