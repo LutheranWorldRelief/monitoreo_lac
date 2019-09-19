@@ -335,7 +335,6 @@ class ImportController extends Controller
         ini_set('memory_limit', -1);
         $nextStep = false;
         try {
-
             foreach ($data as $datum => $d) {
                 $organizationName = $d['organizacionImplementadora'];
                 $organization = Organization::find()->andFilterWhere(['name' => trim($organizationName)])->one();
@@ -343,7 +342,7 @@ class ImportController extends Controller
                 $detalles = $d['detalles'];
                 foreach ($detalles as $detalle => $de) {
                     $contact = null;
-                    $document = trim($d['detalles'][0]['document']);
+                    $document = trim($de['document']);
                     //verificamos si existe un contacto registrado con el documento digitado el excel
                     if (!empty($document)) {
                         $contact = Contact::find()->andFilterWhere(['document' => $document])->one();
@@ -431,9 +430,11 @@ class ImportController extends Controller
                     $projectContact->save();
                     array_push($projectContacts, ['idprojectcontact' => $projectContact->id]);
                     $nextStep = true;
+//                    $i++;
                 }
 
             }
+//            exit();
 
             return $nextStep;
 
