@@ -278,14 +278,20 @@ class ImportController extends Controller
 
     private function BeneficiariosPaso2Guardar($resultados)
     {
-        $archivo = null;
+        $projectContact = [];
         $errores = null;
         if (isset($_POST['guardar'])) {
             if (!empty($_POST['pais']) && !is_null($_POST['pais'])) {
 
                 $this->BeneficiariosPaso2VincularDatos($datosVincular, $resultados);
-                if ($this->insertarDatosProvenientesExcel($datosVincular)) {
-                    $this->redirect(['import/beneficiarios-paso3']);
+                if ($this->insertarDatosProvenientesExcel($datosVincular, $projectContact)) {
+                    $pathImportJson = Yii::getAlias('@ImportJson/beneficiarios/');
+                    if (!isset($_GET['archivo'])) {
+                        unlink($pathImportJson . $_GET['archivo']);
+                    }
+                    $archivo = date('Ymd-His_') . Yii::$app->user->id . '_projectsContactsId.json';
+                    file_put_contents($pathImportJson . $archivo, Json::encode($projectContact));
+                    $this->redirect(['import/beneficiarios-paso3', 'archivo' => $archivo]);
                 }
             } else {
                 $errores = Yii::t('app', 'Debe seleccionar el país de la importación.');
@@ -323,7 +329,7 @@ class ImportController extends Controller
         }
     }
 
-    private function insertarDatosProvenientesExcel($data)
+    private function insertarDatosProvenientesExcel($data, &$projectContacts)
     {
         set_time_limit(-1);
         ini_set('memory_limit', -1);
@@ -424,6 +430,7 @@ class ImportController extends Controller
                     $projectContact->yield = (int)$de['yield'];
                     $projectContact->organization_id = $organization_id;
                     $projectContact->save();
+                    array_push($projectContacts, ['idprojectcontact' => $projectContact->id]);
                     $nextStep = true;
                 }
 
@@ -472,8 +479,7 @@ class ImportController extends Controller
         return true;
     }
 
-    private
-    function BeneficiariosPaso2DatosCrearEnBD($resultados, &$proyectosRegistrar, &$organizacionRegistrar, &$paisesRegistrar, &$educacionRegistrar)
+    private function BeneficiariosPaso2DatosCrearEnBD($resultados, &$proyectosRegistrar, &$organizacionRegistrar, &$paisesRegistrar, &$educacionRegistrar)
     {
         $query = new ArrayQuery();
         $query->from($resultados['Guardar']);
@@ -528,8 +534,7 @@ class ImportController extends Controller
         }
     }
 
-    public
-    function actionBeneficiariosPaso3_($archivo)
+    public function actionBeneficiariosPaso3_($archivo)
     {
         try {
             $pathImportJson = Yii::getAlias('@ImportJson/beneficiarios/');
@@ -544,12 +549,15 @@ class ImportController extends Controller
 
     }
 
-    public
-    function actionBeneficiariosPaso3()
+    public function actionBeneficiariosPaso3($archivo)
     {
-        #try {
         $pathImportJson = Yii::getAlias('@ImportJson/beneficiarios/');
-        $resultados = Json::decode(file_get_contents($pathImportJson));
+        $resultados = Json::decode(file_get_contents($pathImportJson . $archivo));
+
+        $idprojectcontact = [];
+        foreach ($resultados as $resultado) {
+            $idprojectcontact[] = $resultado['idprojectcontact'];
+        }
 
         $queryDocumentos = (new Query());
         $queryDocumentos->select(['btrim(replace(replace(contact.document, \'-\' :: text, \'\' :: text), \' \' :: text, \'\' :: text)) AS doc_id'])
@@ -572,19 +580,23 @@ class ImportController extends Controller
         $nombres = $queryNombres->column();
 
         $queryContact = (new Query());
-        $queryContact->select(['contact_id', 'trim(upper(contact_name)) as contact_name', 'contact_sex', 'contact_document', 'contact_organization'])
-            ->from('sql_full_report_project_contact')
-            ->orWhere(['in', "trim( REPLACE ( REPLACE (contact_document, '-', '' ), ' ', '' ) )", $documentos])
-            ->orWhere(['in', "trim(upper(replace(replace(replace(contact_name,' ','<>'),'><',''),'<>',' ')))", $nombres])
-            ->andWhere(['in', 'event_id', $resultados])
-            ->andWhere('contact_document is not null')
-            ->groupBy(['contact_name', "contact_sex", "contact_document", "contact_organization", 'contact_id']);
+        $queryContact->select(['c.id as contact_id',
+            'trim(upper(c.name)) as contact_name',
+            'c.sex as contact_sex',
+            'c.document as contact_document',
+            'o.name as contact_organization'])
+            ->from('project p')
+            ->leftJoin('project_contact pc', 'p.id = pc.project_id')
+            ->leftJoin('contact c', 'pc.contact_id = c.id')
+            ->leftJoin('organization o', 'c.organization_id = o.id')
+            ->orWhere(['in', "trim( REPLACE ( REPLACE (c.document, '-', '' ), ' ', '' ) )", $documentos])
+            ->orWhere(['in', "trim(upper(replace(replace(replace(c.name,' ','<>'),'><',''),'<>',' ')))", $nombres])
+            ->andWhere(['in', 'pc.id', $idprojectcontact])
+            ->andWhere('c.document is not null');
+//            ->groupBy(['contact_name', "contact_sex", "contact_document", "contact_organization", 'contact_id']);
         $personas = $queryContact->all();
         $data = ['data' => $personas];
         return $this->render('beneficiarios/wizard', ['data' => $data, 'view' => 'step-3', 'stepActive' => 'step3']);
-        #} catch (Exception $exception) {
-        #    $this->redirect(['import/beneficiarios-paso3', 'archivo' => $archivo]);
-        #}
 
     }
 
