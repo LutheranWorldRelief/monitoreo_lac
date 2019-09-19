@@ -14,6 +14,7 @@ use app\models\SqlContact;
 use app\models\SqlFullReportProjectContact;
 use Exception;
 use Yii;
+use yii\db\Query;
 use yii\helpers\ArrayHelper;
 use yii\web\HttpException;
 use yii\web\Response;
@@ -44,11 +45,11 @@ class OptController extends Controller
         Yii::warning($model->attributes, 'developer');
 
         $modelsName = $this->namesQuery($model->name)
-            ->select('sql_contact.id')
+            ->select('c.id')
             ->all();
 
         $modelsDoc = $this->docsQuery($model->document)
-            ->select('sql_contact.id')
+            ->select('c.id')
             ->all();
 
         return $this->renderModels(array_merge($modelsName, $modelsDoc));
@@ -62,9 +63,9 @@ class OptController extends Controller
 
         $name2 = preg_replace('/\s+/', " ", TRIM($name));
         if ($name2)
-            $query->andWhere("UPPER(REGEXP_REPLACE(TRIM(sql_contact.name), '( ){2,}', ' ')) = UPPER('".$name2."')");
+            $query->andWhere("UPPER(REGEXP_REPLACE(TRIM(c.name), '( ){2,}', ' ')) = UPPER('" . $name2 . "')");
 
-        $query->andWhere("NOT TRIM(sql_contact.name) = ''");
+        $query->andWhere("NOT TRIM(c.name) = ''");
 
         if ($name === '')
             $query->andWhere("1 = 0");
@@ -87,26 +88,32 @@ class OptController extends Controller
         /* @var AuthUser $auth */
         $auth = $user->identity;
 
-        $query = SqlContact::find()
-            ->leftJoin('attendance', 'attendance.contact_id = sql_contact.id')
-            ->leftJoin('event', 'event.id = attendance.event_id')
-            ->leftJoin('structure', 'structure.id = event.structure_id')
-            ->leftJoin('project', 'project.id = structure.project_id');
+        $query = (new Query());
+        $query->select([
+            'c.id',
+            'c.name',
+            'c.document',
+            'c.country_id',
+            'p.id',
+            ])
+            ->from('project p')
+            ->leftJoin('project_contact pc', 'p.id = pc.project_id')
+            ->leftJoin('contact c', 'pc.contact_id = c.id');
 
         $query
-            ->andFilterWhere(['project.id' => $projectId])
-            ->andFilterWhere(['sql_contact.country_id' => $countryCode])
-            ->andFilterWhere(['event.organization_id' => $organizationId]);
+            ->andFilterWhere(['project.id' => $projectId]);
+//            ->andFilterWhere(['sql_contact.country_id' => $countryCode])
+//            ->andFilterWhere(['event.organization_id' => $organizationId]);
 
 
         if (!empty($nameSearch))
             $query
-                ->andFilterWhere(['like', 'sql_contact.name', $nameSearch]);
+                ->andFilterWhere(['like', 'c.name', $nameSearch]);
 
         if (!$auth->is_superuser) {
             $query->andWhere([
                 'or',
-                ['sql_contact.country' => $auth->countriesArray()],
+                ['c.country_id' => $auth->countriesArray()],
                 ['project.id' => $auth->projectsArray()],
             ]);
         }
@@ -121,8 +128,8 @@ class OptController extends Controller
         $doc2 = preg_replace('/\s+/', ' ', trim(str_replace(" ", "", str_replace("-", "", $doc))));
 
         $query
-            ->andFilterWhere(["TRIM( REPLACE( REPLACE(sql_contact.document, '-', '' ), ' ', '' ) )" => $doc2])
-            ->andWhere("NOT TRIM( REPLACE( REPLACE(sql_contact.document, '-', '' ), ' ', '' ) ) = ''");
+            ->andFilterWhere(["TRIM( REPLACE( REPLACE(c.document, '-', '' ), ' ', '' ) )" => $doc2])
+            ->andWhere("NOT TRIM( REPLACE( REPLACE(c.document, '-', '' ), ' ', '' ) ) = ''");
 
         if ($doc === '')
             $query->andWhere("1 = 0");
@@ -220,15 +227,14 @@ class OptController extends Controller
     private function namesModels($name = null)
     {
         $query = $this->namesQuery($name);
-        //ULog::l($query->createCommand()->query());
 
         $query->select([
-            'TRIM(sql_contact.name) as name',
-            'count(DISTINCT sql_contact.id) as cuenta',
+            'TRIM(c.name) as name',
+            'count(DISTINCT c.id) as cuenta',
         ])
             ->andWhere("TRIM(sql_contact.name) <> ''")
-            ->groupBy(['sql_contact.name'])
-            ->having('count(DISTINCT sql_contact.id) > 1');
+            ->groupBy(['c.name'])
+            ->having('count(DISTINCT c.id) > 1');
 
         return $query->all();
     }
@@ -237,7 +243,7 @@ class OptController extends Controller
     {
         $query = $this->docsQuery($doc);
 
-        return $this->renderModels($query->select('sql_contact.id')->all());
+        return $this->renderModels($query->select('c.id')->all());
     }
 
     public function actionApiDocValues()
@@ -395,7 +401,6 @@ class OptController extends Controller
             else {
                 foreach ($models as $key => $m) {
                     $mid = $m->id;
-                    $result['Participaciones'][$mid] = Attendance::updateAll(['contact_id' => $id], ['contact_id' => $mid]);
                     $result['Proyectos-Contactos'][$mid] = ProjectContact::updateAll(['contact_id' => $id], ['contact_id' => $mid]);
                     $result['Eliminado'][$mid] = $m->delete();
 
