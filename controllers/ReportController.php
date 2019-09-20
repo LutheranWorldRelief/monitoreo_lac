@@ -51,7 +51,7 @@ class ReportController extends ControladorController
             $query = (new Query());
             $query
                 ->select(["CONCAT(p.code, '=>', p.name)  AS project_name,
-                           o2.name                       AS organization_implementing_name,
+                           o.name                        AS organization_implementing_name,
                            c.document                    AS contact_document,
                            c.name                        AS contact_name,
                            c.last_name                   AS contact_lastname,
@@ -61,7 +61,7 @@ class ReportController extends ControladorController
                            c.phone_personal              AS contact_phone_personal,
                            c.men_home                    AS contact_men_home,
                            c.women_home                  AS contact_women_home,
-                           o.name                        AS contact_organization,
+                           o2.name                       AS contact_organization,
                            c.city                        AS contact_country,
                            c.municipality                AS contact_municipality,
                            c.community                   AS contact_community,
