@@ -51,7 +51,7 @@ class ReportController extends ControladorController
             $query = (new Query());
             $query
                 ->select(["CONCAT(p.code, '=>', p.name)  AS project_name,
-                           o2.name                       AS organization_implementing_name,
+                           o.name                        AS organization_implementing_name,
                            c.document                    AS contact_document,
                            c.name                        AS contact_name,
                            c.last_name                   AS contact_lastname,
@@ -61,7 +61,7 @@ class ReportController extends ControladorController
                            c.phone_personal              AS contact_phone_personal,
                            c.men_home                    AS contact_men_home,
                            c.women_home                  AS contact_women_home,
-                           o.name                        AS contact_organization,
+                           o2.name                       AS contact_organization,
                            c.city                        AS contact_country,
                            c.municipality                AS contact_municipality,
                            c.community                   AS contact_community,
@@ -78,18 +78,18 @@ class ReportController extends ControladorController
                 ->leftJoin('contact c', 'pc.contact_id = c.id')
                 ->leftJoin('country ctry', 'c.country_id = ctry.id')
                 ->leftJoin('organization o', 'o.id = pc.organization_id')
-                ->leftJoin('organization o2', 'c.organization_id = o.id')
+                ->leftJoin('organization o2', 'c.organization_id = o2.id')
                 ->leftJoin('monitoring_product mp', 'pc.product_id = mp.id')
                 ->leftJoin('monitoring_education me', 'c.education_id = me.id');
 
-                if($model->project_id)
-                    $query->andWhere(['p.id' =>$model->project_id]);
+            if ($model->project_id)
+                $query->andWhere(['p.id' => $model->project_id]);
 
-                if($model->country_code)
-                   $query->andWhere(['ctry.id' => $model->country_code]);
+            if ($model->country_code)
+                $query->andWhere(['ctry.id' => $model->country_code]);
 
-                if($model->org_implementing_id)
-                    $query->andWhere(['o.id' => $model->org_implementing_id]);
+            if ($model->org_implementing_id)
+                $query->andWhere(['o.id' => $model->org_implementing_id]);
 
             if (!$auth->is_superuser) {
                 $query
@@ -126,10 +126,13 @@ class ReportController extends ControladorController
                 'pc.date_end_project'
             ]);
 
-            if($model->date_start)
-               $query
+            if ($model->date_start)
+                $query
                     ->andFilterHaving(['>=', 'pc.date_entry_project', $model->date_start])
                     ->andFilterHaving(['<=', 'pc.date_entry_project', $model->date_end]);
+
+//            print_r($query->createCommand()->getRawSql());
+//            exit();
 
             $models = $query->all();
 
@@ -200,7 +203,7 @@ class ReportController extends ControladorController
             $languague = Yii::$app->language;
             $nameColumn = 'name';
             if ($languague !== 'en') {
-                $nameColumn .= '_'.$languague;
+                $nameColumn .= '_' . $languague;
             }
 
             $projects = Project::find()->select(["CONCAT(CASE WHEN code IS NULL or code = '' THEN '00-0000' ELSE code END, '=>', name) as name",])
