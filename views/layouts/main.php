@@ -37,6 +37,8 @@ if (Yii::$app->controller->action->id === 'login') {
     <body class="hold-transition skin-blue sidebar-mini sidebar-collapse">
     <?php $this->beginBody() ?>
     <div class="wrapper">
+        <?= $this->render('header.php') ?>
+        <?= $this->render('left.php') ?>
         <?= $this->render('content.php', ['content' => $content]) ?>
     </div>
     <?php $this->endBody() ?>
@@ -60,15 +62,15 @@ if (Yii::$app->controller->action->id === 'login') {
         background-color: #00AAA7;
     }
 
-    .sidebar-mini.sidebar-collapse .content-wrapper,
-    .sidebar-mini.sidebar-collapse .right-side,
-    .sidebar-mini.sidebar-collapse .main-footer {
-        margin-left: 0 !important;
-    }
+    /*.sidebar-mini.sidebar-collapse .content-wrapper,*/
+    /*.sidebar-mini.sidebar-collapse .right-side,*/
+    /*.sidebar-mini.sidebar-collapse .main-footer {*/
+    /*    margin-left: 0 !important;*/
+    /*}*/
 
-    .skin-blue .wrapper, .skin-blue .main-sidebar, .skin-blue .left-side {
-        background-color: transparent;
-    }
+    /*.skin-blue .wrapper, .skin-blue .main-sidebar, .skin-blue .left-side {*/
+    /*    background-color: transparent;*/
+    /*}*/
 
     .wizard .nav-tabs > li{
         width: 33.3%;
