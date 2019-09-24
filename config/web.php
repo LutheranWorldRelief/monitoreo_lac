@@ -6,7 +6,7 @@ $configPrivate = require(__DIR__ . '/secrets.php');
 $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log','languageSelector',],
+    'bootstrap' => ['log', 'languageSelector',],
     'name' => 'Monitoreo',
     'charset' => 'utf-8',
     'language' => 'en',
@@ -30,7 +30,7 @@ $config = [
             'class' => 'bedezign\yii2\audit\Audit',
             'layout' => '@app/views/layouts/audit',
             'trackActions' => [],
-            'ignoreActions' => ['audit/*', 'debug/*', 'gii/*','estaciones/davis/leer-datos'],
+            'ignoreActions' => ['audit/*', 'debug/*', 'gii/*', 'estaciones/davis/leer-datos'],
             'accessRoles' => ['Administrador', 'Administrador(a)'],
             'maxAge' => 1,
             'compressData' => true,
@@ -63,7 +63,7 @@ $config = [
         ],
         'languageSelector' => [
             'class' => 'app\components\LanguageSelector',
-            'supportedLanguages' => ['en','fr','es'],
+            'supportedLanguages' => ['en', 'fr', 'es'],
         ],
 
         'authManager' => [
@@ -122,6 +122,13 @@ $config = [
                     'logVars' => ['_POST'],
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
+                ],
+                [
+                    'logVars' => [],
+                    'logFile' => '@runtime/logs/import.log',
+                    'categories' => ['import'],
+                    'class' => 'yii\log\FileTarget',
+                    'levels' => ['info'],
                 ],
             ],
         ],

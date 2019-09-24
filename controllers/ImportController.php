@@ -337,10 +337,11 @@ class ImportController extends Controller
         try {
             foreach ($data as $datum => $d) {
                 $organizationName = $d['organizacionImplementadora'];
-                $organization = Organization::find()->andFilterWhere(['name' => trim($organizationName)])->one();
-                $organization_id = $organization->id;
+                $organization_id = Organization::getIdFromName($organizationName);//1
+
                 $detalles = $d['detalles'];
                 foreach ($detalles as $detalle => $de) {
+                    $bicatoraContacto = ['contactonombre' => '', 'nuevo' => true, 'organizacion' => '', 'organizacion_id' => 0];
                     $contact = null;
                     $document = trim($de['document']);
                     //verificamos si existe un contacto registrado con el documento digitado el excel
@@ -356,7 +357,9 @@ class ImportController extends Controller
                         $contact->created = date('Y-m-d');
                     } else {
                         $contact->modified = date('Y-m-d');
+                        $bicatoraContacto['nuevo'] = false;
                     }
+                    $bicatoraContacto['contactonombre'] = trim($de['name']);
                     $contact->name = trim($de['name']);
                     $contact->first_name = trim($de['first_name']);
                     $contact->last_name = trim($de['last_name']);
@@ -387,7 +390,7 @@ class ImportController extends Controller
                      * en el excel no este vacio para obtener el id de esa organizacion en la bd
                      * y indicar el id obtenido
                     */
-                    if (!is_null($contact->organization_id) && !empty(trim($de['organization_name']))) {
+                    if (!empty(trim($de['organization_name']))) {
                         $org = Organization::find()->where(['name' => trim($de['organization_name'])])->one();
                         if (is_null($org)) {
                             $org = new Organization();
@@ -397,10 +400,25 @@ class ImportController extends Controller
                             }
                             $org->save();
                         }
+                        if (!is_null($contact->organization_id) && !$bicatoraContacto['nuevo']) {
+                            $vieja = Organization::find()->where(['id' => $contact->organization_id])->one();
+                            $bicatoraContacto['organizacion'] = $vieja->name;
+                            $bicatoraContacto['organizacion_id'] = $contact->organization_id;
+                        } else {
+                            $bicatoraContacto['organizacion'] = $org->name;
+                            $bicatoraContacto['organizacion_id'] = $org->id;
+                        }
                         $contact->organization_id = $org->id;
                     }
+
                     //guardamos el contacto
                     $contact->save();
+                    if ($bicatoraContacto['nuevo'] == false) {
+                        Yii::info(['BITACORA: ' . $bicatoraContacto['contactonombre'] . ' (' . $contact->id . ') actualizado: organizacion '
+                            . $bicatoraContacto['organizacion'] . '(' . $bicatoraContacto['organizacion_id'] . ') a ' .
+                            $org->name . '(' . $org->id . ')'], 'import');
+                    }
+
                     //guardamos el id del contacto nuevo o actualizado
                     $idContact = $contact->id;
 
@@ -408,11 +426,20 @@ class ImportController extends Controller
                     $product = MonitoringProduct::getSpecificProduct($de['product']);
                     $product_id = $product->id;
 
+                    $bitacoraProyectC = ['idpc' => 0, 'nuevo' => false, 'organizacion' => '', 'organizacion_id' => 0];
+
                     //guardamos el project contact
                     $project_id = $de['project_id'];
                     $projectContact = ProjectContact::find()->andFilterWhere(['project_id' => $project_id, 'contact_id' => $idContact])->one();
                     if (is_null($projectContact)) {
                         $projectContact = new ProjectContact();
+                        $bitacoraProyectC['nuevo'] = true;
+                    }
+
+                    if ($bitacoraProyectC['nuevo']  == false) {
+                        $vieja = Organization::find()->where(['id' => $projectContact->organization_id])->one();
+                        $bitacoraProyectC['organizacion_id'] = $projectContact->organization_id;
+                        $bitacoraProyectC['organizacion'] = $vieja->name;
                     }
 
                     $projectContact->project_id = $project_id;
@@ -428,6 +455,12 @@ class ImportController extends Controller
                     $projectContact->yield = (int)$de['yield'];
                     $projectContact->organization_id = $organization_id;
                     $projectContact->save();
+
+                    if ($bitacoraProyectC['nuevo']  == false) {
+                        Yii::info(['BITACORA: ProjectContact(' . $projectContact->id . ') actualizado: organizacion '
+                            . $bitacoraProyectC['organizacion'] . '(' . $bitacoraProyectC['organizacion_id'] . ') a ' .
+                            $organizationName . '(' . $organization_id . ')'], 'import');
+                    }
                     array_push($projectContacts, ['idprojectcontact' => $projectContact->id]);
                     $nextStep = true;
                 }
@@ -448,7 +481,7 @@ class ImportController extends Controller
         ini_set('memory_limit', -1);
         $transaction = Yii::$app->db->beginTransaction();
         try {
-            foreach ($eventos as $evento) {
+            foreach ($data as $evento) {
                 $id = null;
                 if (!Event::CreateFromImport($evento, $id)) {
 
