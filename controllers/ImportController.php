@@ -364,7 +364,7 @@ class ImportController extends Controller
                     $contact->first_name = trim($de['first_name']);
                     $contact->last_name = trim($de['last_name']);
                     $contact->document = trim($de['document']);
-                    $contact->sex = trim($de['sex']);
+                    $contact->sex_id = trim($de['sex']);
                     $contact->community = trim($de['community']);
                     $contact->municipality = trim($de['municipality']);
                     $contact->country_id = $de['country'];
@@ -436,7 +436,7 @@ class ImportController extends Controller
                         $bitacoraProyectC['nuevo'] = true;
                     }
 
-                    if ($bitacoraProyectC['nuevo']  == false) {
+                    if ($bitacoraProyectC['nuevo'] == false) {
                         $vieja = Organization::find()->where(['id' => $projectContact->organization_id])->one();
                         $bitacoraProyectC['organizacion_id'] = $projectContact->organization_id;
                         $bitacoraProyectC['organizacion'] = $vieja->name;
@@ -456,7 +456,7 @@ class ImportController extends Controller
                     $projectContact->organization_id = $organization_id;
                     $projectContact->save();
 
-                    if ($bitacoraProyectC['nuevo']  == false) {
+                    if ($bitacoraProyectC['nuevo'] == false) {
                         Yii::info(['BITACORA: ProjectContact(' . $projectContact->id . ') actualizado: organizacion '
                             . $bitacoraProyectC['organizacion'] . '(' . $bitacoraProyectC['organizacion_id'] . ') a ' .
                             $organizationName . '(' . $organization_id . ')'], 'import');
@@ -611,7 +611,7 @@ class ImportController extends Controller
         $queryContact = (new Query());
         $queryContact->select(['c.id as contact_id',
             'trim(upper(c.name)) as contact_name',
-            'c.sex as contact_sex',
+            'c.sex_id as contact_sex',
             'c.document as contact_document',
             'o.name as contact_organization'])
             ->from('project p')

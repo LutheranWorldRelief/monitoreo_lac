@@ -33,7 +33,7 @@ class Contact extends base\Contact
         $contact->first_name = trim($data['first_name']);
         $contact->last_name = trim($data['last_name']);
         $contact->document = trim($data['document']);
-        $contact->sex = trim($data['sex']);
+        $contact->sex_id = trim($data['sex']);
         $contact->community = trim($data['community']);
         $contact->municipality = trim($data['municipality']);
         $contact->country_id = $data['country'];
