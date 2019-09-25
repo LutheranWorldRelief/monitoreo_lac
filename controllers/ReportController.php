@@ -55,7 +55,7 @@ class ReportController extends ControladorController
                            c.document                    AS contact_document,
                            c.name                        AS contact_name,
                            c.last_name                   AS contact_lastname,
-                           c.sex                         AS contact_sex,
+                           c.sex_id                         AS contact_sex,
                            c.birthdate                   AS contact_birthdate,
                            me.name                       AS contact_education,
                            c.phone_personal              AS contact_phone_personal,
