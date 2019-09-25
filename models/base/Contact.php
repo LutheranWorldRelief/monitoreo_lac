@@ -18,7 +18,7 @@ use yii;
  * @property string                       $document
  * @property string                       $title
  * @property int                          $organization_id
- * @property string                       $sex
+ * @property string                       $sex_id
  * @property string                       $community
  * @property string                       $municipality
  * @property string                       $city
@@ -62,7 +62,7 @@ abstract class Contact extends ActiveRecord
             [['last_name', 'first_name'], 'string', 'max' => 80],
             [['document', 'community', 'municipality', 'city'], 'string', 'max' => 40],
             [['title'], 'string', 'max' => 100],
-            [['sex'], 'string', 'max' => 1],
+            [['sex_id'], 'string', 'max' => 1],
             [['country_id'], 'string', 'max' => 2],
             [['phone_personal', 'phone_work'], 'string', 'max' => 20],
             [['education_id'], 'exist', 'skipOnError' => true, 'targetClass' => MonitoringEducation::className(), 'targetAttribute' => ['education_id' => 'id']],
@@ -84,7 +84,7 @@ abstract class Contact extends ActiveRecord
             'document' => Yii::t('app', 'Document'),
             'title' => Yii::t('app', 'Title'),
             'organization_id' => Yii::t('app', 'Organization ID'),
-            'sex' => Yii::t('app', 'Sex'),
+            'sex_id' => Yii::t('app', 'Sex'),
             'community' => Yii::t('app', 'Community'),
             'municipality' => Yii::t('app', 'Municipality'),
             'city' => Yii::t('app', 'City'),
