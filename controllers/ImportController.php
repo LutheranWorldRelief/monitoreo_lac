@@ -354,9 +354,10 @@ class ImportController extends Controller
                     */
                     if (is_null($contact)) {
                         $contact = new Contact();
-                        $contact->created = date('Y-m-d');
+                        $contact->created = date('Y/m/d h:i:sa');
+                        $contact->updated = date('Y/m/d h:i:sa');
                     } else {
-                        $contact->modified = date('Y-m-d');
+                        $contact->updated = date('Y/m/d h:i:sa');
                         $bicatoraContacto['nuevo'] = false;
                     }
                     $bicatoraContacto['contactonombre'] = trim($de['name']);
@@ -434,6 +435,10 @@ class ImportController extends Controller
                     if (is_null($projectContact)) {
                         $projectContact = new ProjectContact();
                         $bitacoraProyectC['nuevo'] = true;
+                        $projectContact->created = date('Y/m/d h:i:sa');
+                        $projectContact->updated = date('Y/m/d h:i:sa');
+                    }else{
+                        $projectContact->updated = date('Y/m/d h:i:sa');
                     }
 
                     if ($bitacoraProyectC['nuevo'] == false) {
@@ -468,7 +473,7 @@ class ImportController extends Controller
 
             return $nextStep;
 
-        } catch (Exception $e) {
+        } catch (\Error $e) {
             var_dump($e);
             return $nextStep;
         }
@@ -631,3 +636,4 @@ class ImportController extends Controller
 
 
 }
+
