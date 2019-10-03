@@ -29,7 +29,7 @@ use yii;
  * @property int                          $men_home
  * @property int                          $women_home
  * @property string                       $created
- * @property string                       $modified
+ * @property string                       $updated
  * @property int                          $type_id
  * @property string                       $birthdate
  *
@@ -57,7 +57,7 @@ abstract class Contact extends ActiveRecord
         return [
             [['name'], 'required'],
             [['organization_id', 'education_id', 'men_home', 'women_home', 'type_id'], 'integer'],
-            [['created', 'modified', 'birthdate'], 'safe'],
+            [['created', 'updated', 'birthdate'], 'safe'],
             [['name'], 'string', 'max' => 255],
             [['last_name', 'first_name'], 'string', 'max' => 80],
             [['document', 'community', 'municipality', 'city'], 'string', 'max' => 40],
@@ -141,3 +141,4 @@ abstract class Contact extends ActiveRecord
         return $this->hasMany(\app\models\ProjectContact::className(), ['contact_id' => 'id']);
     }
 }
+
