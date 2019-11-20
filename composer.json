@@ -43,7 +43,7 @@
     "dmstr/yii2-adminlte-asset": "2.6.2",
     "drsdre/yii2-wizardwidget": "1.2.3",
     "rmrevin/yii2-fontawesome": "2.17.1",
-    "phpoffice/phpspreadsheet": "1.6.0",
+    "phpoffice/phpspreadsheet": "1.8.0",
     "yii2mod/yii2-array-query": "1.3",
     "coksnuss/yii2-gii-modelgen": "2.0.15-p3",
     "softark/yii2-dual-listbox": "1.0.0"
